@@ -1,14 +1,14 @@
-CC = gcc
+CC = g++
 CFLAGS = 
 COPTFLAGS =
 LIBFLAGS = -lglut -lGLU -lGL
 
 
-polygon : template.o
-	$(CC) template.o -o template $(LIBFLAGS)
+main : main.o
+	$(CC) main.o -o main $(LIBFLAGS)
 
-polygon.o : template.c
-	$(CC) $(CFLAGS) $(COPTFLAGS) -c template.c
+main.o : main.cpp
+	$(CC) $(CFLAGS) $(COPTFLAGS) -c main.cpp
 
 clean :
 	rm *.o

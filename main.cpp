@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+using namespace std;
+
 const int WINDOW_MAX_X = 500;
 const int WINDOW_POSITION_X = 200;
 const int WINDOW_MAX_Y = 500;
@@ -25,6 +27,8 @@ void myGlutInit(int argc, char** argv){
 void init(){
 
         glClearColor ( 1.0, 1.0, 1.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glFlush();
 
         glMatrixMode(GL_PROJECTION);
         gluOrtho2D(WORLD_COORD_MIN_X, WORLD_COORD_MAX_X,
@@ -38,15 +42,15 @@ void display(){
 
 }
 
-void mouse(){
+void mouse(int button, int state, int x, int y){
 
 }
 
-void keyboard(){
+void keyboard(unsigned char key, int x, int y){
 
 }
 
-void main(int argc, char** argv){
+int main(int argc, char** argv){
 
         myGlutInit(argc,argv);
         init();
@@ -56,5 +60,5 @@ void main(int argc, char** argv){
         glutDisplayFunc(display);
         glutMainLoop();
 
-
+	return 0;
 }
