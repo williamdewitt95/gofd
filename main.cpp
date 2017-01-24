@@ -4,6 +4,10 @@
 
 using namespace std;
 
+float camX;
+float camY;
+float camZ;
+
 const int WINDOW_MAX_X = 500;
 const int WINDOW_POSITION_X = 200;
 const int WINDOW_MAX_Y = 500;
@@ -34,7 +38,7 @@ void init(){
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-	gluPerspective(45,1.0,1.5,500);
+	gluPerspective(45,1.0,1.5,900);
 	glMatrixMode(GL_MODELVIEW);
 
 }
@@ -64,6 +68,17 @@ void display(){
                 glVertex3f(0,0,-50);
                 glVertex3f(0,0,50);
         glEnd();
+
+	glBegin(GL_LINES);
+	for(int i = 0; i < 21; i++){
+		for(int j = 0; j < 21; j++){
+			glVertex3i(-50,(j*5)-50,0);
+			glVertex3i(50,(j*5)-50,0);
+			glVertex3i((j*5)-50,-50,0);
+                        glVertex3i((j*5)-50,50,0);
+		}
+	}
+	glEnd();
 
 	glFlush();
 
