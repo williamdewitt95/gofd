@@ -40,7 +40,7 @@ q = V*sin(angle*M_PI/180.0);
 }
 
 
-// Cpmpute the drag based on the 155 mm HE Shell
+// Compute the drag based on the 155 mm HE Shell
 double drag( double speed ){
     double mach, mach2, mach3, Kd;
     mach = speed / 340.29;   // Speed of sound in m/s
