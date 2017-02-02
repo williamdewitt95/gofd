@@ -15,6 +15,8 @@ double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
+float tankX = 0;
+float tankY = 0;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -114,6 +116,8 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
+		
+	drawTank();
 
 	glFlush();
 	glutSwapBuffers();
@@ -131,6 +135,16 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_strafe += camMove_speed;
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe -= camMove_speed;
+		
+	//tank controls
+	}else if(key == 'i' || key == 'I'){
+		tankY += 1;
+	}else if(key == 'j' || key == 'J'){
+		tankX -= 1;
+	}else if(key == 'k' || key == 'K'){
+		tankY -= 1;
+	}else if(key == 'l' || key == 'L'){
+		tankX += 1;
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
