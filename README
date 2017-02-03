@@ -1,3 +1,14 @@
 
 This is the branch for the projectile physics
 
+The Runge-Kutta routines solve
+
+ d^2x/dt^2 = - k v dx/dt / m 
+
+and
+
+ d^2y/dt^2 = - k v dy/dt / m - g
+
+In these equations the "up direction" is y and the motion is all
+on the x-y plane.  When it is added to the rest of the code the
+coordinates will need to be adjusted properly.
