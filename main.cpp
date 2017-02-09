@@ -1,6 +1,9 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+#include <iostream>
+
 
 using namespace std;
 
@@ -38,7 +41,7 @@ void init(){
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-	gluPerspective(45,1.0,1.5,900);
+	gluPerspective(70,1.0,1.5,900);
 	glMatrixMode(GL_MODELVIEW);
 
 }
@@ -86,6 +89,21 @@ void display(){
 
 void mouse(int button, int state, int x, int y){
 
+	
+
+}
+
+void mouseMove(int x, int y){
+
+	int difX = x-(WINDOW_MAX_X/2);
+	int difY = y-(WINDOW_MAX_Y/2);
+
+	if(difX != 0 || difY != 0){
+		glutWarpPointer(WINDOW_MAX_X/2, WINDOW_MAX_Y/2);
+		
+	}
+	cout << "x coord: " << difX << ", y coord:" << difY << endl;
+
 }
 
 void keyboard(unsigned char key, int x, int y){
@@ -109,6 +127,7 @@ int main(int argc, char** argv){
         glutKeyboardFunc(keyboard);
         glutDisplayFunc(display);
  	glutReshapeFunc(reshape);
+	glutPassiveMotionFunc(mouseMove);
 	//glutIdleFunc();
         glutMainLoop();
 
