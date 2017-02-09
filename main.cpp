@@ -227,7 +227,7 @@ void keyboardButtonsUp_special(int key,int x,int y){
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
+	glutInitDisplayMode(/*GLUT_DOUBLE | */GLUT_RGBA | GLUT_ALPHA);
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
