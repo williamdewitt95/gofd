@@ -9,9 +9,11 @@
 #include "globals.h"
 #include "building.h"
 #include "tank.h"
+#include "target.h"
 using std::cin;
 
-std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited 
+std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited
+std::vector<Target*> targets;
 double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
@@ -118,10 +120,12 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
+
 	Tank * tank = new Tank(Point(0, 0, 0));
 	tank->draw();
-		
-	//drawTank();
+
+	for(int x=0; x<targets.size(); x++)
+	    targets[x]->draw();
 
 	glFlush();
 	glutSwapBuffers();
@@ -139,8 +143,6 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_strafe += camMove_speed;
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe -= camMove_speed;
-		
-	//tank controls
 	}else if(key == 'i' || key == 'I'){
 		tankY += 1;
 	}else if(key == 'j' || key == 'J'){
@@ -265,6 +267,7 @@ int main(int argc,char** args){
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){
 			buildings.push_back(new Building(Point(20*x,20*y,0)));
+			targets.push_back(new Target(Point(20*x, 20*y, 3)));
 		}
 	}
 

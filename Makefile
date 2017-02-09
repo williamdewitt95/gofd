@@ -1,6 +1,6 @@
 CFLAGS = -std=gnu++0x -lGL -lGLU -lglut -ljpeg -lpng -O2
 
-main: build main.cpp build/vector_basics.o build/polygon3d.o build/globals.o build/building.o build/tank.o imageLibrary/image.a
+main: build main.cpp build/vector_basics.o build/polygon3d.o build/globals.o build/building.o build/tank.o build/target.o imageLibrary/image.a
 	g++ $(CFLAGS) -o main main.cpp $(wildcard build/*.o) imageLibrary/image.a
 
 build:
@@ -15,6 +15,8 @@ build/globals.o: globals.cpp globals.h
 build/building.o: building.cpp building.h
 	g++ $(CFLAGS) -o $@ -c $<
 build/tank.o: tank.cpp tank.h
+	g++ $(CFLAGS) -o $@ -c $<
+build/target.o: target.cpp target.h
 	g++ $(CFLAGS) -o $@ -c $<
 
 imageLibrary/image.a:
