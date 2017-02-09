@@ -8,15 +8,17 @@
 #include <iostream>
 #include "globals.h"
 #include "building.h"
+#include "tank.h"
 using std::cin;
 
-std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited
+std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited 
 double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
 float tankX = 0;
 float tankY = 0;
+static Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -116,6 +118,8 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
+	Tank * tank = new Tank(Point(0, 0, 0));
+	tank->draw();
 		
 	drawTank();
 
@@ -227,7 +231,7 @@ void keyboardButtonsUp_special(int key,int x,int y){
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
-	glutInitDisplayMode(/*GLUT_DOUBLE | */GLUT_RGBA | GLUT_ALPHA);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);

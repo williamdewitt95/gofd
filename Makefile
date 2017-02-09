@@ -14,7 +14,7 @@ build/globals.o: globals.cpp globals.h
 	g++ $(CFLAGS) -o $@ -c $<
 build/building.o: building.cpp building.h
 	g++ $(CFLAGS) -o $@ -c $<
-build/tank.o: tank.cpp globals.h
+build/tank.o: tank.cpp tank.h
 	g++ $(CFLAGS) -o $@ -c $<
 
 imageLibrary/image.a:
