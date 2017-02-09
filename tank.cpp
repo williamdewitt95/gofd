@@ -7,8 +7,8 @@ Tank::Tank(Point center){
 		sides.push_back(Polygon3d());
 		auto &points = sides[sides.size()-1].getPoints();
 		auto &texs = sides[sides.size()-1].getTexturePoints();
-		loadTex("bug.jpg");
-		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["bug.jpg"].textureRef);
+		loadTex("tank.png");
+		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["tank.png"].textureRef);
 		sides[sides.size()-1].setColor(211,211,211);
 		sides[sides.size()-1].setTesselation(true);
 
@@ -27,8 +27,8 @@ Tank::Tank(Point center){
 		sides.push_back(Polygon3d());
 		auto &points = sides[sides.size()-1].getPoints();
 		auto &texs = sides[sides.size()-1].getTexturePoints();
-		loadTex("bug.jpg");
-		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["bug.jpg"].textureRef);
+		loadTex("tank.png");
+		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["tank.png"].textureRef);
 		sides[sides.size()-1].setColor(211,211,211);
 		sides[sides.size()-1].setTesselation(true);
 
@@ -47,8 +47,8 @@ Tank::Tank(Point center){
 		sides.push_back(Polygon3d());
 		auto &points = sides[sides.size()-1].getPoints();
 		auto &texs = sides[sides.size()-1].getTexturePoints();
-		loadTex("lain.png");
-		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["lain.png"].textureRef);
+		loadTex("tank.png");
+		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["tank.png"].textureRef);
 		sides[sides.size()-1].setColor(211,211,211);
 		sides[sides.size()-1].setTesselation(true);
 
@@ -67,8 +67,8 @@ Tank::Tank(Point center){
 		sides.push_back(Polygon3d());
 		auto &points = sides[sides.size()-1].getPoints();
 		auto &texs = sides[sides.size()-1].getTexturePoints();
-		loadTex("cloud.png");
-		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["cloud.png"].textureRef);
+		loadTex("tank.png");
+		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["tank.png"].textureRef);
 		sides[sides.size()-1].setColor(211,211,211);
 		sides[sides.size()-1].setTesselation(true);
 
@@ -87,8 +87,8 @@ Tank::Tank(Point center){
 		sides.push_back(Polygon3d());
 		auto &points = sides[sides.size()-1].getPoints();
 		auto &texs = sides[sides.size()-1].getTexturePoints();
-		loadTex("cloud.png");
-		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["cloud.png"].textureRef);
+		loadTex("tank.png");
+		sides[sides.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["tank.png"].textureRef);
 		sides[sides.size()-1].setColor(211,211,211);
 		sides[sides.size()-1].setTesselation(true);
 

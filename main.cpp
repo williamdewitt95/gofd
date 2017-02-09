@@ -121,7 +121,7 @@ void display(){
 	Tank * tank = new Tank(Point(0, 0, 0));
 	tank->draw();
 		
-	drawTank();
+	//drawTank();
 
 	glFlush();
 	glutSwapBuffers();
