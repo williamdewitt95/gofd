@@ -8,9 +8,11 @@
 #include <iostream>
 #include "globals.h"
 #include "building.h"
+#include "target.h"
 using std::cin;
 
 std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited
+std::vector<Target*> targets;
 double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
@@ -114,6 +116,8 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
+	for(int x=0; x<targets.size(); x++)
+	    targets[x]->draw();
 
 	glFlush();
 	glutSwapBuffers();
@@ -247,6 +251,7 @@ int main(int argc,char** args){
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){
 			buildings.push_back(new Building(Point(20*x,20*y,0)));
+			targets.push_back(new Target(Point(20*x, 20*y, 3)));
 		}
 	}
 
