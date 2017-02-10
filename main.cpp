@@ -21,6 +21,8 @@ double tankSpeedX = 0;
 double tankSpeedY = 0;
 double tankRotate = 0;
 double tankScale = 0;
+double tankCannonRotate = 0;
+bool laserOn = true;
 Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -126,7 +128,9 @@ void display(){
 	tank->center.x += tankSpeedX;
 	tank->center.y += tankSpeedY;
 	tank->angle += tankRotate;
+	tank->cannonAngle += tankCannonRotate;
 	tank->scale += tankScale;
+	tank->laser = laserOn;
 
 	tank->draw();
 		
@@ -166,6 +170,15 @@ void keyboardButtons(unsigned char key, int x, int y){
 		tankScale -= 0.05;
 	}else if(key == 'm' || key == 'M'){
 		tankScale += 0.05;
+	}else if(key == '-' || key == '_'){
+		tankCannonRotate -= 2; cout << tankCannonRotate << "\n";
+	}else if(key == '=' || key == '+'){
+		tankCannonRotate += 2;
+	}else if(key == '8'){
+		if (!laserOn)
+			laserOn = true;
+		else
+			laserOn = false;
 	//end of tank controls
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert += camMove_speed;
@@ -218,6 +231,10 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		tankScale += 0.05;
 	}else if(key == 'm' || key == 'M'){
 		tankScale -= 0.05;
+	}else if(key == '-' || key == '_'){
+		tankCannonRotate += 2;
+	}else if(key == '=' || key == '+'){
+		tankCannonRotate -= 2;
 	//end of tank controls
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert -= camMove_speed;
