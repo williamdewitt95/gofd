@@ -101,8 +101,8 @@ void FPS_CameraMovement(int x,int y){
 	if(angleV<-90)angleV=-90;
 
 	// we will have a length of 5 for the line in the XY plane
-	GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * cos(angleH*PI/180.0);
-	GLOBAL.CAMERA_LOOK_VECTOR.y = 5 *-sin(angleH*PI/180.0);
+	GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
+	GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
 	// make the z from pathagarean formula - our angle is measured from the horizontal plane
 	GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
 
