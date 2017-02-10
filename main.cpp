@@ -11,6 +11,7 @@
 #include "tank.h"
 #include "target.h"
 using std::cin;
+using std::cout;
 
 std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited
 std::vector<Target*> targets;
@@ -18,9 +19,13 @@ double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
-float tankX = 0;
-float tankY = 0;
-static Tank * tank;
+double tankSpeed = 0;
+double tankScale = 0;
+double tankBaseRotate = 0;
+double tankTowerRotate = 0;
+double tankCannonRotate = 0;
+bool laserOn = true;
+Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -60,6 +65,17 @@ void gameEngine(){
 
 	GLOBAL.CAMERA_POS.x += camMove_strafe * sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+
+	//iterate tank properties
+	tank->update(); // the things below need to be moved into this function
+	tank->center.x += tankSpeed * cos((tank->baseAngle + 90) * (M_PI / 180));
+	tank->center.y += tankSpeed * sin((tank->baseAngle + 90) * (M_PI / 180));
+	if ((tank->baseAngle > 360) || (tank->baseAngle < -360))
+		tank->baseAngle = 0;
+	tank->baseAngle += tankBaseRotate;
+	tank->towerAngle += tankTowerRotate;
+	tank->cannonAngle += tankCannonRotate;
+	tank->scale += tankScale;
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);
@@ -121,7 +137,6 @@ void display(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
 
-	Tank * tank = new Tank(Point(0, 0, 0));
 	tank->draw();
 
 	for(int x=0; x<targets.size(); x++)
@@ -144,13 +159,28 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
-		tankY += 1;
+		tankSpeed += 0.15;
 	}else if(key == 'j' || key == 'J'){
-		tankX -= 1;
+		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
-		tankY -= 1;
+		tankSpeed -= 0.15;
 	}else if(key == 'l' || key == 'L'){
-		tankX += 1;
+		tankBaseRotate -= 2;
+	}else if(key == 'u' || key == 'U'){
+		tankTowerRotate += 2;
+	}else if(key == 'o' || key == 'O'){
+		tankTowerRotate -= 2;
+	}else if(key == 'n' || key == 'N'){
+		tankScale -= 0.05;
+	}else if(key == 'm' || key == 'M'){
+		tankScale += 0.05;
+	}else if(key == '-' || key == '_'){
+		tankCannonRotate -= 2;
+	}else if(key == '=' || key == '+'){
+		tankCannonRotate += 2;
+	}else if(key == '8'){
+		tank->laser = !tank->laser;
+	//end of tank controls
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
@@ -185,6 +215,28 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe += camMove_speed;
+	//tank controls
+	}else if(key == 'i' || key == 'I'){
+		tankSpeed -= 0.15;
+	}else if(key == 'j' || key == 'J'){
+		tankBaseRotate -= 2;
+	}else if(key == 'k' || key == 'K'){
+		tankSpeed += 0.15;
+	}else if(key == 'l' || key == 'L'){
+		tankBaseRotate += 2;
+	}else if(key == 'u' || key == 'U'){
+		tankTowerRotate -= 2;
+	}else if(key == 'o' || key == 'O'){
+		tankTowerRotate += 2;
+	}else if(key == 'n' || key == 'N'){
+		tankScale += 0.05;
+	}else if(key == 'm' || key == 'M'){
+		tankScale -= 0.05;
+	}else if(key == '-' || key == '_'){
+		tankCannonRotate += 2;
+	}else if(key == '=' || key == '+'){
+		tankCannonRotate -= 2;
+	//end of tank controls
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert -= camMove_speed;
 	}else if(key == ' '){
@@ -270,6 +322,8 @@ int main(int argc,char** args){
 			targets.push_back(new Target(Point(20*x, 20*y, 3)));
 		}
 	}
+
+	tank = new Tank(Point(0, 0, 0));
 
 	glutMainLoop();
 	return 0;
