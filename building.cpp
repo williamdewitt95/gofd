@@ -3,9 +3,6 @@
 Building::Building(Point center){
 	this->center = center;
 
-	//===============================================================================================================
-	//we assume that pendulum is of length 1 and then set the scale of the world before we call the draw for the stem
-	//===============================================================================================================
 	{
 		sides.push_back(Polygon3d());
 		auto &points = sides[sides.size()-1].getPoints();
