@@ -1,0 +1,5 @@
+Game of Drones - CSC460 - Group Project
+
+to build
+ - make distclean
+ - make
