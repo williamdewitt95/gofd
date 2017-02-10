@@ -1,8 +1,13 @@
 #include "tank.h"
+#include <iostream>
+using std::cout;
+
 
 Tank::Tank(Point center){
 	this->center = center;
 	scale = 1;
+	baseAngle = 0;
+	towerAngle = 0;
 	cannonAngle = 0;
 	laser = true;
 
@@ -339,22 +344,29 @@ Tank::Tank(Point center){
 
 
 void Tank::draw(){
+	cout << baseAngle << "\n";
+
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
 	glScaled(scale, scale, scale);
+	glRotated(baseAngle, 0, 0, 1);
 	for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
 	glPushMatrix();
-	glRotated(angle, 0, 0, 1);
+	glRotated(towerAngle, 0, 0, 1);
 	for(int x=0; x<tower.size(); x++)
 		this->tower[x].draw();
 	glPushMatrix();
 	glTranslated(0, 0.5, 1.375);
+	if (cannonAngle > 75)
+		cannonAngle = 75;
+	else if (cannonAngle < -10)
+		cannonAngle = -10;
 	glRotated(cannonAngle, 1, 0, 0);
 	glTranslated(0, -0.5, -1.375);
 	//draw a laser guide
 	if (laser) {
-		glLineWidth(10);
+		glLineWidth(5);
 		glColor4f(1.0 ,0.0 ,0.0 ,1.0);
 		glBegin(GL_LINES);
 			glVertex3f(0, 0.5, 1.375);
@@ -375,3 +387,5 @@ void Tank::update(){
 std::vector<Polygon3d> Tank::boundingBox(){
 	return this->base;
 }
+
+void Tank::shoot() {}

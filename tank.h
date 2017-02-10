@@ -9,12 +9,13 @@
 class Tank{
 public:
 	Point center;
-	double angle, cannonAngle, scale;
+	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
 
 	std::vector<Polygon3d> base, tower, cannon;
 	Tank(Point center);
 	void draw();
+	void shoot();
 	void update(); // make the pendulum keep up with the frame rate
 	std::vector<Polygon3d> boundingBox();
 };

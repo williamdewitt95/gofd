@@ -17,10 +17,10 @@ double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
-double tankSpeedX = 0;
-double tankSpeedY = 0;
-double tankRotate = 0;
+double tankSpeed = 0;
 double tankScale = 0;
+double tankBaseRotate = 0;
+double tankTowerRotate = 0;
 double tankCannonRotate = 0;
 bool laserOn = true;
 Tank * tank;
@@ -124,10 +124,13 @@ void display(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
 
-	//iterate tank angle and position
-	tank->center.x += tankSpeedX;
-	tank->center.y += tankSpeedY;
-	tank->angle += tankRotate;
+	//iterate tank properties
+	tank->center.x += tankSpeed * cos((tank->baseAngle + 90) * (M_PI / 180));
+	tank->center.y += tankSpeed * sin((tank->baseAngle + 90) * (M_PI / 180));
+	if ((tank->baseAngle > 360) || (tank->baseAngle < -360))
+		tank->baseAngle = 0;
+	tank->baseAngle += tankBaseRotate;
+	tank->towerAngle += tankTowerRotate;
 	tank->cannonAngle += tankCannonRotate;
 	tank->scale += tankScale;
 	tank->laser = laserOn;
@@ -155,17 +158,17 @@ void keyboardButtons(unsigned char key, int x, int y){
 		
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tankSpeedY += 0.15;
+		tankSpeed += 0.15;
 	}else if(key == 'j' || key == 'J'){
-		tankSpeedX -= 0.15;
+		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
-		tankSpeedY -= 0.15;
+		tankSpeed -= 0.15;
 	}else if(key == 'l' || key == 'L'){
-		tankSpeedX += 0.15;
+		tankBaseRotate -= 2;
 	}else if(key == 'u' || key == 'U'){
-		tankRotate -= 2;
+		tankTowerRotate += 2;
 	}else if(key == 'o' || key == 'O'){
-		tankRotate += 2;
+		tankTowerRotate -= 2;
 	}else if(key == 'n' || key == 'N'){
 		tankScale -= 0.05;
 	}else if(key == 'm' || key == 'M'){
@@ -216,17 +219,17 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_strafe += camMove_speed;
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tankSpeedY -= 0.15;
+		tankSpeed -= 0.15;
 	}else if(key == 'j' || key == 'J'){
-		tankSpeedX += 0.15;
+		tankBaseRotate -= 2;
 	}else if(key == 'k' || key == 'K'){
-		tankSpeedY += 0.15;
+		tankSpeed += 0.15;
 	}else if(key == 'l' || key == 'L'){
-		tankSpeedX -= 0.15;
+		tankBaseRotate += 2;
 	}else if(key == 'u' || key == 'U'){
-		tankRotate += 2;
+		tankTowerRotate -= 2;
 	}else if(key == 'o' || key == 'O'){
-		tankRotate -= 2;
+		tankTowerRotate += 2;
 	}else if(key == 'n' || key == 'N'){
 		tankScale += 0.05;
 	}else if(key == 'm' || key == 'M'){
