@@ -1,23 +1,36 @@
+
 CC       = g++
 CFLAGS   = -std=gnu++0x 
 OPTFLAGS = -O2
+
+# Setup names for custom directories -- make sure there are no spaces after the directory names
+BUILD_DIR   = build
+IMAGE_DIR   = imageLibrary
+
+# Setup objects  (add new object files here an create a target line for them below 
+OBJS        = vector_basics.o polygon3d.o globals.o \
+              building.o tank.o target.o 
+BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
+
+# Setup user defined libraries
+USER_LIBS   = image.a
+LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
+
+# System librarires to be linked
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
-BUILD_DIR  = build 
-IMAGE_DIR = imageLibrary 
-OBJS        = $(BUILD_DIR)/vector_basics.o $(BUILD_DIR)/polygon3d.o $(BUILD_DIR)/globals.o \
-              $(BUILD_DIR)/building.o $(BUILD_DIR)/tank.o $(BUILD_DIR)/target.o 
-LIBS        = $(IMAGE_DIR)/image.a
 
 all: build gofd
 
-gofd: main.o $(OBJS) $(LIBS)
-	$(CC) $(CFLAGS) -o gofd main.o $(OBJS) $(LIBS) $(LDFLAGS)
-
-main.o: main.cpp  
-	$(CC) $(CFLAGS) main.cpp -c -o main.o   
-
 build:
 	mkdir build
+
+# The new executable target will be called gofd
+gofd: main.o $(BUILD_OBJS) $(LIB_OBJS)
+	$(CC) $(CFLAGS) -o gofd main.o $(BUILD_OBJS) $(LIB_OBJS) $(LDFLAGS)
+
+# These are the object file targets 
+main.o: main.cpp  
+	$(CC) $(CFLAGS) main.cpp -c -o main.o   
 
 $(BUILD_DIR)/vector_basics.o: vector_basics.cpp vector_basics.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) vector_basics.cpp -c  -o $(BUILD_DIR)/vector_basics.o 
@@ -37,13 +50,16 @@ $(BUILD_DIR)/tank.o: tank.cpp tank.h
 $(BUILD_DIR)/target.o: target.cpp target.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) target.cpp -c -o $(BUILD_DIR)/target.o 
 
+# Drop into the subdirectory to create the image library
 $(IMAGE_DIR)/image.a:
 	cd $(IMAGE_DIR); make;
 
 clean:
 	rm -f *.o
 	rm -f build/*.o
-	rm -f main
+	rm -f gofd 
 
 distclean: clean
-	cd imageLibrary; make distclean
+	cd $(IMAGE_DIR); make distclean
+	rm -rf build
+	rm -rf gofd
