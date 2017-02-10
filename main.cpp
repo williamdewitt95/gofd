@@ -155,13 +155,13 @@ void keyboardButtons(unsigned char key, int x, int y){
 		
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tankSpeedY += 0.05;
+		tankSpeedY += 0.15;
 	}else if(key == 'j' || key == 'J'){
-		tankSpeedX -= 0.05;
+		tankSpeedX -= 0.15;
 	}else if(key == 'k' || key == 'K'){
-		tankSpeedY -= 0.05;
+		tankSpeedY -= 0.15;
 	}else if(key == 'l' || key == 'L'){
-		tankSpeedX += 0.05;
+		tankSpeedX += 0.15;
 	}else if(key == 'u' || key == 'U'){
 		tankRotate -= 2;
 	}else if(key == 'o' || key == 'O'){
@@ -216,13 +216,13 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_strafe += camMove_speed;
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tankSpeedY -= 0.05;
+		tankSpeedY -= 0.15;
 	}else if(key == 'j' || key == 'J'){
-		tankSpeedX += 0.05;
+		tankSpeedX += 0.15;
 	}else if(key == 'k' || key == 'K'){
-		tankSpeedY += 0.05;
+		tankSpeedY += 0.15;
 	}else if(key == 'l' || key == 'L'){
-		tankSpeedX -= 0.05;
+		tankSpeedX -= 0.15;
 	}else if(key == 'u' || key == 'U'){
 		tankRotate += 2;
 	}else if(key == 'o' || key == 'O'){
