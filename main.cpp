@@ -10,6 +10,7 @@
 #include "building.h"
 #include "tank.h"
 using std::cin;
+using std::cout;
 
 std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited 
 double camMove_forward = 0;
@@ -18,7 +19,7 @@ double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
 float tankX = 0;
 float tankY = 0;
-static Tank * tank;
+Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -118,7 +119,7 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
-	Tank * tank = new Tank(Point(0, 0, 0));
+	cout << tank->center.x;
 	tank->draw();
 		
 	//drawTank();
@@ -142,13 +143,13 @@ void keyboardButtons(unsigned char key, int x, int y){
 		
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tankY += 1;
+		tank->center.y += 1;
 	}else if(key == 'j' || key == 'J'){
-		tankX -= 1;
+		tank->center.x -= 1;
 	}else if(key == 'k' || key == 'K'){
-		tankY -= 1;
+		tank->center.y -= 1;
 	}else if(key == 'l' || key == 'L'){
-		tankX += 1;
+		tank->center.x += 1;
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
@@ -267,6 +268,8 @@ int main(int argc,char** args){
 			buildings.push_back(new Building(Point(20*x,20*y,0)));
 		}
 	}
+
+	tank = new Tank(Point(0, 0, 0));
 
 	glutMainLoop();
 	return 0;

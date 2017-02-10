@@ -109,10 +109,16 @@ Tank::Tank(Point center){
 
 void Tank::draw(){
 	glPushMatrix();
-	glTranslated(tankX, tankY, center.z);
+	glTranslated(center.x, center.y, center.z);
 	for(int x=0; x<sides.size(); x++)
 		this->sides[x].draw();
 	glPopMatrix();
+}
+
+void Tank::update(){
+}
+std::vector<Polygon3d> Tank::boundingBox(){
+	return this->sides;
 }
 
 void drawTank (void) {
