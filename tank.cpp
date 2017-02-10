@@ -120,11 +120,3 @@ void Tank::update(){
 std::vector<Polygon3d> Tank::boundingBox(){
 	return this->sides;
 }
-
-void drawTank (void) {
-	glPushMatrix();
-	glLoadIdentity();
-	glTranslatef(tankX, tankY , 0.1);
-	glutSolidCube(1);
-	glPopMatrix();
-}

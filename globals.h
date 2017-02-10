@@ -64,8 +64,7 @@ public:
 };
 
 extern GLOBAL_SETTINGS GLOBAL;
-extern float tankX, tankY;
-extern Tank * tank;
+//extern Tank * tank;
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);

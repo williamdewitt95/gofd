@@ -17,8 +17,8 @@ double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
-float tankX = 0;
-float tankY = 0;
+double tankSpeedX = 0;
+double tankSpeedY = 0;
 Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -119,7 +119,8 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
-	cout << tank->center.x;
+	tank->center.x += tankSpeedX;
+	tank->center.y += tankSpeedY;
 	tank->draw();
 		
 	//drawTank();
@@ -143,13 +144,13 @@ void keyboardButtons(unsigned char key, int x, int y){
 		
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tank->center.y += 1;
+		tankSpeedY += 0.05;
 	}else if(key == 'j' || key == 'J'){
-		tank->center.x -= 1;
+		tankSpeedX -= 0.05;
 	}else if(key == 'k' || key == 'K'){
-		tank->center.y -= 1;
+		tankSpeedY -= 0.05;
 	}else if(key == 'l' || key == 'L'){
-		tank->center.x += 1;
+		tankSpeedX += 0.05;
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
