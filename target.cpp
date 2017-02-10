@@ -4,6 +4,66 @@ Target::Target(Point center)
 {
     this->center = center;
     this->radius = 3;
+
+    {
+        boundingBox.push_back(Polygon3d());
+        auto &points = boundingBox[boundingBox.size()-1].getPoints();
+        points.push_back(Point(-3, -3, 0));
+        points.push_back(Point(3, -3, 0));
+        points.push_back(Point(3, 3, 0));
+        points.push_back(Point(-3, 3, 0));
+        points.push_back(Point(-3, -3, 0));
+    }
+
+    {
+        boundingBox.push_back(Polygon3d());
+        auto &points = boundingBox[boundingBox.size()-1].getPoints();
+        points.push_back(Point(  3, -3,  0));
+        points.push_back(Point(  3, -3, .1));
+        points.push_back(Point(  3,  3, .1));
+        points.push_back(Point(  3,  3,  0));
+        points.push_back(Point(  3, -3,  0));
+    }
+
+    {
+        boundingBox.push_back(Polygon3d());
+        auto &points = boundingBox[boundingBox.size()-1].getPoints();
+        points.push_back(Point( -3,  3,  0));
+        points.push_back(Point( -3,  3, .1));
+        points.push_back(Point(  3,  3, .1));
+        points.push_back(Point(  3,  3,  0));
+        points.push_back(Point( -3,  3,  0));
+    }
+
+    {
+        boundingBox.push_back(Polygon3d());
+        auto &points = boundingBox[boundingBox.size()-1].getPoints();
+        points.push_back(Point( -3, -3,  0));
+        points.push_back(Point( -3, -3, .1));
+        points.push_back(Point(  3, -3, .1));
+        points.push_back(Point(  3, -3,  0));
+        points.push_back(Point( -3, -3,  0));
+    }
+
+    {
+        boundingBox.push_back(Polygon3d());
+        auto &points = boundingBox[boundingBox.size()-1].getPoints();
+        points.push_back(Point( -3, -3,  0));
+        points.push_back(Point( -3, -3, .1));
+        points.push_back(Point( -3,  3, .1));
+        points.push_back(Point( -3,  3,  0));
+        points.push_back(Point( -3, -3,  0));
+    }
+
+    {
+        boundingBox.push_back(Polygon3d());
+        auto &points = boundingBox[boundingBox.size()-1].getPoints();
+        points.push_back(Point( -3, -3, .1));
+        points.push_back(Point(  3, -3, .1));
+        points.push_back(Point(  3,  3, .1));
+        points.push_back(Point( -3,  3, .1));
+        points.push_back(Point( -3, -3, .1));
+    }
 }
 
 void Target::draw()
