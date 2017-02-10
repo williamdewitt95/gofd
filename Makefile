@@ -2,7 +2,7 @@ CC       = g++
 CFLAGS   = -std=gnu++0x 
 OPTFLAGS = -O2
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
-BUILD_DIR   = build 
+BUILD_DIR  = build 
 IMAGE_DIR = imageLibrary 
 OBJS        = $(BUILD_DIR)/vector_basics.o $(BUILD_DIR)/polygon3d.o $(BUILD_DIR)/globals.o \
               $(BUILD_DIR)/building.o $(BUILD_DIR)/tank.o $(BUILD_DIR)/target.o 
@@ -14,28 +14,28 @@ gofd: main.o $(OBJS) $(LIBS)
 	$(CC) $(CFLAGS) -o gofd main.o $(OBJS) $(LIBS) $(LDFLAGS)
 
 main.o: main.cpp  
-	$(CC) $(CFLAGS) main.cpp -c   
+	$(CC) $(CFLAGS) main.cpp -c -o main.o   
 
 build:
 	mkdir build
 
 $(BUILD_DIR)/vector_basics.o: vector_basics.cpp vector_basics.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) -c $(BUILD_DIR)/vector_basics.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) vector_basics.cpp -c  -o $(BUILD_DIR)/vector_basics.o 
 
 $(BUILD_DIR)/polygon3d.o: polygon3d.cpp polygon3d.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) -c $(BUILD_DIR)/polygon3d.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) polygon3d.cpp -c -o $(BUILD_DIR)/polygon3d.o 
 
 $(BUILD_DIR)/globals.o: globals.cpp globals.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) -c $(BUILD_DIR)/globals.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) globals.cpp -c -o $(BUILD_DIR)/globals.o 
 
 $(BUILD_DIR)/building.o: building.cpp building.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) -c $(BUILD_DIR)/building.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
 
 $(BUILD_DIR)/tank.o: tank.cpp tank.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) -c $(BUILD_DIR)/tank.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) tank.cpp -c -o $(BUILD_DIR)/tank.o 
 
 $(BUILD_DIR)/target.o: target.cpp target.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) -c $(BUILD_DIR)/target.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) target.cpp -c -o $(BUILD_DIR)/target.o 
 
 $(IMAGE_DIR)/image.a:
 	cd $(IMAGE_DIR); make;
