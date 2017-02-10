@@ -257,8 +257,8 @@ int main(int argc,char** args){
 
 	// enable blending to have translucent materials
 	// you must draw objects back to front to get proper blending
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
 	//make the camera set to a sane default
