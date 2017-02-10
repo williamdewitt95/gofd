@@ -19,6 +19,8 @@ double camMove_vert = 0;
 const double camMove_speed = 0.125 / 2.0;
 double tankSpeedX = 0;
 double tankSpeedY = 0;
+double tankRotate = 0;
+double tankScale = 0;
 Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -119,8 +121,13 @@ void display(){
 	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
+
+	//iterate tank angle and position
 	tank->center.x += tankSpeedX;
 	tank->center.y += tankSpeedY;
+	tank->angle += tankRotate;
+	tank->scale += tankScale;
+
 	tank->draw();
 		
 	//drawTank();
@@ -151,6 +158,15 @@ void keyboardButtons(unsigned char key, int x, int y){
 		tankSpeedY -= 0.05;
 	}else if(key == 'l' || key == 'L'){
 		tankSpeedX += 0.05;
+	}else if(key == 'u' || key == 'U'){
+		tankRotate -= 2;
+	}else if(key == 'o' || key == 'O'){
+		tankRotate += 2;
+	}else if(key == 'n' || key == 'N'){
+		tankScale -= 0.05;
+	}else if(key == 'm' || key == 'M'){
+		tankScale += 0.05;
+	//end of tank controls
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
@@ -185,6 +201,24 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe += camMove_speed;
+	//tank controls
+	}else if(key == 'i' || key == 'I'){
+		tankSpeedY -= 0.05;
+	}else if(key == 'j' || key == 'J'){
+		tankSpeedX += 0.05;
+	}else if(key == 'k' || key == 'K'){
+		tankSpeedY += 0.05;
+	}else if(key == 'l' || key == 'L'){
+		tankSpeedX -= 0.05;
+	}else if(key == 'u' || key == 'U'){
+		tankRotate += 2;
+	}else if(key == 'o' || key == 'O'){
+		tankRotate -= 2;
+	}else if(key == 'n' || key == 'N'){
+		tankScale += 0.05;
+	}else if(key == 'm' || key == 'M'){
+		tankScale -= 0.05;
+	//end of tank controls
 	}else if(key == 'c' || key == 'C'){
 		camMove_vert -= camMove_speed;
 	}else if(key == ' '){
