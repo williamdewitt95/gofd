@@ -344,7 +344,7 @@ Tank::Tank(Point center){
 
 
 void Tank::draw(){
-	cout << baseAngle << "\n";
+	// cout << baseAngle << "\n";
 
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
@@ -382,7 +382,17 @@ void Tank::draw(){
 	glPopMatrix();
 }
 
-void Tank::update(){
+void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate){
+	this->center.x += tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	this->center.y += tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	if ((this->baseAngle > 360) || (this->baseAngle < -360))
+		this->baseAngle = 0;
+	this->baseAngle += tankBaseRotate;
+	this->towerAngle += tankTurretRotate;
+	this->cannonAngle += tankCannonRotate;
+
+
+
 }
 std::vector<Polygon3d> Tank::boundingBox(){
 	return this->base;

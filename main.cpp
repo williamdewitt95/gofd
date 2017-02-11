@@ -22,7 +22,7 @@ const double camMove_speed = 0.125 / 2.0;
 double tankSpeed = 0;
 double tankScale = 0;
 double tankBaseRotate = 0;
-double tankTowerRotate = 0;
+double tankTurretRotate = 0;
 double tankCannonRotate = 0;
 bool laserOn = true;
 Tank * tank;
@@ -67,15 +67,9 @@ void gameEngine(){
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
 	//iterate tank properties
-	tank->update(); // the things below need to be moved into this function
-	tank->center.x += tankSpeed * cos((tank->baseAngle + 90) * (M_PI / 180));
-	tank->center.y += tankSpeed * sin((tank->baseAngle + 90) * (M_PI / 180));
-	if ((tank->baseAngle > 360) || (tank->baseAngle < -360))
-		tank->baseAngle = 0;
-	tank->baseAngle += tankBaseRotate;
-	tank->towerAngle += tankTowerRotate;
-	tank->cannonAngle += tankCannonRotate;
-	tank->scale += tankScale;
+	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate); // the things below need to be moved into this function
+	
+	// tank->scale += tankScale;
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);
@@ -167,9 +161,9 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate -= 2;
 	}else if(key == 'u' || key == 'U'){
-		tankTowerRotate += 2;
+		tankTurretRotate += 2;
 	}else if(key == 'o' || key == 'O'){
-		tankTowerRotate -= 2;
+		tankTurretRotate -= 2;
 	}else if(key == 'n' || key == 'N'){
 		tankScale -= 0.05;
 	}else if(key == 'm' || key == 'M'){
@@ -225,9 +219,9 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate += 2;
 	}else if(key == 'u' || key == 'U'){
-		tankTowerRotate -= 2;
+		tankTurretRotate -= 2;
 	}else if(key == 'o' || key == 'O'){
-		tankTowerRotate += 2;
+		tankTurretRotate += 2;
 	}else if(key == 'n' || key == 'N'){
 		tankScale += 0.05;
 	}else if(key == 'm' || key == 'M'){
