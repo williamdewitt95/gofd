@@ -10,6 +10,7 @@ Tank::Tank(Point center){
 	towerAngle = 0;
 	cannonAngle = 0;
 	laser = true;
+	tankSpeed = 0;
 
 	//Base polygons
 
@@ -352,7 +353,9 @@ void Tank::draw(){
 	glRotated(baseAngle, 0, 0, 1);
 	for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
+	glPopMatrix();
 	glPushMatrix();
+	glTranslated(center.x, center.y, center.z);
 	glRotated(towerAngle, 0, 0, 1);
 	for(int x=0; x<tower.size(); x++)
 		this->tower[x].draw();
@@ -379,7 +382,6 @@ void Tank::draw(){
 		this->cannon[x].draw();
 	glPopMatrix();
 	glPopMatrix();
-	glPopMatrix();
 }
 
 void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate){
@@ -388,9 +390,10 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
 		this->baseAngle = 0;
 	this->baseAngle += tankBaseRotate;
-	this->towerAngle += tankTurretRotate;
-	this->cannonAngle += tankCannonRotate;
-
+	// this->towerAngle += tankTurretRotate;
+	// this->cannonAngle += tankCannonRotate;
+	FPS_CameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center.x,this->center.y,this->center.z);
+	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2);
 
 
 }
@@ -407,8 +410,8 @@ void Tank::turretFollowMouse(int x, int y){
 	int dx = x-midX;
 	int dy = y-midY;
 
-	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
-	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
+	double angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
+	double angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
 	angleH += dx/movementDivisor;
 	if(angleH>360)angleH-=360;
 	if(angleH<0)angleH+=360;
@@ -417,8 +420,8 @@ void Tank::turretFollowMouse(int x, int y){
 	if(angleV<-90)angleV=-90;
 
 	// we will have a length of 5 for the line in the XY plane
-	this->towerAngle = -1*angleH-90;
-	this->cannonAngle = angleV;
+	this->towerAngle = -1*angleH+90;
+	this->cannonAngle = -angleV;
 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing

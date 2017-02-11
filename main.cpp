@@ -48,13 +48,13 @@ void mouseButtons(int but,int state,int x,int y){
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	FPS_CameraMovement(x,y);
+	FPS_CameraMovement(x,y,tank->center.x,tank->center.y,tank->center.z);
 	tank->turretFollowMouse(x, y);
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	FPS_CameraMovement(x,y);
+	// FPS_CameraMovement(x,y);
 }
 
 void gameEngine(){
@@ -70,6 +70,7 @@ void gameEngine(){
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate); // the things below need to be moved into this function
 	
+
 	// tank->scale += tankScale;
 }
 void display(){
@@ -140,6 +141,7 @@ void display(){
 	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
+
 }
 
 void keyboardButtons(unsigned char key, int x, int y){
@@ -155,10 +157,13 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
 		tankSpeed += 0.15;
+
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
 		tankSpeed -= 0.15;
+		FPS_CameraMovement(x,y,tank->center.x,tank->center.y,tank->center.z);
+
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate -= 2;
 	}else if(key == 'u' || key == 'U'){
@@ -203,20 +208,22 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
-		camMove_forward -= camMove_speed;
+		// camMove_forward -= camMove_speed;
 	}else if(key == 's' || key == 'S'){
-		camMove_forward += camMove_speed;
+		// camMove_forward += camMove_speed;
 	}else if(key == 'a' || key == 'A'){
-		camMove_strafe -= camMove_speed;
+		// camMove_strafe -= camMove_speed;
 	}else if(key == 'd' || key == 'D'){
-		camMove_strafe += camMove_speed;
+		// camMove_strafe += camMove_speed;
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
 		tankSpeed -= 0.15;
+		FPS_CameraMovement(x,y,tank->center.x,tank->center.y,tank->center.z);
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate -= 2;
 	}else if(key == 'k' || key == 'K'){
 		tankSpeed += 0.15;
+		FPS_CameraMovement(x,y,tank->center.x,tank->center.y,tank->center.z);
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate += 2;
 	}else if(key == 'u' || key == 'U'){
@@ -309,7 +316,7 @@ int main(int argc,char** args){
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
 	//make the camera set to a sane default
-	FPS_CameraMovement(0,0);
+	FPS_CameraMovement(0,0,0,0,0);
 
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){

@@ -11,6 +11,7 @@ public:
 	Point center;
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
+	double tankSpeed;
 
 	std::vector<Polygon3d> base, tower, cannon;
 	Tank(Point center);
