@@ -25,6 +25,7 @@ double tankBaseRotate = 0;
 double tankTurretRotate = 0;
 double tankCannonRotate = 0;
 bool laserOn = true;
+bool firstPerson = true;
 Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -48,8 +49,8 @@ void mouseButtons(int but,int state,int x,int y){
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	FPS_CameraMovement(x,y,tank->center);
-	tank->turretFollowMouse(x, y);
+	FPS_CameraMovement(x,y,tank->center,firstPerson);
+	tank->turretFollowMouse(x, y,firstPerson);
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
@@ -68,7 +69,7 @@ void gameEngine(){
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
 	//iterate tank properties
-	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate); // the things below need to be moved into this function
+	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, firstPerson); // the things below need to be moved into this function
 
 
 	// tank->scale += tankScale;
@@ -172,6 +173,8 @@ void keyboardButtons(unsigned char key, int x, int y){
 		tankScale -= 0.05;
 	}else if(key == 'm' || key == 'M'){
 		tankScale += 0.05;
+	}else if(key == 'z' || key == 'Z'){
+		firstPerson =  !firstPerson;
 	}else if(key == '-' || key == '_'){
 		tankCannonRotate -= 2;
 	}else if(key == '=' || key == '+'){

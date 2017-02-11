@@ -353,7 +353,7 @@ void Tank::draw(){
 	glRotated(baseAngle, 0, 0, 1);
 	for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
-	glPopMatrix();
+	glPopMatrix();//When we rotate the base, let the turret stay on target
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
 	glRotated(towerAngle, 0, 0, 1);
@@ -384,7 +384,7 @@ void Tank::draw(){
 	glPopMatrix();
 }
 
-void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate){
+void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, bool firstPerson){
 	this->center.x += tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	this->center.y += tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
@@ -392,13 +392,13 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
-	FPS_CameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center);
-	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2);
+	FPS_CameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, firstPerson);//keep camera synced to mouse movements
+	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, firstPerson);//keep turret synced to mouse movements
 
 
 }
 
-void Tank::turretFollowMouse(int x, int y){
+void Tank::turretFollowMouse(int x, int y, bool firstPerson){//Turret + cannon follow the mouse cursor
 
 	double movementDivisor = 6.0;
 	//x and y are window cordinates
@@ -416,13 +416,13 @@ void Tank::turretFollowMouse(int x, int y){
 	if(angleH>360)angleH-=360;
 	if(angleH<0)angleH+=360;
 	angleV += dy/movementDivisor;
-	if(angleV>90)angleV=90;
-	if(angleV<-90)angleV=-90;
+	if(angleV>80)angleV=80;
+	if(angleV<-10)angleV=-10;
 
 	// we will have a length of 5 for the line in the XY plane
-	bool firstPerson = false;//for rapid testing of different cameras
+	// bool firstPerson = false;//for rapid testing of different cameras
 	if(firstPerson){
-		this->towerAngle = -1*angleH-90;
+		this->towerAngle = -1*angleH-90;//turret follows 
 	}
 	else{
 		this->towerAngle = -1*angleH+90;

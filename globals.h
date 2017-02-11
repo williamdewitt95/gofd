@@ -69,7 +69,7 @@ extern GLOBAL_SETTINGS GLOBAL;
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
-void FPS_CameraMovement(int x, int y, Point center);
+void FPS_CameraMovement(int x, int y, Point center, bool firstPerson);
 void FPS_CameraMovement(int x, int y);
 void drawTank (void);
 
