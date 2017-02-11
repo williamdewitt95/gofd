@@ -8,6 +8,7 @@
 #include <string>
 #include "imageLibrary/image.h"
 #include "tank.h"
+#include "polygon3d.h"
 
 #define PI 3.14159265358979
 
@@ -68,7 +69,8 @@ extern GLOBAL_SETTINGS GLOBAL;
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
-void FPS_CameraMovement(int x, int y, double center_x, double center_y, double center_z);
+void FPS_CameraMovement(int x, int y, Point center);
+void FPS_CameraMovement(int x, int y);
 void drawTank (void);
 
 #endif

@@ -392,7 +392,7 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
-	FPS_CameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center.x,this->center.y,this->center.z);
+	FPS_CameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center);
 	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2);
 
 
@@ -420,8 +420,15 @@ void Tank::turretFollowMouse(int x, int y){
 	if(angleV<-90)angleV=-90;
 
 	// we will have a length of 5 for the line in the XY plane
-	this->towerAngle = -1*angleH+90;
-	this->cannonAngle = -angleV;
+	bool firstPerson = false;//for rapid testing of different cameras
+	if(firstPerson){
+		this->towerAngle = -1*angleH-90;
+	}
+	else{
+		this->towerAngle = -1*angleH+90;
+	}
+
+	this->cannonAngle = angleV;
 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
