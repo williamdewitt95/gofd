@@ -109,8 +109,8 @@ void FPS_CameraMovement(int x,int y){
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
 
-	// printf("PassiveFunc\n%dx%d\n",dx,dy); // pixel deltas
-	// printf("PassiveFunc\n%f %f\n",angleH,angleV); // look angles
+	// printf("PassiveFunc\t%dx%d\n",dx,dy); // pixel deltas
+	// printf("PassiveFunc\t%f %f\n",angleH,angleV); // look angles
 	// printf("PassiveFunc\n%.2f %.2f %.2f\n",cameraLook.x,cameraLook.y,cameraLook.z); // look vector
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
 }

@@ -394,6 +394,43 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 
 
 }
+
+void Tank::turretFollowMouse(int x, int y){
+
+	double movementDivisor = 6.0;
+	//x and y are window cordinates
+	//it is up to us to get deltas
+	y=GLOBAL.WINDOW_MAX_Y-y;
+	int midX = GLOBAL.WINDOW_MAX_X/2;
+	int midY = GLOBAL.WINDOW_MAX_Y/2;
+
+	int dx = x-midX;
+	int dy = y-midY;
+
+	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
+	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
+	angleH += dx/movementDivisor;
+	if(angleH>360)angleH-=360;
+	if(angleH<0)angleH+=360;
+	angleV += dy/movementDivisor;
+	if(angleV>90)angleV=90;
+	if(angleV<-90)angleV=-90;
+
+	// we will have a length of 5 for the line in the XY plane
+	this->towerAngle = -1*angleH-90;
+	this->cannonAngle = angleV;
+
+	if(dx==0 && dy==0)
+		return; //we are not really doing anything, so we will simply ignore this thing
+
+	// printf("PassiveFunc\t%dx%d\n",dx,dy); // pixel deltas
+	// printf("PassiveFunc\t%f %f\n",angleH,angleV); // look angles
+	// printf("PassiveFunc\n%.2f %.2f %.2f\n",cameraLook.x,cameraLook.y,cameraLook.z); // look vector
+
+}
+
+
+
 std::vector<Polygon3d> Tank::boundingBox(){
 	return this->base;
 }

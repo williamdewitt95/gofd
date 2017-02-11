@@ -17,6 +17,7 @@ public:
 	void draw();
 	void shoot();
 	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate); // make the pendulum keep up with the frame rate
+	void turretFollowMouse(int x, int y);
 	std::vector<Polygon3d> boundingBox();
 };
 

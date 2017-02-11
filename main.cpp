@@ -49,6 +49,7 @@ void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
 	FPS_CameraMovement(x,y);
+	tank->turretFollowMouse(x, y);
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
