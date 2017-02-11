@@ -8,7 +8,9 @@
 //   Department of Computer Science
 //   Mercer University
 //   Spring 2006
-//
+//   
+//   Modified Spring 2016 to include damping based
+//   on military documents and converted to SI units.  
 
 // Program Constants 
 
@@ -21,7 +23,7 @@ void init(){
 V     = 500.0;   // Initial Velocity            (m/sec)
 m     = 50.00;   // Projectile Mass             (kg)
 angle = 75.0;    // Angle of Gun above azimuth  (degrees)
-G     = 9.81;    // Acceleration due to Graviey (ft/sec^2)
+G     = 9.81;    // Acceleration due to Graviey (m/sec^2)
 C     = 0.05;  // Drag Coefficient 
 
 h     = 0.00001;   // Stepsize for RK4 method
