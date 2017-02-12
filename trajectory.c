@@ -18,26 +18,61 @@ double V, m, angle, G, C, h;
 double t, y, x;
 double p, q;
 
+double rotation, tank_x, tank_y, tank_z;
+
+typedef struct shell_params {
+     double x_local;
+     double y_local;
+// The next four are immutable and set at the time the shell is fired
+     double rotation;
+     double tank_x;
+     double tank_y;
+     double tank_z;
+// The next three will be the computed global coordinates of the shell
+     double x_global;
+     double y_global;
+     double z_global;
+} shell_type;
+
+shell_type shell;
+   
 void init(){
- 
-V     = 500.0;   // Initial Velocity            (m/sec)
-m     = 50.00;   // Projectile Mass             (kg)
-angle = 75.0;    // Angle of Gun above azimuth  (degrees)
-G     = 9.81;    // Acceleration due to Graviey (m/sec^2)
-C     = 0.05;  // Drag Coefficient 
 
-h     = 0.00001;   // Stepsize for RK4 method
+    V     = 500.0;   // Initial Velocity            (m/sec)
+    m     = 50.00;   // Projectile Mass             (kg)
+    angle = 75.0;    // Angle of Gun above azimuth  (degrees)
+    G     = 9.81;    // Acceleration due to Graviey (m/sec^2)
+    C     = 0.05;  // Drag Coefficient 
 
-// Set the initial value of x, y, and t
+    h     = 0.00001;   // Stepsize for RK4 method
 
-t = 0.0;
-y = 0.0;
-x = 0.0;
+    // Set initial tank position and gun rotation (degrees)
 
-// Initial values of velocity compoents
+    tank_x = 0;
+    tank_y = 0;
+    tank_z = 0;
+    rotation = 0.0;
 
-p = V*cos(angle*M_PI/180.0);
-q = V*sin(angle*M_PI/180.0);
+    // Set the initial value of x, y, and t
+
+    t = 0.0;
+    y = 0.0;
+    x = 0.0;
+
+    // Initial values of velocity compoents
+
+    p = V*cos(angle*M_PI/180.0);
+    q = V*sin(angle*M_PI/180.0);
+
+    // Put the initial values in the struct
+
+    shell.x_local=x;
+    shell.y_local=y;
+    shell.rotation=rotation;
+    shell.tank_x=tank_x;
+    shell.tank_y=tank_y;
+    shell.tank_z=tank_z;
+
 
 }
 
@@ -120,6 +155,13 @@ int main() {
     init();
     while(y >= 0.0) {
         //cout << t << " " << x << "  " << y << endl;
+        
+        // Update the struct with the new local x and y //
+
+        // Using tank coords and rotation stored in struct, 
+        // rotate the local coordinates and then translate them
+        // to the position of the tank using matrix methods learned
+        // in CSC 315.
         printf(" %f %f %f\n", t, x, y);
         step();
     }
