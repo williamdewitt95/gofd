@@ -66,8 +66,6 @@ void init(){
 
     // Put the initial values in the struct
 
-    shell.x_local=x;
-    shell.y_local=y;
     shell.rotation=rotation;
     shell.tank_x=tank_x;
     shell.tank_y=tank_y;
@@ -151,17 +149,102 @@ double dp, dq;
 	t = t + h;
 }
 
+void vmatm (int SIZE, float *pA, float *pB)
+
+// Matrix-vector multiplication
+// pA is a pointer to the first element of matrix A
+// pB is a pointer to the first element of vector B
+// On return, B will contain transformed coordinates
+{
+   int i, j;
+   float temp[4];
+
+   for (i=0; i<SIZE; i++)
+             temp[i] = 0.0;
+
+   for (i=0; i < SIZE; i++)
+     for (j = 0; j < SIZE; j++)
+           temp[i] += *(pA+(i*SIZE+j)) * *(pB+j);
+   
+   for (i=0; i<SIZE; i++)
+         *(pB+i) = temp[i];
+
+}
+
+
+void buildTranslate( float x, float y, float z, float *pA )
+// Constructs tranlation matrix to translate along x, y, and z axes
+{
+     pA[ 0] = 1.0; pA[ 1] = 0.0; pA[ 2] = 0.0; pA[ 3] =   x;
+     pA[ 4] = 0.0; pA[ 5] = 1.0; pA[ 6] = 0.0; pA[ 7] =   y;
+     pA[ 8] = 0.0; pA[ 9] = 0.0; pA[10] = 1.0; pA[11] =   z;
+     pA[12] = 0.0; pA[13] = 0.0; pA[14] = 0.0; pA[15] = 1.0;
+}
+
+void buildRotateZ( float theta, float *pA )
+{
+// Constructs rotation matrix about Z axis
+
+     float phi;
+
+     // Convert degrees to radians
+
+     phi = theta * M_PI / 180.0;
+
+     pA[ 0] =  cos(phi); pA[ 1] = sin(phi); pA[ 2] = 0.0; pA[ 3] = 0.0;
+     pA[ 4] = -sin(phi); pA[ 5] = cos(phi); pA[ 6] = 0.0; pA[ 7] = 0.0;
+     pA[ 8] = 0.0;       pA[ 9] = 0.0;      pA[10] = 1.0; pA[11] = 0.0;
+     pA[12] = 0.0;       pA[13] = 0.0;      pA[14] = 0.0; pA[15] = 1.0;
+}      
+
+
+
+
+void applyTransformation( float *vp, int vpts, float *TM ) 
+// Applies the given transformation matrix TM to the vector vp containing
+// all of the homegenous coordinates to define the object
+{
+	float temp[4];
+	float *tmp;
+        int i;
+
+	tmp = &temp[0];
+
+	for (i=0;i<vpts;i++)
+	{
+		*(tmp+0)= *(vp+(i*4)+0);
+		*(tmp+1)= *(vp+(i*4)+1);
+		*(tmp+2)= *(vp+(i*4)+2);
+		*(tmp+3)= *(vp+(i*4)+3);
+		vmatm( 4, TM, tmp );
+		*(vp+(i*4)+0) = *(tmp+0); 
+		*(vp+(i*4)+1) = *(tmp+1); 
+		*(vp+(i*4)+2) = *(tmp+2); 
+		*(vp+(i*4)+3) = *(tmp+3); 
+        }
+}
+
+
+
+void fromTankCoordsToGlobalCoords( shell_type &shell ) {
+    
 int main() {
+    double xtemp, ytemp;
     init();
     while(y >= 0.0) {
         //cout << t << " " << x << "  " << y << endl;
         
         // Update the struct with the new local x and y //
+        shell.x_local = x;
+        shell.y_local = y;
+
 
         // Using tank coords and rotation stored in struct, 
         // rotate the local coordinates and then translate them
         // to the position of the tank using matrix methods learned
         // in CSC 315.
+        fromTankCoordsToGlobalCoords( shell_type *shell ); 
+        
         printf(" %f %f %f\n", t, x, y);
         step();
     }
