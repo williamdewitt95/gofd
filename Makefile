@@ -19,7 +19,7 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 # System librarires to be linked
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
-all: build gofd
+all: build gofd tags
 
 build:
 	mkdir build
@@ -63,3 +63,7 @@ distclean: clean
 	cd $(IMAGE_DIR); make distclean
 	rm -rf build
 	rm -rf gofd
+
+tags: *.cpp *.h
+	ctags *.cpp *.h
+
