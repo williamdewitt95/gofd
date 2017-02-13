@@ -149,7 +149,7 @@ double dp, dq;
 	t = t + h;
 }
 
-void vmatm (int SIZE, float *pA, float *pB)
+void vmatm (int SIZE, double *pA, double *pB)
 
 // Matrix-vector multiplication
 // pA is a pointer to the first element of matrix A
@@ -157,7 +157,7 @@ void vmatm (int SIZE, float *pA, float *pB)
 // On return, B will contain transformed coordinates
 {
    int i, j;
-   float temp[4];
+   double temp[4];
 
    for (i=0; i<SIZE; i++)
              temp[i] = 0.0;
@@ -172,7 +172,7 @@ void vmatm (int SIZE, float *pA, float *pB)
 }
 
 
-void buildTranslate( float x, float y, float z, float *pA )
+void buildTranslate( double x, double y, double z, double *pA )
 // Constructs tranlation matrix to translate along x, y, and z axes
 {
      pA[ 0] = 1.0; pA[ 1] = 0.0; pA[ 2] = 0.0; pA[ 3] =   x;
@@ -181,11 +181,11 @@ void buildTranslate( float x, float y, float z, float *pA )
      pA[12] = 0.0; pA[13] = 0.0; pA[14] = 0.0; pA[15] = 1.0;
 }
 
-void buildRotateZ( float theta, float *pA )
+void buildRotateZ( double theta, double *pA )
 {
 // Constructs rotation matrix about Z axis
 
-     float phi;
+     double phi;
 
      // Convert degrees to radians
 
@@ -200,12 +200,12 @@ void buildRotateZ( float theta, float *pA )
 
 
 
-void applyTransformation( float *vp, int vpts, float *TM ) 
+void applyTransformation( double *vp, int vpts, double *TM ) 
 // Applies the given transformation matrix TM to the vector vp containing
 // all of the homegenous coordinates to define the object
 {
-	float temp[4];
-	float *tmp;
+	double temp[4];
+	double *tmp;
     int i;
 
 	tmp = &temp[0];
@@ -225,12 +225,12 @@ void applyTransformation( float *vp, int vpts, float *TM )
 
 }
 
-void fromTankCoordsToGlobalCoords( shell_type &shell ) {
+void fromTankCoordsToGlobalCoords( shell_type shell ) {
     
      double tmpstore[4];
      double TM[16], *pTM;
  
-     pTM = TM[0];
+     pTM = &TM[0];
 
      // Pull variable from shell structure into tmp vector for transformation    
      tmpstore[0] = shell.x_local;
@@ -243,7 +243,7 @@ void fromTankCoordsToGlobalCoords( shell_type &shell ) {
      // Apply the rotation
      applyTransformation( tmpstore, 1, pTM );
      // Build the appropriate translation matrix
-     buildTranslate( shell.tank_x, shell.tank_y, shell,tank_z, pTM);
+     buildTranslate( shell.tank_x, shell.tank_y, shell.tank_z, pTM);
      // Apply the tanslation
      applyTransformation( tmpstore, 1, pTM );
 
@@ -271,7 +271,7 @@ int main() {
         // rotate the local coordinates and then translate them
         // to the position of the tank using matrix methods learned
         // in CSC 315.
-        fromTankCoordsToGlobalCoords( shell_type *shell ); 
+        fromTankCoordsToGlobalCoords( shell_type &shell ); 
         
         printf(" %f %f %f\n", t, x, y);
         step();
