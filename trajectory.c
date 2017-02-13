@@ -206,7 +206,7 @@ void applyTransformation( float *vp, int vpts, float *TM )
 {
 	float temp[4];
 	float *tmp;
-        int i;
+    int i;
 
 	tmp = &temp[0];
 
@@ -221,13 +221,41 @@ void applyTransformation( float *vp, int vpts, float *TM )
 		*(vp+(i*4)+1) = *(tmp+1); 
 		*(vp+(i*4)+2) = *(tmp+2); 
 		*(vp+(i*4)+3) = *(tmp+3); 
-        }
+    }
+
 }
-
-
 
 void fromTankCoordsToGlobalCoords( shell_type &shell ) {
     
+     double tmpstore[4];
+     double TM[16], *pTM;
+ 
+     pTM = TM[0];
+
+     // Pull variable from shell structure into tmp vector for transformation    
+     tmpstore[0] = shell.x_local;
+     tmpstore[1] = 0.0;
+     tmpstore[2] = shell.y_local;
+     tmpstore[3] = 1.0;
+
+     // Build the appropriate rotation matrix
+     buildRotateZ( shell.rotation, pTM );
+     // Apply the rotation
+     applyTransformation( tmpstore, 1, pTM );
+     // Build the appropriate translation matrix
+     buildTranslate( shell.tank_x, shell.tank_y, shell,tank_z, pTM);
+     // Apply the tanslation
+     applyTransformation( tmpstore, 1, pTM );
+
+     // Copy results back to the structure
+     shell.x_global = tmpstore[0]; 
+     shell.y_global = tmpstore[1]; 
+     shell.z_global = tmpstore[2]; 
+     
+}
+
+ 
+     
 int main() {
     double xtemp, ytemp;
     init();
