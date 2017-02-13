@@ -81,7 +81,9 @@ void scaleMouse(int &x, int &y){
 	x+=GLOBAL.WORLD_COORDINATE_MIN_X;
 }
 void FPS_CameraMovement(int x,int y){
-	double movementDivisor = 6.0;
+	
+	//=============================== CHANGE THE VALUE OF movementDivisor TO CHANGE LOOK SENSITIVITY ======
+	double movementDivisor = 50.0;
 	//x and y are window cordinates
 	//it is up to us to get deltas
 	y=GLOBAL.WINDOW_MAX_Y-y;

@@ -10,6 +10,7 @@
 #include "building.h"
 #include "tank.h"
 #include "target.h"
+#include "matrix.h"
 using std::cin;
 using std::cout;
 
@@ -18,7 +19,7 @@ std::vector<Target*> targets;
 double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
-const double camMove_speed = 0.125 / 2.0;
+const double camMove_speed = 0.25 / 2.0;
 double tankSpeed = 0;
 double tankScale = 0;
 double tankBaseRotate = 0;
@@ -26,6 +27,7 @@ double tankTowerRotate = 0;
 double tankCannonRotate = 0;
 bool laserOn = true;
 Tank * tank;
+
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -316,9 +318,11 @@ int main(int argc,char** args){
 	//make the camera set to a sane default
 	FPS_CameraMovement(0,0);
 
+	targets.push_back(new Target(Point(50,0,3)));
+
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){
-			buildings.push_back(new Building(Point(20*x,20*y,0)));
+			buildings.push_back(new Building(Point(150*x + 50,150*y + 50,0)));
 			targets.push_back(new Target(Point(20*x, 20*y, 3)));
 		}
 	}

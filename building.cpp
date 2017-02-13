@@ -12,11 +12,11 @@ Building::Building(Point center){
 		sides[sides.size()-1].setColor(255,255,255);
 		sides[sides.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -5, -5,  20));
-		points.push_back(Point(  -5, -5,   0));
-		points.push_back(Point(   5, -5,   0));
-		points.push_back(Point(   5, -5,  20));
-		points.push_back(Point(  -5, -5,  20));
+		points.push_back(Point(  -40, -40,  200));
+		points.push_back(Point(  -40, -40,   0));
+		points.push_back(Point(   40, -40,   0));
+		points.push_back(Point(   40, -40,  200));
+		points.push_back(Point(  -40, -40,  200));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -32,11 +32,16 @@ Building::Building(Point center){
 		sides[sides.size()-1].setColor(255,255,255);
 		sides[sides.size()-1].setTesselation(true);
 
-		points.push_back(Point(   5,  5,  20));
-		points.push_back(Point(   5,  5,   0));
-		points.push_back(Point(  -5,  5,   0));
-		points.push_back(Point(  -5,  5,  20));
-		points.push_back(Point(   5,  5,  20));
+		//points.push_back(Point(   5,  5,  20));
+		//points.push_back(Point(   5,  5,   0));
+		//points.push_back(Point(  -5,  5,   0));
+		//points.push_back(Point(  -5,  5,  20));
+		//points.push_back(Point(   5,  5,  20));
+		points.push_back(Point(   40, 40,  200));
+                points.push_back(Point(   40, 40,   0));
+                points.push_back(Point(  -40, 40,   0));
+                points.push_back(Point(  -40, 40,  200));
+                points.push_back(Point(   40, 40,  200));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -52,11 +57,16 @@ Building::Building(Point center){
 		sides[sides.size()-1].setColor(255,255,255);
 		sides[sides.size()-1].setTesselation(true);
 
-		points.push_back(Point(   5, -5,  20));
-		points.push_back(Point(   5, -5,   0));
-		points.push_back(Point(   5,  5,   0));
-		points.push_back(Point(   5,  5,  20));
-		points.push_back(Point(   5, -5,  20));
+		//points.push_back(Point(   5, -5,  20));
+		//points.push_back(Point(   5, -5,   0));
+		//points.push_back(Point(   5,  5,   0));
+		//points.push_back(Point(   5,  5,  20));
+		//points.push_back(Point(   5, -5,  20));
+		points.push_back(Point(   40, -40,  200));
+                points.push_back(Point(   40, -40,   0));
+                points.push_back(Point(   40,  40,   0));
+                points.push_back(Point(   40,  40,  200));
+                points.push_back(Point(   40, -40,  200));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -72,11 +82,11 @@ Building::Building(Point center){
 		sides[sides.size()-1].setColor(255,255,255);
 		sides[sides.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -5,  5,  20));
-		points.push_back(Point(  -5,  5,   0));
-		points.push_back(Point(  -5, -5,   0));
-		points.push_back(Point(  -5, -5,  20));
-		points.push_back(Point(  -5,  5,  20));
+		points.push_back(Point(  -40,  40,  200));
+                points.push_back(Point(  -40,  40,   0));
+                points.push_back(Point(  -40, -40,   0));
+                points.push_back(Point(  -40, -40,  200));
+                points.push_back(Point(  -40,  40,  200));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
