@@ -349,8 +349,6 @@ Tank::Tank(Point center){
 
 
 void Tank::draw(){
-	// cout << baseAngle << "\n";
-
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
 	glScaled(scale, scale, scale);

@@ -19,6 +19,9 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 # System librarires to be linked
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
+#the available buildings that we depend on when building
+BUILDINGS = buildings/generic1.cpp
+
 all: build gofd tags
 
 build:
@@ -41,7 +44,7 @@ $(BUILD_DIR)/polygon3d.o: polygon3d.cpp polygon3d.h
 $(BUILD_DIR)/globals.o: globals.cpp globals.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) globals.cpp -c -o $(BUILD_DIR)/globals.o 
 
-$(BUILD_DIR)/building.o: building.cpp building.h
+$(BUILD_DIR)/building.o: building.cpp building.h $(BUILDINGS)
 	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
 
 $(BUILD_DIR)/tank.o: tank.cpp tank.h
@@ -65,8 +68,7 @@ clean:
 distclean: clean
 	cd $(IMAGE_DIR); make distclean
 	rm -rf build
-	rm -rf gofd
+	rm -f tags
 
 tags: *.cpp *.h
 	ctags *.cpp *.h
-
