@@ -59,6 +59,9 @@ void mouseMovement(int x,int y){
 void gameEngine(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
+	//printf("Here\n");
+	for(int x=0; x<targets.size();x++)
+		targets[x]->update();
 	GLOBAL.CAMERA_POS.z += camMove_vert;
 	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
@@ -319,7 +322,7 @@ int main(int argc,char** args){
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){
 			buildings.push_back(new Building(Point(20*x,20*y,0)));
-			targets.push_back(new Target(Point(20*x, 20*y, 3)));
+			targets.push_back(new Target(Point(20*x, 20*y, 15)));
 		}
 	}
 

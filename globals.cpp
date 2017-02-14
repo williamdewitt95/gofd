@@ -81,36 +81,36 @@ void scaleMouse(int &x, int &y){
 	x+=GLOBAL.WORLD_COORDINATE_MIN_X;
 }
 void FPS_CameraMovement(int x,int y){
-	double movementDivisor = 6.0;
-	//x and y are window cordinates
-	//it is up to us to get deltas
-	y=GLOBAL.WINDOW_MAX_Y-y;
-	int midX = GLOBAL.WINDOW_MAX_X/2;
-	int midY = GLOBAL.WINDOW_MAX_Y/2;
+        double movementDivisor = 6.0;
+        //x and y are window cordinates
+        //it is up to us to get deltas
+        y=GLOBAL.WINDOW_MAX_Y-y;
+        int midX = GLOBAL.WINDOW_MAX_X/2;
+        int midY = GLOBAL.WINDOW_MAX_Y/2;
 
-	int dx = x-midX;
-	int dy = y-midY;
+        int dx = x-midX;
+        int dy = y-midY;
 
-	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
-	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
-	angleH += dx/movementDivisor;
-	if(angleH>360)angleH-=360;
-	if(angleH<0)angleH+=360;
-	angleV += dy/movementDivisor;
-	if(angleV>90)angleV=90;
-	if(angleV<-90)angleV=-90;
+        double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
+        double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
+        angleH += dx/movementDivisor;
+        if(angleH>360)angleH-=360;
+        if(angleH<0)angleH+=360;
+        angleV += dy/movementDivisor;
+        if(angleV>90)angleV=90;
+        if(angleV<-90)angleV=-90;
 
-	// we will have a length of 5 for the line in the XY plane
-	GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
-	GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
-	// make the z from pathagarean formula - our angle is measured from the horizontal plane
-	GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
+        // we will have a length of 5 for the line in the XY plane
+        GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * cos(angleH*PI/180.0);
+        GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
+        // make the z from pathagarean formula - our angle is measured from the horizontal plane
+        GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
 
-	if(dx==0 && dy==0)
-		return; //we are not really doing anything, so we will simply ignore this thing
+        if(dx==0 && dy==0)
+                return; //we are not really doing anything, so we will simply ignore this thing
 
-	// printf("PassiveFunc\n%dx%d\n",dx,dy); // pixel deltas
-	// printf("PassiveFunc\n%f %f\n",angleH,angleV); // look angles
-	// printf("PassiveFunc\n%.2f %.2f %.2f\n",cameraLook.x,cameraLook.y,cameraLook.z); // look vector
-	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
+        // printf("PassiveFunc\n%dx%d\n",dx,dy); // pixel deltas
+        // printf("PassiveFunc\n%f %f\n",angleH,angleV); // look angles
+        // printf("PassiveFunc\n%.2f %.2f %.2f\n",cameraLook.x,cameraLook.y,cameraLook.z); // look vector
+        glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
 }
