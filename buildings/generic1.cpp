@@ -10,7 +10,7 @@ const int minFloors = 5;
 const int maxFloors = 15;
 const double floorHeight = 5;
 const double buildingWidth = 40;
-const double sidewalkWidth = 2;
+const double sidewalkWidth = 3;
 const double streetWidth = Building::distanceBetweenBuildings - buildingWidth/2.0;
 
 void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundingBox){
@@ -119,4 +119,25 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 
 	boundingBox = model; // copy the simple parts
 
+	// == Sidewalk ==
+	{
+		model.push_back(Polygon3d());
+		auto &points = model[model.size()-1].getPoints();
+		auto &texs = model[model.size()-1].getTexturePoints();
+		// loadTex("textures/cloud.png");
+		// model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/cloud.png"].textureRef);
+		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setTesselation(true);
+
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0                ,   0));
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth,   0));
+		points.push_back(Point(   buildingWidth/2.0                , -buildingWidth/2.0 - sidewalkWidth,   0));
+		points.push_back(Point(   buildingWidth/2.0                , -buildingWidth/2.0                ,   0));
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0                ,   0));
+		texs.push_back(Point(0,0,0));
+		texs.push_back(Point(0,1,0));
+		texs.push_back(Point(1,1,0));
+		texs.push_back(Point(1,0,0));
+		texs.push_back(Point(0,0,0));
+	}
 }
