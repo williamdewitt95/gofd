@@ -18,8 +18,8 @@ public:
 	Tank(Point center);
 	void draw();
 	void shoot();
-	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, bool firstPerson); // make the pendulum keep up with the frame rate
-	void turretFollowMouse(int x, int y, bool firstPerson);//turret + cannon follow mouse cursor
+	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate
+	void turretFollowMouse(int x, int y, int cameraMode);//turret + cannon follow mouse cursor
 	std::vector<std::vector<Polygon3d> > boundingBox(void);//return vector of vectors of individual bounding boxes
 };
 

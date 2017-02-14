@@ -388,7 +388,7 @@ void Tank::draw(){
 	glPopMatrix();
 }
 
-void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, bool firstPerson){
+void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
 	this->center.x += tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	this->center.y += tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
@@ -396,13 +396,13 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
-	FPS_CameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, firstPerson);//keep camera synced to mouse movements
-	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, firstPerson);//keep turret synced to mouse movements
+	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, cameraMode);//keep camera synced to mouse movements
+	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, cameraMode);//keep turret synced to mouse movements
 
 
 }
 
-void Tank::turretFollowMouse(int x, int y, bool firstPerson){//Turret + cannon follow the mouse cursor
+void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon follow the mouse cursor
 
 	double movementDivisor = 6.0;
 	//x and y are window cordinates
@@ -425,7 +425,7 @@ void Tank::turretFollowMouse(int x, int y, bool firstPerson){//Turret + cannon f
 
 	// we will have a length of 5 for the line in the XY plane
 	// bool firstPerson = false;//for rapid testing of different cameras
-	if(firstPerson){
+	if(cameraMode==0){
 		this->towerAngle = -1*angleH-90;//turret follows 
 	}
 	else{

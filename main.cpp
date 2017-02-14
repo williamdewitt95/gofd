@@ -25,7 +25,7 @@ double tankBaseRotate = 0;
 double tankTurretRotate = 0;
 double tankCannonRotate = 0;
 bool laserOn = true;
-bool firstPerson = true;
+int cameraMode = 0;
 Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -49,8 +49,8 @@ void mouseButtons(int but,int state,int x,int y){
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	FPS_CameraMovement(x,y,tank->center,firstPerson);
-	tank->turretFollowMouse(x, y,firstPerson);
+	cameraMovement(x,y,tank->center,cameraMode);
+	tank->turretFollowMouse(x, y,cameraMode);
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
@@ -69,7 +69,7 @@ void gameEngine(){
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
 	//iterate tank properties
-	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, firstPerson); // the things below need to be moved into this function
+	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
 
 
 	// tank->scale += tankScale;
@@ -157,8 +157,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
-		tankSpeed += 0.15;
-		
+		tankSpeed += 0.15;	
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
@@ -174,7 +173,12 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'm' || key == 'M'){
 		tankScale += 0.05;
 	}else if(key == 'z' || key == 'Z'){
-		firstPerson =  !firstPerson;
+		if(cameraMode>1){//currently looking at three camera modes that we switch between
+			cameraMode = 0;
+		}
+		else{
+			cameraMode++;
+		}
 	}else if(key == '-' || key == '_'){
 		tankCannonRotate -= 2;
 	}else if(key == '=' || key == '+'){
@@ -209,13 +213,13 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
-		// camMove_forward -= camMove_speed;
+		camMove_forward -= camMove_speed;
 	}else if(key == 's' || key == 'S'){
-		// camMove_forward += camMove_speed;
+		camMove_forward += camMove_speed;
 	}else if(key == 'a' || key == 'A'){
-		// camMove_strafe -= camMove_speed;
+		camMove_strafe -= camMove_speed;
 	}else if(key == 'd' || key == 'D'){
-		// camMove_strafe += camMove_speed;
+		camMove_strafe += camMove_speed;
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
 		tankSpeed -= 0.15;
@@ -227,8 +231,7 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		tankBaseRotate += 2;
 	}else if(key == 'u' || key == 'U'){
 		tankTurretRotate -= 2;
-	}else if(key == 'o' || key == 'O'){
-		tankTurretRotate += 2;
+	
 	}else if(key == 'n' || key == 'N'){
 		tankScale += 0.05;
 	}else if(key == 'm' || key == 'M'){

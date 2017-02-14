@@ -80,7 +80,23 @@ void scaleMouse(int &x, int &y){
 	y+=GLOBAL.WORLD_COORDINATE_MIN_Y;
 	x+=GLOBAL.WORLD_COORDINATE_MIN_X;
 }
-void FPS_CameraMovement(int x, int y, Point center, bool firstPerson){
+
+
+
+void cameraMovement(int x, int y, Point center, int cameraMode){
+	switch(cameraMode){
+		case 0:
+			FPS_CameraMovement(x,y,center);
+			break;
+		case 1:
+			thirdPerson_CameraMovement(x,y,center);
+			break;
+		case 2:
+			free_CameraMovement(x,y);
+	}
+	
+}
+void FPS_CameraMovement(int x, int y, Point center){//first person is actually sitting on top of turret
 	// bool firstPerson = false;//for rapid testing of different cameras
 	double movementDivisor = 3.0;
 	//x and y are window cordinates
@@ -103,7 +119,6 @@ void FPS_CameraMovement(int x, int y, Point center, bool firstPerson){
 	if(angleV<-90)angleV=-90;
 
 	
-	if(firstPerson){//first person is really sitting on top of turret
 			// we will have a length of 5 for the line in the XY plane
 		GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
 		GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
@@ -113,16 +128,7 @@ void FPS_CameraMovement(int x, int y, Point center, bool firstPerson){
 
 		GLOBAL.CAMERA_POS.x = center.x;
 		GLOBAL.CAMERA_POS.y = center.y;
-	}
-	else{//some distance away from the tank, looking at the tank's turret
-		GLOBAL.CAMERA_POS.x = center.x + 4*cos(angleH*PI/180.0);//camera rotates around the center at a radius of 4
-		GLOBAL.CAMERA_POS.y = center.y + 4*-sin(angleH*PI/180.0);
 
-		GLOBAL.CAMERA_LOOK_VECTOR.x = center.x - GLOBAL.CAMERA_POS.x;//look at the center
-		GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
-		GLOBAL.CAMERA_LOOK_VECTOR.z = center.z+2 - GLOBAL.CAMERA_POS.z;
-
-	}
 
 
 	// 
@@ -132,15 +138,6 @@ void FPS_CameraMovement(int x, int y, Point center, bool firstPerson){
 
 
 	// GLOBAL.CAMERA_LOOK_VECTOR.z = 0;
-
-
-
-
-
-
-
-
-
 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
@@ -153,7 +150,7 @@ void FPS_CameraMovement(int x, int y, Point center, bool firstPerson){
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
 }
 
-void FPS_CameraMovement(int x, int y){
+void free_CameraMovement(int x, int y){//move the camera around not bound to the tank
 	double movementDivisor = 6.0;
 	//x and y are window cordinates
 	//it is up to us to get deltas
@@ -186,3 +183,45 @@ void FPS_CameraMovement(int x, int y){
 
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
 }
+
+void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the tank, focused on the tank (over the shoulder view)
+	double movementDivisor = 3.0;
+	//x and y are window cordinates
+	//it is up to us to get deltas
+	y=GLOBAL.WINDOW_MAX_Y-y;
+	int midX = GLOBAL.WINDOW_MAX_X/2;
+	int midY = GLOBAL.WINDOW_MAX_Y/2;
+
+	int dx = x-midX;
+	int dy = y-midY;
+	
+
+	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
+	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
+	angleH += dx/movementDivisor;
+	if(angleH>360)angleH-=360;
+	if(angleH<0)angleH+=360;
+	angleV += dy/movementDivisor;
+	if(angleV>90)angleV=90;
+	if(angleV<-90)angleV=-90;
+
+	GLOBAL.CAMERA_POS.x = center.x + 4*cos(angleH*PI/180.0);//camera rotates around the center at a radius of 4
+	GLOBAL.CAMERA_POS.y = center.y + 4*-sin(angleH*PI/180.0);
+
+	GLOBAL.CAMERA_LOOK_VECTOR.x = center.x - GLOBAL.CAMERA_POS.x;//look at the center
+	GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
+	GLOBAL.CAMERA_LOOK_VECTOR.z = center.z+2 - GLOBAL.CAMERA_POS.z;
+
+	
+
+
+	// 
+	// GLOBAL.CAMERA_POS.z = center_z + sin(angleV*PI/180.0)+2;
+	GLOBAL.CAMERA_POS.z=2;
+	if(dx==0 && dy==0)
+		return; //we are not really doing anything, so we will simply ignore this thing
+
+	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
+
+}
+
