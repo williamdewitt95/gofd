@@ -158,7 +158,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
 		tankSpeed += 0.15;
-
+		
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
@@ -286,7 +286,7 @@ void keyboardButtonsUp_special(int key,int x,int y){
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA);
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);

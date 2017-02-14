@@ -340,6 +340,10 @@ Tank::Tank(Point center){
 		texs.push_back(Point(1,0,0));
 		texs.push_back(Point(0,0,0));
 	}
+	
+	totalBoundingBox.push_back(base);
+	totalBoundingBox.push_back(tower);
+	totalBoundingBox.push_back(cannon);
 }
 
 
@@ -441,8 +445,8 @@ void Tank::turretFollowMouse(int x, int y, bool firstPerson){//Turret + cannon f
 
 
 
-std::vector<Polygon3d> Tank::boundingBox(){
-	return this->base;
+std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
+	return this->totalBoundingBox;
 }
 
 void Tank::shoot() {}
