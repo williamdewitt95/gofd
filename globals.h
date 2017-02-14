@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <string>
 #include "imageLibrary/image.h"
+#include "tank.h"
 
 #define PI 3.14159265358979
 
@@ -63,9 +64,11 @@ public:
 };
 
 extern GLOBAL_SETTINGS GLOBAL;
+//extern Tank * tank;
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
 void FPS_CameraMovement(int x,int y);
+void drawTank (void);
 
 #endif

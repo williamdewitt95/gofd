@@ -1,30 +1,72 @@
-CFLAGS = -std=gnu++0x -lGL -lGLU -lglut -ljpeg -lpng -O2
 
-main: build main.cpp build/vector_basics.o build/polygon3d.o build/globals.o build/building.o build/target.o imageLibrary/image.a 
-	g++ -o main main.cpp $(wildcard build/*.o) imageLibrary/image.a $(CFLAGS)
+CC       = g++
+CFLAGS   = -std=gnu++0x 
+OPTFLAGS = -O2
+
+# Setup names for custom directories -- make sure there are no spaces after the directory names
+BUILD_DIR   = build
+IMAGE_DIR   = imageLibrary
+
+# Setup objects  (add new object files here an create a target line for them below 
+OBJS        = vector_basics.o polygon3d.o globals.o \
+              building.o tank.o target.o projectile.o
+BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
+
+# Setup user defined libraries
+USER_LIBS   = image.a
+LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
+
+# System librarires to be linked
+LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
+
+all: build gofd tags
 
 build:
 	mkdir build
 
-build/vector_basics.o: vector_basics.cpp vector_basics.h
-	g++ $(CFLAGS) -o $@ -c $<
-build/polygon3d.o: polygon3d.cpp polygon3d.h
-	g++ $(CFLAGS) -o $@ -c $<
-build/globals.o: globals.cpp globals.h
-	g++ $(CFLAGS) -o $@ -c $<
-build/building.o: building.cpp building.h
-	g++ $(CFLAGS) -o $@ -c $<
-build/target.o: target.cpp target.h
-	g++ $(CFLAGS) -o $@ -c $<
+# The new executable target will be called gofd
+gofd: main.o $(BUILD_OBJS) $(LIB_OBJS)
+	$(CC) $(CFLAGS) -o gofd main.o $(BUILD_OBJS) $(LIB_OBJS) $(LDFLAGS)
 
-imageLibrary/image.a:
-	cd imageLibrary; make;
+# These are the object file targets 
+main.o: main.cpp  
+	$(CC) $(CFLAGS) main.cpp -c -o main.o   
+
+$(BUILD_DIR)/vector_basics.o: vector_basics.cpp vector_basics.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) vector_basics.cpp -c  -o $(BUILD_DIR)/vector_basics.o 
+
+$(BUILD_DIR)/polygon3d.o: polygon3d.cpp polygon3d.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) polygon3d.cpp -c -o $(BUILD_DIR)/polygon3d.o 
+
+$(BUILD_DIR)/globals.o: globals.cpp globals.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) globals.cpp -c -o $(BUILD_DIR)/globals.o 
+
+$(BUILD_DIR)/building.o: building.cpp building.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
+
+$(BUILD_DIR)/tank.o: tank.cpp tank.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) tank.cpp -c -o $(BUILD_DIR)/tank.o 
+
+$(BUILD_DIR)/target.o: target.cpp target.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) target.cpp -c -o $(BUILD_DIR)/target.o 
+
+$(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
+
+# Drop into the subdirectory to create the image library
+$(IMAGE_DIR)/image.a:
+	cd $(IMAGE_DIR); make;
 
 clean:
 	rm -f *.o
 	rm -f build/*.o
-	rm -f main
+	rm -f gofd 
 
 distclean: clean
-	cd imageLibrary; make distclean
-	
+	cd $(IMAGE_DIR); make distclean
+	rm -rf build
+	rm -rf gofd
+
+tags: *.cpp *.h
+	ctags *.cpp *.h
+
