@@ -83,6 +83,72 @@ double& Point::operator[](const int index){
 	return this->data[index];
 }
 
+Point Point::translatePoint(double x, double y, double z){
+
+	Point pnt; 
+
+	pnt.x = x;
+	pnt.y = y;
+	pnt.z = z;
+
+	*this += pnt;	  
+	
+	return *this;
+
+}
+
+Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){
+	
+	this->x *= scaleX;
+	this->y *= scaleY;
+	this->z *= scaleZ; 
+
+	return *this;
+}
+
+Point Point::rotatePoint(double theta, bool x, bool y, bool z){
+
+	float phi = theta * M_PI;
+
+	double tMat[4][4];
+
+
+	if(x){
+		std::cout << "rotate x" << std::endl;
+		tMat[0][0] = 1.0;	tMat[0][1] = 0.0;	tMat[0][2] = 0.0;       tMat[0][3] = 0.0;
+                tMat[1][0] = 0.0;	tMat[1][1] = cos(phi);  tMat[1][2] = sin(phi);  tMat[1][3] = 0.0;
+                tMat[2][0] = 0.0;       tMat[2][1] = -sin(phi); tMat[2][2] = cos(phi);  tMat[2][3] = 0.0;
+                tMat[3][0] = 0.0;       tMat[3][1] = 0.0;       tMat[3][2] = 0.0;       tMat[3][3] = 1.0;
+			
+
+	}
+
+	else if (y){
+		tMat[0][0] = cos(phi);  tMat[0][1] = -sin(phi); tMat[0][2] = 0.0;       tMat[0][3] = 0.0;
+                tMat[1][0] = 0.0;  	tMat[1][1] = 0.0;  	tMat[1][2] = 0.0;       tMat[1][3] = 0.0;
+                tMat[2][0] = sin(phi);  tMat[2][1] = cos(phi);  tMat[2][2] = 1.0;       tMat[2][3] = 0.0;
+                tMat[3][0] = 0.0;       tMat[3][1] = 0.0;       tMat[3][2] = 0.0;       tMat[3][3] = 1.0;
+	}
+
+	else if (z){
+		tMat[0][0] = cos(phi);	tMat[0][1] = -sin(phi); tMat[0][2] = 0.0;	tMat[0][3] = 0.0;
+		tMat[1][0] = sin(phi);	tMat[1][1] = cos(phi);  tMat[1][2] = 0.0;	tMat[1][3] = 0.0;
+		tMat[2][0] = 0.0;	tMat[2][1] = 0.0;	tMat[2][2] = 1.0; 	tMat[2][3] = 0.0;
+		tMat[3][0] = 0.0;	tMat[3][1] = 0.0;	tMat[3][2] = 0.0;	tMat[3][3] = 1.0;
+	}
+
+	Point tmp;
+	//tmp->x = 0, tmp->y = 0, tmp->z = 0;
+
+	tmp.x = this->x*tMat[0][0] + this->y*tMat[0][1] + this->z*tMat[0][2]; 
+	tmp.y = this->x*tMat[1][0] + this->y*tMat[1][1] + this->z*tMat[1][2];
+	tmp.z = this->x*tMat[2][0] + this->y*tMat[2][1] + this->z*tMat[2][2];
+
+	return tmp; 
+	
+
+}
+
 //==============================================================================
 // VECTOR CLASS
 //==============================================================================

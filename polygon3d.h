@@ -43,6 +43,7 @@ public:
 	Polygon3d();
 	Polygon3d(double,double,double); // specifies the center
 	Polygon3d(std::vector<Point>&);
+	Polygon3d(Point pnt, std::vector<Point>& points);
 	Polygon3d(Triangle &);
 	Polygon3d(const Polygon3d&);
 
@@ -78,6 +79,8 @@ public:
 
 	Polygon3d getTransform(); // get the transform of the points of the polygon to where they should be
 	void recenter(); // moves the center of the polygon to be at the centroid of the shape but does not change its position
+
+	std::vector<Point> getWorldPoints();
 
 	void draw();
 	static void __secretVertexDrawingFunction(void *data, void *polygon);

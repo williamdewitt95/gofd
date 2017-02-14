@@ -77,6 +77,17 @@ void gameEngine(){
 	tank->towerAngle += tankTowerRotate;
 	tank->cannonAngle += tankCannonRotate;
 	tank->scale += tankScale;
+
+	
+	/*
+		Apply vechile transformations:
+	 *
+	 * 	 *		*update center points (world coords)
+	 * 	 	 *		*transform vertices (local coords) 
+	 * 	 	 	 *
+	 * 	 	 	 	 *	Carry out collision detection 
+	 * 	 	 	 	 		buildings, vechiles, projectiles and 
+	*/
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);
