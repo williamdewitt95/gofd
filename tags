@@ -72,9 +72,10 @@ boundingBox	building.cpp	/^std::vector<Polygon3d> Building::boundingBox(){$/;"	f
 boundingBox	projectile.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Projectile	typeref:typename:std::vector<Polygon3d>
 boundingBox	tank.cpp	/^std::vector<Polygon3d> Tank::boundingBox(){$/;"	f	class:Tank	typeref:typename:std::vector<Polygon3d>
 boundingBox	target.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Target	typeref:typename:std::vector<Polygon3d>
+box	building.h	/^	std::vector<Polygon3d> box;$/;"	m	class:Building	typeref:typename:std::vector<Polygon3d>
 buildings	main.cpp	/^std::vector<Building*> buildings; \/\/ must be a pointer so that we dont try to allocated GL thi/;"	v	typeref:typename:std::vector<Building * >
 camMove_forward	main.cpp	/^double camMove_forward = 0;$/;"	v	typeref:typename:double
-camMove_speed	main.cpp	/^const double camMove_speed = 0.125 \/ 2.0;$/;"	v	typeref:typename:const double
+camMove_speed	main.cpp	/^const double camMove_speed = 0.25 \/ 2.0;$/;"	v	typeref:typename:const double
 camMove_strafe	main.cpp	/^double camMove_strafe = 0;$/;"	v	typeref:typename:double
 camMove_vert	main.cpp	/^double camMove_vert = 0;$/;"	v	typeref:typename:double
 cannon	tank.h	/^	std::vector<Polygon3d> base, tower, cannon;$/;"	m	class:Tank	typeref:typename:std::vector<Polygon3d>
@@ -92,6 +93,7 @@ data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anona66eb382010a	t
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anona66eb382030a	typeref:typename:double[3]
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg	typeref:typename:Vector
 display	main.cpp	/^void display(){$/;"	f	typeref:typename:void
+distanceBetweenBuildings	building.h	/^	static constexpr double distanceBetweenBuildings = 60;$/;"	m	class:Building	typeref:typename:constexpr double
 dot	vector_basics.cpp	/^double Vector::dot(Vector& other){$/;"	f	class:Vector	typeref:typename:double
 dotProduct	vector_basics.cpp	/^double Vector::dotProduct(Vector& other){$/;"	f	class:Vector	typeref:typename:double
 draw	building.cpp	/^void Building::draw(){$/;"	f	class:Building	typeref:typename:void
@@ -134,6 +136,7 @@ loadTex	globals.cpp	/^void loadTex(std::string name){$/;"	f	typeref:typename:voi
 magnitude	vector_basics.cpp	/^double Vector::magnitude(){$/;"	f	class:Vector	typeref:typename:double
 main	main.cpp	/^int main(int argc,char** args){$/;"	f	typeref:typename:int
 maxRadius	polygon3d.h	/^	double maxRadius; \/\/ special little optimization for collision checking$/;"	m	class:Polygon3d	typeref:typename:double
+model	building.h	/^	std::vector<Polygon3d> model;$/;"	m	class:Building	typeref:typename:std::vector<Polygon3d>
 mouseButtons	main.cpp	/^void mouseButtons(int but,int state,int x,int y){$/;"	f	typeref:typename:void
 mouseMovement	main.cpp	/^void mouseMovement(int x,int y){$/;"	f	typeref:typename:void
 name	globals.h	/^	std::string name;$/;"	m	struct:TextureInfo	typeref:typename:std::string
@@ -191,7 +194,6 @@ setTexture	polygon3d.cpp	/^void Polygon3d::setTexture(GLuint tex){$/;"	f	class:P
 setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(Vector& x){$/;"	f	class:Polygon3d	typeref:typename:void
 setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(double x, double y, double z){$/;"	f	class:Polygon3d	typeref:typename:void
 shoot	tank.cpp	/^void Tank::shoot() {}/;"	f	class:Tank	typeref:typename:void
-sides	building.h	/^	std::vector<Polygon3d> sides;$/;"	m	class:Building	typeref:typename:std::vector<Polygon3d>
 tank	main.cpp	/^Tank * tank;$/;"	v	typeref:typename:Tank *
 tankBaseRotate	main.cpp	/^double tankBaseRotate = 0;$/;"	v	typeref:typename:double
 tankCannonRotate	main.cpp	/^double tankCannonRotate = 0;$/;"	v	typeref:typename:double

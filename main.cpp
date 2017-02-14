@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include <string>
 #include <math.h>
 #include <vector>
@@ -18,7 +19,7 @@ std::vector<Target*> targets;
 double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
-const double camMove_speed = 0.125 / 2.0;
+const double camMove_speed = 0.25 / 2.0;
 double tankSpeed = 0;
 double tankScale = 0;
 double tankBaseRotate = 0;
@@ -307,6 +308,9 @@ int main(int argc,char** args){
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
 
+	//let people use random numbers without worrying about how to seed things
+	srand(time(NULL));
+
 	// enable blending to have translucent materials
 	// you must draw objects back to front to get proper blending
 	//glEnable(GL_BLEND);
@@ -318,7 +322,11 @@ int main(int argc,char** args){
 
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){
-			buildings.push_back(new Building(Point(20*x,20*y,0)));
+			buildings.push_back(new Building(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y,
+					0)
+				));
 			targets.push_back(new Target(Point(20*x, 20*y, 3)));
 		}
 	}
