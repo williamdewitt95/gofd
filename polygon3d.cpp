@@ -8,6 +8,7 @@ Polygon3d::Polygon3d(){
 	texture = 0;
 	hasTex = false;
 }
+
 Polygon3d::Polygon3d(double x,double y,double z){
 	this->center = Point(x,y,z);
 
@@ -28,6 +29,21 @@ Polygon3d::Polygon3d(std::vector<Point>& points){
 	texture = 0;
 	hasTex = false;
 }
+
+Polygon3d::Polygon3d(Point pnt, std::vector<Point>& points){
+
+	this->center = pnt;
+	this->vertexList = points;
+	
+	drawTesselate = true;
+	GLubyte color[4]={0,0,0,0};
+	scale = 1;
+	maxRadius = 0;
+	texture = 0;
+	hasTex = false;
+
+}
+
 Polygon3d::Polygon3d(Triangle &tri){
 	drawTesselate=true;
 	GLubyte color[4]={0,0,0,0}; //RGBA - 1 byte a piece
@@ -112,6 +128,7 @@ Vector Polygon3d::getVelocity(){
 void Polygon3d::setRotationSpeed(Vector& rot){
 	this->rotationSpeed = rot;
 }
+
 Vector Polygon3d::getRotationSpeed(){
 	return this->rotationSpeed;
 }
@@ -142,6 +159,25 @@ GLuint Polygon3d::getTexture(){
 std::vector<Point>& Polygon3d::getTexturePoints(){
 	return this->vertexTextureList;
 }
+
+std::vector<Point>& Polygon3d::getWorldPoints(){
+ 
+	//***********************************************
+	
+	std::vector<Point> worldCoords = this->vertexList; 
+
+	for(int i = 0; i < this->vertexList.size(); i++){
+		
+		worldCoords[i] = worldCoords[i].translatePoint(this->center[0], this->center[1], this->center[2]);
+		worldCoords[i] = worldCoords[i].scalePoint(this->scale, this->scale, this->scale);
+		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.x, 1, 0, 0 );
+		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.y, 0, 1, 0 );
+		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.z, 0, 0, 1 );		
+	}	
+
+	return worldCoords;
+}
+
 Point& Polygon3d::getTexturePos(int index){
 	return this->vertexTextureList[index];
 }

@@ -54,6 +54,17 @@ void gameEngine(){
 
 	GLOBAL.CAMERA_POS.x += camMove_strafe * sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+	
+	/*
+		Apply vechile transformations:
+	 *
+	 * 	 *		*update center points (world coords)
+	 * 	 	 *		*transform vertices (local coords) 
+	 * 	 	 	 *
+	 * 	 	 	 	 *	Carry out collision detection 
+	 * 	 	 	 	 		buildings, vechiles, projectiles and 
+	*/
+
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);
