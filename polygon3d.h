@@ -80,7 +80,7 @@ public:
 	Polygon3d getTransform(); // get the transform of the points of the polygon to where they should be
 	void recenter(); // moves the center of the polygon to be at the centroid of the shape but does not change its position
 
-	std::vector<Point>& getWorldPoints();
+	std::vector<Point> getWorldPoints();
 
 	void draw();
 	static void __secretVertexDrawingFunction(void *data, void *polygon);

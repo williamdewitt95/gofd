@@ -160,7 +160,7 @@ std::vector<Point>& Polygon3d::getTexturePoints(){
 	return this->vertexTextureList;
 }
 
-std::vector<Point>& Polygon3d::getWorldPoints(){
+std::vector<Point> Polygon3d::getWorldPoints(){
  
 	//***********************************************
 	
