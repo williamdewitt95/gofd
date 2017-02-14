@@ -9,7 +9,7 @@ IMAGE_DIR   = imageLibrary
 
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
-              building.o tank.o target.o 
+              building.o tank.o target.o projectile.o
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # Setup user defined libraries
@@ -49,6 +49,9 @@ $(BUILD_DIR)/tank.o: tank.cpp tank.h
 
 $(BUILD_DIR)/target.o: target.cpp target.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) target.cpp -c -o $(BUILD_DIR)/target.o 
+
+$(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
 
 # Drop into the subdirectory to create the image library
 $(IMAGE_DIR)/image.a:
