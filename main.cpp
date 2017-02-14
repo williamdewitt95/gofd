@@ -22,9 +22,10 @@ const double camMove_speed = 0.125 / 2.0;
 double tankSpeed = 0;
 double tankScale = 0;
 double tankBaseRotate = 0;
-double tankTowerRotate = 0;
+double tankTurretRotate = 0;
 double tankCannonRotate = 0;
 bool laserOn = true;
+int cameraMode = 0;
 Tank * tank;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -48,12 +49,13 @@ void mouseButtons(int but,int state,int x,int y){
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	FPS_CameraMovement(x,y);
+	cameraMovement(x,y,tank->center,cameraMode);
+	tank->turretFollowMouse(x, y,cameraMode);
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	FPS_CameraMovement(x,y);
+	// FPS_CameraMovement(x,y);
 }
 
 void gameEngine(){
@@ -67,15 +69,10 @@ void gameEngine(){
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
 	//iterate tank properties
-	tank->update(); // the things below need to be moved into this function
-	tank->center.x += tankSpeed * cos((tank->baseAngle + 90) * (M_PI / 180));
-	tank->center.y += tankSpeed * sin((tank->baseAngle + 90) * (M_PI / 180));
-	if ((tank->baseAngle > 360) || (tank->baseAngle < -360))
-		tank->baseAngle = 0;
-	tank->baseAngle += tankBaseRotate;
-	tank->towerAngle += tankTowerRotate;
-	tank->cannonAngle += tankCannonRotate;
-	tank->scale += tankScale;
+	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
+
+
+	// tank->scale += tankScale;
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);
@@ -145,6 +142,7 @@ void display(){
 	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
+
 }
 
 void keyboardButtons(unsigned char key, int x, int y){
@@ -159,7 +157,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
-		tankSpeed += 0.15;
+		tankSpeed += 0.15;	
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
@@ -167,13 +165,20 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate -= 2;
 	}else if(key == 'u' || key == 'U'){
-		tankTowerRotate += 2;
+		tankTurretRotate += 2;
 	}else if(key == 'o' || key == 'O'){
-		tankTowerRotate -= 2;
+		tankTurretRotate -= 2;
 	}else if(key == 'n' || key == 'N'){
 		tankScale -= 0.05;
 	}else if(key == 'm' || key == 'M'){
 		tankScale += 0.05;
+	}else if(key == 'z' || key == 'Z'){
+		if(cameraMode>1){//currently looking at three camera modes that we switch between
+			cameraMode = 0;
+		}
+		else{
+			cameraMode++;
+		}
 	}else if(key == '-' || key == '_'){
 		tankCannonRotate -= 2;
 	}else if(key == '=' || key == '+'){
@@ -225,9 +230,8 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate += 2;
 	}else if(key == 'u' || key == 'U'){
-		tankTowerRotate -= 2;
-	}else if(key == 'o' || key == 'O'){
-		tankTowerRotate += 2;
+		tankTurretRotate -= 2;
+	
 	}else if(key == 'n' || key == 'N'){
 		tankScale += 0.05;
 	}else if(key == 'm' || key == 'M'){
@@ -285,7 +289,7 @@ void keyboardButtonsUp_special(int key,int x,int y){
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA);
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
@@ -314,7 +318,7 @@ int main(int argc,char** args){
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
 	//make the camera set to a sane default
-	FPS_CameraMovement(0,0);
+	// FPS_CameraMovement(0,0,0,0,0);
 
 	for(int x=0;x<10;x++){
 		for(int y=0;y<10;y++){
