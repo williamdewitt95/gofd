@@ -140,4 +140,20 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 		texs.push_back(Point(1,0,0));
 		texs.push_back(Point(0,0,0));
 	}
+	Polygon3d sidewalk(model[model.size()-1]);
+
+	Vector rot(0,0,90);
+	sidewalk.setRotation(rot);
+	sidewalk.setColor(255,125,125);
+	model.push_back( sidewalk.getWorldPoints() );
+
+	rot.z = 180;
+	sidewalk.setRotation(rot);
+	sidewalk.setColor(125,255,125);
+	model.push_back( sidewalk.getWorldPoints() );
+
+	rot.z = 270;
+	sidewalk.setRotation(rot);
+	sidewalk.setColor(125,125,255);
+	model.push_back( sidewalk.getWorldPoints() );
 }

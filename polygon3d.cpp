@@ -160,11 +160,20 @@ std::vector<Point>& Polygon3d::getTexturePoints(){
 	return this->vertexTextureList;
 }
 
-std::vector<Point> Polygon3d::getWorldPoints(){
+Polygon3d Polygon3d::getWorldPoints(){
  
 	//***********************************************
 	
-	std::vector<Point> worldCoords = this->vertexList; 
+	Polygon3d poly(this->getPoints());
+	poly.color[0] = this->color[0];
+	poly.color[1] = this->color[1];
+	poly.color[2] = this->color[2];
+	poly.color[3] = this->color[3];
+	poly.drawTesselate = this->drawTesselate;
+	poly.texture = this->texture ;
+	poly.hasTex = this->hasTex ;
+	poly.vertexTextureList = this->vertexTextureList ;
+	std::vector<Point> &worldCoords = poly.getPoints(); 
 
 	for(int i = 0; i < this->vertexList.size(); i++){
 		
@@ -175,7 +184,7 @@ std::vector<Point> Polygon3d::getWorldPoints(){
 		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.z, 0, 0, 1 );		
 	}	
 
-	return worldCoords;
+	return poly;
 }
 
 Point& Polygon3d::getTexturePos(int index){

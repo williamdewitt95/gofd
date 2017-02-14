@@ -108,33 +108,35 @@ Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){
 
 Point Point::rotatePoint(double theta, bool x, bool y, bool z){
 
-	float phi = theta * M_PI;
+	float phi = theta * M_PI / 180.0;
 
 	double tMat[4][4];
 
 
 	if(x){
-		std::cout << "rotate x" << std::endl;
-		tMat[0][0] = 1.0;	tMat[0][1] = 0.0;	tMat[0][2] = 0.0;       tMat[0][3] = 0.0;
-                tMat[1][0] = 0.0;	tMat[1][1] = cos(phi);  tMat[1][2] = sin(phi);  tMat[1][3] = 0.0;
-                tMat[2][0] = 0.0;       tMat[2][1] = -sin(phi); tMat[2][2] = cos(phi);  tMat[2][3] = 0.0;
-                tMat[3][0] = 0.0;       tMat[3][1] = 0.0;       tMat[3][2] = 0.0;       tMat[3][3] = 1.0;
+		// std::cout << "rotate x " << theta << std::endl;
+		tMat[0][0] = 1.0;		tMat[0][1] = 0.0;		tMat[0][2] = 0.0;       tMat[0][3] = 0.0;
+        tMat[1][0] = 0.0;		tMat[1][1] = cos(phi);  tMat[1][2] = sin(phi);  tMat[1][3] = 0.0;
+        tMat[2][0] = 0.0;       tMat[2][1] = -sin(phi); tMat[2][2] = cos(phi);  tMat[2][3] = 0.0;
+        tMat[3][0] = 0.0;       tMat[3][1] = 0.0;       tMat[3][2] = 0.0;       tMat[3][3] = 1.0;
 			
 
 	}
 
 	else if (y){
-		tMat[0][0] = cos(phi);  tMat[0][1] = -sin(phi); tMat[0][2] = 0.0;       tMat[0][3] = 0.0;
-                tMat[1][0] = 0.0;  	tMat[1][1] = 0.0;  	tMat[1][2] = 0.0;       tMat[1][3] = 0.0;
-                tMat[2][0] = sin(phi);  tMat[2][1] = cos(phi);  tMat[2][2] = 1.0;       tMat[2][3] = 0.0;
-                tMat[3][0] = 0.0;       tMat[3][1] = 0.0;       tMat[3][2] = 0.0;       tMat[3][3] = 1.0;
+		// std::cout << "rotate y " << theta << std::endl;
+		tMat[0][0] = cos(phi);  tMat[0][1] = 0.0;       tMat[0][2] =-sin(phi);  tMat[0][3] = 0.0;
+        tMat[1][0] = 0.0;  		tMat[1][1] = 1.0;  		tMat[1][2] = 0.0;       tMat[1][3] = 0.0;
+        tMat[2][0] = sin(phi);  tMat[2][1] = 0.0;       tMat[2][2] = cos(phi);  tMat[2][3] = 0.0;
+        tMat[3][0] = 0.0;       tMat[3][1] = 0.0;       tMat[3][2] = 0.0;       tMat[3][3] = 1.0;
 	}
 
 	else if (z){
-		tMat[0][0] = cos(phi);	tMat[0][1] = -sin(phi); tMat[0][2] = 0.0;	tMat[0][3] = 0.0;
-		tMat[1][0] = sin(phi);	tMat[1][1] = cos(phi);  tMat[1][2] = 0.0;	tMat[1][3] = 0.0;
-		tMat[2][0] = 0.0;	tMat[2][1] = 0.0;	tMat[2][2] = 1.0; 	tMat[2][3] = 0.0;
-		tMat[3][0] = 0.0;	tMat[3][1] = 0.0;	tMat[3][2] = 0.0;	tMat[3][3] = 1.0;
+		// std::cout << "rotate z " << theta << std::endl;
+		tMat[0][0] = cos(phi);	tMat[0][1] = sin(phi);  tMat[0][2] = 0.0;		tMat[0][3] = 0.0;
+		tMat[1][0] = -sin(phi);	tMat[1][1] = cos(phi);  tMat[1][2] = 0.0;		tMat[1][3] = 0.0;
+		tMat[2][0] = 0.0;		tMat[2][1] = 0.0;		tMat[2][2] = 1.0; 		tMat[2][3] = 0.0;
+		tMat[3][0] = 0.0;		tMat[3][1] = 0.0;		tMat[3][2] = 0.0;		tMat[3][3] = 1.0;
 	}
 
 	Point tmp;
