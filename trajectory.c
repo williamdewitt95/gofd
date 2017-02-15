@@ -257,6 +257,7 @@ void fromTankCoordsToGlobalCoords( shell_type *shell ) {
 int main() {
     double xtemp, ytemp;
     shell_type shell;
+    // Pass pointer to shell structure!
     init( &shell );
     while(y >= 0.0) {
         //cout << t << " " << x << "  " << y << endl;
