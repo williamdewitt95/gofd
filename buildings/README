@@ -1,0 +1,7 @@
+Buildings that we can randomly pull from
+To add a building
+ - make your new buildingType.cpp file
+ - add the file to the building.cpp in the root folder (#include "building/dsa.cpp")
+ - add the file to the buildings variable in the Makefile
+ - increment the number for number of buildings in the building.cpp
+ - add you function call to the switch statement
