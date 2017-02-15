@@ -9,7 +9,7 @@ IMAGE_DIR   = imageLibrary
 
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o matrix.o \
-              building.o tank.o target.o 
+              building.o tank.o target.o projectile.o
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # Setup user defined libraries
@@ -19,7 +19,7 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 # System librarires to be linked
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
-all: build gofd
+all: build gofd tags
 
 build:
 	mkdir build
@@ -52,6 +52,8 @@ $(BUILD_DIR)/target.o: target.cpp target.h
 
 $(BUILD_DIR)/matrix.o: matrix.cpp matrix.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) matrix.cpp -c -o $(BUILD_DIR)/matrix.o 
+$(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
 
 # Drop into the subdirectory to create the image library
 $(IMAGE_DIR)/image.a:
@@ -66,3 +68,7 @@ distclean: clean
 	cd $(IMAGE_DIR); make distclean
 	rm -rf build
 	rm -rf gofd
+
+tags: *.cpp *.h
+	ctags *.cpp *.h
+
