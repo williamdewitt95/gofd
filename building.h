@@ -14,10 +14,10 @@ public:
 	std::vector<Polygon3d> model;
 	std::vector<Polygon3d> box;
 
-	static constexpr double sidewalkWidth = 3;
-	static constexpr double maxBuildingWidth = 40;
-	static constexpr double distanceBetweenBuildings = 60;
-	static constexpr double streetWidth = distanceBetweenBuildings - maxBuildingWidth;
+	static const double sidewalkWidth = 3;
+	static const double maxBuildingWidth = 40;
+	static const double distanceBetweenBuildings = 60;
+	static const double streetWidth = 60 - 40; // distanceBetweenBuildings - maxBuildingWidth;
 	Building(Point center);
 	void draw();
 	void update();

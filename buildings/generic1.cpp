@@ -26,15 +26,15 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point(  -buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
-		points.push_back(Point(  -buildingWidth/2.0, -buildingWidth/2.0,   0));
-		points.push_back(Point(   buildingWidth/2.0, -buildingWidth/2.0,   0));
+		points.push_back(Point(  -buildingWidth/2.0, -buildingWidth/2.0,                      0));
+		points.push_back(Point(   buildingWidth/2.0, -buildingWidth/2.0,                      0));
 		points.push_back(Point(   buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
 		points.push_back(Point(  -buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
-		texs.push_back(Point(0,0,0));
-		texs.push_back(Point(0,1,0));
-		texs.push_back(Point(1,1,0));
-		texs.push_back(Point(1,0,0));
-		texs.push_back(Point(0,0,0));
+		texs.push_back(Point(0                        ,         0, 0));
+		texs.push_back(Point(0                        , numFloors, 0));
+		texs.push_back(Point(buildingWidth/floorHeight, numFloors, 0));
+		texs.push_back(Point(buildingWidth/floorHeight,         0, 0));
+		texs.push_back(Point(0                        ,         0, 0));
 	}
 	Polygon3d singleSide(model[model.size()-1]);
 

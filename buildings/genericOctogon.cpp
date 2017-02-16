@@ -34,11 +34,11 @@ void createGenericOctogonBuilding(vector<Polygon3d> &model, vector<Polygon3d> &b
 		points.push_back(Point(   wallHalfWidth, -distFromCenter,   0));
 		points.push_back(Point(   wallHalfWidth, -distFromCenter,  numFloors*floorHeight));
 		points.push_back(Point(  -wallHalfWidth, -distFromCenter,  numFloors*floorHeight));
-		texs.push_back(Point(0,0,0));
-		texs.push_back(Point(0,1,0));
-		texs.push_back(Point(1,1,0));
-		texs.push_back(Point(1,0,0));
-		texs.push_back(Point(0,0,0));
+		texs.push_back(Point(0                            ,         0, 0));
+		texs.push_back(Point(0                            , numFloors, 0));
+		texs.push_back(Point(2.0*wallHalfWidth/floorHeight, numFloors, 0));
+		texs.push_back(Point(2.0*wallHalfWidth/floorHeight,         0, 0));
+		texs.push_back(Point(0                            ,         0, 0));
 	}
 	//now we copy the known good side and rotate it around the Z axis to put it into place
 	Polygon3d singleSide(model[model.size()-1]);
