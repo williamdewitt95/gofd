@@ -133,8 +133,8 @@ Point Point::rotatePoint(double theta, bool x, bool y, bool z){
 
 	else if (z){
 		// std::cout << "rotate z " << theta << std::endl;
-		tMat[0][0] = cos(phi);	tMat[0][1] = sin(phi);  tMat[0][2] = 0.0;		tMat[0][3] = 0.0;
-		tMat[1][0] = -sin(phi);	tMat[1][1] = cos(phi);  tMat[1][2] = 0.0;		tMat[1][3] = 0.0;
+		tMat[0][0] = cos(phi);	tMat[0][1] =-sin(phi);  tMat[0][2] = 0.0;		tMat[0][3] = 0.0;
+		tMat[1][0] = sin(phi);	tMat[1][1] = cos(phi);  tMat[1][2] = 0.0;		tMat[1][3] = 0.0;
 		tMat[2][0] = 0.0;		tMat[2][1] = 0.0;		tMat[2][2] = 1.0; 		tMat[2][3] = 0.0;
 		tMat[3][0] = 0.0;		tMat[3][1] = 0.0;		tMat[3][2] = 0.0;		tMat[3][3] = 1.0;
 	}
