@@ -329,8 +329,9 @@ int main(int argc,char** args){
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
-	for(int x=0;x<15;x++){
-		for(int y=0;y<15;y++){
+
+	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
+		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
 			buildings.push_back(new Building(Point(
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y,

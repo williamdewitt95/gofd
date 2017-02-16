@@ -18,6 +18,7 @@ public:
 	static const double maxBuildingWidth = 40;
 	static const double distanceBetweenBuildings = 60;
 	static const double streetWidth = 60 - 40; // distanceBetweenBuildings - maxBuildingWidth;
+
 	Building(Point center);
 	void draw();
 	void update();
