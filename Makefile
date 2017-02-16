@@ -20,7 +20,7 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
 #the available buildings that we depend on when building
-BUILDINGS = buildings/generic1.cpp
+BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp
 
 all: build gofd tags
 

@@ -6,14 +6,14 @@
 
 using std::vector;
 
-const int minFloors = 5;
-const int maxFloors = 15;
-const double floorHeight = 5;
-const double buildingWidth = Building::maxBuildingWidth;
-const double sidewalkWidth = Building::sidewalkWidth;
-const double streetWidth = Building::streetWidth;
-
 void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundingBox){
+	const int minFloors = 5;
+	const int maxFloors = 15;
+	const double floorHeight = 5;
+	const double buildingWidth = Building::maxBuildingWidth;
+	const double sidewalkWidth = Building::sidewalkWidth;
+	const double streetWidth = Building::streetWidth;
+	
 	// == main building ==
 	int numFloors = (rand() % (maxFloors - minFloors)) + minFloors;
 	{

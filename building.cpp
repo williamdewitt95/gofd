@@ -1,12 +1,16 @@
 #include "building.h"
 #include "buildings/generic1.cpp"
+#include "buildings/genericOctogon.cpp"
 
 Building::Building(Point center){
 	this->center = center;
-	const int numOfBuildings = 1;
+	const int numOfBuildings = 2;
 	switch(rand() % numOfBuildings){
 		case 0:
 			createGeneric1Building(model,box);
+			break;
+		case 1:
+			createGenericOctogonBuilding(model,box);
 			break;
 
 		// === insert new building before here ===
