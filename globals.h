@@ -11,6 +11,7 @@
 #include "polygon3d.h"
 
 #define PI 3.14159265358979
+#define NUM_BLOCKS_WIDE 15
 
 struct LIGHT_STRUCT{
 	double attenuation_linear;
