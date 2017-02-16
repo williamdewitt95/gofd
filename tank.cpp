@@ -4,6 +4,9 @@ using std::cout;
 
 
 Tank::Tank(Point center){
+	hitSphereCenter = Point(center.x, center.y, center.z + 1);
+	hitSphereRadius = 3.1;
+
 	this->center = center;
 	scale = 1;
 	baseAngle = 0;

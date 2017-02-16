@@ -9,6 +9,8 @@
 class Tank{
 public:
 	Point center;
+	Point hitSphereCenter;
+	double hitSphereRadius;
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
 	double tankSpeed;
