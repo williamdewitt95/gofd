@@ -8,7 +8,7 @@
 
 class Target{
 private:
-	double rotation = 0;
+	double rotation;
 
 public:
 	Point center;

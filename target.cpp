@@ -4,6 +4,7 @@ Target::Target(Point center)
 {
     this->center = center;
     this->radius = 3;
+    this->rotation = 0;
 
     {
         boundingBox.push_back(Polygon3d());
