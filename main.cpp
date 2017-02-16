@@ -329,8 +329,6 @@ int main(int argc,char** args){
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
-	//make the camera set to a sane default
-	// FPS_CameraMovement(0,0,0,0,0);
 
 	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
 		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
