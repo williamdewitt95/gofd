@@ -14,7 +14,7 @@ public:
 	std::vector<Polygon3d> model;
 	std::vector<Polygon3d> box;
 
-	static constexpr double distanceBetweenBuildings = 60;
+	static const double distanceBetweenBuildings = 60;
 	Building(Point center);
 	void draw();
 	void update(); // make the pendulum keep up with the frame rate
