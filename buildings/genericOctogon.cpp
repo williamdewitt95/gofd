@@ -59,12 +59,20 @@ void createGenericOctogonBuilding(vector<Polygon3d> &model, vector<Polygon3d> &b
 		model[model.size()-1].setTesselation(true);
 
 		Point firstPolyPoint(-distFromCenter, wallHalfWidth, numFloors*floorHeight); // we have this as the first point and simply rotate it around
-		Point firstTexPoint(-0.5 , 0.5/3.0, 0);
 
 		for(int x=0; x<=8; x++){ // gives 9 points with the first and last being repeated
 			points.push_back(firstPolyPoint.rotatePoint(45*x,0,0,1));
-			texs.push_back(firstTexPoint.rotatePoint(45*x,0,0,1) + Point(0.5, -0.5/3.0, 0));
 		}
+
+		texs.push_back(Point(   0    , 1.0/3.0 , 0));
+		texs.push_back(Point(   0    , 2.0/3.0 , 0));
+		texs.push_back(Point(1.0/3.0 ,   1.0   , 0));
+		texs.push_back(Point(2.0/3.0 ,   1.0   , 0));
+		texs.push_back(Point(  1.0   , 2.0/3.0 , 0));
+		texs.push_back(Point(  1.0   , 1.0/3.0 , 0));
+		texs.push_back(Point(2.0/3.0 ,    0    , 0));
+		texs.push_back(Point(1.0/3.0 ,    0    , 0));
+		texs.push_back(Point(   0    , 1.0/3.0 , 0));
 	}
 
 	boundingBox = model; // copy the simple parts
