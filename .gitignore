@@ -1,6 +1,7 @@
 **/build/*
-**/main
 **/gofd
+**/*~
+**/main
 **/*.o
 **/*.lo
 **/*.Plo

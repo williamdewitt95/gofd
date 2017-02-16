@@ -9,7 +9,7 @@ IMAGE_DIR   = imageLibrary
 
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
-              building.o tank.o target.o 
+              building.o tank.o target.o projectile.o
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # Setup user defined libraries
@@ -19,7 +19,10 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 # System librarires to be linked
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
-all: build gofd
+#the available buildings that we depend on when building
+BUILDINGS = buildings/generic1.cpp
+
+all: build gofd tags
 
 build:
 	mkdir build
@@ -41,7 +44,7 @@ $(BUILD_DIR)/polygon3d.o: polygon3d.cpp polygon3d.h
 $(BUILD_DIR)/globals.o: globals.cpp globals.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) globals.cpp -c -o $(BUILD_DIR)/globals.o 
 
-$(BUILD_DIR)/building.o: building.cpp building.h
+$(BUILD_DIR)/building.o: building.cpp building.h $(BUILDINGS)
 	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
 
 $(BUILD_DIR)/tank.o: tank.cpp tank.h
@@ -49,6 +52,9 @@ $(BUILD_DIR)/tank.o: tank.cpp tank.h
 
 $(BUILD_DIR)/target.o: target.cpp target.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) target.cpp -c -o $(BUILD_DIR)/target.o 
+
+$(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
 
 # Drop into the subdirectory to create the image library
 $(IMAGE_DIR)/image.a:
@@ -63,6 +69,6 @@ distclean: clean
 	cd $(IMAGE_DIR); make distclean
 	rm -rf build
 	rm -rf gofd
-
+	rm ctags
 ctags:
-	ctags *.h *.cpp
+	ctags *.h *.cpp 
