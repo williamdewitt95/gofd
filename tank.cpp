@@ -450,6 +450,16 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 
 }
 
+bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
+	double maxX, maxY, minX, minY;	
+	maxX = GLOBAL.WORLD_COORDINATE_MAX_X;
+	maxY = GLOBAL.WORLD_COORDINATE_MAX_Y;
+	minX = GLOBAL.WORLD_COORDINATE_MIN_X;
+	minY = GLOBAL.WORLD_COORDINATE_MIN_Y;
+
+	if (minX <= x && x <= maxX && minY <= y && y <= maxY) return 1;
+	else return 0;
+}
 
 
 std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
