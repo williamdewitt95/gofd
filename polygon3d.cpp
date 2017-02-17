@@ -224,6 +224,10 @@ Polygon3d& Polygon3d::operator=(Polygon3d other){
 
 	this->maxRadius=0; // special little optimization for collision checking
 
+	this->texture = other.texture;
+	this->hasTex = other.hasTex;
+	this->vertexTextureList = other.vertexTextureList;
+	
 	return *this;
 }
 
