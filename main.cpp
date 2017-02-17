@@ -339,7 +339,11 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(20*x, 20*y, 3)));
+			targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
+					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
+					3)
+				));
 		}
 	}
 
