@@ -2,6 +2,8 @@
 
 Projectile::Projectile(Point center){
 	this->center = center;
+	this->angleV = 45;
+	this->angleH = 0;
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -54,6 +56,13 @@ Projectile::Projectile(Point center){
 		points.push_back(Point(  -5, -5,  20));
 		points.push_back(Point(  -5,  5,  20));
 	}
+}
+
+Projectile::Projectile(Point center, double angleV, double angleH)
+{
+	this->center = center;
+	this->angleV = angleV;
+	this->angleH = angleH;
 }
 
 void Projectile::draw(){
