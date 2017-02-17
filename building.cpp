@@ -2,6 +2,11 @@
 #include "buildings/generic1.cpp"
 #include "buildings/genericOctogon.cpp"
 
+const double Building::sidewalkWidth = 3;
+const double Building::maxBuildingWidth = 40;
+const double Building::distanceBetweenBuildings = 60;
+const double Building::streetWidth = 60 - 40; // distanceBetweenBuildings - maxBuildingWidth;
+
 Building::Building(Point center){
 	this->center = center;
 	const int numOfBuildings = 2;
