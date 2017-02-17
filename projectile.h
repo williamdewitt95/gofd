@@ -14,7 +14,7 @@ public:
 
 	std::vector<Polygon3d> boundingBox;
 	Projectile(Point center);
-	Projectile(point center, point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
+	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();
 	void update();
 	std::vector<Polygon3d> getBoundingBox();

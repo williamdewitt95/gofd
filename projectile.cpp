@@ -13,8 +13,8 @@ Projectile::Projectile(Point center){
 	this->x = 0.0;
 	this->y = 0.0;
 
-	this->p = V*cos(angleV*M_PI/180.0);
-	this->q = V*sin(angleV*M_PI/180.0);
+	this->p = this->velocity*cos(angleV*M_PI/180.0);
+	this->q = this->velocity*sin(angleV*M_PI/180.0);
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -83,8 +83,8 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->x = 0.0;
 	this->y = 0.0;
 
-	this->p = V*cos(angleV*M_PI/180.0);
-	this->q = V*sin(angleV*M_PI/180.0);
+	this->p = this->velocity*cos(angleV*M_PI/180.0);
+	this->q = this->velocity*sin(angleV*M_PI/180.0);
 }
 
 void Projectile::draw(){
