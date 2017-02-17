@@ -79,7 +79,6 @@ void gameEngine(){
 	for(int i=0; i < projectiles.size(); i++){
 		projectiles[i]->update();
 	}
-	projectile->update();
 	
 	/*
 		Apply vechile transformations:
@@ -155,7 +154,6 @@ void display(){
 	for(int i=0; i<projectiles.size();i++){
 		projectiles[i]->draw();
 	}
-	projectile->draw();
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
