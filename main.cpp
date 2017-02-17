@@ -62,6 +62,9 @@ void mouseMovement(int x,int y){
 void gameEngine(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
+	//printf("Here\n");
+	for(int x=0; x<targets.size();x++)
+		targets[x]->update();
 	GLOBAL.CAMERA_POS.z += camMove_vert;
 	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
@@ -295,7 +298,6 @@ int main(int argc,char** args){
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
-
 	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
 		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
 			buildings.push_back(new Building(Point(
@@ -303,7 +305,11 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(20*x, 20*y, 3)));
+			targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
+					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
+					3)
+				));
 		}
 	}
 

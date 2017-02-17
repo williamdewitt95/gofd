@@ -81,8 +81,6 @@ void scaleMouse(int &x, int &y){
 	x+=GLOBAL.WORLD_COORDINATE_MIN_X;
 }
 
-
-
 void cameraMovement(int x, int y, Point center, int cameraMode){
 	switch(cameraMode){
 		case 0:
