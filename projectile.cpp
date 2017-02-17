@@ -2,8 +2,19 @@
 
 Projectile::Projectile(Point center){
 	this->center = center;
+	this->tankStart = center;
 	this->angleV = 45;
 	this->angleH = 0;
+	this->mass = 50.0;
+	this->velocity = 500.0;
+	this->drag = 0.05;
+
+	this->t = 0.0;
+	this->x = 0.0;
+	this->y = 0.0;
+
+	this->p = V*cos(angleV*M_PI/180.0);
+	this->q = V*sin(angleV*M_PI/180.0);
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -58,11 +69,22 @@ Projectile::Projectile(Point center){
 	}
 }
 
-Projectile::Projectile(Point center, double angleV, double angleH)
+Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH)
 {
 	this->center = center;
 	this->angleV = angleV;
 	this->angleH = angleH;
+	this->tankStart = tankStart;
+	this->mass = 50.0;
+	this->velocity = 500.0;
+	this->drag = 0.05;
+
+	this->t = 0.0;
+	this->x = 0.0;
+	this->y = 0.0;
+
+	this->p = V*cos(angleV*M_PI/180.0);
+	this->q = V*sin(angleV*M_PI/180.0);
 }
 
 void Projectile::draw(){
@@ -102,3 +124,4 @@ void Projectile::update()
 std::vector<Polygon3d> Projectile::getBoundingBox(){
 	return this->boundingBox;
 }
+

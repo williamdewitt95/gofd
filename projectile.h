@@ -8,12 +8,13 @@
 
 class Projectile{
 public:
-	Point center;
-	dobule angleV, angleH;
+	Point center, tankStart, local;
+	double angleV, angleH, velocity, mass, drag;
+	double step, t, x, y, p, q;
 
 	std::vector<Polygon3d> boundingBox;
 	Projectile(Point center);
-	Projectile(point center, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
+	Projectile(point center, point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();
 	void update();
 	std::vector<Polygon3d> getBoundingBox();
