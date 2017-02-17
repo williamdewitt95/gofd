@@ -14,7 +14,7 @@ Projectile::Projectile(Point center){
 
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
-	this->h = 0.00001;
+	this->h = 0.1;
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -84,7 +84,7 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
-	this->h = 0.00001;
+	this->h = 0.01;
 }
 
 void Projectile::draw(){
@@ -119,15 +119,17 @@ void Projectile::draw(){
 
 void Projectile::update()
 {
-	if(center.y < 0)
+	if(center.z > 0)
 	{
 		step();
-		Point temp = Point(this->local.x, this->local.y, 0);
-		temp.rotatePoint(this->angleH, false, false, true);
-		temp.translatePoint(this->tankStart.x, this->tankStart.y, this->tankStart.z);
+		Point temp = Point(this->local.x, 0, this->local.z);
+		temp = temp.rotatePoint(this->angleH, false, false, true);
+		temp = temp.translatePoint(this->tankStart.x, this->tankStart.y, this->tankStart.z);
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
+		if(center.z < 0)
+		printf("%f %f %f\n", this->center.x, this->center.y, this->center.z);
 	}
 }
 
@@ -203,7 +205,7 @@ void Projectile::step() {
     dp = (f1 + 2*f2 + 2*f3 + f4 ) / 6.0;
     dq = (g1 + 2*g2 + 2*g3 + g4 ) / 6.0;
     this->local.x = this->local.x + this->p*this->h + 0.5*dp*this->h*this->h; 
-    this->local.y = this->local.y + this->q*this->h + 0.5*dq*this->h*this->h; 
+    this->local.z = this->local.z + this->q*this->h + 0.5*dq*this->h*this->h; 
     this->p = this->p + dp*this->h;
     this->q = this->q + dq*this->h;
     this->t = this->t + this->h;
