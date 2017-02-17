@@ -1,14 +1,15 @@
 #ifndef TANK
 #define TANK
 
-#include "projectile.h"
 #include "globals.h"
 #include "polygon3d.h"
 #include <math.h>
 #include <vector>
+#include "projectile.h"
+
 
 class Tank{
-	
+
 public:
 	Point center;
 	double baseAngle, towerAngle, cannonAngle, scale;
