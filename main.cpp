@@ -9,9 +9,9 @@
 #include <iostream>
 #include "globals.h"
 #include "building.h"
+#include "projectile.h"
 #include "tank.h"
 #include "target.h"
-#include "projectile.h"
 using std::cin;
 using std::cout;
 
@@ -30,6 +30,7 @@ bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
 Projectile *projectile;
+std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -76,6 +77,9 @@ void gameEngine(){
 
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
+	for(int i=0; i < projectiles.size(); i++){
+		projectiles[i]->update();
+	}
 	projectile->update();
 	
 	/*
@@ -149,7 +153,9 @@ void display(){
 		buildings[x]->draw();
 
 	tank->draw();
-
+	for(int i=0; i<projectiles.size();i++){
+		projectiles[i]->draw();
+	}
 	projectile->draw();
 
 	for(int x=0; x<targets.size(); x++)
@@ -206,6 +212,9 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
 		camMove_vert -= camMove_speed;
+	}
+	else if(key == 'x' || key == 'X'){
+		projectiles.push_back(tank->shoot());
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -344,7 +353,7 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(20*x, 20*y, 3)));
+			// targets.push_back(new Target(Point(20*x, 20*y, 3)));
 
 		}
 	}

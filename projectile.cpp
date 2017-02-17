@@ -76,7 +76,7 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->angleH = angleH;
 	this->tankStart = tankStart;
 	this->mass = 50.0;
-	this->velocity = 500.0;
+	this->velocity = 5.0;
 	this->C = 0.05;
 
 	this->t = 0.0;

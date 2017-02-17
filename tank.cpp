@@ -454,4 +454,12 @@ std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
 	return this->totalBoundingBox;
 }
 
-void Tank::shoot() {}
+Projectile *Tank::shoot() {
+	double x = this->center.x + -1*(2.25-sin(cannonAngle*M_PI/180.0)) * sin(this->towerAngle*M_PI/180.0); 
+	double y = this->center.y + (2.25-sin(cannonAngle*M_PI/180.0)) * cos(this->towerAngle*M_PI/180.0); 
+	double z = this->center.z + 1.375 + sin(this->cannonAngle*M_PI/180.0);
+	printf("%.3f\n",z);
+
+	return new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90);
+	// return projectile;
+}

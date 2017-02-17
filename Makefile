@@ -47,7 +47,7 @@ $(BUILD_DIR)/globals.o: globals.cpp globals.h
 $(BUILD_DIR)/building.o: building.cpp building.h $(BUILDINGS)
 	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
 
-$(BUILD_DIR)/tank.o: tank.cpp tank.h
+$(BUILD_DIR)/tank.o: tank.cpp tank.h 
 	$(CC) $(CFLAGS) $(OPTFLAGS) tank.cpp -c -o $(BUILD_DIR)/tank.o 
 
 $(BUILD_DIR)/target.o: target.cpp target.h
