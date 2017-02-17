@@ -93,8 +93,10 @@ void Projectile::draw(){
 	GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
 	glColor3f(.1, .1, .1);
 	glTranslated(center.x,center.y,center.z);
-	glTranslated(.2, 0, 0);
+	glTranslated(-.1, 0, 0);
 	glRotated(90.0, 0.0, 1.0, 0.0);
+	glRotated(this->angleH, 0.0, 0.0, 1.0);
+	glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
 	shellCasing = gluNewQuadric();
 	gluCylinder(shellCasing, .05, .05, .2, 30, 1);
 	glPopMatrix();
@@ -102,18 +104,22 @@ void Projectile::draw(){
 	glPushMatrix();
 	glColor3f(.1, .1, .1);
 	glTranslated(center.x,center.y,center.z);
-	glTranslated(.4, 0, 0);
+	glTranslated(0, 0, 0);
 	glRotated(90.0, 0.0, 1.0, 0.0);
+	glRotated(this->angleH, 0.0, 0.0, 1.0);
+	glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
 	shellBottom = gluNewQuadric();
 	gluDisk(shellBottom, 0, .05, 30, 1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(center.x,center.y,center.z);
-	glTranslated(-.2, 0, 0);
+	glTranslated(.1, 0, 0);
 	glRotated(90.0, 0.0, 1.0, 0.0);
+	glRotated(this->angleH, 0.0, 0.0, 1.0);
+	glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
 	shellPoint = gluNewQuadric();
-	gluCylinder(shellPoint, 0, .05, .4, 30, 4);
+	gluCylinder(shellPoint, .05, .00, .4, 30, 4);
 	glPopMatrix();
 }
 
