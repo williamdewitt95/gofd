@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <iostream>
 
 #define PI 3.14159265358979
 
@@ -32,6 +33,9 @@ public:
 	Point operator*(const double scale);
 	Point& operator/=(const double scale);
 	Point operator/(const double scale);
+	Point translatePoint(double x, double y, double z);
+	Point scalePoint(double scaleX, double scaleY, double scaleZ);
+	Point rotatePoint(double theta, bool x, bool y, bool z);
 	bool operator==(const Point& other);
 	bool operator!=(const Point& other);
 	double& operator[](const int index);

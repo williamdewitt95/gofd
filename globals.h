@@ -8,8 +8,10 @@
 #include <string>
 #include "imageLibrary/image.h"
 #include "tank.h"
+#include "polygon3d.h"
 
 #define PI 3.14159265358979
+#define NUM_BLOCKS_WIDE 15
 
 struct LIGHT_STRUCT{
 	double attenuation_linear;
@@ -68,7 +70,10 @@ extern GLOBAL_SETTINGS GLOBAL;
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
-void FPS_CameraMovement(int x,int y);
+void cameraMovement(int x, int y, Point center, int cameraMode);
+void FPS_CameraMovement(int x, int y, Point center);
+void thirdPerson_CameraMovement(int x, int y, Point center);
+void free_CameraMovement(int x, int y);
 void drawTank (void);
 
 #endif
