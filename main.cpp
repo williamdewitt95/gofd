@@ -29,7 +29,6 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
-Projectile *projectile;
 std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -359,7 +358,6 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
-	projectile  = new Projectile(Point(1, 1, 1), Point(0, 0, 0), 45, 45);
 
 
 	glutMainLoop();
