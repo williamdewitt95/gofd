@@ -6,7 +6,7 @@
 #include <math.h>
 #include <vector>
 #include "projectile.h"
-
+class Projectile;
 
 class Tank{
 
