@@ -24,9 +24,16 @@ Building::Building(Point center){
 			printf("Building selection out of range\n");
 			break;
 	}
+	listName = glGenLists(1);
+	glNewList(listName,GL_COMPILE);
+	this->draw_CPU();
+	glEndList();
 }
 
 void Building::draw(){
+	glCallList(listName);
+}
+void Building::draw_CPU(){
 	glPushMatrix();
 	glTranslated(center.x,center.y,center.z);
 	for(int x=0; x<model.size(); x++)

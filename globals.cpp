@@ -233,3 +233,50 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 
 }
 
+void drawAxies(){
+	static unsigned int listName = 0;
+	if(listName!=0){
+		glCallList(listName);
+	}else{
+		listName = glGenLists(1);
+		glNewList(listName,GL_COMPILE);
+
+		glBegin(GL_LINES);
+			//X
+			glColor3ub(255, 0 , 0 );
+			glVertex3d(-50,0,0);
+			glVertex3d( 50,0,0);
+			//Y
+			glColor3ub( 0 ,255, 0 );
+			glVertex3d(0,-50,0);
+			glVertex3d(0, 50,0);
+			//Z
+			glColor3ub( 0 , 0 ,255);
+			glVertex3d(0,0,-50);
+			glVertex3d(0,0, 50);
+		glEnd();
+
+		// Label our axies
+		glColor3ub(255,255,255);
+
+		glPushMatrix();
+		glTranslated(45,0,0);
+		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+		glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(0,45,0);
+		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(0,0,45);
+		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+		glRotated(90,1,0,0);
+		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
+		glPopMatrix();
+
+		glEndList();
+	}
+
+}

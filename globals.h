@@ -75,5 +75,6 @@ void FPS_CameraMovement(int x, int y, Point center);
 void thirdPerson_CameraMovement(int x, int y, Point center);
 void free_CameraMovement(int x, int y);
 void drawTank (void);
+void drawAxies();
 
 #endif

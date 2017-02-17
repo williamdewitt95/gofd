@@ -104,42 +104,8 @@ void display(){
 	glMatrixMode(GL_MODELVIEW);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	{ // axies
-		glBegin(GL_LINES);
-			//X
-			glColor3ub(255, 0 , 0 );
-			glVertex3d(-50,0,0);
-			glVertex3d( 50,0,0);
-			//Y
-			glColor3ub( 0 ,255, 0 );
-			glVertex3d(0,-50,0);
-			glVertex3d(0, 50,0);
-			//Z
-			glColor3ub( 0 , 0 ,255);
-			glVertex3d(0,0,-50);
-			glVertex3d(0,0, 50);
-		glEnd();
+	drawAxies();
 
-		// Label our axies
-		glColor3ub(255,255,255);
-
-		glPushMatrix();
-		glTranslated(45,0,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
-		glPopMatrix();
-		glPushMatrix();
-		glTranslated(0,45,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
-		glPopMatrix();
-		glPushMatrix();
-		glTranslated(0,0,45);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glRotated(90,1,0,0);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
-		glPopMatrix();
-	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
 

@@ -19,8 +19,11 @@ public:
 	static const double distanceBetweenBuildings;
 	static const double streetWidth; // distanceBetweenBuildings - maxBuildingWidth;
 
+	unsigned int listName; // used for on GPU rendering
+
 	Building(Point center);
 	void draw();
+	void draw_CPU();
 	void update();
 	std::vector<Polygon3d> boundingBox();
 };
