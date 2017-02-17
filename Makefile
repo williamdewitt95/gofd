@@ -8,8 +8,8 @@ BUILD_DIR   = build
 IMAGE_DIR   = imageLibrary
 
 # Setup objects  (add new object files here an create a target line for them below 
-OBJS        = vector_basics.o polygon3d.o globals.o matrix.o \
-              building.o tank.o target.o projectile.o
+OBJS        = vector_basics.o polygon3d.o globals.o \
+              building.o tank.o target.o projectile.o collision.o
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # Setup user defined libraries
@@ -20,7 +20,7 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
 #the available buildings that we depend on when building
-BUILDINGS = buildings/generic1.cpp
+BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp
 
 all: build gofd tags
 
@@ -53,10 +53,11 @@ $(BUILD_DIR)/tank.o: tank.cpp tank.h
 $(BUILD_DIR)/target.o: target.cpp target.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) target.cpp -c -o $(BUILD_DIR)/target.o 
 
-$(BUILD_DIR)/matrix.o: matrix.cpp matrix.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) matrix.cpp -c -o $(BUILD_DIR)/matrix.o 
 $(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
+
+$(BUILD_DIR)/collision.o: collision.cpp collision.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) collision.cpp -c -o $(BUILD_DIR)/collision.o 
 
 # Drop into the subdirectory to create the image library
 $(IMAGE_DIR)/image.a:

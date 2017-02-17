@@ -11,7 +11,7 @@
 #include "building.h"
 #include "tank.h"
 #include "target.h"
-#include "matrix.h"
+#include "collision.h"
 using std::cin;
 using std::cout;
 
@@ -29,7 +29,6 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
-
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -331,13 +330,12 @@ int main(int argc,char** args){
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
-	//make the camera set to a sane default
-	// FPS_CameraMovement(0,0,0,0,0);
+	Point *a = new Point(0,0,0);
+	Point *b = new Point(0,0,5);
+	cout << "distance between a and b: " << distance(*a,*b) << "\n";
 
-	targets.push_back(new Target(Point(50,0,3)));
-
-	for(int x=0;x<10;x++){
-		for(int y=0;y<10;y++){
+	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
+		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
 			buildings.push_back(new Building(Point(
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y,
