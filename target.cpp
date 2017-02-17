@@ -64,17 +64,34 @@ Target::Target(Point center)
         points.push_back(Point( -3,  3, .1));
         points.push_back(Point( -3, -3, .1));
     }
+
+    // optimize it for further runtime
+    listName = glGenLists(1);
+    glNewList(listName,GL_COMPILE);
+    this->draw_CPU();
+    glEndList();
 }
 
-void Target::draw()
+void Target::draw(){
+    glPushMatrix();
+
+    glTranslated(center.x,center.y,center.z);
+    glRotated(90, 1, 0, 0);
+    glRotated(this->rotation, 0, 1, 0);
+    glCallList(listName);
+
+    glPopMatrix();
+}
+void Target::draw_CPU()
 {
+    // glPushMatrix();
+
     glColor3f(0.0, 0.0, 1.0);
     GLUquadricObj *cylinder;
     GLUquadricObj *topDisk, *bottomDisk;
-    glPushMatrix();
-	glTranslated(center.x,center.y,center.z);
-    glRotated(90, 1, 0, 0);
-    glRotated(this->rotation, 0, 1, 0);
+	// glTranslated(center.x,center.y,center.z);
+    // glRotated(90, 1, 0, 0);
+    // glRotated(this->rotation, 0, 1, 0);
 	cylinder = gluNewQuadric();
 	gluQuadricDrawStyle(cylinder, GLU_FILL);
 	gluCylinder(cylinder, this->radius, this->radius, .1, 30, 1);
@@ -82,7 +99,8 @@ void Target::draw()
     gluDisk(topDisk, 0, this->radius, 30, 1);
     bottomDisk = gluNewQuadric();
     gluDisk(bottomDisk, this->radius, 4, 30, 1);
-	glPopMatrix();
+
+	// glPopMatrix();
 }
 
 void Target::update()
