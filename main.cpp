@@ -9,6 +9,7 @@
 #include <iostream>
 #include "globals.h"
 #include "building.h"
+#include "projectile.h"
 #include "tank.h"
 #include "target.h"
 using std::cin;
@@ -28,6 +29,7 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -75,7 +77,9 @@ void gameEngine(){
 
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
-
+	for(int i=0; i < projectiles.size(); i++){
+		projectiles[i]->update();
+	}
 	
 	/*
 		Apply vechile transformations:
@@ -114,6 +118,9 @@ void display(){
 		buildings[x]->draw();
 
 	tank->draw();
+	for(int i=0; i<projectiles.size();i++){
+		projectiles[i]->draw();
+	}
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
@@ -169,6 +176,9 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
 		camMove_vert -= camMove_speed;
+	}
+	else if(key == 'x' || key == 'X'){
+		projectiles.push_back(tank->shoot());
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -315,6 +325,7 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
+
 
 	glutMainLoop();
 	return 0;

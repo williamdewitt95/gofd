@@ -12,6 +12,7 @@
 
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
+#define GRAVITY 9.81
 
 struct LIGHT_STRUCT{
 	double attenuation_linear;
