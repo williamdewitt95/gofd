@@ -219,9 +219,9 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 	// GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
 	// GLOBAL.CAMERA_LOOK_VECTOR.z = center.z - GLOBAL.CAMERA_POS.z +2;
 	// double zz = asin()
-	GLOBAL.CAMERA_LOOK_VECTOR.x = (center.x+1000)*-cos(angleH*PI/180.0);//circle with radius 1000 - far off focal point
-	GLOBAL.CAMERA_LOOK_VECTOR.y = (center.y+1000)*sin(angleH*PI/180.0);
-	GLOBAL.CAMERA_LOOK_VECTOR.z = (center.z+1000)*sin(angleV*PI/180.0);
+	GLOBAL.CAMERA_LOOK_VECTOR.x = (center.x+100000)*-cos(angleH*PI/180.0);//circle with radius 1000 - far off focal point
+	GLOBAL.CAMERA_LOOK_VECTOR.y = (center.y+100000)*sin(angleH*PI/180.0);
+	GLOBAL.CAMERA_LOOK_VECTOR.z = (center.z+100000)*sin(angleV*PI/180.0);
 
 	
 
