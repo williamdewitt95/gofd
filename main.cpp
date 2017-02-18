@@ -11,6 +11,7 @@
 #include "building.h"
 #include "tank.h"
 #include "target.h"
+#include "ai.h"
 using std::cin;
 using std::cout;
 
@@ -28,6 +29,7 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+AI_Tank * ai_tank;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -71,7 +73,8 @@ void gameEngine(){
 
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
-
+	ai_tank->updateTank();
+	
 	
 	/*
 		Apply vechile transformations:
@@ -144,6 +147,7 @@ void display(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
@@ -342,6 +346,7 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
+	ai_tank = new AI_Tank(new Tank(Point(-10,-10,0)));
 
 	glutMainLoop();
 	return 0;
