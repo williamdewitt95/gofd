@@ -83,6 +83,9 @@ void gameEngine(){
 	 * 	 	 	 	 *	Carry out collision detection 
 	 * 	 	 	 	 		buildings, vechiles, projectiles and 
 	*/
+
+	collisionDetect(tank, buildings,targets);
+
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);

@@ -12,6 +12,7 @@ public:
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
 	double tankSpeed;
+	bool collision;
 
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components

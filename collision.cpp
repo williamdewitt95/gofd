@@ -34,3 +34,29 @@ double distance(Vector a, Vector b){
         return sqrt(pow(xdif,2)+pow(ydif,2)+pow(zdif,2));
 
 }
+
+
+void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector<Target*>& targets){
+
+	double targetRadius;
+	double tankRadius = distance(tank->getFurthestPoint(), tank->center);
+	double centerDistance; 
+
+	// getFurthestPoint method should return point of each object furthest from center  
+
+	for (int i = 0; i < targets.size(); i++){
+		
+		centerDistance = (tank->getFurthestPoint(), targets[i]->getFurthestPoint();	
+		targetRadius = distance(targets[i]-> getFurthestPoint(), target[i]->center());		
+
+		if(! (tankRadius+targetRadius < centerDistance) ){
+			// set tank collision flag to true
+			tank->collision = true;
+		}
+		else
+			tank->collision = false;
+
+	}
+		
+
+}

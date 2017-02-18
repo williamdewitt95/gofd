@@ -12,6 +12,8 @@ Tank::Tank(Point center){
 	laser = true;
 	tankSpeed = 0;
 
+	collision = false;
+
 	//Base polygons
 
 	{
