@@ -30,11 +30,11 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 		points.push_back(Point(   buildingWidth/2.0, -buildingWidth/2.0,                      0));
 		points.push_back(Point(   buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
 		points.push_back(Point(  -buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
-		texs.push_back(Point(0                        ,         0, 0));
-		texs.push_back(Point(0                        , numFloors, 0));
-		texs.push_back(Point(buildingWidth/floorHeight, numFloors, 0));
-		texs.push_back(Point(buildingWidth/floorHeight,         0, 0));
-		texs.push_back(Point(0                        ,         0, 0));
+		texs.push_back(Point(       0                        ,         0, 0));
+		texs.push_back(Point(       0                        , numFloors, 0));
+		texs.push_back(Point(floor(buildingWidth/floorHeight), numFloors, 0));
+		texs.push_back(Point(floor(buildingWidth/floorHeight),         0, 0));
+		texs.push_back(Point(       0                        ,         0, 0));
 	}
 	Polygon3d singleSide(model[model.size()-1]);
 
@@ -89,11 +89,11 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0                ,   0));
-		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth,   0));
-		points.push_back(Point(   buildingWidth/2.0                , -buildingWidth/2.0 - sidewalkWidth,   0));
-		points.push_back(Point(   buildingWidth/2.0                , -buildingWidth/2.0                ,   0));
-		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0                ,   0));
+		points.push_back(Point(  -buildingWidth/2.0                , -buildingWidth/2.0                ,   0.15));
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth,   0.15));
+		points.push_back(Point(   buildingWidth/2.0 + sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth,   0.15));
+		points.push_back(Point(   buildingWidth/2.0                , -buildingWidth/2.0                ,   0.15));
+		points.push_back(Point(  -buildingWidth/2.0                , -buildingWidth/2.0                ,   0.15));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -116,4 +116,42 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 	sidewalkTop.setRotation(rot);
 	sidewalkTop.setColor(125,125,255);
 	model.push_back( sidewalkTop.getWorldPoints() );
+
+	double curbDarkness = 0.85; // how much darker the curb should be to add a little depth to things
+	{
+		model.push_back(Polygon3d());
+		auto &points = model[model.size()-1].getPoints();
+		auto &texs = model[model.size()-1].getTexturePoints();
+		// loadTex("textures/cloud.png");
+		// model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/cloud.png"].textureRef);
+		model[model.size()-1].setColor(255*curbDarkness,255*curbDarkness,255*curbDarkness);
+		model[model.size()-1].setTesselation(true);
+
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth, Building::sidewalkThickness));
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth,              0             ));
+		points.push_back(Point(   buildingWidth/2.0 + sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth,              0             ));
+		points.push_back(Point(   buildingWidth/2.0 + sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth, Building::sidewalkThickness));
+		points.push_back(Point(  -buildingWidth/2.0 - sidewalkWidth, -buildingWidth/2.0 - sidewalkWidth, Building::sidewalkThickness));
+		texs.push_back(Point(0,0,0));
+		texs.push_back(Point(0,1,0));
+		texs.push_back(Point(1,1,0));
+		texs.push_back(Point(1,0,0));
+		texs.push_back(Point(0,0,0));
+	}
+	Polygon3d sidewalkCurb(model[model.size()-1]);
+
+	rot.z = 90;
+	sidewalkCurb.setRotation(rot);
+	sidewalkCurb.setColor(255*curbDarkness,125*curbDarkness,125*curbDarkness);
+	model.push_back( sidewalkCurb.getWorldPoints() );
+
+	rot.z = 180;
+	sidewalkCurb.setRotation(rot);
+	sidewalkCurb.setColor(125*curbDarkness,255*curbDarkness,125*curbDarkness);
+	model.push_back( sidewalkCurb.getWorldPoints() );
+
+	rot.z = 270;
+	sidewalkCurb.setRotation(rot);
+	sidewalkCurb.setColor(125*curbDarkness,125*curbDarkness,255*curbDarkness);
+	model.push_back( sidewalkCurb.getWorldPoints() );
 }
