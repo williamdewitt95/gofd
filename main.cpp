@@ -346,7 +346,7 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
-	ai_tank = new AI_Tank(new Tank(Point(-10,-10,0)));
+	ai_tank = new AI_Tank(new Tank(Point(50,50,0)));
 
 	glutMainLoop();
 	return 0;

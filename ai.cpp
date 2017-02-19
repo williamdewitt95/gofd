@@ -11,13 +11,14 @@ AI_Tank::AI_Tank(Tank *tank){
 		}
 	}
 
-	calculatePath(rand()%15,rand()%15);
+	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::distanceBetweenBuildings/2.0,
+				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::distanceBetweenBuildings/2.0);
 }
 
 
 //forwards
 void AI_Tank::forwards(){
-	this->tank->tankSpeed = 0.05;
+	this->tank->tankSpeed = 0.15;
 }
 void AI_Tank::forwards(double speed){
 	this->tank->tankSpeed = speed;
@@ -100,7 +101,8 @@ void AI_Tank::update_AI(){
 		turn(0.0);
 	}
 	else{//at location
-		calculatePath(rand()%15,rand()%15);
+		calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::distanceBetweenBuildings/2.0,
+				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::distanceBetweenBuildings/2.0);
 		stop();
 	}
 

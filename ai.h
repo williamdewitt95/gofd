@@ -2,6 +2,7 @@
 #define AI
 
 #include "globals.h"
+#include "building.h"
 
 
 
