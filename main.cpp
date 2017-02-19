@@ -80,6 +80,7 @@ void gameEngine(){
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
 	ai_tank->updateTank();
+	ai_tank->nearbyTarget(tank);
 	
 
 	for(int i=0; i < projectiles.size(); i++){
@@ -364,7 +365,7 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
-	ai_tank = new AI_Tank(new Tank(Point(50,50,0)));
+	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 
 
 	glutMainLoop();
