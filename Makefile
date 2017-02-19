@@ -22,7 +22,7 @@ LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 #the available buildings that we depend on when building
 BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp buildings/apartmentHighrise.cpp
 #extra decoration bits for buildings like windows
-BUILDING_EXTRAS = 
+BUILDING_EXTRAS = buildings/window1.cpp
 
 all: build gofd tags
 

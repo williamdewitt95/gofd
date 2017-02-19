@@ -3,6 +3,7 @@
 #include <vector>
 #include "../polygon3d.h"
 #include "../globals.h"
+#include "window1.cpp"
 
 using std::vector;
 
@@ -53,11 +54,11 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -buildingWidth/2.0,  buildingWidth/2.0,  numFloors*floorHeight));
-		points.push_back(Point(  -buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
-		points.push_back(Point(   buildingWidth/2.0, -buildingWidth/2.0,  numFloors*floorHeight));
-		points.push_back(Point(   buildingWidth/2.0,  buildingWidth/2.0,  numFloors*floorHeight));
-		points.push_back(Point(  -buildingWidth/2.0,  buildingWidth/2.0,  numFloors*floorHeight));
+		points.push_back(Point( -buildingWidth/2.0,  buildingWidth/2.0, numFloors*floorHeight ));
+		points.push_back(Point( -buildingWidth/2.0, -buildingWidth/2.0, numFloors*floorHeight ));
+		points.push_back(Point(  buildingWidth/2.0, -buildingWidth/2.0, numFloors*floorHeight ));
+		points.push_back(Point(  buildingWidth/2.0,  buildingWidth/2.0, numFloors*floorHeight ));
+		points.push_back(Point( -buildingWidth/2.0,  buildingWidth/2.0, numFloors*floorHeight ));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -71,8 +72,29 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 
 	// == Windows ==
 	{
-		//
-	}
+		int numWindowsPerSide = floor(buildingWidth/floorHeight);
+		double distBetweenWindows = buildingWidth / numWindowsPerSide;
+		double windowHeight = floorHeight * 0.65;
+		double windowWidth = distBetweenWindows * 0.5;
+
+		Point gridOffset;
+		gridOffset.x = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
+		gridOffset.y = -1 * buildingWidth/2.0;
+		gridOffset.z = floorHeight/2.0;
+
+		//first wall
+		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
+			for(int y=1; y<numFloors; y++){
+				makeNewWindow1(
+						Point( x*distBetweenWindows , 0 , y*floorHeight ) + gridOffset, // centerpoint for the window
+						0, // rotation
+						windowHeight, // height
+						windowWidth,
+						model
+					);
+			}
+		}
+	} // windows
 
 
 
