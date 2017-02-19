@@ -1,9 +1,14 @@
 #include "tank.h"
+#include "globals.h"
+#include "building.h"
 #include <iostream>
 using std::cout;
 
 
 Tank::Tank(Point center){
+	hitSphereCenter = Point(center.x, center.y, center.z + 1);
+	hitSphereRadius = 3.1;
+
 	this->center = center;
 	scale = 1;
 	baseAngle = 0;
@@ -387,8 +392,14 @@ void Tank::draw(){
 }
 
 void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
-	this->center.x += tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	this->center.y += tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	
+	if(onLock(newX,newY)){
+		this->center.x = newX;
+		this->center.y = newY;
+	}
+
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
 		this->baseAngle = 0;
 	this->baseAngle += tankBaseRotate;
@@ -448,6 +459,13 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 
 }
 
+bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
+	double min = -(Building::maxBuildingWidth/2 + Building::sidewalkWidth);
+	double max = (NUM_BLOCKS_WIDE*Building::maxBuildingWidth) + (NUM_BLOCKS_WIDE*2*Building::sidewalkWidth) + ((NUM_BLOCKS_WIDE-1)*Building::streetWidth) + min;
+
+	if (min <= x && x <= max && min <= y && y <= max) return 1;
+	else return 0;
+}
 
 
 std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){

@@ -68,7 +68,7 @@ clean:
 distclean: clean
 	cd $(IMAGE_DIR); make distclean
 	rm -rf build
-	rm -f tags
-
-tags: *.cpp *.h
-	ctags *.cpp *.h
+	rm -rf gofd
+	rm ctags
+ctags:
+	ctags *.h *.cpp 
