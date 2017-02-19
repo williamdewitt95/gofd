@@ -9,6 +9,7 @@
 #include <iostream>
 #include "globals.h"
 #include "building.h"
+#include "projectile.h"
 #include "tank.h"
 #include "target.h"
 #include "ai.h"
@@ -29,7 +30,9 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+
 AI_Tank * ai_tank;
+std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -64,6 +67,9 @@ void mouseMovement(int x,int y){
 void gameEngine(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
+	//printf("Here\n");
+	for(int x=0; x<targets.size();x++)
+		targets[x]->update();
 	GLOBAL.CAMERA_POS.z += camMove_vert;
 	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
@@ -75,6 +81,11 @@ void gameEngine(){
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
 	ai_tank->updateTank();
 	
+
+	for(int i=0; i < projectiles.size(); i++){
+		projectiles[i]->update();
+	}
+
 	
 	/*
 		Apply vechile transformations:
@@ -148,6 +159,9 @@ void display(){
 
 	tank->draw();
 	ai_tank->tank->draw();
+	for(int i=0; i<projectiles.size();i++){
+		projectiles[i]->draw();
+	}
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
@@ -203,6 +217,9 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
 		camMove_vert -= camMove_speed;
+	}
+	else if(key == 'x' || key == 'X'){
+		projectiles.push_back(tank->shoot());
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -341,12 +358,14 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(20*x, 20*y, 3)));
+			// targets.push_back(new Target(Point(20*x, 20*y, 3)));
+
 		}
 	}
 
 	tank = new Tank(Point(0, 0, 0));
 	ai_tank = new AI_Tank(new Tank(Point(50,50,0)));
+
 
 	glutMainLoop();
 	return 0;

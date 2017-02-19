@@ -81,8 +81,6 @@ void scaleMouse(int &x, int &y){
 	x+=GLOBAL.WORLD_COORDINATE_MIN_X;
 }
 
-
-
 void cameraMovement(int x, int y, Point center, int cameraMode){
 	switch(cameraMode){
 		case 0:
@@ -210,17 +208,20 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 
 
 
-	GLOBAL.CAMERA_POS.x = center.x + 4*cos(angleH*PI/180.0);//camera rotates around the center at a radius of 4
-	GLOBAL.CAMERA_POS.y = center.y + 4*-sin(angleH*PI/180.0);
-	GLOBAL.CAMERA_POS.z = ( center.z + 2*sin(angleV*PI/180.0 ) ) +2;
+	GLOBAL.CAMERA_POS.x = center.x + 4.0*cos(angleH*PI/180.0);//camera rotates around the center at a radius of 4
+	GLOBAL.CAMERA_POS.y = center.y + 4.0*-sin(angleH*PI/180.0);
+	GLOBAL.CAMERA_POS.z = ( center.z + sin(angleV*PI/180.0 ) ) +3.0;
 	// GLOBAL.CAMERA_POS.z=2;
 
 
 
-	GLOBAL.CAMERA_LOOK_VECTOR.x = center.x - GLOBAL.CAMERA_POS.x;//look at the center
-	GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
+	// GLOBAL.CAMERA_LOOK_VECTOR.x = center.x - GLOBAL.CAMERA_POS.x;//look at the center
+	// GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
 	// GLOBAL.CAMERA_LOOK_VECTOR.z = center.z - GLOBAL.CAMERA_POS.z +2;
-	GLOBAL.CAMERA_LOOK_VECTOR.z = center.z - GLOBAL.CAMERA_POS.z+2;
+	// double zz = asin()
+	GLOBAL.CAMERA_LOOK_VECTOR.x = (center.x+1000)*-cos(angleH*PI/180.0);//circle with radius 1000 - far off focal point
+	GLOBAL.CAMERA_LOOK_VECTOR.y = (center.y+1000)*sin(angleH*PI/180.0);
+	GLOBAL.CAMERA_LOOK_VECTOR.z = (center.z+1000)*sin(angleV*PI/180.0);
 
 	
 
