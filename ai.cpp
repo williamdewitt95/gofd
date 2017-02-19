@@ -2,6 +2,8 @@
 #include "ai.h"
 
 
+
+
 AI_Tank::AI_Tank(Tank *tank){
 	this->tank = tank;
 
@@ -10,10 +12,15 @@ AI_Tank::AI_Tank(Tank *tank){
 			grid[i][j] = 1;
 		}
 	}
-	calculatePath(this->tank->center.x, this->tank->center.y);//stay still
+	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
 	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth,//randomly generate a point to go to
 				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth);
 }
+
+
+
+//something to hold the grid in - 2d array? - Do we even need a grid? Might be able to just calculate based positions of buildings (since we know them)
+
 
 
 //forwards
@@ -38,22 +45,7 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 		turn += 360.0;
 	else if(this->tank->baseAngle > 360.0)
 		turn -= 360.0;
-	// if(turn == 0){
-	// 	forwards();
-	// 	return true;
-	// }
-	// else{
-	// 	stop();
-	// 	this->tank->baseAngle += 1;
-	// }
-	// else if(turn <180){
-	// 	stop();
-	// 	this->tank->baseAngle-=.5;
-	// }
-	// else{
-	// 	stop();
-	// 	this->tank->baseAngle+=.5;
-	// }
+	
 
 	if(turn < 1.0 && turn > -1.0){
 		// printf("Forwards");
@@ -68,13 +60,9 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 		this->tank->baseAngle--;
 	}
 	
-
-	// printf("\ndir %.1f, base %.2f, curr (%.1f, %.1f), dest (%.1f, %.1f)",direction,this->tank->baseAngle, this->tank->center.x, this->tank->center.y, this->destination.x, this->destination.y);
-	// printf("\nthis->tank->center.x - this->destination.x %f\n",this->tank->center.x - this->destination.x);
 	return false;
 }
 
-//something to hold the grid in - 2d array?
 
 
 void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordinate
@@ -120,23 +108,27 @@ void AI_Tank::updateTank(){
 
 }
 
-
+//find the building that is closes to the AI tank that the AI tank wants to look through
 void AI_Tank::findNearestBuilding(Point center){
 	double x = (Building::maxBuildingWidth/2.0 + center.x) / Building::maxBuildingWidth;//which row
 	double y = (Building::maxBuildingWidth/2.0 + center.y) / Building::maxBuildingWidth;//which column
+	//NUM_BLOCKS_WIDE*x + y//vectors stored linearly in memory, so go the number of columns + the number of rows
+	if(this->)
 }
 
 void AI_Tank::nearbyTarget(Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
-	if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&
+	if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
 		enemy->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
-		// printf("\nenemy x: %f, this x: %f",enemy->center.x, this->tank->center.x);
-		// printf("\nenemy y: %f, this y: %f",enemy->center.y, this->tank->center.y);
-
+		//TO-DO
+		//Detect if there is a building in the way of looking at the player tank
+		//
 		aim(enemy->center);
 	}
-	else if(enemy->center.y - this->tank->center.y < Building::streetWidth/2.0 &&
+	else if(enemy->center.y - this->tank->center.y < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
 		enemy->center.y - this->tank->center.y > -1.0*Building::streetWidth/2.0 ){
-
+		//TO-DO
+		//Detect if there is a building in the way of looking at the player tank
+		//
 		aim(enemy->center);
 	}
 }
@@ -153,12 +145,10 @@ void AI_Tank::aim(Point enemy){
 		//do nothing
 	}
 	double delta = this->tank->towerAngle - angle;
-		// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
-
-	// if(delta>180.0) delta=360.0-delta;
-	if(delta < 1.0 && delta > -1.0){
-		projectiles.push_back(this->tank->shoot());
-		printf("\n\nBang!\t %f",this->tank->towerAngle);
+	// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
+	if(delta < 1.0 && delta > -1.0){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
+		projectiles.push_back(this->tank->shoot());//spawn a projectile in the global projectiles vector
+		// printf("\n\nBang!\t %f",this->tank->towerAngle);
 	}
 	this->tank->towerAngle += -3.0*sin(delta *M_PI/180.0);
 	
