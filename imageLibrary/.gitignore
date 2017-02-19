@@ -1,0 +1,24 @@
+#exclude executables
+a.out
+build/
+main
+*.a
+*.o
+
+#exclude test images
+*.png
+*.jpg
+*.raw
+*.bmp
+
+#exclude pre-built zlib stuff
+zlib-*/*.lo
+zlib-*/*.o
+zlib-*/*.a
+zlib-*/*.so*
+zlib-*/example
+zlib-*/example64
+zlib-*/examplesh
+zlib-*/minigzip
+zlib-*/minigzip64
+zlib-*/minigzipsh

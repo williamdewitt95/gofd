@@ -1,0 +1,15 @@
+**/build/*
+**/gofd
+**/*~
+**/main
+**/*.o
+**/*.lo
+**/*.Plo
+**/*.Po
+**/*.la
+**/*.lai
+**/*.tmpl
+**/*.a
+**/*.so
+**/*.so.*
+imageLibrary/*/.libs/*
