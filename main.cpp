@@ -12,6 +12,7 @@
 #include "projectile.h"
 #include "tank.h"
 #include "target.h"
+#include "ai.h"
 using std::cin;
 using std::cout;
 
@@ -29,6 +30,8 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+
+AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -77,9 +80,14 @@ void gameEngine(){
 
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
+	ai_tank->updateTank();
+	ai_tank->nearbyTarget(tank);
+	
+
 	for(int i=0; i < projectiles.size(); i++){
 		projectiles[i]->update();
 	}
+
 	
 	/*
 		Apply vechile transformations:
@@ -118,6 +126,7 @@ void display(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
 	for(int i=0; i<projectiles.size();i++){
 		projectiles[i]->draw();
 	}
@@ -176,9 +185,8 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
 		camMove_vert -= camMove_speed;
-	}
-	else if(key == 'x' || key == 'X'){
-		projectiles.push_back(tank->shoot());
+	}else if(key == 'x' || key == 'X'){
+		tank->shoot();
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -234,6 +242,8 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_vert -= camMove_speed;
 	}else if(key == ' '){
 		camMove_vert += camMove_speed;
+	}else if(key == 'x' || key == 'X'){
+		//do nothing, but stop printing unknown key
 	}else{
 		printf("Unknown Key Up %d\n",key);
 	}
@@ -325,6 +335,7 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
+	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 
 
 	glutMainLoop();
