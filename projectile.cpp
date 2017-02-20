@@ -94,10 +94,9 @@ void Projectile::draw(){
 	glColor3f(.1, .1, .1);
 	glTranslated(center.x,center.y,center.z);
 	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
+	glRotated(-this->angleV, 0, 1.0, 0);
 	glTranslated(-.1, 0.0, 0.0);
-	// glRotated(this->angleH, 0.0, 0.0, 1.0);
-	// glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
+
 	glRotated(90.0, 0.0, 1.0, 0.0);
 	shellCasing = gluNewQuadric();
 	gluCylinder(shellCasing, .05, .05, .2, 30, 1);
@@ -107,10 +106,9 @@ void Projectile::draw(){
 	glColor3f(.1, .1, .1);
 	glTranslated(center.x,center.y,center.z);
 	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
+	glRotated(-this->angleV, 0, 1.0, 0);
 	glTranslated(0, 0, 0);
-	// glRotated(this->angleH, 0.0, 0.0, 1.0);
-	// glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
+
 	glRotated(90.0, 0.0, 1.0, 0.0);
 	shellBottom = gluNewQuadric();
 	gluDisk(shellBottom, 0, .05, 30, 1);
@@ -119,11 +117,10 @@ void Projectile::draw(){
 	glPushMatrix();
 	glTranslated(center.x,center.y,center.z);
 	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
+	glRotated(-this->angleV, 0, 1.0, 0);
 	glTranslated(.1, 0.0, 0.0);
 	glRotated(90.0, 0.0, 1.0, 0.0);
-	// glRotated(this->angleH, 0.0, 0.0, 1.0);
-	// glRotated(this->angleV, cos(this->angleH),sin(this->angleH), 0.0);
+
 	shellPoint = gluNewQuadric();
 	gluCylinder(shellPoint, .05, .00, .4, 30, 4);
 	glPopMatrix();
@@ -140,8 +137,6 @@ void Projectile::update()
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
-		//if(center.z < 0)
-		//printf("%f %f %f\n", this->center.x, this->center.y, this->center.z);
 	}
 }
 
