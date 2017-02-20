@@ -7,9 +7,13 @@
 #include <vector>
 
 class Target{
+private:
+	double rotation;
+
 public:
 	Point center;
 	std::vector<Polygon3d> boundingBox;
+	double radius;
 
 	Target(Point center);
 	void draw();

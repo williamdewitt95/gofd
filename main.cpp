@@ -9,8 +9,10 @@
 #include <iostream>
 #include "globals.h"
 #include "building.h"
+#include "projectile.h"
 #include "tank.h"
 #include "target.h"
+#include "ai.h"
 using std::cin;
 using std::cout;
 
@@ -28,6 +30,9 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+
+AI_Tank * ai_tank;
+std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
 	//scaleMouse(x,y);
@@ -62,6 +67,9 @@ void mouseMovement(int x,int y){
 void gameEngine(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
+	//printf("Here\n");
+	for(int x=0; x<targets.size();x++)
+		targets[x]->update();
 	GLOBAL.CAMERA_POS.z += camMove_vert;
 	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
@@ -71,6 +79,13 @@ void gameEngine(){
 
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
+	ai_tank->updateTank();
+	ai_tank->nearbyTarget(tank);
+	
+
+	for(int i=0; i < projectiles.size(); i++){
+		projectiles[i]->update();
+	}
 
 	
 	/*
@@ -144,6 +159,10 @@ void display(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
+	for(int i=0; i<projectiles.size();i++){
+		projectiles[i]->draw();
+	}
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
@@ -199,6 +218,8 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert += camMove_speed;
 	}else if(key == ' '){
 		camMove_vert -= camMove_speed;
+	}else if(key == 'x' || key == 'X'){
+		tank->shoot();
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -254,6 +275,8 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_vert -= camMove_speed;
 	}else if(key == ' '){
 		camMove_vert += camMove_speed;
+	}else if(key == 'x' || key == 'X'){
+		//do nothing, but stop printing unknown key
 	}else{
 		printf("Unknown Key Up %d\n",key);
 	}
@@ -329,21 +352,26 @@ int main(int argc,char** args){
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
-	//make the camera set to a sane default
-	// FPS_CameraMovement(0,0,0,0,0);
 
-	for(int x=0;x<10;x++){
-		for(int y=0;y<10;y++){
+	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
+		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
 			buildings.push_back(new Building(Point(
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(20*x, 20*y, 3)));
+			targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
+					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
+					3)
+				));
+
 		}
 	}
 
 	tank = new Tank(Point(0, 0, 0));
+	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+
 
 	glutMainLoop();
 	return 0;

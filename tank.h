@@ -5,8 +5,11 @@
 #include "polygon3d.h"
 #include <math.h>
 #include <vector>
+#include "projectile.h"
+class Projectile;
 
 class Tank{
+
 public:
 	Point center;
 	Point hitSphereCenter;
@@ -14,6 +17,7 @@ public:
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
 	double tankSpeed;
+	int cooldown;
 
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
