@@ -16,6 +16,7 @@ Tank::Tank(Point center){
 	cannonAngle = 0;
 	laser = true;
 	tankSpeed = 0;
+	cooldown = 0;
 
 	//Base polygons
 
@@ -408,7 +409,7 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, cameraMode);//keep camera synced to mouse movements
 	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, cameraMode);//keep turret synced to mouse movements
 
-
+	this->cooldown--;
 }
 
 void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon follow the mouse cursor
@@ -472,12 +473,17 @@ std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
 	return this->totalBoundingBox;
 }
 
-Projectile *Tank::shoot() {
+void Tank::shoot() {
+	if(this->cooldown>0){//true  = we are still in cooldown
+		return ;
+	}
 	double x = this->center.x + -1*(2.25-sin(cannonAngle*M_PI/180.0)) * sin(this->towerAngle*M_PI/180.0); 
 	double y = this->center.y + (2.25-sin(cannonAngle*M_PI/180.0)) * cos(this->towerAngle*M_PI/180.0); 
 	double z = this->center.z + 1.375 + 1.75*sin(this->cannonAngle*M_PI/180.0);
 	// printf("%.3f\n",z);
 
-	return new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90);
+
+	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90));
+	this->cooldown = 100;
 	// return projectile;
 }

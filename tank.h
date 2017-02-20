@@ -17,12 +17,13 @@ public:
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
 	double tankSpeed;
+	int cooldown;
 
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
 	Tank(Point center);
 	void draw();
-	Projectile *shoot();
+	void shoot();
 	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate
 	bool onLock(int x, int y);
 	void turretFollowMouse(int x, int y, int cameraMode);//turret + cannon follow mouse cursor
