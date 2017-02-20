@@ -82,12 +82,54 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 		gridOffset.y = -1 * buildingWidth/2.0;
 		gridOffset.z = floorHeight/2.0;
 
-		//first wall
+		// //first wall
 		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
 			for(int y=1; y<numFloors; y++){
 				makeNewWindow1(
 						Point( x*distBetweenWindows , 0 , y*floorHeight ) + gridOffset, // centerpoint for the window
 						0, // rotation
+						windowHeight, // height
+						windowWidth,
+						model
+					);
+			}
+		}
+
+		//second wall
+		gridOffset = gridOffset.rotatePoint(90,0,0,1);
+		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
+			for(int y=1; y<numFloors; y++){
+				makeNewWindow1(
+						Point( 0 , x*distBetweenWindows , y*floorHeight ) + gridOffset, // centerpoint for the window
+						90, // rotation
+						windowHeight, // height
+						windowWidth,
+						model
+					);
+			}
+		}
+
+		// //third wall
+		gridOffset = gridOffset.rotatePoint(90,0,0,1);
+		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
+			for(int y=1; y<numFloors; y++){
+				makeNewWindow1(
+						Point( -x*distBetweenWindows , 0 , y*floorHeight ) + gridOffset, // centerpoint for the window
+						180, // rotation
+						windowHeight, // height
+						windowWidth,
+						model
+					);
+			}
+		}
+
+		// //fourth wall
+		gridOffset = gridOffset.rotatePoint(90,0,0,1);
+		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
+			for(int y=1; y<numFloors; y++){
+				makeNewWindow1(
+						Point( 0 , -x*distBetweenWindows , y*floorHeight ) + gridOffset, // centerpoint for the window
+						270, // rotation
 						windowHeight, // height
 						windowWidth,
 						model
