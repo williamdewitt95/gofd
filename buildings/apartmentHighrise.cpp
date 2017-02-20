@@ -74,8 +74,8 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 	{
 		int numWindowsPerSide = floor(buildingWidth/floorHeight);
 		double distBetweenWindows = buildingWidth / numWindowsPerSide;
-		double windowHeight = floorHeight * 0.65;
-		double windowWidth = distBetweenWindows * 0.5;
+		double windowHeight = floorHeight * 0.5;
+		double windowWidth = distBetweenWindows * 0.35;
 
 		Point gridOffset;
 		gridOffset.x = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
