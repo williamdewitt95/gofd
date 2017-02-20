@@ -69,6 +69,10 @@ public:
 extern GLOBAL_SETTINGS GLOBAL;
 //extern Tank * tank;
 
+class Projectile;
+extern std::vector<Projectile*> projectiles;
+
+
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
 void cameraMovement(int x, int y, Point center, int cameraMode);
