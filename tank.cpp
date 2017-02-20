@@ -394,7 +394,7 @@ void Tank::draw(){
 
 void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
 	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	double newY = this->center.y + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
 	
 	if(onLock(newX,newY)){
 		this->center.x = newX;
