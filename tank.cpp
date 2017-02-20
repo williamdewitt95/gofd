@@ -428,13 +428,13 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 		this->cannonAngle = this->cannonAngle;
 	}
 	else if(cameraMode == 1){
-		this->towerAngle = -1*angleH-90;//turret follows
+		this->towerAngle = -1.0*angleH-90.0;//turret follows
 		this->cannonAngle = angleV;
 	}
 	else{
 		
-		this->towerAngle = -1*angleH+90;
-		this->cannonAngle = 60-angleV; 	
+		this->towerAngle = -1.0*angleH+90.0;
+		this->cannonAngle = angleV; 	
 	}
 
 	

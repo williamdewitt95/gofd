@@ -15,6 +15,7 @@ public:
 	std::vector<Polygon3d> box;
 
 	static const double sidewalkWidth;
+	static const double sidewalkThickness;
 	static const double maxBuildingWidth;
 	static const double distanceBetweenBuildings;
 	static const double streetWidth; // distanceBetweenBuildings - maxBuildingWidth;

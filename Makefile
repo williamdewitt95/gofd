@@ -20,7 +20,9 @@ LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
 
 #the available buildings that we depend on when building
-BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp
+BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp buildings/apartmentHighrise.cpp
+#extra decoration bits for buildings like windows
+BUILDING_EXTRAS = buildings/window1.cpp
 
 all: build gofd tags
 
@@ -44,7 +46,7 @@ $(BUILD_DIR)/polygon3d.o: polygon3d.cpp polygon3d.h
 $(BUILD_DIR)/globals.o: globals.cpp globals.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) globals.cpp -c -o $(BUILD_DIR)/globals.o 
 
-$(BUILD_DIR)/building.o: building.cpp building.h $(BUILDINGS)
+$(BUILD_DIR)/building.o: building.cpp building.h $(BUILDINGS) $(BUILDING_EXTRAS)
 	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
 
 $(BUILD_DIR)/tank.o: tank.cpp tank.h 
