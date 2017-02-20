@@ -4,9 +4,6 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-AI	ai.h	2;"	d
-AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank){$/;"	f	class:AI_Tank
-AI_Tank	ai.h	/^class AI_Tank{$/;"	c
 Building	building.cpp	/^Building::Building(Point center){$/;"	f	class:Building
 Building	building.h	/^class Building{$/;"	c
 C	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
@@ -66,8 +63,11 @@ WORLD_COORDINATE_MAX_Y	globals.h	/^	double WORLD_COORDINATE_MAX_Y;$/;"	m	class:G
 WORLD_COORDINATE_MIN_X	globals.h	/^	double WORLD_COORDINATE_MIN_X;$/;"	m	class:GLOBAL_SETTINGS
 WORLD_COORDINATE_MIN_Y	globals.h	/^	double WORLD_COORDINATE_MIN_Y;$/;"	m	class:GLOBAL_SETTINGS
 __secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){$/;"	f	class:Polygon3d
+<<<<<<< HEAD
 ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
 aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 angleV	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 attenuation_linear	globals.h	/^	double attenuation_linear;$/;"	m	struct:LIGHT_STRUCT
@@ -79,7 +79,10 @@ boundingBox	projectile.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Proj
 boundingBox	tank.cpp	/^std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){$/;"	f	class:Tank
 boundingBox	target.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Target
 box	building.h	/^	std::vector<Polygon3d> box;$/;"	m	class:Building
+<<<<<<< HEAD
 calculatePath	ai.cpp	/^void AI_Tank::calculatePath(int x, int y){\/\/create a new path to new grid coordinate$/;"	f	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 camMove_forward	main.cpp	/^double camMove_forward = 0;$/;"	v
 camMove_speed	main.cpp	/^const double camMove_speed = 0.25 \/ 2.0;$/;"	v
 camMove_strafe	main.cpp	/^double camMove_strafe = 0;$/;"	v
@@ -95,11 +98,18 @@ center	tank.h	/^	Point center;$/;"	m	class:Tank
 center	target.h	/^	Point center;$/;"	m	class:Target
 color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT
 color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Polygon3d
+<<<<<<< HEAD
+=======
+cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank
+>>>>>>> origin/tank_shoot_cooldown
 cross	vector_basics.cpp	/^Vector Vector::cross(const Vector& other){$/;"	f	class:Vector
 crossProduct	vector_basics.cpp	/^Vector Vector::crossProduct(Vector& other){$/;"	f	class:Vector
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon3
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anon5
+<<<<<<< HEAD
 destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
 display	main.cpp	/^void display(){$/;"	f
 distanceBetweenBuildings	building.cpp	/^const double Building::distanceBetweenBuildings = 60;$/;"	m	class:Building	file:
@@ -114,9 +124,12 @@ draw	tank.cpp	/^void Tank::draw(){$/;"	f	class:Tank
 draw	target.cpp	/^void Target::draw()$/;"	f	class:Target
 drawTesselate	polygon3d.h	/^	bool drawTesselate;$/;"	m	class:Polygon3d
 f	projectile.cpp	/^double Projectile::f ( double p, double q, double C ){$/;"	f	class:Projectile
+<<<<<<< HEAD
 findNearestBuilding	ai.cpp	/^void AI_Tank::findNearestBuilding(Point center){$/;"	f	class:AI_Tank
 forwards	ai.cpp	/^void AI_Tank::forwards(){$/;"	f	class:AI_Tank
 forwards	ai.cpp	/^void AI_Tank::forwards(double speed){$/;"	f	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 free_CameraMovement	globals.cpp	/^void free_CameraMovement(int x, int y){\/\/move the camera around not bound to the tank$/;"	f
 g	projectile.cpp	/^double  Projectile::g ( double p, double q, double C){$/;"	f	class:Projectile
 gameEngine	main.cpp	/^void gameEngine(){$/;"	f
@@ -137,7 +150,10 @@ getTransform	polygon3d.cpp	/^Polygon3d Polygon3d::getTransform(){} \/\/ get the 
 getVelocity	polygon3d.cpp	/^Vector Polygon3d::getVelocity(){$/;"	f	class:Polygon3d
 getWorldPoints	polygon3d.cpp	/^Polygon3d Polygon3d::getWorldPoints(){$/;"	f	class:Polygon3d
 glop102_polygon3d	polygon3d.h	2;"	d
+<<<<<<< HEAD
 grid	ai.h	/^	int grid[15][15];$/;"	m	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 h	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
 hasTex	polygon3d.h	/^	bool hasTex;$/;"	m	class:Polygon3d
 hasTexture	globals.h	/^	bool hasTexture;$/;"	m	struct:MODEL_TRIANGLES
@@ -164,7 +180,10 @@ model	building.h	/^	std::vector<Polygon3d> model;$/;"	m	class:Building
 mouseButtons	main.cpp	/^void mouseButtons(int but,int state,int x,int y){$/;"	f
 mouseMovement	main.cpp	/^void mouseMovement(int x,int y){$/;"	f
 name	globals.h	/^	std::string name;$/;"	m	struct:TextureInfo
+<<<<<<< HEAD
 nearbyTarget	ai.cpp	/^void AI_Tank::nearbyTarget(Tank * enemy){\/\/check where the enemy tank is, if we think we can aim at him, do so$/;"	f	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 numPoints	polygon3d.cpp	/^int Polygon3d::numPoints()const{$/;"	f	class:Polygon3d
 operator !=	vector_basics.cpp	/^bool Point::operator!=(const Point& other){$/;"	f	class:Point
 operator !=	vector_basics.cpp	/^bool Vector::operator!=(const Vector& other){$/;"	f	class:Vector
@@ -225,6 +244,7 @@ setTesselation	polygon3d.cpp	/^void Polygon3d::setTesselation(bool tes){$/;"	f	c
 setTexture	polygon3d.cpp	/^void Polygon3d::setTexture(GLuint tex){$/;"	f	class:Polygon3d
 setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(Vector& x){$/;"	f	class:Polygon3d
 setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(double x, double y, double z){$/;"	f	class:Polygon3d
+<<<<<<< HEAD
 shoot	tank.cpp	/^Projectile *Tank::shoot() {$/;"	f	class:Tank
 sidewalkWidth	building.cpp	/^const double Building::sidewalkWidth = 3;$/;"	m	class:Building	file:
 sidewalkWidth	building.h	/^	static const double sidewalkWidth;$/;"	m	class:Building
@@ -234,6 +254,15 @@ streetWidth	building.cpp	/^const double Building::streetWidth = 60 - 40; \/\/ di
 streetWidth	building.h	/^	static const double streetWidth; \/\/ distanceBetweenBuildings - maxBuildingWidth;$/;"	m	class:Building
 t	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
 tank	ai.h	/^	Tank *tank;$/;"	m	class:AI_Tank
+=======
+shoot	tank.cpp	/^void Tank::shoot() {$/;"	f	class:Tank
+sidewalkWidth	building.cpp	/^const double Building::sidewalkWidth = 3;$/;"	m	class:Building	file:
+sidewalkWidth	building.h	/^	static const double sidewalkWidth;$/;"	m	class:Building
+step	projectile.cpp	/^void Projectile::step() {$/;"	f	class:Projectile
+streetWidth	building.cpp	/^const double Building::streetWidth = 60 - 40; \/\/ distanceBetweenBuildings - maxBuildingWidth;$/;"	m	class:Building	file:
+streetWidth	building.h	/^	static const double streetWidth; \/\/ distanceBetweenBuildings - maxBuildingWidth;$/;"	m	class:Building
+t	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+>>>>>>> origin/tank_shoot_cooldown
 tank	main.cpp	/^Tank * tank;$/;"	v
 tankBaseRotate	main.cpp	/^double tankBaseRotate = 0;$/;"	v
 tankCannonRotate	main.cpp	/^double tankCannonRotate = 0;$/;"	v
@@ -252,15 +281,21 @@ totalBoundingBox	tank.h	/^	std::vector< std::vector<Polygon3d> > totalBoundingBo
 tower	tank.h	/^	std::vector<Polygon3d> base, tower, cannon;$/;"	m	class:Tank
 towerAngle	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Tank
 translatePoint	vector_basics.cpp	/^Point Point::translatePoint(double x, double y, double z){$/;"	f	class:Point
+<<<<<<< HEAD
 turn	ai.cpp	/^bool AI_Tank::turn(double direction){\/\/assume no angle larger than 360 degrees is passed$/;"	f	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 turretFollowMouse	tank.cpp	/^void Tank::turretFollowMouse(int x, int y, int cameraMode){\/\/Turret + cannon follow the mouse cursor$/;"	f	class:Tank
 update	building.cpp	/^void Building::update(){$/;"	f	class:Building
 update	polygon3d.cpp	/^void Polygon3d::update(){$/;"	f	class:Polygon3d
 update	projectile.cpp	/^void Projectile::update()$/;"	f	class:Projectile
 update	tank.cpp	/^void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){$/;"	f	class:Tank
 update	target.cpp	/^void Target::update()$/;"	f	class:Target
+<<<<<<< HEAD
 updateTank	ai.cpp	/^void AI_Tank::updateTank(){$/;"	f	class:AI_Tank
 update_AI	ai.cpp	/^void AI_Tank::update_AI(){$/;"	f	class:AI_Tank
+=======
+>>>>>>> origin/tank_shoot_cooldown
 velocity	polygon3d.h	/^	Vector velocity;$/;"	m	class:Polygon3d
 velocity	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 vertexList	polygon3d.h	/^	std::vector<Point> vertexList;$/;"	m	class:Polygon3d

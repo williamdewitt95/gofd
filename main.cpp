@@ -220,7 +220,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert -= camMove_speed;
 	}
 	else if(key == 'x' || key == 'X'){
-		projectiles.push_back(tank->shoot());
+		tank->shoot();
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -276,6 +276,9 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_vert -= camMove_speed;
 	}else if(key == ' '){
 		camMove_vert += camMove_speed;
+	}
+	else if(key == 'x' || key == 'X'){
+		//do nothing, but stop printing unknown key
 	}else{
 		printf("Unknown Key Up %d\n",key);
 	}
