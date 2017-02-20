@@ -395,8 +395,8 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
-	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, cameraMode);//keep camera synced to mouse movements
-	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, cameraMode);//keep turret synced to mouse movements
+	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2),this->center, cameraMode);//keep camera synced to mouse movements
+	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2), cameraMode);//keep turret synced to mouse movements
 
 	this->cooldown--;
 }
