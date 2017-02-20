@@ -134,8 +134,6 @@ void Projectile::update()
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
-		if(center.z < 0)
-		printf("%f %f %f\n", this->center.x, this->center.y, this->center.z);
 	}
 }
 
