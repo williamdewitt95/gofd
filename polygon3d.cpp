@@ -188,7 +188,7 @@ Polygon3d Polygon3d::getWorldPoints(){
 }
 
 
-bool Polygon3d::intersection(Polygon3d other){
+bool Polygon3d::planesIntersection(Polygon3d other){
  	
  	
 	Polygon3d poly1 = this.getWorldPoints();		
@@ -211,6 +211,26 @@ bool Polygon3d::intersection(Polygon3d other){
 
 	return true;
 
+}
+
+bool Polygon3d::intersectsLineSeg(LineSeg ls){
+	
+	Polygon3d poly = this.getWorldPoints();	
+
+	Vector u = Vector(ls.p1, ls.p2);
+	Vector w = Vector(ls.pi, poly.vertexList[0]);
+	
+	double d = poly.normal.dot(u);
+	double n = -(poly.normal, w);
+
+	if(!(abs(d) < 0.0000001)){
+		return false;	
+	}
+	else if((n/d)< 0 || (n/d)>1){
+		return false;
+	}
+	
+	return true;
 }
 
 Point& Polygon3d::getTexturePos(int index){

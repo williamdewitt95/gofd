@@ -65,6 +65,7 @@ public:
 	Vector getRotationSpeed();
 	double getMaxRadius();
 	bool intersection(Polygon3d other);
+	bool intersectsLineSeg(LineSeg ls);
 
 	void setTexture(GLuint tex);
 	GLuint getTexture();
