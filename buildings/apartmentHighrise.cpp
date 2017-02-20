@@ -82,7 +82,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 		gridOffset.y = -1 * buildingWidth/2.0;
 		gridOffset.z = floorHeight/2.0;
 
-		// //first wall
+		//first wall
 		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
 			for(int y=1; y<numFloors; y++){
 				makeNewWindow1(
@@ -109,7 +109,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 			}
 		}
 
-		// //third wall
+		//third wall
 		gridOffset = gridOffset.rotatePoint(90,0,0,1);
 		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
 			for(int y=1; y<numFloors; y++){
@@ -123,7 +123,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 			}
 		}
 
-		// //fourth wall
+		//fourth wall
 		gridOffset = gridOffset.rotatePoint(90,0,0,1);
 		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
 			for(int y=1; y<numFloors; y++){

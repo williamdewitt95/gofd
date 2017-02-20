@@ -35,6 +35,7 @@ Building::Building(Point center){
 
 void Building::draw(){
 	glCallList(listName);
+	// this->draw_CPU();
 }
 void Building::draw_CPU(){
 	glPushMatrix();
