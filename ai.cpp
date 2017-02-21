@@ -2,8 +2,6 @@
 #include "ai.h"
 
 
-
-
 AI_Tank::AI_Tank(Tank *tank){
 	this->tank = tank;
 
@@ -15,6 +13,9 @@ AI_Tank::AI_Tank(Tank *tank){
 	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
 	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
 				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
+
+	//this.dx = {1, 1, 0, -1, -1, 0, 1};
+        //this.dy = {0, 1, 1, 1, 0, -1, -1, -1};
 }
 
 
