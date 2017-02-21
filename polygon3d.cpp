@@ -191,7 +191,7 @@ Polygon3d Polygon3d::getWorldPoints(){
 bool Polygon3d::planesIntersection(Polygon3d other){
  	
  	
-	Polygon3d poly1 = this.getWorldPoints();		
+	Polygon3d poly1 = this->getWorldPoints();		
  	Polygon3d poly2 = other.getWorldPoints();
 
 	Vector u = poly1.normal.crossProduct(poly2.normal);
@@ -215,13 +215,13 @@ bool Polygon3d::planesIntersection(Polygon3d other){
 
 bool Polygon3d::intersectsLineSeg(LineSeg ls){
 	
-	Polygon3d poly = this.getWorldPoints();	
+	Polygon3d poly = this->getWorldPoints();	
 
 	Vector u = Vector(ls.p1, ls.p2);
-	Vector w = Vector(ls.pi, poly.vertexList[0]);
+	Vector w = Vector(poly.vertexList[0], ls.p1);
 	
 	double d = poly.normal.dot(u);
-	double n = -(poly.normal, w);
+	double n = -(poly.normal.dot(w));
 
 	if(!(abs(d) < 0.0000001)){
 		return false;	

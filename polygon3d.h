@@ -67,6 +67,10 @@ public:
 	bool intersection(Polygon3d other);
 	bool intersectsLineSeg(LineSeg ls);
 
+	Vector normal;
+
+	bool planesIntersection(Polygon3d other);
+
 	void setTexture(GLuint tex);
 	GLuint getTexture();
 	std::vector<Point>& getTexturePoints();

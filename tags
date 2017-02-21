@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
 AI	ai.h	2;"	d
 AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank){$/;"	f	class:AI_Tank
 AI_Tank	ai.h	/^class AI_Tank{$/;"	c
@@ -100,6 +100,7 @@ cross	vector_basics.cpp	/^Vector Vector::cross(const Vector& other){$/;"	f	class
 crossProduct	vector_basics.cpp	/^Vector Vector::crossProduct(Vector& other){$/;"	f	class:Vector
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon3
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anon5
+depthFirstSearch	ai.h	/^	void  depthFirstSearch(){$/;"	f	class:AI_Tank
 destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
 display	main.cpp	/^void display(){$/;"	f
@@ -146,6 +147,7 @@ hasTexture	polygon3d.cpp	/^bool Polygon3d::hasTexture(){$/;"	f	class:Polygon3d
 height	globals.h	/^	unsigned long width,height;$/;"	m	struct:TextureInfo
 intersect	vector_basics.cpp	/^bool LineSeg::intersect(LineSeg& l2){$/;"	f	class:LineSeg
 intersection	vector_basics.cpp	/^Point LineSeg::intersection(LineSeg& l2){$/;"	f	class:LineSeg
+intersectsLineSeg	polygon3d.cpp	/^bool Polygon3d::intersectsLineSeg(LineSeg ls){$/;"	f	class:Polygon3d
 keyboardButtons	main.cpp	/^void keyboardButtons(unsigned char key, int x, int y){$/;"	f
 keyboardButtonsUp	main.cpp	/^void keyboardButtonsUp(unsigned char key, int x, int y){$/;"	f
 keyboardButtonsUp_special	main.cpp	/^void keyboardButtonsUp_special(int key,int x,int y){$/;"	f
@@ -166,6 +168,7 @@ mouseButtons	main.cpp	/^void mouseButtons(int but,int state,int x,int y){$/;"	f
 mouseMovement	main.cpp	/^void mouseMovement(int x,int y){$/;"	f
 name	globals.h	/^	std::string name;$/;"	m	struct:TextureInfo
 nearbyTarget	ai.cpp	/^void AI_Tank::nearbyTarget(Tank * enemy){\/\/check where the enemy tank is, if we think we can aim at him, do so$/;"	f	class:AI_Tank
+normal	polygon3d.h	/^	Vector normal;$/;"	m	class:Polygon3d
 numPoints	polygon3d.cpp	/^int Polygon3d::numPoints()const{$/;"	f	class:Polygon3d
 operator !=	vector_basics.cpp	/^bool Point::operator!=(const Point& other){$/;"	f	class:Point
 operator !=	vector_basics.cpp	/^bool Vector::operator!=(const Vector& other){$/;"	f	class:Vector
@@ -202,6 +205,7 @@ p2	vector_basics.h	/^	Point p2;$/;"	m	class:LineSeg
 p3	globals.h	/^	double p3[3];$/;"	m	struct:MODEL_TRIANGLES
 p3	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
 passiveMouseMovement	main.cpp	/^void passiveMouseMovement(int x,int y){$/;"	f
+planesIntersection	polygon3d.cpp	/^bool Polygon3d::planesIntersection(Polygon3d other){$/;"	f	class:Polygon3d
 possition	globals.h	/^	double possition[3];$/;"	m	struct:LIGHT_STRUCT
 projectiles	main.cpp	/^std::vector<Projectile*> projectiles;$/;"	v
 q	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
