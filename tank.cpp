@@ -462,7 +462,7 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 
 bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
 	double min = -(Building::maxBuildingWidth/2 + Building::sidewalkWidth);
-	double max = (NUM_BLOCKS_WIDE*Building::maxBuildingWidth) + (NUM_BLOCKS_WIDE*2*Building::sidewalkWidth) + ((NUM_BLOCKS_WIDE-1)*Building::streetWidth) + min;
+	double max =  (NUM_BLOCKS_WIDE - 1)*(Building::distanceBetweenBuildings) - min;
 
 	if (min <= x && x <= max && min <= y && y <= max) return 1;
 	else return 0;
