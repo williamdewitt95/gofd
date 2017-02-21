@@ -19,6 +19,7 @@ public:
 	double tankSpeed;
 	bool collision;
 	int cooldown;
+	
 
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
