@@ -14,10 +14,14 @@ public:
 	std::vector<Polygon3d> model;
 	std::vector<Polygon3d> box;
 
-	static constexpr double distanceBetweenBuildings = 60;
+	static const double sidewalkWidth;
+	static const double maxBuildingWidth;
+	static const double distanceBetweenBuildings;
+	static const double streetWidth; // distanceBetweenBuildings - maxBuildingWidth;
+
 	Building(Point center);
 	void draw();
-	void update(); // make the pendulum keep up with the frame rate
+	void update();
 	std::vector<Polygon3d> boundingBox();
 };
 

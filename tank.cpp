@@ -1,9 +1,14 @@
 #include "tank.h"
+#include "globals.h"
+#include "building.h"
 #include <iostream>
 using std::cout;
 
 
 Tank::Tank(Point center){
+	hitSphereCenter = Point(center.x, center.y, center.z + 1);
+	hitSphereRadius = 3.1;
+
 	this->center = center;
 	scale = 1;
 	baseAngle = 0;
@@ -11,6 +16,7 @@ Tank::Tank(Point center){
 	cannonAngle = 0;
 	laser = true;
 	tankSpeed = 0;
+	cooldown = 0;
 
 	collision = false;
 
@@ -389,17 +395,23 @@ void Tank::draw(){
 }
 
 void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
-	this->center.x += tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	this->center.y += tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	
+	if(onLock(newX,newY)){
+		this->center.x = newX;
+		this->center.y = newY;
+	}
+
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
 		this->baseAngle = 0;
 	this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
-	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, cameraMode);//keep camera synced to mouse movements
-	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, cameraMode);//keep turret synced to mouse movements
+	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2),this->center, cameraMode);//keep camera synced to mouse movements
+	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2), cameraMode);//keep turret synced to mouse movements
 
-
+	this->cooldown--;
 }
 
 void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon follow the mouse cursor
@@ -430,13 +442,13 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 		this->cannonAngle = this->cannonAngle;
 	}
 	else if(cameraMode == 1){
-		this->towerAngle = -1*angleH-90;//turret follows
+		this->towerAngle = -1.0*angleH-90.0;//turret follows
 		this->cannonAngle = angleV;
 	}
 	else{
 		
-		this->towerAngle = -1*angleH+90;
-		this->cannonAngle = 60-angleV; 	
+		this->towerAngle = -1.0*angleH+90.0;
+		this->cannonAngle = angleV; 	
 	}
 
 	
@@ -450,10 +462,30 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 
 }
 
+bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
+	double min = -(Building::maxBuildingWidth/2 + Building::sidewalkWidth);
+	double max =  (NUM_BLOCKS_WIDE - 1)*(Building::distanceBetweenBuildings) - min;
+
+	if (min <= x && x <= max && min <= y && y <= max) return 1;
+	else return 0;
+}
 
 
 std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
 	return this->totalBoundingBox;
 }
 
-void Tank::shoot() {}
+void Tank::shoot() {
+	if(this->cooldown>0){//true  = we are still in cooldown
+		return ;
+	}
+	double x = this->center.x + -1*(2.25-sin(cannonAngle*M_PI/180.0)) * sin(this->towerAngle*M_PI/180.0); 
+	double y = this->center.y + (2.25-sin(cannonAngle*M_PI/180.0)) * cos(this->towerAngle*M_PI/180.0); 
+	double z = this->center.z + 1.375 + 1.75*sin(this->cannonAngle*M_PI/180.0);
+	// printf("%.3f\n",z);
+
+
+	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90));
+	this->cooldown = 100;
+	// return projectile;
+}

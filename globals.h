@@ -11,6 +11,8 @@
 #include "polygon3d.h"
 
 #define PI 3.14159265358979
+#define NUM_BLOCKS_WIDE 15
+#define GRAVITY 9.81
 
 struct LIGHT_STRUCT{
 	double attenuation_linear;
@@ -66,6 +68,14 @@ public:
 
 extern GLOBAL_SETTINGS GLOBAL;
 //extern Tank * tank;
+
+
+class Building;
+extern std::vector<Building*> buildings;
+
+class Projectile;
+extern std::vector<Projectile*> projectiles;
+
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);

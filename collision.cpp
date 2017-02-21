@@ -35,7 +35,7 @@ double distance(Vector a, Vector b){
 
 }
 
-
+/*
 void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector<Target*>& targets){
 
 	double targetRadius;
@@ -47,7 +47,7 @@ void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector
 	for (int i = 0; i < targets.size(); i++){
 		
 		centerDistance = (tank->getFurthestPoint(), targets[i]->getFurthestPoint();	
-		targetRadius = distance(targets[i]-> getFurthestPoint(), target[i]->center());		
+		targetRadius = distance(targets[i]-> getFurthestPoint(), targets[i]->center());		
 
 		if(! (tankRadius+targetRadius < centerDistance) ){
 			// set tank collision flag to true
@@ -60,3 +60,4 @@ void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector
 		
 
 }
+*/
