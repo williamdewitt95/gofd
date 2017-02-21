@@ -33,7 +33,7 @@ gofd: main.o $(BUILD_OBJS) $(LIB_OBJS)
 
 # These are the object file targets 
 main.o: main.cpp  
-	$(CC) $(CFLAGS) main.cpp -c -o main.o   
+	$(CC) main.cpp -c -o main.o $(CFLAGS)  
 
 $(BUILD_DIR)/vector_basics.o: vector_basics.cpp vector_basics.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) vector_basics.cpp -c  -o $(BUILD_DIR)/vector_basics.o 
