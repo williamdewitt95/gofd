@@ -477,22 +477,21 @@ void Tank::drawHealthBar(int health)
 	glRotatef(90.0, 1.0, 0.0, 0.0);
 	glBegin(GL_POLYGON);
 		//draw remaining health
-		//glTranslatef(0.0, 100.0,0.0);
 		glColor3ub(0,255,0);
 		glVertex3f(0.0,0.0,0.0);
 		glVertex3f(0.0,20.0,0.0);
 		glVertex3f((float) (health/100.0)*100.0, 20.0, 0.0);
-		glVertex3f((float) (health/100.0)*100.0, 0.0, 0.0);
+		glVertex3f((float) (health/100.0)*100.0,  0.0, 0.0);
 	glEnd();
 	
 	glPushMatrix();
-	glTranslatef(0,0,-5);
+	//glTranslatef(0,0,-5);
 	glBegin(GL_POLYGON);
 		
-		//draw max heath bar
+		//draw missing heath bar
 		glColor3ub(255,0,0);
-		glVertex3f(0.0,0.0,0.0);
-		glVertex3f(0.0,20.0,0.0);
+		glVertex3f((float) (health/100.0)*100.0,  0.0, 0.0);
+		glVertex3f((float) (health/100.0)*100.0, 20.0, 0.0);
 		glVertex3f(100.0,20.0,0.0);
 		glVertex3f(100.0,0.0,0.0);
 	glEnd();
