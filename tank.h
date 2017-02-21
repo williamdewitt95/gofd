@@ -12,6 +12,8 @@ class Tank{
 
 public:
 	Point center;
+	Point hitSphereCenter;
+	double hitSphereRadius;
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser;
 	double tankSpeed;
@@ -23,6 +25,7 @@ public:
 	void draw();
 	void shoot();
 	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate
+	bool onLock(int x, int y);
 	void turretFollowMouse(int x, int y, int cameraMode);//turret + cannon follow mouse cursor
 	std::vector<std::vector<Polygon3d> > boundingBox(void);//return vector of vectors of individual bounding boxes
 };
