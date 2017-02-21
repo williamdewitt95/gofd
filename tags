@@ -95,6 +95,7 @@ center	tank.h	/^	Point center;$/;"	m	class:Tank
 center	target.h	/^	Point center;$/;"	m	class:Target
 color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT
 color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Polygon3d
+cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank
 cross	vector_basics.cpp	/^Vector Vector::cross(const Vector& other){$/;"	f	class:Vector
 crossProduct	vector_basics.cpp	/^Vector Vector::crossProduct(Vector& other){$/;"	f	class:Vector
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon3
@@ -225,7 +226,7 @@ setTesselation	polygon3d.cpp	/^void Polygon3d::setTesselation(bool tes){$/;"	f	c
 setTexture	polygon3d.cpp	/^void Polygon3d::setTexture(GLuint tex){$/;"	f	class:Polygon3d
 setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(Vector& x){$/;"	f	class:Polygon3d
 setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(double x, double y, double z){$/;"	f	class:Polygon3d
-shoot	tank.cpp	/^Projectile *Tank::shoot() {$/;"	f	class:Tank
+shoot	tank.cpp	/^void Tank::shoot() {$/;"	f	class:Tank
 sidewalkWidth	building.cpp	/^const double Building::sidewalkWidth = 3;$/;"	m	class:Building	file:
 sidewalkWidth	building.h	/^	static const double sidewalkWidth;$/;"	m	class:Building
 step	projectile.cpp	/^void Projectile::step() {$/;"	f	class:Projectile

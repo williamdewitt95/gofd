@@ -69,6 +69,7 @@ public:
 extern GLOBAL_SETTINGS GLOBAL;
 //extern Tank * tank;
 
+
 class Building;
 extern std::vector<Building*> buildings;
 

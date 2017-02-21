@@ -13,8 +13,8 @@ AI_Tank::AI_Tank(Tank *tank){
 		}
 	}
 	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
-	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth,//randomly generate a point to go to
-				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth);
+	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
+				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
 }
 
 
@@ -89,8 +89,8 @@ void AI_Tank::update_AI(){
 		turn(0.0);
 	}
 	else{//at location
-		calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth,
-				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth);
+		calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,
+				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
 		stop();
 	}
 
@@ -147,7 +147,7 @@ void AI_Tank::aim(Point enemy){
 	double delta = this->tank->towerAngle - angle;
 	// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
 	if(delta < 1.0 && delta > -1.0){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
-		projectiles.push_back(this->tank->shoot());//spawn a projectile in the global projectiles vector
+		this->tank->shoot();//spawn a projectile in the global projectiles vector
 		// printf("\n\nBang!\t %f",this->tank->towerAngle);
 	}
 	this->tank->towerAngle += -3.0*sin(delta *M_PI/180.0);
