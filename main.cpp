@@ -167,6 +167,8 @@ void display(){
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
 
+	tank->drawHealthBar(tank->health);
+
 	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
@@ -220,6 +222,11 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert -= camMove_speed;
 	}else if(key == 'x' || key == 'X'){
 		tank->shoot();
+	}else if(key == 'y' || key == 'Y'){
+		if(tank->health >= 10)
+			tank->health = tank->health-10;
+		glutPostRedisplay();
+		printf("%d\n", tank->health);
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
@@ -275,7 +282,7 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_vert -= camMove_speed;
 	}else if(key == ' '){
 		camMove_vert += camMove_speed;
-	}else if(key == 'x' || key == 'X'){
+	}else if(key == 'x' || key == 'X' || key == 'y' || key == 'Y'){
 		//do nothing, but stop printing unknown key
 	}else{
 		printf("Unknown Key Up %d\n",key);

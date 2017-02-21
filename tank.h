@@ -18,10 +18,12 @@ public:
 	bool laser;
 	double tankSpeed;
 	int cooldown;
+	int health;	
 
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
 	Tank(Point center);
+	void drawHealthBar(int health);
 	void draw();
 	void shoot();
 	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate

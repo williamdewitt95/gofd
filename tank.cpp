@@ -15,6 +15,7 @@ Tank::Tank(Point center){
 	laser = true;
 	tankSpeed = 0;
 	cooldown = 0;
+	health = 100;
 
 	//Base polygons
 
@@ -467,7 +468,37 @@ bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in
 std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
 	return this->totalBoundingBox;
 }
+void Tank::drawHealthBar(int health)
+{
 
+	glPushMatrix();
+	glTranslatef(5, 5, 5);
+	glScalef(0.005, 0.005, 0.005);
+	glRotatef(90.0, 1.0, 0.0, 0.0);
+	glBegin(GL_POLYGON);
+		//draw remaining health
+		//glTranslatef(0.0, 100.0,0.0);
+		glColor3ub(0,255,0);
+		glVertex3f(0.0,0.0,0.0);
+		glVertex3f(0.0,20.0,0.0);
+		glVertex3f((float) (health/100.0)*100.0, 20.0, 0.0);
+		glVertex3f((float) (health/100.0)*100.0, 0.0, 0.0);
+	glEnd();
+	
+	glPushMatrix();
+	glTranslatef(0,0,-5);
+	glBegin(GL_POLYGON);
+		
+		//draw max heath bar
+		glColor3ub(255,0,0);
+		glVertex3f(0.0,0.0,0.0);
+		glVertex3f(0.0,20.0,0.0);
+		glVertex3f(100.0,20.0,0.0);
+		glVertex3f(100.0,0.0,0.0);
+	glEnd();
+	glPopMatrix();
+	glPopMatrix();
+}
 void Tank::shoot() {
 	if(this->cooldown>0){//true  = we are still in cooldown
 		return ;
