@@ -151,6 +151,30 @@ Point Point::rotatePoint(double theta, bool x, bool y, bool z){
 
 }
 
+double Point::distance(Point other){
+ 	
+	Point xA = this->x;
+ 	
+	Point yA = this->y;
+ 	
+	Point zA = this->z; 
+ 
+ 	
+	Point xB = other.x;
+ 
+	Point yB = other.y;
+
+	Point zB = other.z;
+
+	double sqrX = pow(xB-xA, 2);
+	double sqrY = pow(yB-yA, 2);
+	double sqrZ = pow(zB-zA, 2);
+
+	double distance = sqrt(sqrX + sqrY + sqrZ);
+ 	
+}
+
+
 //==============================================================================
 // VECTOR CLASS
 //==============================================================================

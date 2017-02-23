@@ -39,6 +39,9 @@ public:
 	bool operator==(const Point& other);
 	bool operator!=(const Point& other);
 	double& operator[](const int index);
+
+	double distance(Point other);
+
 };
 
 class Vector{

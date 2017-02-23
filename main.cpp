@@ -18,6 +18,7 @@ using std::cout;
 
 std::vector<Building*> buildings; // must be a pointer so that we dont try to allocated GL things before it has been inited
 std::vector<Target*> targets;
+Target *closestTarget;
 double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
@@ -80,7 +81,7 @@ void gameEngine(){
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
 	ai_tank->updateTank();
-	ai_tank->nearbyTarget(tank);
+	ai_tank->nearbyTarget(closestTarget);//tank);
 	
 
 	for(int i=0; i < projectiles.size(); i++){
@@ -166,6 +167,8 @@ void display(){
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
+
+	closestTarget = &(ai_tank->setClosestTarget(targets));
 
 	glFlush();
 	glutSwapBuffers();
