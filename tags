@@ -201,6 +201,7 @@ operator /	vector_basics.cpp	/^Point Point::operator\/(const double scale){$/;"	
 operator /	vector_basics.cpp	/^Vector Vector::operator\/(const double scale){$/;"	f	class:Vector
 operator /=	vector_basics.cpp	/^Point& Point::operator\/=(const double scale){$/;"	f	class:Point
 operator /=	vector_basics.cpp	/^Vector& Vector::operator\/=(const double scale){$/;"	f	class:Vector
+operator <	mapnode.cpp	/^	bool operator<(const node &other){$/;"	f
 operator =	polygon3d.cpp	/^Polygon3d& Polygon3d::operator=(Polygon3d other){$/;"	f	class:Polygon3d
 operator ==	vector_basics.cpp	/^bool Point::operator==(const Point& other){$/;"	f	class:Point
 operator ==	vector_basics.cpp	/^bool Vector::operator==(const Vector& other){$/;"	f	class:Vector

@@ -41,3 +41,7 @@
 
 		return d;
 	}
+
+	bool operator<(const node &other){
+		this.getPriority() > other.getPriority();
+	}
