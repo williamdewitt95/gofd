@@ -22,6 +22,9 @@ AI_Tank::AI_Tank(Tank *tank){
 
 //something to hold the grid in - 2d array? - Do we even need a grid? Might be able to just calculate based positions of buildings (since we know them)
 
+/*void AI_Tank::findTargetPath(){
+	
+}*/
 
 
 //forwards
@@ -117,27 +120,27 @@ void AI_Tank::findNearestBuilding(Point center){
 	// if(this->)
 }
 
-void AI_Tank::nearbyTarget(Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
-	if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
-		enemy->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
+void AI_Tank::nearbyTarget(Target *target){ //Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
+	if(target->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
+		target->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
 		//TO-DO
 		//Detect if there is a building in the way of looking at the player tank
 		//
-		aim(enemy->center);
+		aim(target->center);
 	}
-	else if(enemy->center.y - this->tank->center.y < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
-		enemy->center.y - this->tank->center.y > -1.0*Building::streetWidth/2.0 ){
+	else if(target->center.y - this->tank->center.y < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
+		target->center.y - this->tank->center.y > -1.0*Building::streetWidth/2.0 ){
 		//TO-DO
 		//Detect if there is a building in the way of looking at the player tank
 		//
-		aim(enemy->center);
+		aim(target->center);
 	}
 }
 
 
-void AI_Tank::aim(Point enemy){
-	double y = this->tank->center.y - enemy.y;
-	double x = this->tank->center.x - enemy.x;
+void AI_Tank::aim(Point target){
+	double y = this->tank->center.y - target.y;
+	double x = this->tank->center.x - target.x;
 	double angle = (180.0/M_PI * atan(y / x) + 90.0);
 	if(x < 0.0){
 		angle += 180.0;

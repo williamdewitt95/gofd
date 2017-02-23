@@ -3,7 +3,7 @@
 
 #include "globals.h"
 #include "building.h"
-
+#include "target.h"
 
 
 class AI_Tank{
@@ -44,8 +44,8 @@ public:
 	void updateTank();
 
 	void findNearestBuilding(Point center);
-	void nearbyTarget(Tank * enemy);//check where the enemy is in comparison to where we are
-	void aim(Point enemy);//aim the turret at the enemy
+	void nearbyTarget(Target * target);//check where the enemy is in comparison to where we are
+	void aim(Point target);//aim the turret at the enemy
 };
 
 
