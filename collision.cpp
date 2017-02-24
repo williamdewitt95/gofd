@@ -36,23 +36,64 @@ double distance(Vector a, Vector b){
 }
 
 /*
-void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector<Target*>& targets){
+
+void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*> projectile){
 
 	double targetRadius;
 	double tankRadius = distance(tank->getFurthestPoint(), tank->center);
-	double centerDistance; 
+	double tankProjCenterDistance;
+	double projTankCenterDistance; 
+	double projRadius;
+	double tarRadius;
 
-	// getFurthestPoint method should return point of each object furthest from center  
+	// getFurthestPoint (alternately radius variable) should return point of each object furthest from center  
 
-	for (int i = 0; i < targets.size(); i++){
+	// check tank & building collision
+	// projectile collision
+	
+	\*
+ 	*
+ 	*
+ 	* cases: 
+ 	*
+ 	* 	>1: projectile + building
+ 	* 	>2: projectile + targets
+ 	* 	>3: tank + building
+ 	* 	>4: tank + projectile
+ 	*
+ 	*
+ 	*\
+
+	// cases 1 and 2
 		
-		centerDistance = (tank->getFurthestPoint(), targets[i]->getFurthestPoint();	
-		targetRadius = distance(targets[i]-> getFurthestPoint(), targets[i]->center());		
+	for (int i = 0; i < projectiles.size(); i++){
+		
+		// case 4
+		projTankCenterDistance = distance(tank->center(), projectiles[i]->center());	
+		projectileRadius = distance(projectiles[i]-> getFurthestPoint(), targets[i]->center());		
 
-		if(! (tankRadius+targetRadius < centerDistance) ){
+		if(! (tankRadius+projectileRadius < projTankCenterDistance) ){
 			// set tank collision flag to true
 			tank->collision = true;
+			projectile->collision = true;
 		}
+
+		// case 2
+		for (int j = 0; j < targets.size(); j++){
+
+			tarProjCenterDistance = distance(projectiles[i]->center(), targets[j]->center);
+			tarRadius = distance(projectiles[i]->getFurthestPoint(), targets[j]->getFurthestPoint());
+			
+			if(!(projectileRadius+tarRadius < tarProjCenterDistance)){
+				projectiles[i]->collision = true;
+				targets[j]->collision = true;
+			}
+
+
+		}
+				
+
+
 		else
 			tank->collision = false;
 
