@@ -153,18 +153,18 @@ Point Point::rotatePoint(double theta, bool x, bool y, bool z){
 
 double Point::distance(Point other){
  	
-	Point xA = this->x;
+	double xA = this->x;
  	
-	Point yA = this->y;
+	double yA = this->y;
  	
-	Point zA = this->z; 
+	double zA = this->z; 
  
  	
-	Point xB = other.x;
+	double xB = other.x;
  
-	Point yB = other.y;
+	double yB = other.y;
 
-	Point zB = other.z;
+	double zB = other.z;
 
 	double sqrX = pow(xB-xA, 2);
 	double sqrY = pow(yB-yA, 2);

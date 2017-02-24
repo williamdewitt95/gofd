@@ -44,7 +44,7 @@ public:
 	void updateTank();
 
 	void findNearestBuilding(Point center);
-	Target setClosestTarget(std::vector<Target*> targets);
+	Target* setClosestTarget(std::vector<Target*> targets);
 	void nearbyTarget(Target * target);//check where the enemy is in comparison to where we are
 	void aim(Point target);//aim the turret at the enemy
 };

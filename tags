@@ -70,7 +70,7 @@ WORLD_COORDINATE_MIN_X	globals.h	/^	double WORLD_COORDINATE_MIN_X;$/;"	m	class:G
 WORLD_COORDINATE_MIN_Y	globals.h	/^	double WORLD_COORDINATE_MIN_Y;$/;"	m	class:GLOBAL_SETTINGS
 __secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){$/;"	f	class:Polygon3d
 ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
-aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
+aim	ai.cpp	/^void AI_Tank::aim(Point target){$/;"	f	class:AI_Tank
 angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 angleV	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 attenuation_linear	globals.h	/^	double attenuation_linear;$/;"	m	struct:LIGHT_STRUCT
@@ -97,6 +97,7 @@ center	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
 center	tank.h	/^	Point center;$/;"	m	class:Tank
 center	target.h	/^	Point center;$/;"	m	class:Target
 checkedMap	ai.h	/^	int checkedMap[100][100];$/;"	m	class:AI_Tank
+closestTarget	main.cpp	/^Target *closestTarget;$/;"	v
 color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT
 color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Polygon3d
 cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank
@@ -108,6 +109,7 @@ destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
 directionalMap	ai.h	/^	int directionalMap[100][100];$/;"	m	class:AI_Tank
 display	main.cpp	/^void display(){$/;"	f
+distance	vector_basics.cpp	/^double Point::distance(Point other){$/;"	f	class:Point
 distanceBetweenBuildings	building.cpp	/^const double Building::distanceBetweenBuildings = 60;$/;"	m	class:Building	file:
 distanceBetweenBuildings	building.h	/^	static const double distanceBetweenBuildings;$/;"	m	class:Building
 dot	vector_basics.cpp	/^double Vector::dot(Vector& other){$/;"	f	class:Vector
@@ -179,7 +181,7 @@ model	building.h	/^	std::vector<Polygon3d> model;$/;"	m	class:Building
 mouseButtons	main.cpp	/^void mouseButtons(int but,int state,int x,int y){$/;"	f
 mouseMovement	main.cpp	/^void mouseMovement(int x,int y){$/;"	f
 name	globals.h	/^	std::string name;$/;"	m	struct:TextureInfo
-nearbyTarget	ai.cpp	/^void AI_Tank::nearbyTarget(Tank * enemy){\/\/check where the enemy tank is, if we think we can aim at him, do so$/;"	f	class:AI_Tank
+nearbyTarget	ai.cpp	/^void AI_Tank::nearbyTarget(Target *target){ \/\/Tank * enemy){\/\/check where the enemy tank is, if we think we can aim at him, do so$/;"	f	class:AI_Tank
 normal	polygon3d.h	/^	Vector normal;$/;"	m	class:Polygon3d
 numDir	ai.h	/^	enum {numDir = 8};$/;"	e	enum:AI_Tank::__anon1
 numPoints	polygon3d.cpp	/^int Polygon3d::numPoints()const{$/;"	f	class:Polygon3d
@@ -237,6 +239,7 @@ scale	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Ta
 scaleMouse	globals.cpp	/^void scaleMouse(int &x, int &y){$/;"	f
 scalePoint	vector_basics.cpp	/^Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){$/;"	f	class:Point
 setCenter	polygon3d.cpp	/^void Polygon3d::setCenter(Point pp){$/;"	f	class:Polygon3d
+setClosestTarget	ai.cpp	/^Target* AI_Tank::setClosestTarget(std::vector<Target*> targets){$/;"	f	class:AI_Tank
 setColor	polygon3d.cpp	/^void Polygon3d::setColor(GLubyte red,GLubyte green, GLubyte blue){$/;"	f	class:Polygon3d
 setColor	polygon3d.cpp	/^void Polygon3d::setColor(GLubyte red,GLubyte green, GLubyte blue, GLubyte alpha){$/;"	f	class:Polygon3d
 setRotation	polygon3d.cpp	/^void Polygon3d::setRotation(Vector& rot){$/;"	f	class:Polygon3d

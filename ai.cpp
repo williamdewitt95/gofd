@@ -121,20 +121,20 @@ void AI_Tank::findNearestBuilding(Point center){
 }
 
 
-Target AI_Tank::setClosestTarget(std::vector<Target*> targets){
+Target* AI_Tank::setClosestTarget(std::vector<Target*> targets){
 	
 
 	double dist = targets[0]->center.distance(this->tank->center);	
 	double tempDist;
 	
-	Target closestTarget = &targets[0];
+	Target *closestTarget = targets[0];
 
 	for(int i = 1; i<targets.size(); i++){
 		
 		tempDist = targets[i]->center.distance( this->tank->center);
 		
 		if(tempDist < dist){
-			closestTarget = &targets[i];
+			closestTarget = targets[i];
 			dist = tempDist;
 		}
 	}
@@ -142,6 +142,7 @@ Target AI_Tank::setClosestTarget(std::vector<Target*> targets){
 	return closestTarget;
 
 }
+
 
 void AI_Tank::nearbyTarget(Target *target){ //Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
 	if(target->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
