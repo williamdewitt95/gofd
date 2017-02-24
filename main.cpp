@@ -168,7 +168,7 @@ void display(){
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
 
-	closestTarget = &(ai_tank->setClosestTarget(targets));
+	closestTarget = ai_tank->setClosestTarget(targets);
 
 	glFlush();
 	glutSwapBuffers();
