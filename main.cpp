@@ -110,16 +110,9 @@ void drawHud()
 	glPushMatrix();
 	glLoadIdentity();
 
-	tank->drawHealthBar(tank->health);
-	//glColor3f(1,0,0);
-	//glPointSize(10.0);
-	/*glBegin(GL_POLYGON);
-		glVertex2i(0,0);
-		glVertex2i(0,10);
-		glVertex2i(10,10);
-		glVertex2i(10,0);
-	glEnd();
-	*/
+	tank->drawHealthBar();
+	tank->drawCooldownBar();
+		
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
