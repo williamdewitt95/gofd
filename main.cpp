@@ -98,6 +98,35 @@ void gameEngine(){
 	 * 	 	 	 	 		buildings, vechiles, projectiles and 
 	*/
 }
+
+void drawHud()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0.0,100.0,100.0,0.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	tank->drawHealthBar(tank->health);
+	//glColor3f(1,0,0);
+	//glPointSize(10.0);
+	/*glBegin(GL_POLYGON);
+		glVertex2i(0,0);
+		glVertex2i(0,10);
+		glVertex2i(10,10);
+		glVertex2i(10,0);
+	glEnd();
+	*/
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+
+
 void display(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
@@ -166,10 +195,12 @@ void display(){
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
+	
+	drawHud();
 
-	tank->drawHealthBar(tank->health);
+	//tank->drawHealthBar(tank->health);
 
-	glFlush();
+	//glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
 

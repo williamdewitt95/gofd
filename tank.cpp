@@ -476,32 +476,32 @@ std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
 void Tank::drawHealthBar(int health)
 {
 
-	glPushMatrix();
-	glTranslatef(5, 5, 5);
-	glScalef(0.005, 0.005, 0.005);
-	glRotatef(90.0, 1.0, 0.0, 0.0);
+//	glPushMatrix();
+	glTranslatef(82, 95, 0);
+	glScalef(0.15, 0.15, 0.15);
+//	glRotatef(90.0, 1.0, 0.0, 0.0);
 	glBegin(GL_POLYGON);
 		//draw remaining health
 		glColor3ub(0,255,0);
-		glVertex3f(0.0,0.0,0.0);
-		glVertex3f(0.0,20.0,0.0);
-		glVertex3f((float) (health/100.0)*100.0, 20.0, 0.0);
-		glVertex3f((float) (health/100.0)*100.0,  0.0, 0.0);
+		glVertex2f(0.0,0.0);
+		glVertex2f(0.0,20.0);
+		glVertex2f((float) (health/100.0)*100.0, 20.0);
+		glVertex2f((float) (health/100.0)*100.0,  0.0);
 	glEnd();
 	
-	glPushMatrix();
+//	glPushMatrix();
 	//glTranslatef(0,0,-5);
 	glBegin(GL_POLYGON);
 		
 		//draw missing heath bar
 		glColor3ub(255,0,0);
-		glVertex3f((float) (health/100.0)*100.0,  0.0, 0.0);
-		glVertex3f((float) (health/100.0)*100.0, 20.0, 0.0);
-		glVertex3f(100.0,20.0,0.0);
-		glVertex3f(100.0,0.0,0.0);
+		glVertex2f((float) (health/100.0)*100.0,  0.0);
+		glVertex2f((float) (health/100.0)*100.0, 20.0);
+		glVertex2f(100.0,20.0);
+		glVertex2f(100.0,0.0);
 	glEnd();
-	glPopMatrix();
-	glPopMatrix();
+//	glPopMatrix();
+//	glPopMatrix();
 }
 void Tank::shoot() {
 	if(this->cooldown>0){//true  = we are still in cooldown
