@@ -1,4 +1,6 @@
 #include "tank.h"
+#include "globals.h"
+#include "building.h"
 #include <iostream>
 using std::cout;
 
@@ -392,15 +394,21 @@ void Tank::draw(){
 }
 
 void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
-	this->center.x += tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	this->center.y += tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	
+	if(onLock(newX,newY)){
+		this->center.x = newX;
+		this->center.y = newY;
+	}
+
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
 		this->baseAngle = 0;
 	this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
-	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y/2,this->center, cameraMode);//keep camera synced to mouse movements
-	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2, GLOBAL.WINDOW_MAX_Y/2, cameraMode);//keep turret synced to mouse movements
+	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2),this->center, cameraMode);//keep camera synced to mouse movements
+	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2), cameraMode);//keep turret synced to mouse movements
 
 	this->cooldown--;
 }
@@ -454,13 +462,10 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 }
 
 bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
-	double maxX, maxY, minX, minY;	
-	maxX = GLOBAL.WORLD_COORDINATE_MAX_X;
-	maxY = GLOBAL.WORLD_COORDINATE_MAX_Y;
-	minX = GLOBAL.WORLD_COORDINATE_MIN_X;
-	minY = GLOBAL.WORLD_COORDINATE_MIN_Y;
+	double min = -(Building::maxBuildingWidth/2 + Building::sidewalkWidth);
+	double max =  (NUM_BLOCKS_WIDE - 1)*(Building::distanceBetweenBuildings) - min;
 
-	if (minX <= x && x <= maxX && minY <= y && y <= maxY) return 1;
+	if (min <= x && x <= max && min <= y && y <= max) return 1;
 	else return 0;
 }
 
