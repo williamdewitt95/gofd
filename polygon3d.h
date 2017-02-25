@@ -47,6 +47,7 @@ public:
 	Polygon3d(Triangle &);
 	Polygon3d(const Polygon3d&);
 
+	Vector polyNormal();
 	void setRotation(Vector&);
 	Vector getRotation();
 	void setScale(double);

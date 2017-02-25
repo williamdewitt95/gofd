@@ -35,6 +35,7 @@ double distance(Vector a, Vector b){
 
 }
 
+
 /*
 
 void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*> projectile){

@@ -77,6 +77,18 @@ Polygon3d::Polygon3d(const Polygon3d& other){
 	this->vertexTextureList = other.vertexTextureList;
 }
 
+Vector Polygon3d::polyNormal(){
+	Point a = (this->vertexList[1])+(this->vertexList[0]*(-1));
+	Point b = (this->vertexList[2])+(this->vertexList[0]*(-1));
+	Vector norm;
+
+	//normal calculated from Vector a and b
+	norm.x = (a.y)*(b.z)-(a.z)*(b.y);
+	norm.y = (a.x)*(b.z)-(a.z)*(b.x);
+	norm.z = (a.x)*(b.y)-(a.y)*(b.x);
+	return norm;
+}
+
 void Polygon3d::setRotation(Vector& rot){
 	this->rotation=rot;
 }
