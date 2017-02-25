@@ -32,6 +32,13 @@ void keyboard( unsigned char key, int x, int y )
 
 }
 
+
+void joystick(unsigned int buttonMask, int x, int y, int z)
+{
+	printf("button %d\n", buttonMask);
+	printf("joystick axes (x, y, z) = (%d, %d, %d)\n", x, y, z);
+}
+
 void display()
 {
 	// Load identity for drawing the white background.
@@ -55,6 +62,8 @@ int main(int argc, char** argv){
 	secondInit();
 
 	glutDisplayFunc(display);
+	glutKeyboardFunc(keyboard);
+	glutJoystickFunc(joystick,1);
 
 	glutMainLoop();
 	
