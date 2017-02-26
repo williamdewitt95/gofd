@@ -35,6 +35,9 @@ double distance(Vector a, Vector b){
 
 }
 
+bool sphereToPlane(Point c, double radius,Vector n, Point p){
+
+}
 
 /*
 
