@@ -398,7 +398,7 @@ void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRota
 	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
 	
-	if(onLock(newX,newY)){
+	if(onLock(newX,newY) && !(this->collision == true)){
 		this->center.x = newX;
 		this->center.y = newY;
 	}

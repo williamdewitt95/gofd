@@ -98,8 +98,8 @@ void gameEngine(){
 	 * 	 	 	 	 *	Carry out collision detection 
 	 * 	 	 	 	 		buildings, vechiles, projectiles and 
 	*/
-
-	//collisionDetect(tank, buildings,targets);
+	printf("%f\n",tank->center.x);
+	collisionDetect(tank, buildings,targets,projectiles);
 
 }
 void display(){

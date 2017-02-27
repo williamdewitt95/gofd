@@ -117,6 +117,7 @@ void AI_Tank::findNearestBuilding(Point center){
 }
 
 void AI_Tank::nearbyTarget(Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
+	//printf("x: %f\n",enemy->center.x);
 	if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
 		enemy->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
 		//TO-DO
