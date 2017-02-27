@@ -34,7 +34,7 @@ double distance(Vector a, Vector b){
         return sqrt(pow(xdif,2)+pow(ydif,2)+pow(zdif,2));
 
 }
-
+//c is the center point of sphere, n is normal of plane, p is point on plane
 bool sphereToPlane(Point c, double radius,Vector n, Point p){
 	double dist = ((c.x-p.x)*n.x + (c.y-p.y)*n.y + (c.z-p.z)*n.z)	/ sqrt(n.x^2 + n.y^2 + n.z^2);
 	if (dist>radius) return 0;
