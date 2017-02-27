@@ -36,7 +36,9 @@ double distance(Vector a, Vector b){
 }
 
 bool sphereToPlane(Point c, double radius,Vector n, Point p){
-
+	double dist = ((c.x-p.x)*n.x + (c.y-p.y)*n.y + (c.z-p.z)*n.z)	/ sqrt(n.x^2 + n.y^2 + n.z^2);
+	if (dist>radius) return 0;
+	else return 1;
 }
 
 /*
