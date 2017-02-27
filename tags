@@ -95,6 +95,7 @@ center	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
 center	tank.h	/^	Point center;$/;"	m	class:Tank
 center	target.h	/^	Point center;$/;"	m	class:Target
 collision	tank.h	/^	bool collision;$/;"	m	class:Tank
+collisionDetect	collision.cpp	/^void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){$/;"	f
 color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT
 color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Polygon3d
 cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank

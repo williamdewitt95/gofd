@@ -41,23 +41,25 @@ bool sphereToPlane(Point c, double radius,Vector n, Point p){
 	else return 1;
 }
 
-/*
 
-void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*> projectile){
 
+void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
+
+	/*
 	double targetRadius;
 	double tankRadius = distance(tank->getFurthestPoint(), tank->center);
 	double tankProjCenterDistance;
 	double projTankCenterDistance; 
 	double projRadius;
 	double tarRadius;
+	*/
 
 	// getFurthestPoint (alternately radius variable) should return point of each object furthest from center  
 
 	// check tank & building collision
 	// projectile collision
 	
-	\*
+	/*
  	*
  	*
  	* cases: 
@@ -68,10 +70,11 @@ void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector
  	* 	>4: tank + projectile
  	*
  	*
- 	*\
+ 	*/
 
 	// cases 1 and 2
-		
+
+	/*		
 	for (int i = 0; i < projectiles.size(); i++){
 		
 		// case 4
@@ -105,6 +108,24 @@ void collisionDetect(Tank*& tank, std::vector<Building*>& buildings, std::vector
 
 	}
 		
+	*/
 
+	for(int i = 0; i < buildings.size(); i++){
+
+		double tbDist = distance(tank->center,buildings[i]->center);
+
+		//printf("dist from t and b: %f, radii both: %f\n",tbDist, tank->hitSphereRadius + buildings[i]->maxBuildingWidth/2);
+		if(tank->collision){printf("colliding");}
+		//printf("tank x: %f\n",tank->center.x);
+		if(tbDist < tank->hitSphereRadius + buildings[i]->maxBuildingWidth/2){
+			tank->collision = true;
+		}else{
+			tank->collision = false;
+		}
+
+	}
 }
-*/
+
+
+
+
