@@ -3,7 +3,7 @@
 
 #include "globals.h"
 #include "building.h"
-
+#include "tank.h"
 
 
 class AI_Tank{

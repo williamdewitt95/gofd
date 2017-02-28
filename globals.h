@@ -7,10 +7,11 @@
 #include <unordered_map>
 #include <string>
 #include "imageLibrary/image.h"
-#include "tank.h"
+//#include "tank.h"
 #include "polygon3d.h"
-#include "collision.h"
-#include "projectile.h"
+//#include "collision.h"
+//#include "projectile.h"
+//#include "building.h"
 
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15

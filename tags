@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
 AI	ai.h	2;"	d
 AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank){$/;"	f	class:AI_Tank
 AI_Tank	ai.h	/^class AI_Tank{$/;"	c
@@ -21,7 +21,7 @@ GLOBAL_SETTINGS	globals.cpp	/^GLOBAL_SETTINGS::GLOBAL_SETTINGS(){$/;"	f	class:GL
 GLOBAL_SETTINGS	globals.h	/^class GLOBAL_SETTINGS{$/;"	c
 GLOP_BUILDING	building.h	2;"	d
 GLOP_GLOBALS	globals.h	2;"	d
-GRAVITY	globals.h	17;"	d
+GRAVITY	globals.h	18;"	d
 LIGHTS	globals.h	/^	std::vector<LIGHT_STRUCT> LIGHTS;$/;"	m	class:GLOBAL_SETTINGS
 LIGHT_STRUCT	globals.h	/^struct LIGHT_STRUCT{$/;"	s
 LineSeg	vector_basics.cpp	/^LineSeg::LineSeg(){$/;"	f	class:LineSeg
@@ -29,8 +29,8 @@ LineSeg	vector_basics.cpp	/^LineSeg::LineSeg(Point p1, const Vector& v){$/;"	f	c
 LineSeg	vector_basics.cpp	/^LineSeg::LineSeg(const Point& p1, const Point& p2){$/;"	f	class:LineSeg
 LineSeg	vector_basics.h	/^class LineSeg{$/;"	c
 MODEL_TRIANGLES	globals.h	/^struct MODEL_TRIANGLES{$/;"	s
-NUM_BLOCKS_WIDE	globals.h	16;"	d
-PI	globals.h	15;"	d
+NUM_BLOCKS_WIDE	globals.h	17;"	d
+PI	globals.h	16;"	d
 PI	vector_basics.h	8;"	d
 PROJECTILE	projectile.h	2;"	d
 Point	vector_basics.cpp	/^Point::Point(){$/;"	f	class:Point

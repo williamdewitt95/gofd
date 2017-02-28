@@ -8,9 +8,10 @@
 #include "projectile.h"
 #include "building.h"
 #include "target.h"
+#include "collision.h"
 
 class Projectile;
-
+class Building;
 class Tank{
 
 public:
