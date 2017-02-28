@@ -79,7 +79,7 @@ void gameEngine(){
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
 	//iterate tank properties
-	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
+	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, buildings, targets, projectiles); // the things below need to be moved into this function
 	ai_tank->updateTank();
 	ai_tank->nearbyTarget(tank);
 	
@@ -98,9 +98,8 @@ void gameEngine(){
 	 * 	 	 	 	 *	Carry out collision detection 
 	 * 	 	 	 	 		buildings, vechiles, projectiles and 
 	*/
-	printf("%f\n",tank->center.x);
-	collisionDetect(tank, buildings,targets,projectiles);
-
+	//printf("%f\n",tank->center.x);
+	//collisionDetect(tank, buildings,targets,projectiles);
 }
 void display(){
 	glMatrixMode(GL_PROJECTION);
@@ -329,7 +328,7 @@ int main(int argc,char** args){
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
-	glutCreateWindow("Pendulum");
+	glutCreateWindow("Game of Drones");
 
 	glClearColor(0,0,0,0);
 
@@ -376,7 +375,7 @@ int main(int argc,char** args){
 		}
 	}
 
-	tank = new Tank(Point(0, 0, 0));
+	tank = new Tank(Point(0, Building::distanceBetweenBuildings/2, 0));
 	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 
 

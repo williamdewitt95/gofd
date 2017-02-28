@@ -36,14 +36,15 @@ double distance(Vector a, Vector b){
 }
 //c is the center point of sphere, n is normal of plane, p is point on plane
 bool sphereToPlane(Point c, double radius,Vector n, Point p){
-	double dist = ((c.x-p.x)*n.x + (c.y-p.y)*n.y + (c.z-p.z)*n.z)	/ sqrt(n.x^2 + n.y^2 + n.z^2);
-	if (dist>radius) return 0;
-	else return 1;
+	//double dist = ((c.x-p.x)*n.x + (c.y-p.y)*n.y + (c.z-p.z)*n.z)	/ sqrt(n.x^2 + n.y^2 + n.z^2);
+	//if (dist>radius) return 0;
+	//else 
+	return 1;
 }
 
 
 
-void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
+bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
 
 	/*
 	double targetRadius;
@@ -109,21 +110,24 @@ void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<
 	}
 		
 	*/
-
+	printf("collision detect start");
 	for(int i = 0; i < buildings.size(); i++){
 
-		double tbDist = distance(tank->center,buildings[i]->center);
-
+		double tbDist = distance(center,buildings[i]->center);
+		printf("distance between: %f, tank x: %f, tank y: %f, building x: %f, building y: %f\n", tbDist, center.y ,center.x, buildings[i]->center.x, buildings[i]->center.y);
 		//printf("dist from t and b: %f, radii both: %f\n",tbDist, tank->hitSphereRadius + buildings[i]->maxBuildingWidth/2);
-		if(tank->collision){printf("colliding");}
+		//if(tank->collision){printf("colliding");}
 		//printf("tank x: %f\n",tank->center.x);
-		if(tbDist < tank->hitSphereRadius + buildings[i]->maxBuildingWidth/2){
-			tank->collision = true;
-		}else{
-			tank->collision = false;
+		if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2){
+			//tank->collision = true;
+			return true;
+			printf("collide true\n");
 		}
 
 	}
+
+	return false;
+
 }
 
 

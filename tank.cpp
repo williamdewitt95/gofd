@@ -394,11 +394,19 @@ void Tank::draw(){
 	glPopMatrix();
 }
 
-void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
+void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
 	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+
+	Point cen;
+	cen.x = newX;
+	cen.y = newY;
+	cen.z = 0;
+
+	this->collision = collisionDetect(cen, this->hitSphereRadius, buildings ,targets ,projectiles);
 	
-	if(onLock(newX,newY) && !(this->collision == true)){
+	if(onLock(newX,newY) && !this->collision){
+		//printf("updating\n");
 		this->center.x = newX;
 		this->center.y = newY;
 	}

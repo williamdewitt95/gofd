@@ -6,6 +6,9 @@
 #include <math.h>
 #include <vector>
 #include "projectile.h"
+#include "building.h"
+#include "target.h"
+
 class Projectile;
 
 class Tank{
@@ -26,7 +29,7 @@ public:
 	Tank(Point center);
 	void draw();
 	void shoot();
-	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate
+	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles); // update the tanks information
 	bool onLock(int x, int y);
 	void turretFollowMouse(int x, int y, int cameraMode);//turret + cannon follow mouse cursor
 	std::vector<std::vector<Polygon3d> > boundingBox(void);//return vector of vectors of individual bounding boxes
