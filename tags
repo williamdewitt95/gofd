@@ -69,6 +69,7 @@ WORLD_COORDINATE_MIN_Y	globals.h	/^	double WORLD_COORDINATE_MIN_Y;$/;"	m	class:G
 __secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){$/;"	f	class:Polygon3d
 ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
 aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
+angleBtw	vector_basics.cpp	/^double Vector::angleBtw(Vector& other){$/;"	f	class:Vector
 angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 angleV	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 attenuation_linear	globals.h	/^	double attenuation_linear;$/;"	m	struct:LIGHT_STRUCT
@@ -210,6 +211,7 @@ p2	vector_basics.h	/^	Point p2;$/;"	m	class:LineSeg
 p3	globals.h	/^	double p3[3];$/;"	m	struct:MODEL_TRIANGLES
 p3	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
 passiveMouseMovement	main.cpp	/^void passiveMouseMovement(int x,int y){$/;"	f
+pointToPolygon	collision.cpp	/^bool pointToPolygon(Point p, std::vector<Point> shape){\/\/assumes point is on plane$/;"	f
 polyNormal	polygon3d.cpp	/^Vector Polygon3d::polyNormal(){$/;"	f	class:Polygon3d
 possition	globals.h	/^	double possition[3];$/;"	m	struct:LIGHT_STRUCT
 projectiles	main.cpp	/^std::vector<Projectile*> projectiles;$/;"	v

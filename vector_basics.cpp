@@ -171,9 +171,7 @@ Vector::Vector(Point& p1, Point& p2){ // p1 is the starting point and p2 is wher
 	this->x = p2.x - p1.x;
 	this->y = p2.y - p1.y;
 	this->z = p2.z - p1.z;
-}
-
-//==============================================================================
+}//==============================================================================
 //  BASIC VECTOR OPERATIONS
 //==============================================================================
 double Vector::magnitude(){
@@ -205,6 +203,17 @@ Vector Vector::cross(const Vector& other){
 }
 Vector Vector::crossProduct(Vector& other){
 	this->cross(other);
+}
+
+double Vector::angleBtw(Vector& other){
+	double dotP = this->dotProduct(other);
+	double aMag = this->magnitude();
+	double bMag = other.magnitude();
+
+	double angle = acos(dotP/(aMag*bMag));
+	angle = ((angle * 180)/ PI);
+	//testing// if(this->crossProduct(other).z < 0) angle = 360 - angle;
+	return angle;
 }
 
 //==============================================================================

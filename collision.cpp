@@ -42,7 +42,24 @@ bool sphereToPlane(Point c, double radius,Vector n, Point p){
 	return 1;
 }
 
+bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on plane
+	double total = 0.0;
+	
+	for(int i = 0; i < shape.size(); i++){
+		Vector v1 = Vector(p,shape[i]);
+		if(i == 3){
+			Vector v2 = Vector(p,shape[0]);
+			total += v1.angleBtw(v2);
 
+		}
+		else {
+			Vector v2 = Vector(p,shape[i + 1]);
+			total += v1.angleBtw(v2);
+		}
+	}
+	if (total == 360) return true;
+	else return 0;
+}
 
 bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
 
