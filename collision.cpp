@@ -46,12 +46,18 @@ bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on pla
 	
 	for(int i = 0; i < shape.size(); i++){
 		Vector v1 = Vector(p,shape[i]);
-		if(i == 3) Vector v2 = Vector(p,shape[0]);
-		else Vector v2 = Vector(p,shape[i + 1]);
+		if(i == 3){
+			Vector v2 = Vector(p,shape[0]);
+			total += v1.angleBtw(v2);
 
-		
-
+		}
+		else {
+			Vector v2 = Vector(p,shape[i + 1]);
+			total += v1.angleBtw(v2);
+		}
 	}
+	if (total == 360) return true;
+	else return 0;
 }
 
 void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
