@@ -36,12 +36,23 @@ double distance(Vector a, Vector b){
 }
 //c is the center point of sphere, n is normal of plane, p is point on plane
 bool sphereToPlane(Point c, double radius,Vector n, Point p){
-	double dist = ((c.x-p.x)*n.x + (c.y-p.y)*n.y + (c.z-p.z)*n.z)	/ sqrt(n.x^2 + n.y^2 + n.z^2);
+	double dist = ((c.x-p.x)*n.x + (c.y-p.y)*n.y + (c.z-p.z)*n.z)	/ sqrt(n.x*n.x + n.y*n.y + n.z*n.z);
 	if (dist>radius) return 0;
 	else return 1;
 }
 
+bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on plane
+	double total = 0.0;
+	
+	for(int i = 0; i < shape.size(); i++){
+		Vector v1 = Vector(p,shape[i]);
+		if(i == 3) Vector v2 = Vector(p,shape[0]);
+		else Vector v2 = Vector(p,shape[i + 1]);
 
+		
+
+	}
+}
 
 void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
 

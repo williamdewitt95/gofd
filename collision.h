@@ -15,6 +15,7 @@
 double distance(Point a, Point b);
 double distance(Vector a, Vector b);
 bool sphereToPlane(Point c, double radius,Vector n, Point p);
+bool pointToPolygon(Point p, std::vector<Point> shape);//assumes point and polygon lie on same plane
 void collisionDetect(Tank* tank, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles);
 
 

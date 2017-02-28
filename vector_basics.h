@@ -62,6 +62,7 @@ public:
 	double dotProduct(Vector& other);
 	Vector cross(const Vector& other);
 	Vector crossProduct(Vector& other);
+	double angleBtw(Vector& other);
 
 	//==============================================================================
 	//  OPERATOR OVERLOADS
