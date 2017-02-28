@@ -35,8 +35,15 @@ void keyboard( unsigned char key, int x, int y )
 
 void joystick(unsigned int buttonMask, int x, int y, int z)
 {
-	printf("button %d\n", buttonMask);
-	printf("joystick axes (x, y, z) = (%d, %d, %d)\n", x, y, z);
+	for(int i = 0; i < 32; i++)
+	{
+		if(buttonMask & 1)
+			printf("1 ");
+		else
+			printf("0 ");
+		buttonMask = buttonMask >> 1;
+	}
+	printf("\njoystick axes (x, y, z) = (%d, %d, %d)\n", x, y, z);
 }
 
 void display()
