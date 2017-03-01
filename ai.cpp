@@ -3,6 +3,9 @@
 
 
 AI_Tank::AI_Tank(Tank *tank){
+
+	//std::cout << "tank constructor" << std::endl;
+
 	this->tank = tank;
 
 	for(int i=0;i<15;i++){
@@ -29,18 +32,27 @@ AI_Tank::AI_Tank(Tank *tank){
 
 //forwards
 void AI_Tank::forwards(){
+
+	//std::cout << "tank forwards" << std::endl;
+
 	this->tank->tankSpeed = 0.15;
 }
 void AI_Tank::forwards(double speed){
+
+	//std::cout << "tank forwards" << std::endl;
 	this->tank->tankSpeed = speed;
 }
 //stop or do nothing
 void AI_Tank::stop(){
+
+	//std::cout << "tank stop" << std::endl;
 	this->tank->tankSpeed = 0;
 }
 //turn left
 //turn right
 bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees is passed
+
+	//std::cout << "tank turn" << std::endl;
 	if(direction < 0){
 		direction += 360.0;
 	}
@@ -70,6 +82,8 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 
 
 void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordinate
+
+	//std::cout << "tank calcPath" << std::endl;
 	this->destination = Point(x,y,0);
 	// printf("\ndestination: %f, %f, %f",this->destination.x,this->destination.y,this->destination.z);
 	forwards();
@@ -80,6 +94,9 @@ void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordi
 //AI update function that checks the grid location now, and then gives directions at junctions
 
 void AI_Tank::update_AI(){
+
+	//std::cout << "tank update_ai" << std::endl;
+
 	if((int)this->tank->center.x > (int)this->destination.x){//for now, we will simply go down x until we reach destination x, then we go down y
 		turn(90.0);
 	}
@@ -101,6 +118,8 @@ void AI_Tank::update_AI(){
 }
 
 void AI_Tank::updateTank(){
+
+	//std::cout << "tank update" << std::endl;
 	update_AI();
 	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
 	this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
@@ -114,6 +133,8 @@ void AI_Tank::updateTank(){
 
 //find the building that is closes to the AI tank that the AI tank wants to look through
 void AI_Tank::findNearestBuilding(Point center){
+
+	//std::cout << "tank find nearest building" << std::endl;
 	double x = (Building::maxBuildingWidth/2.0 + center.x) / Building::maxBuildingWidth;//which row
 	double y = (Building::maxBuildingWidth/2.0 + center.y) / Building::maxBuildingWidth;//which column
 	//NUM_BLOCKS_WIDE*x + y//vectors stored linearly in memory, so go the number of columns + the number of rows
@@ -123,7 +144,7 @@ void AI_Tank::findNearestBuilding(Point center){
 
 Target* AI_Tank::setClosestTarget(std::vector<Target*> targets){
 	
-
+	//std::cout << "tank setClosestTarget" << targets[0] << std::endl;
 	double dist = targets[0]->center.distance(this->tank->center);	
 	double tempDist;
 	
@@ -132,12 +153,17 @@ Target* AI_Tank::setClosestTarget(std::vector<Target*> targets){
 	for(int i = 1; i<targets.size(); i++){
 		
 		tempDist = targets[i]->center.distance( this->tank->center);
-		
+		//std::cout << "closest target " << i << "\t" << targets[i]->center.x << "\t" << targets[i]->center.y << std::endl;
+	
 		if(tempDist < dist){
 			closestTarget = targets[i];
 			dist = tempDist;
+
+			//std::cout << "closest target " << targets[i] << std::endl;
 		}
 	}
+
+
 
 	return closestTarget;
 
@@ -145,6 +171,9 @@ Target* AI_Tank::setClosestTarget(std::vector<Target*> targets){
 
 
 void AI_Tank::nearbyTarget(Target *target){ //Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
+
+	//std::cout << "tank nearbyTarget " << target->center.x << "\t" << target->center.y << std::endl;
+
 	if(target->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
 		target->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
 		//TO-DO
@@ -163,6 +192,9 @@ void AI_Tank::nearbyTarget(Target *target){ //Tank * enemy){//check where the en
 
 
 void AI_Tank::aim(Point target){
+	
+	//std::cout << "tank aim" << std::endl;
+
 	double y = this->tank->center.y - target.y;
 	double x = this->tank->center.x - target.x;
 	double angle = (180.0/M_PI * atan(y / x) + 90.0);

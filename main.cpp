@@ -36,7 +36,6 @@ AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
-	//scaleMouse(x,y);
 
 	//this is still needed since we are expecting to measure from the bottom left with how i set things up but the mouse is reported from the top left
 	y=GLOBAL.WINDOW_MAX_Y-y;
@@ -56,6 +55,7 @@ void mouseButtons(int but,int state,int x,int y){
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
+
 	cameraMovement(x,y,tank->center,cameraMode);
 	tank->turretFollowMouse(x, y,cameraMode);
 }
@@ -66,6 +66,7 @@ void mouseMovement(int x,int y){
 }
 
 void gameEngine(){
+
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
 	//printf("Here\n");
@@ -81,8 +82,8 @@ void gameEngine(){
 	//iterate tank properties
 	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
 	ai_tank->updateTank();
-	ai_tank->nearbyTarget(closestTarget);//tank);
 	
+	ai_tank->nearbyTarget(closestTarget);//tank);
 
 	for(int i=0; i < projectiles.size(); i++){
 		projectiles[i]->update();
@@ -100,6 +101,9 @@ void gameEngine(){
 	*/
 }
 void display(){
+
+	//std::cout << "display" << std::endl;
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
 	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
@@ -168,7 +172,9 @@ void display(){
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
 
-	closestTarget = ai_tank->setClosestTarget(targets);
+	//closestTarget = ai_tank->setClosestTarget(targets);
+	//std::cout << "closestTarget " << closestTarget->center.x << std::endl;
+
 
 	glFlush();
 	glutSwapBuffers();
@@ -177,6 +183,9 @@ void display(){
 }
 
 void keyboardButtons(unsigned char key, int x, int y){
+
+	//std::cout << "keyboard buttons" << std::endl;
+
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
@@ -244,6 +253,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert = -1 * camMove_speed;
 }
 void keyboardButtonsUp(unsigned char key, int x, int y){
+
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
@@ -302,6 +312,8 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_vert = -1 * camMove_speed;
 }
 void keyboardButtons_special(int key,int x,int y){
+
+
 	if(key == GLUT_KEY_UP){
 	}else if(key == GLUT_KEY_DOWN){
 	}else if(key == GLUT_KEY_LEFT){
@@ -313,6 +325,7 @@ void keyboardButtons_special(int key,int x,int y){
 	}
 }
 void keyboardButtonsUp_special(int key,int x,int y){
+		
 	if(key == GLUT_KEY_UP){
 	}else if(key == GLUT_KEY_DOWN){
 	}else if(key == GLUT_KEY_LEFT){
@@ -325,6 +338,9 @@ void keyboardButtonsUp_special(int key,int x,int y){
 }
 
 int main(int argc,char** args){
+	
+	//std::cout << "main" << std::endl;
+
 	glutInit(&argc, args);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA);
 
@@ -377,6 +393,8 @@ int main(int argc,char** args){
 	tank = new Tank(Point(0, 0, 0));
 	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 
+	closestTarget = ai_tank->setClosestTarget(targets);
+        //std::cout << "closestTarget " << closestTarget->center.x << "\t" << closestTarget->center.y << std::endl;
 
 	glutMainLoop();
 	return 0;
