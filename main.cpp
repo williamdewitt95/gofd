@@ -100,8 +100,8 @@ void gameEngine(){
 }
 
 void drawHud()
-{
-	glMatrixMode(GL_PROJECTION);
+{//to draw the 2d hud on 3d scene
+	glMatrixMode(GL_PROJECTION);//get out 2D on
 	glPushMatrix();
 	glLoadIdentity();
 	gluOrtho2D(0.0,100.0,100.0,0.0);
@@ -110,9 +110,11 @@ void drawHud()
 	glPushMatrix();
 	glLoadIdentity();
 
+	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
-		
+	
+	//get us back to 3D swag
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
