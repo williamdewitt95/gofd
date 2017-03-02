@@ -1,6 +1,14 @@
 #include "collision.h"
 
 
+// chris:: Struct introduces the paramaters of a plane
+struct plane {
+	double a;
+	double b;
+	double c;
+	double d;
+};
+
 /*
 Distance function usage
 	Point *a = new Point(0,0,0);
@@ -60,6 +68,24 @@ bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on pla
 	if (total == 360) return true;
 	else return 0;
 }
+
+// chris:: Takes in 4 points.  3 points of which are on the plane
+// 4th point not ont he plane.  The three points will be converted
+// to parameters of a plane and then the equation for the plane
+// will be taken and the distance between point 4 and a orthogonal point
+// is calculated
+double distPlaneToPoint (Point a, Point b, Point c, Point d)
+{
+	plane tmp;
+	vector v1, v2, v3;
+	v1 = vector (a,b);
+	v2 = vector (a,c);
+	v3 = v1.cross (v2);
+	tmp.a = v3.x; tmp.b v3.y; tmp.c = v3.z;
+	tmp.d = -1*v3.x*v1.x + -1*v3.y*v1.y + -1*v3.z*v1.z;
+	return abs(tmp.a*d.x + tmp.b*d.y + tmp.c*d.z + tmp.d)/(sqrt(tmp.a*tmp.a + tmp.b*tmp.b + tmp.c*tmp.c));
+}
+
 
 bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
 
