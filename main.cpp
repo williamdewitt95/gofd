@@ -114,7 +114,7 @@ void drawHud()
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
 	
-	//get us back to 3D swag
+	//get us back to 3D
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
