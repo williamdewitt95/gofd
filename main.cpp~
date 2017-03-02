@@ -31,10 +31,9 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
-bool orthoView = false;
-
 
 void mouseButtons(int but,int state,int x,int y){
 
@@ -109,8 +108,6 @@ void display(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
 	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
-	
-	if(!orthoView){
 	gluPerspective(90,aspect,0.1,1000);
 	{
 		double temp[3]={
@@ -118,21 +115,11 @@ void display(){
 			GLOBAL.CAMERA_POS.y + GLOBAL.CAMERA_LOOK_VECTOR.y,
 			GLOBAL.CAMERA_POS.z + GLOBAL.CAMERA_LOOK_VECTOR.z
 		};
-
 		gluLookAt(
 				GLOBAL.CAMERA_POS.x,GLOBAL.CAMERA_POS.y,GLOBAL.CAMERA_POS.z,
 				temp[0],temp[1],temp[2],
 				0,0,1
 				);
-	}
-	}
-
-	else{
-		glOrtho( -500.0, 500.0, -500.0, 500.0, 0.1, 1000);
-		{
-			gluLookAt(450.0, 450.0, -800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);	
-		}
-		
 	}
 
 	glMatrixMode(GL_MODELVIEW);
@@ -233,9 +220,6 @@ void keyboardButtons(unsigned char key, int x, int y){
 		else{
 			cameraMode++;
 		}
-	}
-	else if(key == 'v' || key == 'V'){
-		orthoView = !orthoView;
 	}else if(key == '-' || key == '_'){
 		tankCannonRotate -= 2;
 	}else if(key == '=' || key == '+'){

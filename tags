@@ -211,6 +211,7 @@ operator []	polygon3d.cpp	/^Point& Polygon3d::operator[](int x){$/;"	f	class:Pol
 operator []	vector_basics.cpp	/^Point& LineSeg::operator[](const int& index){$/;"	f	class:LineSeg
 operator []	vector_basics.cpp	/^double& Point::operator[](const int index){$/;"	f	class:Point
 operator []	vector_basics.cpp	/^double& Vector::operator[](const int index){$/;"	f	class:Vector
+orthoView	main.cpp	/^bool orthoView = false;$/;"	v
 p	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
 p1	globals.h	/^	double p1[3];$/;"	m	struct:MODEL_TRIANGLES
 p1	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
