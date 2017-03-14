@@ -406,26 +406,21 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 		cout << "tankAccel = " << tankAccel << "\n";
 		tankSpeed += tankAccel;
 	}
+
 	//apply friction
-	
-	//if (tankAccel == 0) {
-		if (tankSpeed > 0) {
-			tankSpeed -= rollingFriction;
-			if (tankSpeed < 0)
-				tankSpeed = 0;
-		}
-		if (tankSpeed < 0) {
-			tankSpeed += rollingFriction;
-			if (tankSpeed > 0)
-				tankSpeed = 0;
-		}
-	
-	//}
+	if (tankSpeed > 0) {
+		tankSpeed -= rollingFriction;
+		if (tankSpeed < 0)
+			tankSpeed = 0;
+	}
+	if (tankSpeed < 0) {
+		tankSpeed += rollingFriction;
+		if (tankSpeed > 0)
+			tankSpeed = 0;
+	}
 
 	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
-	//cout << "tankSpeed = " << tankSpeed << "\n";
-	cout << "angle between tower and base = " << (this->towerAngle + 90) - (this->baseAngle + 90) << "\n";
 
 	//translate for recoil
 	if (tankRecoil) {
@@ -433,7 +428,6 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 
 		double recoilSpeedX = recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
 		double recoilSpeedY = recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
-
 
 		recoilSpeedX -= kineticFriction;
 		recoilSpeedY -= rollingFriction;
@@ -630,14 +624,8 @@ void Tank::shoot() {
 }
 
 void Tank::applyRecoil() {
-
-//	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-//	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
-
 	tankRecoil = true;
 	recoilSpeed = 0.1;
 	recoilAngle = this->towerAngle + 90;
 	towerToBaseAngle = (this->towerAngle + 90) - (this->baseAngle + 90);
-
-
 }
