@@ -15,8 +15,9 @@ public:
 	Point hitSphereCenter;
 	double hitSphereRadius;
 	double baseAngle, towerAngle, cannonAngle, scale;
-	bool laser;
-	double tankSpeed;
+	bool laser, tankRecoil;
+	double tankSpeed, recoilSpeed, recoilAngle, towerToBaseAngle;
+	double rollingFriction, kineticFriction;
 	int cooldown;
 	int health;	
 
@@ -27,7 +28,8 @@ public:
 	void drawCooldownBar();
 	void draw();
 	void shoot();
-	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate
+	void applyRecoil();
+	void update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel); // make the pendulum keep up with the frame rate
 	bool onLock(int x, int y);
 	void turretFollowMouse(int x, int y, int cameraMode);//turret + cannon follow mouse cursor
 	std::vector<std::vector<Polygon3d> > boundingBox(void);//return vector of vectors of individual bounding boxes

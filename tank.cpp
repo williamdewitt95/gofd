@@ -16,8 +16,14 @@ Tank::Tank(Point center){
 	cannonAngle = 0;
 	laser = true;
 	tankSpeed = 0;
+	recoilSpeed = 0;
+	rollingFriction = 0.0005;
+	kineticFriction = 0.005;
 	cooldown = 0;
 	health = 100;
+	tankRecoil = false;
+	recoilAngle = 0;
+	towerToBaseAngle = 0;
 
 	//Base polygons
 
@@ -393,9 +399,56 @@ void Tank::draw(){
 	glPopMatrix();
 }
 
-void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
+void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
+
+	//max speed limit
+	if (((tankSpeed < 0.15) && (tankAccel > 0)) || ((tankSpeed > -0.15) && (tankAccel < 0)))  {
+		cout << "tankAccel = " << tankAccel << "\n";
+		tankSpeed += tankAccel;
+	}
+	//apply friction
+	
+	//if (tankAccel == 0) {
+		if (tankSpeed > 0) {
+			tankSpeed -= rollingFriction;
+			if (tankSpeed < 0)
+				tankSpeed = 0;
+		}
+		if (tankSpeed < 0) {
+			tankSpeed += rollingFriction;
+			if (tankSpeed > 0)
+				tankSpeed = 0;
+		}
+	
+	//}
+
 	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+	//cout << "tankSpeed = " << tankSpeed << "\n";
+	cout << "angle between tower and base = " << (this->towerAngle + 90) - (this->baseAngle + 90) << "\n";
+
+	//translate for recoil
+	if (tankRecoil) {
+		//angle between tower and base is towerToBaseAngle
+
+		double recoilSpeedX = recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
+		double recoilSpeedY = recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
+
+		//cout << "recoilSpeed = " << recoilSpeed << "\nrecoil X = " << recoilSpeedX << "\nrecoil Y = " << recoilSpeedY << "\n";
+
+		recoilSpeedX -= kineticFriction;
+		recoilSpeedY -= rollingFriction;
+
+		recoilSpeed = sqrt((recoilSpeedX * recoilSpeedX) + (recoilSpeedY * recoilSpeedY));
+
+		newX -= recoilSpeed * cos(recoilAngle * (M_PI / 180));
+		newY -= recoilSpeed * sin(recoilAngle * (M_PI / 180));
+
+		if (recoilSpeed <= 0) {
+			tankRecoil = false;
+			recoilAngle = 0;
+		}
+	}
 	
 	if(onLock(newX,newY)){
 		this->center.x = newX;
@@ -573,4 +626,19 @@ void Tank::shoot() {
 	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90));
 	this->cooldown = 100;
 	// return projectile;
+
+	applyRecoil();
+}
+
+void Tank::applyRecoil() {
+
+//	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+//	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+
+	tankRecoil = true;
+	recoilSpeed = 0.1;
+	recoilAngle = this->towerAngle + 90;
+	towerToBaseAngle = (this->towerAngle + 90) - (this->baseAngle + 90);
+
+
 }

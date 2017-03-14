@@ -22,7 +22,7 @@ double camMove_forward = 0;
 double camMove_strafe = 0;
 double camMove_vert = 0;
 const double camMove_speed = 0.25 / 2.0;
-double tankSpeed = 0;
+double tankAccel = 0;
 double tankScale = 0;
 double tankBaseRotate = 0;
 double tankTurretRotate = 0;
@@ -78,7 +78,7 @@ void gameEngine(){
 	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
 	//iterate tank properties
-	tank->update(tankSpeed, tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode); // the things below need to be moved into this function
+	tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
 	ai_tank->updateTank();
 	ai_tank->nearbyTarget(tank);
 	
@@ -211,11 +211,11 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'd' || key == 'D'){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
-		tankSpeed += 0.15;	
+		tankAccel += 0.005;
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
-		tankSpeed -= 0.15;
+		tankAccel -= 0.005;
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate -= 2;
 	}else if(key == 'u' || key == 'U'){
@@ -283,11 +283,11 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		camMove_strafe += camMove_speed;
 	//tank controls
 	}else if(key == 'i' || key == 'I'){
-		tankSpeed -= 0.15;
+		tankAccel -= 0.005;
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate -= 2;
 	}else if(key == 'k' || key == 'K'){
-		tankSpeed += 0.15;
+		tankAccel += 0.005;
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate += 2;
 	}else if(key == 'u' || key == 'U'){
