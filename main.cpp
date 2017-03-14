@@ -403,7 +403,6 @@ int main(int argc,char** args){
 	tank = new Tank(Point(0, 0, 0));
 	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 
-
 	glutMainLoop();
 	return 0;
 }

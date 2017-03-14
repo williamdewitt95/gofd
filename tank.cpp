@@ -434,7 +434,6 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 		double recoilSpeedX = recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
 		double recoilSpeedY = recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
 
-		//cout << "recoilSpeed = " << recoilSpeed << "\nrecoil X = " << recoilSpeedX << "\nrecoil Y = " << recoilSpeedY << "\n";
 
 		recoilSpeedX -= kineticFriction;
 		recoilSpeedY -= rollingFriction;

@@ -19,7 +19,7 @@ public:
 	double tankSpeed, recoilSpeed, recoilAngle, towerToBaseAngle;
 	double rollingFriction, kineticFriction;
 	int cooldown;
-	int health;	
+	int health;
 
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
