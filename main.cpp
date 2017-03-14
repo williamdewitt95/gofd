@@ -113,7 +113,8 @@ void drawHud()
 	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
-	
+	tank->drawScore();
+		
 	//get us back to 3D
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

@@ -25,6 +25,7 @@ public:
 	Tank(Point center);
 	void drawHealthBar();
 	void drawCooldownBar();
+	void drawScore();
 	void draw();
 	void shoot();
 	void update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode); // make the pendulum keep up with the frame rate
