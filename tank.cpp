@@ -403,7 +403,7 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 
 	//max speed limit
 	if (((tankSpeed < 0.15) && (tankAccel > 0)) || ((tankSpeed > -0.15) && (tankAccel < 0)))  {
-		cout << "tankAccel = " << tankAccel << "\n";
+		//cout << "tankAccel = " << tankAccel << "\n";
 		tankSpeed += tankAccel;
 	}
 
@@ -418,6 +418,7 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 		if (tankSpeed > 0)
 			tankSpeed = 0;
 	}
+	//cout << "tankSpeed = " << tankSpeed << "\n";
 
 	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
 	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
@@ -429,10 +430,19 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 		double recoilSpeedX = recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
 		double recoilSpeedY = recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
 
-		recoilSpeedX -= kineticFriction;
-		recoilSpeedY -= rollingFriction;
+		if (recoilSpeedX > 0)
+			recoilSpeedX -= kineticFriction;
+		else
+			recoilSpeedX += kineticFriction;
 
+		if (recoilSpeedY > 0)
+			recoilSpeedY -= rollingFriction;
+		else
+			recoilSpeedY += rollingFriction;
+		
 		recoilSpeed = sqrt((recoilSpeedX * recoilSpeedX) + (recoilSpeedY * recoilSpeedY));
+
+		//cout << "recoilSpeed = " << recoilSpeedY << "\n";
 
 		newX -= recoilSpeed * cos(recoilAngle * (M_PI / 180));
 		newY -= recoilSpeed * sin(recoilAngle * (M_PI / 180));
