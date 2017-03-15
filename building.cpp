@@ -15,7 +15,7 @@ Building::Building(Point center){
 	switch(rand() % numOfBuildings){
 		case 0:
 			// createGeneric1Building(model,box);
-			apartmentHighriseBuilding(model,box);
+			apartmentHighriseBuilding(model,box,subLists);
 			break;
 		case 1:
 			createGenericOctogonBuilding(model,box);
@@ -42,6 +42,8 @@ void Building::draw_CPU(){
 	glTranslated(center.x,center.y,center.z);
 	for(int x=0; x<model.size(); x++)
 		this->model[x].draw();
+	for(int x=0; x<subLists.size(); x++)
+		glCallList(subLists[x]);
 	glPopMatrix();
 }
 void Building::update(){

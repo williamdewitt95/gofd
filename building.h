@@ -21,6 +21,7 @@ public:
 	static const double streetWidth; // distanceBetweenBuildings - maxBuildingWidth;
 
 	unsigned int listName; // used for on GPU rendering
+	std::vector<unsigned int> subLists;
 
 	Building(Point center);
 	void draw();

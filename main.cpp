@@ -127,6 +127,7 @@ void display(){
 
 	tank->draw();
 	ai_tank->tank->draw();
+
 	for(int i=0; i<projectiles.size();i++){
 		projectiles[i]->draw();
 	}
@@ -309,6 +310,10 @@ int main(int argc,char** args){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
+
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	// glEnable( GL_CULL_FACE );
+	// glCullFace( GL_BACK );
 
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));

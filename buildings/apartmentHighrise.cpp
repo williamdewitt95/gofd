@@ -7,7 +7,7 @@
 
 using std::vector;
 
-void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boundingBox){
+void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boundingBox, vector<unsigned int> &subLists){
 	const int minFloors = 6;
 	const int maxFloors = 15;
 	const double floorHeight = 5;
@@ -71,6 +71,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 
 
 	// == Windows ==
+	unsigned int windowList; // displaylist to call for drawing the windows
 	{
 		int numWindowsPerSide = floor(buildingWidth/floorHeight);
 		double distBetweenWindows = buildingWidth / numWindowsPerSide;
@@ -82,60 +83,44 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 		gridOffset.y = -1 * buildingWidth/2.0;
 		gridOffset.z = floorHeight/2.0;
 
-		//first wall
-		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
-			for(int y=1; y<numFloors; y++){
-				makeNewWindow1(
-						Point( x*distBetweenWindows , 0 , y*floorHeight ) + gridOffset, // centerpoint for the window
-						0, // rotation
-						windowHeight, // height
-						windowWidth,
-						model
-					);
-			}
-		}
+		//get a window
+		unsigned int window =
+		makeNewWindow1_displayList(
+			Point( 0 , 0 , floorHeight ) + gridOffset, // centerpoint for the window starts at ground floor-left side
+			0, // rotation
+			windowHeight, // height
+			windowWidth
+		);
 
-		//second wall
-		gridOffset = gridOffset.rotatePoint(90,0,0,1);
-		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
-			for(int y=1; y<numFloors; y++){
-				makeNewWindow1(
-						Point( 0 , x*distBetweenWindows , y*floorHeight ) + gridOffset, // centerpoint for the window
-						90, // rotation
-						windowHeight, // height
-						windowWidth,
-						model
-					);
-			}
-		}
+		//put all the windows in a list to make a single side
+		unsigned int singleSide = glGenLists(1);
 
-		//third wall
-		gridOffset = gridOffset.rotatePoint(90,0,0,1);
-		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
+		glNewList(singleSide,GL_COMPILE);
+			glPushMatrix();
 			for(int y=1; y<numFloors; y++){
-				makeNewWindow1(
-						Point( -x*distBetweenWindows , 0 , y*floorHeight ) + gridOffset, // centerpoint for the window
-						180, // rotation
-						windowHeight, // height
-						windowWidth,
-						model
-					);
+				glPushMatrix();
+				for(int x=0; x<numWindowsPerSide; x++){
+					glCallList(window);
+					glTranslated(distBetweenWindows,0,0);
+				}
+				glPopMatrix();
+				glTranslated(0,0,floorHeight);
 			}
-		}
+			glPopMatrix();
+		glEndList();
 
-		//fourth wall
-		gridOffset = gridOffset.rotatePoint(90,0,0,1);
-		for(int x=0; x<numWindowsPerSide; x++){ // row going accross
-			for(int y=1; y<numFloors; y++){
-				makeNewWindow1(
-						Point( 0 , -x*distBetweenWindows , y*floorHeight ) + gridOffset, // centerpoint for the window
-						270, // rotation
-						windowHeight, // height
-						windowWidth,
-						model
-					);
+		//make the 4 sides into lists
+		unsigned int allSides = glGenLists(1);
+		glNewList(allSides,GL_COMPILE);
+			glPushMatrix();
+			for(int x=0; x<4; x++){
+				glRotated(90,0,0,1);
+				glCallList(singleSide);
 			}
-		}
+			glPopMatrix();
+		glEndList();
+
+		subLists.push_back(allSides);
 	} // windows
 
 

@@ -1,4 +1,20 @@
 //really all includes should be handledd by things including this file
+void makeNewWindow1(const Point &center, double rotation, double height, double width, std::vector<Polygon3d> &model);
+unsigned int makeNewWindow1_displayList(const Point &center, double rotation, double height, double width);
+
+unsigned int makeNewWindow1_displayList(const Point &center, double rotation, double height, double width){
+	
+	std::vector<Polygon3d> model2; // our local copy
+	makeNewWindow1(center,rotation,height,width,model2);
+	unsigned int list = glGenLists(1);
+	glNewList(list,GL_COMPILE);
+	for(int x=0;x<model2.size();x++){
+		model2[x].draw();
+	}
+	glEndList();
+
+	return list;
+}
 
 void makeNewWindow1(const Point &center, double rotation, double height, double width, std::vector<Polygon3d> &model){
 	// center is local from the center-bottom of the building to the center-back of the window
@@ -71,11 +87,11 @@ void makeNewWindow1(const Point &center, double rotation, double height, double 
 		model[model.size()-1].setRotation(rot);
 		model[model.size()-1].setCenter(center);
 
-		points.push_back(Point(  -width/2.0 + thickness , -depth_bottom , -height/2.0 + thickness));
 		points.push_back(Point(  -width/2.0 + thickness ,        0      , -height/2.0 + thickness));
-		points.push_back(Point(   width/2.0 - thickness ,        0      , -height/2.0 + thickness));
-		points.push_back(Point(   width/2.0 - thickness , -depth_bottom , -height/2.0 + thickness));
 		points.push_back(Point(  -width/2.0 + thickness , -depth_bottom , -height/2.0 + thickness));
+		points.push_back(Point(   width/2.0 - thickness , -depth_bottom , -height/2.0 + thickness));
+		points.push_back(Point(   width/2.0 - thickness ,        0      , -height/2.0 + thickness));
+		points.push_back(Point(  -width/2.0 + thickness ,        0      , -height/2.0 + thickness));
 		texs.push_back(Point( 0 , 0 , 0 ));
 		texs.push_back(Point( 0 , 1 , 0 ));
 		texs.push_back(Point( 1 , 1 , 0 ));
