@@ -175,9 +175,13 @@ void drawWorld(){
 }
 
 void drawMinimap(){
+	double height,width;
+	height = 100;
+	width = GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y * height;
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the projection style
-	glOrtho(-100.0,100.0 , -100.0,100.0 , -5.0,500.0); // simple ortho - left,right,bottom,top,near,far
+	glOrtho(-width,width , -height,height , -5.0,500.0); // simple ortho - left,right,bottom,top,near,far
 	gluLookAt(
 		tank->center.x,tank->center.y,400,
 		tank->center.x,tank->center.y,0,
@@ -186,6 +190,17 @@ void drawMinimap(){
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	{//Make a black polygon to draw our world on top of so the regular world does not bleed through
+		double &x=tank->center.x;
+		double &y=tank->center.y;
+		glColor3ub(0,0,0);
+		glBegin(GL_POLYGON);
+			glVertex3d(x-width,y-height,-50);
+			glVertex3d(x+width,y-height,-50);
+			glVertex3d(x+width,y+height,-50);
+			glVertex3d(x-width,y+height,-50);
+		glEnd();
+	}
 
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
@@ -195,12 +210,14 @@ void drawMinimap(){
 
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 	drawWorld();
 	
 	glClear(GL_DEPTH_BUFFER_BIT);
 	drawHud();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
 	drawMinimap();
 
 	glFlush();
