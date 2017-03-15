@@ -87,40 +87,23 @@ void gameEngine(){
 		projectiles[i]->update();
 	}
 
-	
-	/*
-		Apply vechile transformations:
-	 *
-	 * 	 *		*update center points (world coords)
-	 * 	 	 *		*transform vertices (local coords) 
-	 * 	 	 	 *
-	 * 	 	 	 	 *	Carry out collision detection 
-	 * 	 	 	 	 		buildings, vechiles, projectiles and 
-	*/
 }
 
 void drawHud()
 {
 	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(0.0,100.0,100.0,0.0);
+	glLoadIdentity(); // reset the projection style
+	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
 
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLoadIdentity();
 
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
-		
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 
-void display(){
+void drawWorld(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
 	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
@@ -139,7 +122,6 @@ void display(){
 	}
 
 	glMatrixMode(GL_MODELVIEW);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	{ // axies
 		glBegin(GL_LINES);
@@ -188,15 +170,32 @@ void display(){
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
-	
-	drawHud();
 
 	//tank->drawHealthBar(tank->health);
+}
 
-	//glFlush();
+void drawMinimap(){
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the projection style
+	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
+void display(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	drawWorld();
+	
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawHud();
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawMinimap();
+
+	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
-
 }
 
 void keyboardButtons(unsigned char key, int x, int y){
