@@ -8,6 +8,8 @@
 
 class Projectile{
 private:
+	int explosionDecay;
+	double explosionRadius;
 	double drag(double speed);
 	double f(double p, double q, double drag);
 	double g(double p, double q, double drag);
@@ -16,12 +18,14 @@ public:
 	Point center, tankStart, local;
 	double angleV, angleH, velocity, mass, C;
 	double h, t, x, y, p, q;
+	bool hasExploded;
 
 	std::vector<Polygon3d> boundingBox;
 	Projectile(Point center);
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();
 	void update();
+	void explode();
 	std::vector<Polygon3d> getBoundingBox();
 };
 

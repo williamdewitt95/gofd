@@ -16,6 +16,8 @@ Projectile::Projectile(Point center){
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.1;
 
+	this->hasExploded = false;
+
 	{
 		boundingBox.push_back(Polygon3d());
 		auto &points = boundingBox[boundingBox.size()-1].getPoints();
@@ -138,6 +140,10 @@ void Projectile::update()
 		this->center.y = temp.y;
 		this->center.z = temp.z;
 	}
+	else if (!this->hasExploded)
+		this->hasExploded = true;
+	if (this->hasExploded)
+		explode();
 }
 
 std::vector<Polygon3d> Projectile::getBoundingBox(){
@@ -216,4 +222,9 @@ void Projectile::step() {
     this->p = this->p + dp*this->h;
     this->q = this->q + dq*this->h;
     this->t = this->t + this->h;
+}
+
+void Projectile::explode() {
+
+	
 }
