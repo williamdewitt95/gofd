@@ -177,10 +177,20 @@ void drawWorld(){
 void drawMinimap(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the projection style
-	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+	glOrtho(-100.0,100.0 , -100.0,100.0 , -5.0,500.0); // simple ortho - left,right,bottom,top,near,far
+	gluLookAt(
+		tank->center.x,tank->center.y,400,
+		tank->center.x,tank->center.y,0,
+		0,1,0
+		);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	for(int x=0; x<buildings.size(); x++)
+		buildings[x]->draw();
+
+	tank->draw();
 }
 
 void display(){
@@ -190,7 +200,7 @@ void display(){
 	glClear(GL_DEPTH_BUFFER_BIT);
 	drawHud();
 
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	drawMinimap();
 
 	glFlush();
