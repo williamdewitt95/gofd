@@ -30,6 +30,7 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+bool orthoView = false;
 
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
@@ -124,6 +125,8 @@ void display(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
 	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
+	
+	if(!orthoView){
 	gluPerspective(90,aspect,0.1,1000);
 	{
 		double temp[3]={
@@ -137,7 +140,15 @@ void display(){
 				0,0,1
 				);
 	}
+	}
+	
+	else{
+		glOrtho(-500.0, 500.0, -500.0, 500.0, 0.1, 1000);{
+			gluLookAt(450.0, 450.0, -800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
+		}
+	}
 
+	
 	glMatrixMode(GL_MODELVIEW);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -251,7 +262,10 @@ void keyboardButtons(unsigned char key, int x, int y){
 			tank->health = tank->health-10;
 		glutPostRedisplay();
 		printf("%d\n", tank->health);
-	}else{
+	}else if(key == 'v' || key == 'V' ){
+		orthoView = !orthoView;
+	}
+	else{
 		printf("Unknown Key Down %d\n",key);
 	}
 
