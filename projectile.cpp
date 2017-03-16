@@ -1,4 +1,6 @@
 #include "projectile.h"
+#include <iostream>
+using std::cout;
 
 Projectile::Projectile(Point center){
 	this->center = center;
@@ -17,6 +19,8 @@ Projectile::Projectile(Point center){
 	this->h = 0.1;
 
 	this->hasExploded = false;
+	this->explosionDecay = 500;
+	this->explosionRadius = 10.5;
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -130,6 +134,7 @@ void Projectile::draw(){
 
 void Projectile::update()
 {
+	cout << "explosionDecay in update = " << explosionDecay << "\n";
 	if(center.z > 0)
 	{
 		step();
@@ -225,6 +230,16 @@ void Projectile::step() {
 }
 
 void Projectile::explode() {
+	if (this->explosionDecay > 0) {
 
-	
+		cout << "explosionDecay = " << explosionDecay << "\n";
+
+		glPushMatrix();
+		glTranslated(center.x, center.y, center.z);
+		glutSolidSphere(explosionRadius, 8, 8);
+		glPopMatrix();
+		explosionRadius += 0.001;
+
+		this->explosionDecay--;
+	}
 }
