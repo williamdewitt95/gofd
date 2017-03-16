@@ -66,6 +66,7 @@ WORLD_COORDINATE_MAX_Y	globals.h	/^	double WORLD_COORDINATE_MAX_Y;$/;"	m	class:G
 WORLD_COORDINATE_MIN_X	globals.h	/^	double WORLD_COORDINATE_MIN_X;$/;"	m	class:GLOBAL_SETTINGS
 WORLD_COORDINATE_MIN_Y	globals.h	/^	double WORLD_COORDINATE_MIN_Y;$/;"	m	class:GLOBAL_SETTINGS
 __secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){$/;"	f	class:Polygon3d
+aerial	main.cpp	/^bool aerial = false;$/;"	v
 ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
 aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
 angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile

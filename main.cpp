@@ -31,6 +31,8 @@ bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
+bool aerial = false;
+
 
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
@@ -134,11 +136,17 @@ void display(){
 			GLOBAL.CAMERA_POS.y + GLOBAL.CAMERA_LOOK_VECTOR.y,
 			GLOBAL.CAMERA_POS.z + GLOBAL.CAMERA_LOOK_VECTOR.z
 		};
+		
+		if(!aerial){
 		gluLookAt(
 				GLOBAL.CAMERA_POS.x,GLOBAL.CAMERA_POS.y,GLOBAL.CAMERA_POS.z,
 				temp[0],temp[1],temp[2],
 				0,0,1
 				);
+		}
+		else{
+			gluLookAt(450.0, 450.0, -600.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
+		}
 	}
 	}
 	
@@ -264,8 +272,9 @@ void keyboardButtons(unsigned char key, int x, int y){
 		printf("%d\n", tank->health);
 	}else if(key == 'v' || key == 'V' ){
 		orthoView = !orthoView;
-	}
-	else{
+	}else if(key == 'r' || key == 'R'){
+		aerial = !aerial;
+	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
 
