@@ -90,40 +90,23 @@ void gameEngine(){
 		projectiles[i]->update();
 	}
 
-	
-	/*
-		Apply vechile transformations:
-	 *
-	 * 	 *		*update center points (world coords)
-	 * 	 	 *		*transform vertices (local coords) 
-	 * 	 	 	 *
-	 * 	 	 	 	 *	Carry out collision detection 
-	 * 	 	 	 	 		buildings, vechiles, projectiles and 
-	*/
 }
 
 void drawHud()
 {
 	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(0.0,100.0,100.0,0.0);
+	glLoadIdentity(); // reset the projection style
+	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
 
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLoadIdentity();
 
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
-		
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 
-void display(){
+void drawWorld(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
 	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
@@ -158,7 +141,6 @@ void display(){
 
 	
 	glMatrixMode(GL_MODELVIEW);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	{ // axies
 		glBegin(GL_LINES);
@@ -207,15 +189,59 @@ void display(){
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
-	
-	drawHud();
 
 	//tank->drawHealthBar(tank->health);
+}
 
-	//glFlush();
+void drawMinimap(){
+	double height,width;
+	height = 100;
+	width = GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y * height;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the projection style
+	glOrtho(-width,width , -height,height , -5.0,500.0); // simple ortho - left,right,bottom,top,near,far
+	gluLookAt(
+		tank->center.x,tank->center.y,400,
+		tank->center.x,tank->center.y,0,
+		0,1,0
+		);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	{//Make a black polygon to draw our world on top of so the regular world does not bleed through
+		double &x=tank->center.x;
+		double &y=tank->center.y;
+		glColor3ub(0,0,0);
+		glBegin(GL_POLYGON);
+			glVertex3d(x-width,y-height,-50);
+			glVertex3d(x+width,y-height,-50);
+			glVertex3d(x+width,y+height,-50);
+			glVertex3d(x-width,y+height,-50);
+		glEnd();
+	}
+
+	for(int x=0; x<buildings.size(); x++)
+		buildings[x]->draw();
+
+	tank->draw();
+}
+
+void display(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
+	drawWorld();
+	
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawHud();
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
+	drawMinimap();
+
+	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
-
 }
 
 void keyboardButtons(unsigned char key, int x, int y){
