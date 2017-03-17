@@ -6,6 +6,16 @@
 #include <math.h>
 #include <vector>
 
+struct Explosion{
+	double x;
+	double y;
+	double z;
+	int decay;
+	double expansionRate;
+	double radius;
+};
+extern std::vector<Explosion> explosions;
+
 class Projectile{
 private:
 	int explosionDecay;
@@ -25,7 +35,7 @@ public:
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();
 	void update();
-	void explode();
+	void explode(struct Explosion *ex);
 	std::vector<Polygon3d> getBoundingBox();
 };
 

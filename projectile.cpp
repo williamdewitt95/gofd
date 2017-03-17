@@ -2,6 +2,8 @@
 #include <iostream>
 using std::cout;
 
+std::vector<Explosion> explosions;
+
 Projectile::Projectile(Point center){
 	this->center = center;
 	this->tankStart = center;
@@ -19,8 +21,10 @@ Projectile::Projectile(Point center){
 	this->h = 0.1;
 
 	this->hasExploded = false;
-	this->explosionDecay = 500;
-	this->explosionRadius = 10.5;
+	this->explosionDecay = 10;
+	this->explosionRadius = 5.0;
+
+	std::vector<Explosion> explosions = {};
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -91,6 +95,12 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.01;
+
+	this->hasExploded = false;
+	this->explosionDecay = 10;
+	this->explosionRadius = 5.0;
+
+	std::vector<Explosion> explosions = {};
 }
 
 void Projectile::draw(){
@@ -130,11 +140,18 @@ void Projectile::draw(){
 	shellPoint = gluNewQuadric();
 	gluCylinder(shellPoint, .05, .00, .4, 30, 4);
 	glPopMatrix();
+
+	if (this->hasExploded) {
+		for(int i=0; i<explosions.size();i++){
+			cout << "explosionssize = " << explosions.size() << "\n";
+			explode(&explosions[i]);
+		}
+	}
 }
 
 void Projectile::update()
 {
-	cout << "explosionDecay in update = " << explosionDecay << "\n";
+	// cout << "explosionDecay in update = " << explosionDecay << "\n";
 	if(center.z > 0)
 	{
 		step();
@@ -145,10 +162,25 @@ void Projectile::update()
 		this->center.y = temp.y;
 		this->center.z = temp.z;
 	}
-	else if (!this->hasExploded)
+	//if z=0, start exploding and generate random values for each
+	else if (!this->hasExploded) {
+		this->center.z = 0.0;
 		this->hasExploded = true;
-	if (this->hasExploded)
-		explode();
+		// int splodes = rand() % 5;
+		int splodes = 1;
+		cout << "splodes = " << splodes << "\n";
+		for (int i=0;i < splodes;i++) {
+			cout << "splodenow = " << i << "\n";
+			Explosion n;
+			n.x = center.x + ((double) rand() / (RAND_MAX)) - 0.5;
+			n.y = center.y + ((double) rand() / (RAND_MAX)) - 0.5;
+			n.z = center.z + ((double) rand() / (RAND_MAX));
+			n.decay = 10 + (rand() % 10);
+			n.expansionRate = ((double) rand() / (RAND_MAX));
+			n.radius = 0.5 + (((double) rand() / (RAND_MAX)) * 2.0);
+			explosions.push_back(n);
+		}
+	}
 }
 
 std::vector<Polygon3d> Projectile::getBoundingBox(){
@@ -229,17 +261,23 @@ void Projectile::step() {
     this->t = this->t + this->h;
 }
 
-void Projectile::explode() {
-	if (this->explosionDecay > 0) {
+void Projectile::explode(struct Explosion *ex) {
+	if (ex->decay > 0) {
 
-		cout << "explosionDecay = " << explosionDecay << "\n";
+		cout << "ex.decay = " << ex->decay << "\n";
+		cout << "ex.radius = " << ex->radius << "\n";
 
+			//double x = ((double) rand() / (RAND_MAX));
+			
 		glPushMatrix();
-		glTranslated(center.x, center.y, center.z);
-		glutSolidSphere(explosionRadius, 8, 8);
+		glLoadIdentity();
+		glTranslated(ex->x, ex->y, ex->z);
+		glColor3f(0.5f, 0.5f, 0.5f);
+		glutSolidSphere(ex->radius, 8, 8);
+		cout << "sphere at " << ex->x << " " << ex->y << " " << ex->z << "\n";
 		glPopMatrix();
-		explosionRadius += 0.001;
+		ex->radius += ex->expansionRate;
 
-		this->explosionDecay--;
+		ex->decay--;
 	}
 }
