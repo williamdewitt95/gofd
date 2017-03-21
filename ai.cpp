@@ -1,10 +1,22 @@
 
 #include "ai.h"
-
+//#include "mapnode.h"
 
 AI_Tank::AI_Tank(Tank *tank){
 
 	//std::cout << "tank constructor" << std::endl;
+
+	//numDir = 8;
+
+	dx = {1, 1, 0, -1, -1, 0, 1};
+        dy = {0, 1, 1, 1, 0, -1, -1, -1};
+
+	n = 100;
+	m = 100;
+
+	dir = 8;
+
+	//numDir = 8;
 
 	this->tank = tank;
 
@@ -13,24 +25,117 @@ AI_Tank::AI_Tank(Tank *tank){
 			grid[i][j] = 1;
 		}
 	}
-	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
+	
 	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
 				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
 
-	//this.dx = {1, 1, 0, -1, -1, 0, 1};
-        //this.dy = {0, 1, 1, 1, 0, -1, -1, -1};
 }
 
 
 
 //something to hold the grid in - 2d array? - Do we even need a grid? Might be able to just calculate based positions of buildings (since we know them)
+/*
+bool AI_Tank::operator<(const MapNode& a, const MapNode& b) const{
+	return a.getPriority() > b.getPriority();
+}
+*/
 
-/*void AI_Tank::findTargetPath(){
+// a star algorithm implementation
+// returns route in string of digits
+
+
+std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){
 	
-}*/
+	static std::priority_queue<MapNode> pq[2];
+	static int pqi;
+	static MapNode* n0;
+	static MapNode* m0;
+	static int i, j, x, y, xdx, ydy;
+	static char c;
+	pqi=0;
+
+	for(y=0; y<m; y++){
+		for(x=0; x<n; x++){
+			checkedMap[x][y]=0;
+			uncheckedMap[x][y]=0;
+		}
+	}
+
+	n0 = new MapNode(xStart, yStart , 0, 0);
+	n0->priorityUpdate(xEnd, yEnd);
+	pq[pqi].push(*n0);
+	uncheckedMap[x][y]=n0->getPriority();
+
+	while(!pq[pqi].empty()){
+		n0=new MapNode(pq[pqi].top().getXPos(), pq[pqi].top().getYPos(), pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
+
+		x=n0->getXPos(); y=n0->getYPos();
+
+		pq[pqi].pop();
+		uncheckedMap[x][y]=0;
+		checkedMap[x][y]=1;
+
+		if(x==xEnd && y==yEnd){
+			std::string path="";
+			while(!(x==xStart && y==yStart)){
+				j=directionalMap[x][y];
+				c='0'+(j+dir/2)%dir;
+				path=c+path;
+				x+=dx[j];
+				y+=dy[j];
+			}
+
+			delete n0;
+			while(!pq[pqi].empty())
+				pq[pqi].pop();
+
+			return path;
+		}
+
+		for(i=0; i < dir; i++){
+			xdx=x+dx[i]; ydy = y + dy[i];
+
+			if(!(xdx<0 || xdx>n-1 || ydy<0 || ydy>m-1 || mapGrid[xdx][ydy]==1|| checkedMap[xdx][ydy]==1)){
+	
+				m0=new MapNode(xdx, ydy, n0->getLevel(), n0->getPriority());
+				m0->incLevel(i);
+				m0->priorityUpdate(xEnd, yEnd);
+				
+				if(uncheckedMap[xdx][ydy]==0){
+					uncheckedMap[xdx][ydy]=m0->getPriority();
+					pq[pqi].push(*m0);
+
+					directionalMap[xdx][ydy]=(i+dir/2)%dir;
+				}
+				else if(uncheckedMap[xdx][ydy]>m0->getPriority()){
+					uncheckedMap[xdx][ydy]=m0->getPriority();
+					directionalMap[xdx][ydy]=(i+dir/2)%dir;
+
+					while(!(pq[pqi].top().getXPos() == xdx && pq[pqi].top().getYPos()==ydy)){
+						pq[1-pqi].push(pq[pqi].top());
+						pq[pqi].pop();
+					}
+					pq[pqi].pop();
+
+					if(pq[pqi].size()>pq[1-pqi].size())
+						pqi = 1 - pqi;
+					while(!pq[pqi].empty()){
+						pq[1-pqi].push(pq[pqi].top());
+						pq[pqi].pop();
+					}
+
+					pqi = 1 - pqi;
+					pq[pqi].push(*m0);
+				}
+				else delete m0;
+			}
+		}
+		delete n0;
+	}
+	return "";
+}
 
 
-//forwards
 void AI_Tank::forwards(){
 
 	//std::cout << "tank forwards" << std::endl;

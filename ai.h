@@ -4,6 +4,8 @@
 #include "globals.h"
 #include "building.h"
 #include "target.h"
+#include "mapnode.h"
+#include <queue>
 
 
 class AI_Tank{
@@ -25,10 +27,12 @@ public:
 	
 	//static const int numDir = 8;
 	
-	enum {numDir = 8};
+	//const static int numDir;
 
-	//const int dx[numDir]; //= {1, 1, 0, -1, -1, 0, 1};
-	//const int dy[numDir]; // = {0, 1, 1, 1, 0, -1, -1, -1};
+	int n, m, dir;
+
+	int dx[8]; // = {1, 1, 0, -1, -1, 0, 1};
+	int dy[8]; // = {0, 1, 1, 1, 0, -1, -1, -1};
 
 	Point destination;
 	void forwards();//go forwards
@@ -39,7 +43,7 @@ public:
 
 	void calculatePath(int x, int y);//create a new path to new grid coordinate
 
-
+	std::string findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd);
 	void update_AI();//give current command on what to do
 	void updateTank();
 
@@ -47,10 +51,10 @@ public:
 	Target* setClosestTarget(std::vector<Target*> targets);
 	void nearbyTarget(Target * target);//check where the enemy is in comparison to where we are
 	void aim(Point target);//aim the turret at the enemy
+
+	//bool operator<(const MapNode& a, const MapNode& b) const;
+
 };
-
-
-
 
 #endif
 

@@ -7,31 +7,31 @@
                 priority = p;
 	}
 
-        int MapNode::getXPos(){
-		return this.xpos;
+        int MapNode::getXPos() const{
+		return xpos;
 	}
 
-        int MapNode::getYPos(){
-		return this.ypos;
+        int MapNode::getYPos() const{
+		return ypos;
 	}
 
-        int MapNode::getLevel(){
-		return this.level;		
+        int MapNode::getLevel() const{
+		return level;		
 	}
 
-        int MapNode::getPriority(){
-		return this.priority;
+        int MapNode::getPriority() const{
+		return priority;
 	}
 
-       	void MapNode::priorityUpdate(int &xDest, int &yDest){
+       	void MapNode::priorityUpdate(const int &xDest, const int &yDest){
 		priority = level+estimateDistance(xDest, yDest)*10;
 	}
 
-       	void MapNode::incLevel(int &dir){
-		level+=(i%2);
+       	void MapNode::incLevel( const int &i){
+		level+=(dir%2);
 	}
 
-        int MapNode::&estimateDistance(int &xDest, int &yDest){
+        const int& MapNode::estimateDistance(const int &xDest, const int &yDest){
 		static int xd, yd, d;
 
 		xd = xDest-xpos;
@@ -42,6 +42,11 @@
 		return d;
 	}
 
-	bool operator<(const node &other){
+	/*bool operator<( const MapNode &other) const{
 		this.getPriority() > other.getPriority();
+	}*/
+
+	bool operator<(const MapNode& a, const MapNode& b){
+        return a.getPriority() > b.getPriority();
 	}
+
