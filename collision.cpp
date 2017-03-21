@@ -9,6 +9,30 @@ struct plane {
 	double d;
 };
 
+double distSquare(Point a, Point b){
+
+	double xdif, ydif, zdif;
+
+        xdif = a.x - b.x;
+        ydif = a.y - b.y;
+        zdif = a.z - b.z;
+
+        return pow(xdif,2)+pow(ydif,2)+pow(zdif,2);
+
+}
+
+double distSquare(Vector a, Vector b){
+
+	double xdif, ydif, zdif;
+
+        xdif = a.x - b.x;
+        ydif = a.y - b.y;
+        zdif = a.z - b.z;
+
+        return pow(xdif,2)+pow(ydif,2)+pow(zdif,2);
+
+}
+
 /*
 Distance function usage
 	Point *a = new Point(0,0,0);
@@ -19,27 +43,14 @@ Distance function usage
 //Uses the Point class
 double distance(Point a, Point b){
 
-	double xdif, ydif, zdif;
-
-	xdif = a.x - b.x;
-	ydif = a.y - b.y;
-	zdif = a.x - b.z;
-
-	return sqrt(pow(xdif,2)+pow(ydif,2)+pow(zdif,2));
-
+	return sqrt(distSquare(a,b));
 
 }
 
 //Uses the Vector class
 double distance(Vector a, Vector b){
 
-	double xdif, ydif, zdif;
-
-        xdif = a.x - b.x;
-        ydif = a.y - b.y;
-        zdif = a.x - b.z;
-
-        return sqrt(pow(xdif,2)+pow(ydif,2)+pow(zdif,2));
+        return sqrt(distSquare(a,b));
 
 }
 //c is the center point of sphere, n is normal of plane, p is point on plane
@@ -77,17 +88,57 @@ bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on pla
 double distPlaneToPoint (Point a, Point b, Point c, Point d)
 {
 	plane tmp;
-	vector v1, v2, v3;
-	v1 = vector (a,b);
-	v2 = vector (a,c);
+	Vector v1, v2, v3;
+	v1 = Vector (a,b);
+	v2 = Vector (a,c);
 	v3 = v1.cross (v2);
-	tmp.a = v3.x; tmp.b v3.y; tmp.c = v3.z;
+	tmp.a = v3.x; tmp.b = v3.y; tmp.c = v3.z;
 	tmp.d = -1*v3.x*v1.x + -1*v3.y*v1.y + -1*v3.z*v1.z;
 	return abs(tmp.a*d.x + tmp.b*d.y + tmp.c*d.z + tmp.d)/(sqrt(tmp.a*tmp.a + tmp.b*tmp.b + tmp.c*tmp.c));
 }
 
 
 bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
+
+	for(int i = 0; i < buildings.size(); i++){
+
+                //tbDist has the distance between the center point and the buildings center
+                double tbDist = distance(center,buildings[i]->center);
+		//printf("%f\n",tbDist);
+                if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2+5){
+                        //printf("before here\n");
+			for(int j = 0; j < buildings[i]->model.size(); j++){
+			//for(int j = 0; j < 3; j++){
+				//printf("Here\n");
+				Polygon3d wall = buildings[i]->model[j].getWorldPoints();
+				std::vector<Point> &worldCoords = wall.getPoints();
+
+				for(int k =0; k < worldCoords.size() ; k++){
+					printf("x:%f y:%f z:%f \n",worldCoords[k].x,worldCoords[k].y,worldCoords[k].z);
+				}
+
+				double dptp = distPlaneToPoint(worldCoords[1],worldCoords[2] ,worldCoords[3] , center);
+                        	printf("ptpdist : %f\n",dptp);
+				if(dptp < sphdist){        
+					printf("ptpdist : %f , sphdist %f\n",dptp, sphdist);
+					return true;
+                        	        printf("collide true\n");
+                        	}
+			}
+                }
+
+        }
+
+        return false;
+
+	/*
+	Point ax = Point(10,10,0);
+	Point bx = Point(1,0,0);
+	Point cx = Point(0,1,1);
+	Point dx = Point(0,10,15);
+	
+	printf("%f\n",distPlaneToPoint(ax,bx,cx,dx));
+	*/
 
 	/*
 	double targetRadius;
@@ -153,23 +204,7 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 	}
 		
 	*/
-	printf("collision detect start");
-	for(int i = 0; i < buildings.size(); i++){
-
-		double tbDist = distance(center,buildings[i]->center);
-		printf("distance between: %f, tank x: %f, tank y: %f, building x: %f, building y: %f\n", tbDist, center.y ,center.x, buildings[i]->center.x, buildings[i]->center.y);
-		//printf("dist from t and b: %f, radii both: %f\n",tbDist, tank->hitSphereRadius + buildings[i]->maxBuildingWidth/2);
-		//if(tank->collision){printf("colliding");}
-		//printf("tank x: %f\n",tank->center.x);
-		if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2){
-			//tank->collision = true;
-			return true;
-			printf("collide true\n");
-		}
-
-	}
-
-	return false;
+	//printf("collision detect start");
 
 }
 

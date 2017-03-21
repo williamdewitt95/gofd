@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 AI	ai.h	2;"	d
 AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank){$/;"	f	class:AI_Tank
 AI_Tank	ai.h	/^class AI_Tank{$/;"	c
@@ -67,6 +67,7 @@ WORLD_COORDINATE_MAX_Y	globals.h	/^	double WORLD_COORDINATE_MAX_Y;$/;"	m	class:G
 WORLD_COORDINATE_MIN_X	globals.h	/^	double WORLD_COORDINATE_MIN_X;$/;"	m	class:GLOBAL_SETTINGS
 WORLD_COORDINATE_MIN_Y	globals.h	/^	double WORLD_COORDINATE_MIN_Y;$/;"	m	class:GLOBAL_SETTINGS
 __secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){$/;"	f	class:Polygon3d
+a	collision.cpp	/^	double a;$/;"	m	struct:plane	file:
 ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
 aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
 angleBtw	vector_basics.cpp	/^double Vector::angleBtw(Vector& other){$/;"	f	class:Vector
@@ -74,6 +75,7 @@ angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Pro
 angleV	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 attenuation_linear	globals.h	/^	double attenuation_linear;$/;"	m	struct:LIGHT_STRUCT
 attenuation_quadratic	globals.h	/^	double attenuation_quadratic;$/;"	m	struct:LIGHT_STRUCT
+b	collision.cpp	/^	double b;$/;"	m	struct:plane	file:
 base	tank.h	/^	std::vector<Polygon3d> base, tower, cannon;$/;"	m	class:Tank
 baseAngle	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Tank
 boundingBox	building.cpp	/^std::vector<Polygon3d> Building::boundingBox(){$/;"	f	class:Building
@@ -81,6 +83,7 @@ boundingBox	projectile.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Proj
 boundingBox	tank.cpp	/^std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){$/;"	f	class:Tank
 boundingBox	target.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Target
 box	building.h	/^	std::vector<Polygon3d> box;$/;"	m	class:Building
+c	collision.cpp	/^	double c;$/;"	m	struct:plane	file:
 calculatePath	ai.cpp	/^void AI_Tank::calculatePath(int x, int y){\/\/create a new path to new grid coordinate$/;"	f	class:AI_Tank
 camMove_forward	main.cpp	/^double camMove_forward = 0;$/;"	v
 camMove_speed	main.cpp	/^const double camMove_speed = 0.25 \/ 2.0;$/;"	v
@@ -102,11 +105,15 @@ color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Pol
 cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank
 cross	vector_basics.cpp	/^Vector Vector::cross(const Vector& other){$/;"	f	class:Vector
 crossProduct	vector_basics.cpp	/^Vector Vector::crossProduct(Vector& other){$/;"	f	class:Vector
+d	collision.cpp	/^	double d;$/;"	m	struct:plane	file:
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon3
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anon5
 destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
 display	main.cpp	/^void display(){$/;"	f
+distPlaneToPoint	collision.cpp	/^double distPlaneToPoint (Point a, Point b, Point c, Point d)$/;"	f
+distSquare	collision.cpp	/^double distSquare(Point a, Point b){$/;"	f
+distSquare	collision.cpp	/^double distSquare(Vector a, Vector b){$/;"	f
 distance	collision.cpp	/^double distance(Point a, Point b){$/;"	f
 distance	collision.cpp	/^double distance(Vector a, Vector b){$/;"	f
 distanceBetweenBuildings	building.cpp	/^const double Building::distanceBetweenBuildings = 60;$/;"	m	class:Building	file:
@@ -211,6 +218,7 @@ p2	vector_basics.h	/^	Point p2;$/;"	m	class:LineSeg
 p3	globals.h	/^	double p3[3];$/;"	m	struct:MODEL_TRIANGLES
 p3	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
 passiveMouseMovement	main.cpp	/^void passiveMouseMovement(int x,int y){$/;"	f
+plane	collision.cpp	/^struct plane {$/;"	s	file:
 pointToPolygon	collision.cpp	/^bool pointToPolygon(Point p, std::vector<Point> shape){\/\/assumes point is on plane$/;"	f
 polyNormal	polygon3d.cpp	/^Vector Polygon3d::polyNormal(){$/;"	f	class:Polygon3d
 possition	globals.h	/^	double possition[3];$/;"	m	struct:LIGHT_STRUCT

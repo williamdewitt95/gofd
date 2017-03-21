@@ -40,6 +40,7 @@ protected: // we let our children get to this but not the world
 	bool hasTex;
 	std::vector<Point> vertexTextureList;
 public:
+
 	Polygon3d();
 	Polygon3d(double,double,double); // specifies the center
 	Polygon3d(std::vector<Point>&);
