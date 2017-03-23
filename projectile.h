@@ -18,12 +18,11 @@ extern std::vector<Explosion> explosions;
 
 class Projectile{
 private:
-	int explosionDecay;
-	double explosionRadius;
 	double drag(double speed);
 	double f(double p, double q, double drag);
 	double g(double p, double q, double drag);
 	void step();
+	std::vector<Explosion> explosions;
 public:
 	Point center, tankStart, local;
 	double angleV, angleH, velocity, mass, C;

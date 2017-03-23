@@ -21,10 +21,6 @@ Projectile::Projectile(Point center){
 	this->h = 0.1;
 
 	this->hasExploded = false;
-	this->explosionDecay = 10;
-	this->explosionRadius = 5.0;
-
-	std::vector<Explosion> explosions = {};
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -97,10 +93,6 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->h = 0.01;
 
 	this->hasExploded = false;
-	this->explosionDecay = 10;
-	this->explosionRadius = 5.0;
-
-	std::vector<Explosion> explosions = {};
 }
 
 void Projectile::draw(){
@@ -166,18 +158,17 @@ void Projectile::update()
 	else if (!this->hasExploded) {
 		this->center.z = 0.0;
 		this->hasExploded = true;
-		// int splodes = rand() % 5;
-		int splodes = 1;
+		int splodes = rand() % 5;
 		cout << "splodes = " << splodes << "\n";
 		for (int i=0;i < splodes;i++) {
 			cout << "splodenow = " << i << "\n";
 			Explosion n;
-			n.x = center.x + ((double) rand() / (RAND_MAX)) - 0.5;
-			n.y = center.y + ((double) rand() / (RAND_MAX)) - 0.5;
+			n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+			n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
 			n.z = center.z + ((double) rand() / (RAND_MAX));
 			n.decay = 10 + (rand() % 10);
-			n.expansionRate = ((double) rand() / (RAND_MAX));
-			n.radius = 0.5 + (((double) rand() / (RAND_MAX)) * 2.0);
+			n.expansionRate = ((double) rand() / (RAND_MAX)) / 4;
+			n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
 			explosions.push_back(n);
 		}
 	}
