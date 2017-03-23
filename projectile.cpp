@@ -154,11 +154,11 @@ void Projectile::update()
 		this->center.y = temp.y;
 		this->center.z = temp.z;
 	}
-	//if z=0, start exploding and generate random values for each
+	//if z=0, start exploding and generate random values for each splode
 	else if (!this->hasExploded) {
 		this->center.z = 0.0;
 		this->hasExploded = true;
-		int splodes = rand() % 5;
+		int splodes = 3 + (rand() % 3);
 		cout << "splodes = " << splodes << "\n";
 		for (int i=0;i < splodes;i++) {
 			cout << "splodenow = " << i << "\n";
@@ -166,8 +166,8 @@ void Projectile::update()
 			n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
 			n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
 			n.z = center.z + ((double) rand() / (RAND_MAX));
-			n.decay = 10 + (rand() % 10);
-			n.expansionRate = ((double) rand() / (RAND_MAX)) / 4;
+			n.decay = 20 + (rand() % 10);
+			n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 6;
 			n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
 			explosions.push_back(n);
 		}
@@ -263,7 +263,7 @@ void Projectile::explode(struct Explosion *ex) {
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslated(ex->x, ex->y, ex->z);
-		glColor3f(0.5f, 0.5f, 0.5f);
+		glColor3f(0.3f, 0.3f, 0.3f);
 		glutSolidSphere(ex->radius, 8, 8);
 		cout << "sphere at " << ex->x << " " << ex->y << " " << ex->z << "\n";
 		glPopMatrix();
