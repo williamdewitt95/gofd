@@ -11,10 +11,11 @@ struct Explosion{
 	double y;
 	double z;
 	int decay;
+	int staticDecay;
 	double expansionRate;
 	double radius;
 };
-extern std::vector<Explosion> explosions;
+//extern std::vector<Explosion> explosions;
 
 class Projectile{
 private:

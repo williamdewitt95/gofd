@@ -135,7 +135,6 @@ void Projectile::draw(){
 
 	if (this->hasExploded) {
 		for(int i=0; i<explosions.size();i++){
-			cout << "explosionssize = " << explosions.size() << "\n";
 			explode(&explosions[i]);
 		}
 	}
@@ -159,15 +158,14 @@ void Projectile::update()
 		this->center.z = 0.0;
 		this->hasExploded = true;
 		int splodes = 3 + (rand() % 3);
-		cout << "splodes = " << splodes << "\n";
 		for (int i=0;i < splodes;i++) {
-			cout << "splodenow = " << i << "\n";
 			Explosion n;
 			n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
 			n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
 			n.z = center.z + ((double) rand() / (RAND_MAX));
-			n.decay = 20 + (rand() % 10);
-			n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 6;
+			n.decay = 15 + (rand() % 5);
+			n.staticDecay = n.decay;
+			n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
 			n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
 			explosions.push_back(n);
 		}
@@ -254,18 +252,22 @@ void Projectile::step() {
 
 void Projectile::explode(struct Explosion *ex) {
 	if (ex->decay > 0) {
-
-		cout << "ex.decay = " << ex->decay << "\n";
-		cout << "ex.radius = " << ex->radius << "\n";
-
-			//double x = ((double) rand() / (RAND_MAX));
 			
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslated(ex->x, ex->y, ex->z);
-		glColor3f(0.3f, 0.3f, 0.3f);
+		//gradually change color to a dark grey (0.3, 0.3, 0.3)
+		double decayRatio = (double) ex->decay / ex->staticDecay;
+		float colorR = 1.0;
+		float colorG = 0.65;
+		float colorB = 0.13;
+
+		colorR = 0.3 + (decayRatio * (colorR - 0.3));
+		colorG = 0.3 + (decayRatio * (colorG - 0.3));
+		colorB = 0.3 + (decayRatio * (colorB - 0.3));
+
+		glColor3f(colorR, colorG, colorB);
 		glutSolidSphere(ex->radius, 8, 8);
-		cout << "sphere at " << ex->x << " " << ex->y << " " << ex->z << "\n";
 		glPopMatrix();
 		ex->radius += ex->expansionRate;
 
