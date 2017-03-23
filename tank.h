@@ -16,7 +16,7 @@ public:
 	double hitSphereRadius;
 	double baseAngle, towerAngle, cannonAngle, scale;
 	bool laser, tankRecoil;
-	double tankSpeed, recoilSpeed, recoilAngle, towerToBaseAngle;
+	double tankSpeedX, tankSpeedY, tankSpeed, recoilSpeed, recoilAngle, towerToBaseAngle;
 	double rollingFriction, kineticFriction;
 	int cooldown;
 	int health;
