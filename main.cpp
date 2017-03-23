@@ -30,6 +30,9 @@ double tankCannonRotate = 0;
 bool laserOn = true;
 int cameraMode = 0;
 Tank * tank;
+bool orthoView = false;
+bool aerial = false;
+
 
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
@@ -87,32 +90,28 @@ void gameEngine(){
 		projectiles[i]->update();
 	}
 
-	
-	/*
-		Apply vechile transformations:
-	 *
-	 * 	 *		*update center points (world coords)
-	 * 	 	 *		*transform vertices (local coords) 
-	 * 	 	 	 *
-	 * 	 	 	 	 *	Carry out collision detection 
-	 * 	 	 	 	 		buildings, vechiles, projectiles and 
-	*/
 }
 
 void drawHud()
+
 {//to draw the 2d hud on 3d scene
 	glMatrixMode(GL_PROJECTION);//get out 2D on
 	glPushMatrix();
 	glLoadIdentity();
 	gluOrtho2D(0.0,100.0,100.0,0.0);
 
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the projection style
+	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+
+
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLoadIdentity();
 
 	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
+
 	tank->drawScore();
 		
 	//get us back to 3D
@@ -120,13 +119,16 @@ void drawHud()
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+
 }
 
 
-void display(){
+void drawWorld(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the values
 	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
+	
+	if(!orthoView){
 	gluPerspective(90,aspect,0.1,1000);
 	{
 		double temp[3]={
@@ -134,15 +136,28 @@ void display(){
 			GLOBAL.CAMERA_POS.y + GLOBAL.CAMERA_LOOK_VECTOR.y,
 			GLOBAL.CAMERA_POS.z + GLOBAL.CAMERA_LOOK_VECTOR.z
 		};
+		
+		if(!aerial){
 		gluLookAt(
 				GLOBAL.CAMERA_POS.x,GLOBAL.CAMERA_POS.y,GLOBAL.CAMERA_POS.z,
 				temp[0],temp[1],temp[2],
 				0,0,1
 				);
+		}
+		else{
+			gluLookAt(450.0, 450.0, -600.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
+		}
+	}
+	}
+	
+	else{
+		glOrtho(-500.0, 500.0, -500.0, 500.0, 0.1, 1000);{
+			gluLookAt(450.0, 450.0, -800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
+		}
 	}
 
+	
 	glMatrixMode(GL_MODELVIEW);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	{ // axies
 		glBegin(GL_LINES);
@@ -191,15 +206,59 @@ void display(){
 
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
-	
-	drawHud();
 
 	//tank->drawHealthBar(tank->health);
+}
 
-	//glFlush();
+void drawMinimap(){
+	double height,width;
+	height = 100;
+	width = GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y * height;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the projection style
+	glOrtho(-width,width , -height,height , -5.0,500.0); // simple ortho - left,right,bottom,top,near,far
+	gluLookAt(
+		tank->center.x,tank->center.y,400,
+		tank->center.x,tank->center.y,0,
+		0,1,0
+		);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	{//Make a black polygon to draw our world on top of so the regular world does not bleed through
+		double &x=tank->center.x;
+		double &y=tank->center.y;
+		glColor3ub(0,0,0);
+		glBegin(GL_POLYGON);
+			glVertex3d(x-width,y-height,-50);
+			glVertex3d(x+width,y-height,-50);
+			glVertex3d(x+width,y+height,-50);
+			glVertex3d(x-width,y+height,-50);
+		glEnd();
+	}
+
+	for(int x=0; x<buildings.size(); x++)
+		buildings[x]->draw();
+
+	tank->draw();
+}
+
+void display(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
+	drawWorld();
+	
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawHud();
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
+	drawMinimap();
+
+	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
-
 }
 
 void keyboardButtons(unsigned char key, int x, int y){
@@ -254,6 +313,10 @@ void keyboardButtons(unsigned char key, int x, int y){
 			tank->health = tank->health-10;
 		glutPostRedisplay();
 		printf("%d\n", tank->health);
+	}else if(key == 'v' || key == 'V' ){
+		orthoView = !orthoView;
+	}else if(key == 'r' || key == 'R'){
+		aerial = !aerial;
 	}else{
 		printf("Unknown Key Down %d\n",key);
 	}
