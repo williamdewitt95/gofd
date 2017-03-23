@@ -402,8 +402,7 @@ void Tank::draw(){
 }
 
 void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
-
-	cout << "tankAccel = " << tankAccel << "\n";
+	
 	//max speed limit
 	if (((this->tankSpeedY < 0.15) && (tankAccel > 0)) || ((this->tankSpeedY > -0.15) && (tankAccel < 0)))  {
 		this->tankSpeedY += tankAccel;
