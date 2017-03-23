@@ -1,6 +1,4 @@
 #include "collision.h"
-
-
 // chris:: Struct introduces the paramaters of a plane
 struct plane {
 	double a;
@@ -104,21 +102,23 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 
                 //tbDist has the distance between the center point and the buildings center
                 double tbDist = distance(center,buildings[i]->center);
+		printf("About to copy\n");
+		std::vector<Polygon3d> sides = buildings[i]->boundingBox();
 		//printf("%f\n",tbDist);
                 if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2+5){
                         //printf("before here\n");
-			for(int j = 0; j < buildings[i]->model.size(); j++){
+			for(int j = 0; j < sides.size(); j++){
 			//for(int j = 0; j < 3; j++){
 				//printf("Here\n");
-				Polygon3d wall = buildings[i]->model[j].getWorldPoints();
+				Polygon3d &wall = sides[j];
 				std::vector<Point> &worldCoords = wall.getPoints();
 
-				for(int k =0; k < worldCoords.size() ; k++){
+				for(int k =0; k < 3 ; k++){
 					printf("x:%f y:%f z:%f \n",worldCoords[k].x,worldCoords[k].y,worldCoords[k].z);
 				}
 
-				double dptp = distPlaneToPoint(worldCoords[1],worldCoords[2] ,worldCoords[3] , center);
-                        	printf("ptpdist : %f\n",dptp);
+				double dptp = distPlaneToPoint(worldCoords[0],worldCoords[1] ,worldCoords[2] , center);
+                        	printf("ptpdist : %f Tank point: x:%f y:%f z:%f\n",dptp, center.x,center.y,center.z);
 				if(dptp < sphdist){        
 					printf("ptpdist : %f , sphdist %f\n",dptp, sphdist);
 					return true;
@@ -126,7 +126,6 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
                         	}
 			}
                 }
-
         }
 
         return false;

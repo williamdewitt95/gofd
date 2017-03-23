@@ -176,7 +176,7 @@ Polygon3d Polygon3d::getWorldPoints(){
  
 	//***********************************************
 	
-	Polygon3d poly(this->getPoints());
+	Polygon3d poly(this->center, this->getPoints());
 	poly.color[0] = this->color[0];
 	poly.color[1] = this->color[1];
 	poly.color[2] = this->color[2];
