@@ -77,7 +77,7 @@ public:
 	int numPoints()const;
 	std::vector<Point>& getPoints(); // get the list of points for you to affect the shape with
 	Point& operator[](int); // get point number x back
-	Polygon3d& operator=(Polygon3d);
+	Polygon3d& operator=(const Polygon3d&);
 
 	Polygon3d getTransform(); // get the transform of the points of the polygon to where they should be
 	void recenter(); // moves the center of the polygon to be at the centroid of the shape but does not change its position

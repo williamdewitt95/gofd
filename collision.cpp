@@ -102,7 +102,7 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 
                 //tbDist has the distance between the center point and the buildings center
                 double tbDist = distance(center,buildings[i]->center);
-		printf("About to copy\n");
+		//printf("About to copy\n");
 		std::vector<Polygon3d> sides = buildings[i]->boundingBox();
 		//printf("%f\n",tbDist);
                 if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2+5){

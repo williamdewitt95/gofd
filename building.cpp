@@ -38,9 +38,14 @@ void Building::update(){
 std::vector<Polygon3d> Building::boundingBox(){
 	static bool alreadyCalculated = false;
 	if(!alreadyCalculated){
-		for(int x=0; x<this->box.size(); x++){
+		for(int x=0; x < this->box.size(); x++){
+			//printf("Starting to translate bounding box\n");
 			this->box[x].setCenter(this->center);
-			this->box[x]=this->box[x].getTransform();
+			//printf("About to copy of num points %d\n",this->box[x].numPoints());
+			Polygon3d p=this->box[x].getTransform();
+			//printf("Made the copy of num points %d\n",p.numPoints());
+			this->box[x] = p;
+			//printf("put into the array\n");
 		}
 	}
 	return this->box;

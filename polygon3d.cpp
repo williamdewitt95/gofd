@@ -34,7 +34,7 @@ Polygon3d::Polygon3d(Point pnt, std::vector<Point>& points){
 
 	this->center = pnt;
 	this->vertexList = points;
-	
+
 	drawTesselate = true;
 	GLubyte color[4]={0,0,0,0};
 	scale = 1;
@@ -175,7 +175,6 @@ std::vector<Point>& Polygon3d::getTexturePoints(){
 Polygon3d Polygon3d::getWorldPoints(){
  
 	//***********************************************
-	
 	Polygon3d poly(this->center, this->getPoints());
 	poly.color[0] = this->color[0];
 	poly.color[1] = this->color[1];
@@ -188,13 +187,12 @@ Polygon3d Polygon3d::getWorldPoints(){
 	std::vector<Point> &worldCoords = poly.getPoints(); 
 
 	for(int i = 0; i < this->vertexList.size(); i++){
-		
 		worldCoords[i] = worldCoords[i].translatePoint(this->center[0], this->center[1], this->center[2]);
 		worldCoords[i] = worldCoords[i].scalePoint(this->scale, this->scale, this->scale);
 		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.x, 1, 0, 0 );
 		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.y, 0, 1, 0 );
-		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.z, 0, 0, 1 );		
-	}	
+		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.z, 0, 0, 1 );
+	}
 
 	return poly;
 }
@@ -218,11 +216,11 @@ std::vector<Point>& Polygon3d::getPoints(){
 Point& Polygon3d::operator[](int x){
 	return this->vertexList[x];
 }
-Polygon3d& Polygon3d::operator=(Polygon3d other){
+Polygon3d& Polygon3d::operator=(const Polygon3d& other){
 	this->vertexList.clear();
 	this->vertexList.reserve(other.numPoints());
 	for(int x=0; x<other.numPoints(); x++){
-		Point temp = other[x];
+		Point temp = other.vertexList[x];
 		this->vertexList.push_back(temp);
 	}
 	this->center = other.center;
@@ -243,7 +241,7 @@ Polygon3d& Polygon3d::operator=(Polygon3d other){
 	return *this;
 }
 
-Polygon3d Polygon3d::getTransform(){} // get the transform of the points of the polygon to where they should be
+Polygon3d Polygon3d::getTransform(){return getWorldPoints();} // get the transform of the points of the polygon to where they should be
 void Polygon3d::recenter(){} // moves the center of the polygon to be at the centroid of the shape but does not change its position
 
 void Polygon3d::draw(){
