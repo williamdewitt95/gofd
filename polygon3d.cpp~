@@ -187,6 +187,32 @@ Polygon3d Polygon3d::getWorldPoints(){
 	return poly;
 }
 
+
+bool Polygon3d::intersection(Polygon3d other){
+ 	
+ 	
+	Polygon3d poly1 = this.getWorldPoints();		
+ 	Polygon3d poly2 = other.getWorldPoints();
+
+	Vector u = poly1.normal.crossProduct(poly2.normal);
+
+
+	float ax = abs(u.x), ay = abs(u.y), az = abs(u.z); 
+ 	
+
+ 
+	if((ax+ay+az) < 0.0000001){
+ 	
+		Vector v(poly1.vertexList[0], poly2.vertexList[0]);
+		if(poly1.normal.dot(v) == 0)
+ 	
+			return false;
+	}	
+
+	return true;
+
+}
+
 Point& Polygon3d::getTexturePos(int index){
 	return this->vertexTextureList[index];
 }
