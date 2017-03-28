@@ -4,6 +4,7 @@
 #include <iostream>
 using std::cout;
 GLMmodel* theModel = NULL;
+GLMmodel* tankModel = glmReadOBJ("objects/tankbody.obj");
 
 
 Tank::Tank(Point center){
@@ -355,8 +356,7 @@ Tank::Tank(Point center){
 }
 
 void Tank::drawBody(){
-	theModel = glmReadOBJ("objects/tankbody.obj");
-	glmDraw(theModel, GLM_MATERIAL);	
+	glmDraw(tankModel, GLM_MATERIAL);	
 }
 
 void Tank::drawCannon(){
@@ -367,8 +367,10 @@ void Tank::drawCannon(){
 void Tank::draw(){
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
+	glTranslatef(0,0,-1);//move the body down
 	glScaled(scale, scale, scale);
 	glRotated(baseAngle, 0, 0, 1);
+	glRotatef(90,1,0,0);//rotate the body
 	drawBody();
 	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
