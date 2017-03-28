@@ -3,7 +3,7 @@
 #include "building.h"
 #include <iostream>
 using std::cout;
-GLMmodel* theModel = NULL;
+GLMmodel* cannonModel = glmReadOBJ("objects/cannon.obj");
 GLMmodel* tankModel = glmReadOBJ("objects/tankbody.obj");
 
 
@@ -355,15 +355,6 @@ Tank::Tank(Point center){
 	totalBoundingBox.push_back(cannon);
 }
 
-void Tank::drawBody(){
-	glmDraw(tankModel, GLM_MATERIAL);	
-}
-
-void Tank::drawCannon(){
-	theModel = glmReadOBJ("objects/cannon.obj");
-	glmDraw(theModel, GLM_SMOOTH | GLM_MATERIAL);	
-}
-
 void Tank::draw(){
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
@@ -371,7 +362,7 @@ void Tank::draw(){
 	glScaled(scale, scale, scale);
 	glRotated(baseAngle, 0, 0, 1);
 	glRotatef(90,1,0,0);//rotate the body
-	drawBody();
+	glmDraw(tankModel, GLM_MATERIAL);	
 	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
 	*/
@@ -379,8 +370,9 @@ void Tank::draw(){
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
 	glRotated(towerAngle, 0, 0, 1);
-	for(int x=0; x<tower.size(); x++)
+	/*for(int x=0; x<tower.size(); x++)
 		this->tower[x].draw();
+	*/
 	glPushMatrix();
 	glTranslated(0, 0.5, 1.375);
 	if (cannonAngle > 75)
@@ -400,6 +392,7 @@ void Tank::draw(){
 		glColor4f(1.0 ,1.0 ,1.0 ,1.0);
 		glLineWidth(1);
 	}
+	glColor3f(1,1,1);
 	for(int x=0; x<cannon.size(); x++)
 		this->cannon[x].draw();
 	glPopMatrix();

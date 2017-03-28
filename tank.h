@@ -24,8 +24,6 @@ public:
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
 	Tank(Point center);
-	void drawBody();
-	void drawCannon();
 	void drawHealthBar();
 	void drawCooldownBar();
 	void draw();
