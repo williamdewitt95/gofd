@@ -3,6 +3,7 @@
 #include "building.h"
 #include <iostream>
 using std::cout;
+GLMmodel* theModel = NULL;
 
 
 Tank::Tank(Point center){
@@ -353,15 +354,25 @@ Tank::Tank(Point center){
 	totalBoundingBox.push_back(cannon);
 }
 
+void Tank::drawBody(){
+	theModel = glmReadOBJ("objects/tankbody.obj");
+	glmDraw(theModel, GLM_MATERIAL);	
+}
 
+void Tank::drawCannon(){
+	theModel = glmReadOBJ("objects/cannon.obj");
+	glmDraw(theModel, GLM_SMOOTH | GLM_MATERIAL);	
+}
 
 void Tank::draw(){
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
 	glScaled(scale, scale, scale);
 	glRotated(baseAngle, 0, 0, 1);
-	for(int x=0; x<base.size(); x++)
+	drawBody();
+	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
+	*/
 	glPopMatrix();//When we rotate the base, let the turret stay on target
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);

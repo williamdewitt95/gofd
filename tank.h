@@ -6,6 +6,7 @@
 #include <math.h>
 #include <vector>
 #include "projectile.h"
+#include "glm.h"
 class Projectile;
 
 class Tank{
@@ -19,10 +20,12 @@ public:
 	double tankSpeed;
 	int cooldown;
 	int health;	
-
+		
 	std::vector<Polygon3d> base, tower, cannon;
 	std::vector< std::vector<Polygon3d> > totalBoundingBox; //contains bounding box of all tank components
 	Tank(Point center);
+	void drawBody();
+	void drawCannon();
 	void drawHealthBar();
 	void drawCooldownBar();
 	void draw();
