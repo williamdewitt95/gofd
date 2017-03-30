@@ -242,6 +242,7 @@ void drawMinimap(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
 }
 
 void display(){
@@ -466,7 +467,7 @@ int main(int argc,char** args){
 		}
 	}
 
-	tank = new Tank(Point(0, 0, 0));
+	tank = new Tank(Point(0, 31.65, 0));
 	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 
 
