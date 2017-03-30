@@ -1,8 +1,9 @@
 #ifndef TANK
 #define TANK
 
-#include "globals.h"
 #include "polygon3d.h"
+
+#include "globals.h"
 #include <math.h>
 #include <vector>
 #include "projectile.h"

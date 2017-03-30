@@ -2,7 +2,9 @@
 #define PROJECTILE
 
 #include "globals.h"
+
 #include "polygon3d.h"
+
 #include <math.h>
 #include <vector>
 

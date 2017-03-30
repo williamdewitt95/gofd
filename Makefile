@@ -17,7 +17,7 @@ USER_LIBS   = image.a
 LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 
 # System librarires to be linked
-LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
+LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng -lGLEW libSOIL.a
 
 #the available buildings that we depend on when building
 BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp

@@ -1,3 +1,4 @@
+#include <GL/glew.h> 
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -5,7 +6,6 @@
 #include <math.h>
 #include <vector>
 #include <GL/glut.h>
-#include <GL/glu.h>
 #include <iostream>
 #include "globals.h"
 #include "building.h"

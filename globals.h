@@ -1,14 +1,17 @@
 #ifndef GLOP_GLOBALS
 #define GLOP_GLOBALS
 
+#include <GL/glew.h> 
+
 #include <GL/glut.h>
-#include <GL/glu.h>
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include "imageLibrary/image.h"
+// #include "imageLibrary/image.h"
 #include "tank.h"
 #include "polygon3d.h"
+#include "SOIL.h"   
+
 
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
@@ -33,7 +36,7 @@ struct MODEL_TRIANGLES{
 
 struct TextureInfo{
 	std::string name;
-	unsigned long width,height;
+	int width,height;
 	GLuint textureRef;
 };
 void loadTex(std::string name);

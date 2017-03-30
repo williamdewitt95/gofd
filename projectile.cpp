@@ -6,7 +6,7 @@ Projectile::Projectile(Point center){
 	this->angleV = 45;
 	this->angleH = 0;
 	this->mass = 50.0;
-	this->velocity = 500.0;
+	this->velocity = 50.0;
 	this->C = 0.05;
 
 	this->t = 0.0;
@@ -76,7 +76,7 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->angleH = angleH;
 	this->tankStart = tankStart;
 	this->mass = 50.0;
-	this->velocity = 500.0;
+	this->velocity = 50.0;
 	this->C = 0.05;
 
 	this->t = 0.0;
@@ -91,7 +91,7 @@ void Projectile::draw(){
 	glPushMatrix();
 
 	GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
-	glColor3f(.1, .1, .1);
+	glColor3f(1.0, .1, .1);
 	glTranslated(center.x,center.y,center.z);
 	glRotated(this->angleH, 0.0, 0.0, 1.0);
 	glRotated(-this->angleV, 0, 1.0, 0);

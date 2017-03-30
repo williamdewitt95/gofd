@@ -24,10 +24,13 @@ void loadTex(std::string name){
 	struct TextureInfo ti;
 	ti.name = name;
 
+	unsigned char * data;
+
+	data = SOIL_load_image(ti.name.c_str(), &ti.width, &ti.height, 0, SOIL_LOAD_RGB);
 	bool wrap = true;
-	Image im(name);
-	ti.width = im.width();
-	ti.height = im.height();
+	// Image im(name);
+	// ti.width = im.width();
+	// ti.height = im.height();
 
 	glGenTextures(1,(GLuint*)&ti.textureRef); // create the texture space
 	glBindTexture(GL_TEXTURE_2D,ti.textureRef);
@@ -44,10 +47,12 @@ void loadTex(std::string name){
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap ? GL_REPEAT : GL_CLAMP );
 
 	//time to finnally put in our pixel data
-	gluBuild2DMipmaps(GL_TEXTURE_2D,4,im.width(),im.height(),GL_RGBA,GL_UNSIGNED_BYTE,&im[0][0]);
+	gluBuild2DMipmaps(GL_TEXTURE_2D,4,ti.width,ti.height,GL_RGBA,GL_UNSIGNED_BYTE,data);
 
 	GLOBAL.TEXTURES_LOADED[name]=ti;
 	glBindTexture(GL_TEXTURE_2D,0); // reset to the basic texture again
+    SOIL_free_image_data(data);
+
 }
 
 void windowResize(int width, int height){
