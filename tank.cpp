@@ -1,7 +1,10 @@
-#include "tank.h"
 #include "globals.h"
+
+#include "tank.h"
 #include "building.h"
 #include <iostream>
+#include <stdio.h>
+#include <string.h>
 using std::cout;
 
 
@@ -16,8 +19,16 @@ Tank::Tank(Point center){
 	cannonAngle = 0;
 	laser = true;
 	tankSpeed = 0;
+	tankSpeedY = 0;
+	tankSpeedX = 0;
+	recoilSpeed = 0;
+	rollingFriction = 0.0015;
+	kineticFriction = 0.005;
 	cooldown = 0;
 	health = 100;
+	tankRecoil = false;
+	recoilAngle = 0;
+	towerToBaseAngle = 0;
 
 	//Base polygons
 
@@ -45,7 +56,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -65,7 +76,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -85,7 +96,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -105,7 +116,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -148,7 +159,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -168,7 +179,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -188,7 +199,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -208,7 +219,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -251,7 +262,7 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
+		// loadTex("textures/tank/tankcannon.jpg");
 		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
@@ -271,7 +282,7 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
+		// loadTex("textures/tank/tankcannon.jpg");
 		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
@@ -291,7 +302,7 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
+		// loadTex("textures/tank/tankcannon.jpg");
 		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
@@ -311,7 +322,7 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
+		// loadTex("textures/tank/tankcannon.jpg");
 		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
@@ -331,7 +342,7 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
+		// loadTex("textures/tank/tankcannon.jpg");
 		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
@@ -393,9 +404,65 @@ void Tank::draw(){
 	glPopMatrix();
 }
 
-void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
-	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
+	
+	//max speed limit
+	if (((this->tankSpeedY < 0.15) && (tankAccel > 0)) || ((this->tankSpeedY > -0.15) && (tankAccel < 0)))  {
+		this->tankSpeedY += tankAccel;
+	}
+
+	//apply friction
+	if (this->tankSpeedY > 0) {
+		this->tankSpeedY -= rollingFriction;
+		if (this->tankSpeedY < 0)
+			this->tankSpeedY = 0;
+	}
+	if (this->tankSpeedY < 0) {
+		this->tankSpeedY += rollingFriction;
+		if (this->tankSpeedY > 0)
+			this->tankSpeedY = 0;
+	}
+
+	if (this->tankSpeedX > 0) {
+		this->tankSpeedX -= kineticFriction;
+		if (this->tankSpeedX < 0)
+			this->tankSpeedX = 0;
+	}
+	if (this->tankSpeedX < 0) {
+		this->tankSpeedX += kineticFriction;
+		if (this->tankSpeedX > 0)
+			this->tankSpeedX = 0;
+	}
+
+	//limit recoil speed
+	if (this->tankSpeedY > 0.20) {
+		this->tankSpeedY -= 2*rollingFriction;
+		if (this->tankSpeedY < 0)
+			this->tankSpeedY = 0;
+	}
+	if (this->tankSpeedY < -0.20) {
+		this->tankSpeedY += 2*rollingFriction;
+		if (this->tankSpeedY > 0)
+			this->tankSpeedY = 0;
+	}
+	//cout << "tankSpeed = " << tankSpeed << "\n";
+
+	//translate for recoil
+	if (tankRecoil) {
+		//angle between tower and base is towerToBaseAngle
+
+		this->tankSpeedX += recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
+		this->tankSpeedY -= recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
+
+		//cout << "recoilSpeed = " << recoilSpeedY << "\n";
+		tankRecoil = false;
+	}
+
+	double newX = this->center.x + this->tankSpeedY * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + this->tankSpeedY * sin((this->baseAngle + 90) * (M_PI / 180));
+
+	newX += this->tankSpeedX * cos((this->baseAngle) * (M_PI / 180));
+	newY += this->tankSpeedX * sin((this->baseAngle) * (M_PI / 180));
 	
 	if(onLock(newX,newY)){
 		this->center.x = newX;
@@ -573,4 +640,13 @@ void Tank::shoot() {
 	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90));
 	this->cooldown = 100;
 	// return projectile;
+
+	applyRecoil();
+}
+
+void Tank::applyRecoil() {
+	tankRecoil = true;
+	recoilSpeed = 0.17;
+	recoilAngle = this->towerAngle + 90;
+	towerToBaseAngle = (this->towerAngle + 90) - (this->baseAngle + 90);
 }
