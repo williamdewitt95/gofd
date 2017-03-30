@@ -45,10 +45,11 @@ void loadTex(std::string name){
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap ? GL_REPEAT : GL_CLAMP );
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap ? GL_REPEAT : GL_CLAMP );
 
+	//pull the actual image data from the texture
 	data = SOIL_load_image(ti.name.c_str(), &ti.width, &ti.height, 0, SOIL_LOAD_RGBA);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ti.width, ti.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	//time to finnally put in our pixel data
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ti.width, ti.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	gluBuild2DMipmaps(GL_TEXTURE_2D,4,ti.width,ti.height,GL_RGBA,GL_UNSIGNED_BYTE,data);
 
 	GLOBAL.TEXTURES_LOADED[name]=ti;

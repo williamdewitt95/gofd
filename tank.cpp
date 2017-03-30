@@ -48,7 +48,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -68,7 +68,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -88,7 +88,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -108,7 +108,7 @@ Tank::Tank(Point center){
 		base.push_back(Polygon3d());
 		auto &points = base[base.size()-1].getPoints();
 		auto &texs = base[base.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktex.jpg");
+		// loadTex("textures/tank/tanktex.jpg");
 		base[base.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktex.jpg"].textureRef);
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
@@ -151,7 +151,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -171,7 +171,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -191,7 +191,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -211,7 +211,7 @@ Tank::Tank(Point center){
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
 		auto &texs = tower[tower.size()-1].getTexturePoints();
-		loadTex("textures/tank/tanktower.jpg");
+		// loadTex("textures/tank/tanktower.jpg");
 		tower[tower.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tanktower.jpg"].textureRef);
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
@@ -234,8 +234,8 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
-		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
+		loadTex("textures/tank/tankcannon.png");
+		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.png"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
 
@@ -254,8 +254,8 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
-		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
+		// loadTex("textures/tank/tankcannon.jpg");
+		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.png"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
 
@@ -274,8 +274,8 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
-		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
+		// loadTex("textures/tank/tankcannon.jpg");
+		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.png"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
 
@@ -294,8 +294,8 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
-		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
+		// loadTex("textures/tank/tankcannon.jpg");
+		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.png"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
 
@@ -314,8 +314,8 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
-		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
+		// loadTex("textures/tank/tankcannon.jpg");
+		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.png"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
 
@@ -334,8 +334,8 @@ Tank::Tank(Point center){
 		cannon.push_back(Polygon3d());
 		auto &points = cannon[cannon.size()-1].getPoints();
 		auto &texs = cannon[cannon.size()-1].getTexturePoints();
-		loadTex("textures/tank/tankcannon.jpg");
-		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.jpg"].textureRef);
+		// loadTex("textures/tank/tankcannon.jpg");
+		cannon[cannon.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/tank/tankcannon.png"].textureRef);
 		cannon[cannon.size()-1].setColor(211,211,211);
 		cannon[cannon.size()-1].setTesselation(true);
 
