@@ -358,8 +358,8 @@ Tank::Tank(Point center){
 void Tank::draw(){
 	glPushMatrix();
 	glTranslated(center.x, center.y, center.z);
-	glTranslatef(0,0,-1);//move the body down
-	glScaled(scale, scale, scale);
+	glTranslatef(0,0,-.75);//move the body down
+	glScaled(scale*.75, scale*.75, scale*.75);
 	glRotated(baseAngle, 0, 0, 1);
 	glRotatef(90,1,0,0);//rotate the body
 	glmDraw(tankModel, GLM_MATERIAL);	
@@ -393,8 +393,17 @@ void Tank::draw(){
 		glLineWidth(1);
 	}
 	glColor3f(1,1,1);
-	for(int x=0; x<cannon.size(); x++)
+	////////
+	glTranslatef(tX,tY,tZ);//move the body down
+	glScaled(scale*.75, scale*.75, scale*.75);
+	glRotated(rZ, 0, 0, 1);
+	glRotated(rY, 0, 1, 0);
+	glRotated(rX, 1, 0, 0);
+
+	glmDraw(cannonModel, GLM_MATERIAL);
+	/*for(int x=0; x<cannon.size(); x++)
 		this->cannon[x].draw();
+	*/
 	glPopMatrix();
 	glPopMatrix();
 }
