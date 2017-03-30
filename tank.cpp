@@ -19,8 +19,10 @@ Tank::Tank(Point center){
 	cannonAngle = 0;
 	laser = true;
 	tankSpeed = 0;
+	tankSpeedY = 0;
+	tankSpeedX = 0;
 	recoilSpeed = 0;
-	rollingFriction = 0.0005;
+	rollingFriction = 0.0015;
 	kineticFriction = 0.005;
 	cooldown = 0;
 	health = 100;
@@ -403,58 +405,64 @@ void Tank::draw(){
 }
 
 void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
-
+	
 	//max speed limit
-	if (((tankSpeed < 0.15) && (tankAccel > 0)) || ((tankSpeed > -0.15) && (tankAccel < 0)))  {
-		//cout << "tankAccel = " << tankAccel << "\n";
-		tankSpeed += tankAccel;
+	if (((this->tankSpeedY < 0.15) && (tankAccel > 0)) || ((this->tankSpeedY > -0.15) && (tankAccel < 0)))  {
+		this->tankSpeedY += tankAccel;
 	}
 
 	//apply friction
-	if (tankSpeed > 0) {
-		tankSpeed -= rollingFriction;
-		if (tankSpeed < 0)
-			tankSpeed = 0;
+	if (this->tankSpeedY > 0) {
+		this->tankSpeedY -= rollingFriction;
+		if (this->tankSpeedY < 0)
+			this->tankSpeedY = 0;
 	}
-	if (tankSpeed < 0) {
-		tankSpeed += rollingFriction;
-		if (tankSpeed > 0)
-			tankSpeed = 0;
+	if (this->tankSpeedY < 0) {
+		this->tankSpeedY += rollingFriction;
+		if (this->tankSpeedY > 0)
+			this->tankSpeedY = 0;
+	}
+
+	if (this->tankSpeedX > 0) {
+		this->tankSpeedX -= kineticFriction;
+		if (this->tankSpeedX < 0)
+			this->tankSpeedX = 0;
+	}
+	if (this->tankSpeedX < 0) {
+		this->tankSpeedX += kineticFriction;
+		if (this->tankSpeedX > 0)
+			this->tankSpeedX = 0;
+	}
+
+	//limit recoil speed
+	if (this->tankSpeedY > 0.20) {
+		this->tankSpeedY -= 2*rollingFriction;
+		if (this->tankSpeedY < 0)
+			this->tankSpeedY = 0;
+	}
+	if (this->tankSpeedY < -0.20) {
+		this->tankSpeedY += 2*rollingFriction;
+		if (this->tankSpeedY > 0)
+			this->tankSpeedY = 0;
 	}
 	//cout << "tankSpeed = " << tankSpeed << "\n";
-
-	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
 
 	//translate for recoil
 	if (tankRecoil) {
 		//angle between tower and base is towerToBaseAngle
 
-		double recoilSpeedX = recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
-		double recoilSpeedY = recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
-
-		if (recoilSpeedX > 0)
-			recoilSpeedX -= kineticFriction;
-		else
-			recoilSpeedX += kineticFriction;
-
-		if (recoilSpeedY > 0)
-			recoilSpeedY -= rollingFriction;
-		else
-			recoilSpeedY += rollingFriction;
-		
-		recoilSpeed = sqrt((recoilSpeedX * recoilSpeedX) + (recoilSpeedY * recoilSpeedY));
+		this->tankSpeedX += recoilSpeed * sin(towerToBaseAngle * (M_PI / 180));
+		this->tankSpeedY -= recoilSpeed * cos(towerToBaseAngle * (M_PI / 180));
 
 		//cout << "recoilSpeed = " << recoilSpeedY << "\n";
-
-		newX -= recoilSpeed * cos(recoilAngle * (M_PI / 180));
-		newY -= recoilSpeed * sin(recoilAngle * (M_PI / 180));
-
-		if (recoilSpeed <= 0) {
-			tankRecoil = false;
-			recoilAngle = 0;
-		}
+		tankRecoil = false;
 	}
+
+	double newX = this->center.x + this->tankSpeedY * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + this->tankSpeedY * sin((this->baseAngle + 90) * (M_PI / 180));
+
+	newX += this->tankSpeedX * cos((this->baseAngle) * (M_PI / 180));
+	newY += this->tankSpeedX * sin((this->baseAngle) * (M_PI / 180));
 	
 	if(onLock(newX,newY)){
 		this->center.x = newX;
@@ -638,7 +646,7 @@ void Tank::shoot() {
 
 void Tank::applyRecoil() {
 	tankRecoil = true;
-	recoilSpeed = 0.1;
+	recoilSpeed = 0.17;
 	recoilAngle = this->towerAngle + 90;
 	towerToBaseAngle = (this->towerAngle + 90) - (this->baseAngle + 90);
 }
