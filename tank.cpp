@@ -362,6 +362,7 @@ void Tank::draw(){
 	glScaled(scale*.75, scale*.75, scale*.75);
 	glRotated(baseAngle, 0, 0, 1);
 	glRotatef(90,1,0,0);//rotate the body
+	glColor3f(.35,.35,.35);
 	glmDraw(tankModel, GLM_MATERIAL);	
 	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
@@ -394,13 +395,11 @@ void Tank::draw(){
 	}
 	glColor3f(1,1,1);
 	////////
-	glTranslatef(tX,tY,tZ);//move the body down
+	glTranslatef(.8,2.05,1.35);//move the body down
 	glScaled(scale*.75, scale*.75, scale*.75);
-	glRotated(rZ, 0, 0, 1);
-	glRotated(rY, 0, 1, 0);
-	glRotated(rX, 1, 0, 0);
-
+	glRotated(91.15, 0, 0, 1);
 	glmDraw(cannonModel, GLM_MATERIAL);
+	//////
 	/*for(int x=0; x<cannon.size(); x++)
 		this->cannon[x].draw();
 	*/
