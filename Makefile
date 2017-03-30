@@ -14,7 +14,7 @@ BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 
 # System librarires to be linked
-LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng -lGLEW libSOIL.a
+LDFLAGS  = -lGL -lGLU -lglut -lGLEW libSOIL.a
 
 #the available buildings that we depend on when building
 BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp
