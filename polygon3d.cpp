@@ -231,7 +231,9 @@ Polygon3d& Polygon3d::operator=(Polygon3d other){
 	return *this;
 }
 
-Polygon3d Polygon3d::getTransform(){} // get the transform of the points of the polygon to where they should be
+Polygon3d Polygon3d::getTransform(){ // get the transform of the points of the polygon to where they should be
+	return getWorldPoints();
+}
 void Polygon3d::recenter(){} // moves the center of the polygon to be at the centroid of the shape but does not change its position
 
 void Polygon3d::draw(){

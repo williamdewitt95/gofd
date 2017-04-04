@@ -71,7 +71,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 
 
 	// == Windows ==
-	unsigned int windowList; // displaylist to call for drawing the windows
+	// unsigned int windowList; // displaylist to call for drawing the windows
 	{
 		int numWindowsPerSide = floor(buildingWidth/floorHeight);
 		double distBetweenWindows = buildingWidth / numWindowsPerSide;
@@ -84,43 +84,55 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 		gridOffset.z = floorHeight/2.0;
 
 		//get a window
-		unsigned int window =
-		makeNewWindow1_displayList(
-			Point( 0 , 0 , floorHeight ) + gridOffset, // centerpoint for the window starts at ground floor-left side
-			0, // rotation
-			windowHeight, // height
-			windowWidth
-		);
+		// auto window =
+		// makeNewWindow1(
+		// 	Point( 0 , 0 , floorHeight ) + gridOffset, // centerpoint for the window starts at ground floor-left side
+		// 	0, // rotation
+		// 	windowHeight, // height
+		// 	windowWidth
+		// );
 
 		//put all the windows in a list to make a single side
-		unsigned int singleSide = glGenLists(1);
+		// unsigned int singleSide = glGenLists(1);
 
-		glNewList(singleSide,GL_COMPILE);
-			glPushMatrix();
-			for(int y=1; y<numFloors; y++){
-				glPushMatrix();
-				for(int x=0; x<numWindowsPerSide; x++){
-					glCallList(window);
-					glTranslated(distBetweenWindows,0,0);
-				}
-				glPopMatrix();
-				glTranslated(0,0,floorHeight);
-			}
-			glPopMatrix();
-		glEndList();
+		// glNewList(singleSide,GL_COMPILE);
+			// glPushMatrix();
+			// for(int y=1; y<numFloors; y++){
+			// 	glPushMatrix();
+			// 	for(int x=0; x<numWindowsPerSide; x++){
+			// 		glCallList(window);
+			// 		glTranslated(distBetweenWindows,0,0);
+			// 	}
+			// 	glPopMatrix();
+			// 	glTranslated(0,0,floorHeight);
+			// }
+			// glPopMatrix();
+		// glEndList();
 
 		//make the 4 sides into lists
-		unsigned int allSides = glGenLists(1);
-		glNewList(allSides,GL_COMPILE);
-			glPushMatrix();
-			for(int x=0; x<4; x++){
-				glRotated(90,0,0,1);
-				glCallList(singleSide);
-			}
-			glPopMatrix();
-		glEndList();
+		// unsigned int allSides = glGenLists(1);
+		// glNewList(allSides,GL_COMPILE);
+		// 	glPushMatrix();
+		// 	for(int x=0; x<4; x++){
+		// 		glRotated(90,0,0,1);
+		// 		glCallList(singleSide);
+		// 	}
+		// 	glPopMatrix();
+		// glEndList();
 
-		subLists.push_back(allSides);
+		// subLists.push_back(allSides);
+
+		for(int y=1; y<numFloors; y++){
+			for(int x=0; x<numWindowsPerSide; x++){
+				makeNewWindow1(
+					Point( distBetweenWindows * x , 0 , floorHeight * y ) + gridOffset, // centerpoint for the window starts at ground floor-left side
+					0, // rotation
+					windowHeight, // height
+					windowWidth,
+					model
+				);
+			}
+		}
 	} // windows
 
 

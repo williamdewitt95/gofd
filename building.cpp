@@ -41,7 +41,8 @@ void Building::draw_CPU(){
 	glPushMatrix();
 	glTranslated(center.x,center.y,center.z);
 	for(int x=0; x<model.size(); x++)
-		this->model[x].draw();
+		auto poly = this->model[x].getTransform();
+		//add in a polygon draw_static that does not do rotates or translates or such
 	for(int x=0; x<subLists.size(); x++)
 		glCallList(subLists[x]);
 	glPopMatrix();
