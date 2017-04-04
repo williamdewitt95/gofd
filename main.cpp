@@ -45,6 +45,7 @@ void mouseButtons(int but,int state,int x,int y){
 
 	if(but==0 && state==GLUT_DOWN){
 		//left mouse button
+		tank->shoot();
 	}else if(but==2 && state==GLUT_DOWN){
 		//right mouse button
 	}else if(but==3 && state==GLUT_DOWN){
