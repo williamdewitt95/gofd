@@ -25,6 +25,7 @@ private:
 	double f(double p, double q, double drag);
 	double g(double p, double q, double drag);
 	void step();
+	bool isTrail;
 	std::vector<Explosion> explosions;
 public:
 	Point center, tankStart, local;
