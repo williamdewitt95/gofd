@@ -1,0 +1,304 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AI	ai.h	2;"	d
+AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank){$/;"	f	class:AI_Tank
+AI_Tank	ai.h	/^class AI_Tank{$/;"	c
+Building	building.cpp	/^Building::Building(Point center){$/;"	f	class:Building
+Building	building.h	/^class Building{$/;"	c
+C	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
+CAMERA_ANGLE_HORIZONTAL	globals.h	/^	double CAMERA_ANGLE_HORIZONTAL;$/;"	m	class:GLOBAL_SETTINGS
+CAMERA_ANGLE_VERTICAL	globals.h	/^	double CAMERA_ANGLE_VERTICAL;$/;"	m	class:GLOBAL_SETTINGS
+CAMERA_LOOK_VECTOR	globals.h	/^	} CAMERA_LOOK_VECTOR;$/;"	m	class:GLOBAL_SETTINGS	typeref:struct:GLOBAL_SETTINGS::__anon2
+CAMERA_POS	globals.h	/^	} CAMERA_POS;$/;"	m	class:GLOBAL_SETTINGS	typeref:struct:GLOBAL_SETTINGS::__anon1
+COLLISION	collision.h	2;"	d
+FPS_CameraMovement	globals.cpp	/^void FPS_CameraMovement(int x, int y, Point center){\/\/first person is actually sitting on top of turret$/;"	f
+GLOBAL	globals.cpp	/^GLOBAL_SETTINGS GLOBAL;$/;"	v
+GLOBAL_SETTINGS	globals.cpp	/^GLOBAL_SETTINGS::GLOBAL_SETTINGS(){$/;"	f	class:GLOBAL_SETTINGS
+GLOBAL_SETTINGS	globals.h	/^class GLOBAL_SETTINGS{$/;"	c
+GLOP_BUILDING	building.h	2;"	d
+GLOP_GLOBALS	globals.h	2;"	d
+GRAVITY	globals.h	18;"	d
+LIGHTS	globals.h	/^	std::vector<LIGHT_STRUCT> LIGHTS;$/;"	m	class:GLOBAL_SETTINGS
+LIGHT_STRUCT	globals.h	/^struct LIGHT_STRUCT{$/;"	s
+LineSeg	vector_basics.cpp	/^LineSeg::LineSeg(){$/;"	f	class:LineSeg
+LineSeg	vector_basics.cpp	/^LineSeg::LineSeg(Point p1, const Vector& v){$/;"	f	class:LineSeg
+LineSeg	vector_basics.cpp	/^LineSeg::LineSeg(const Point& p1, const Point& p2){$/;"	f	class:LineSeg
+LineSeg	vector_basics.h	/^class LineSeg{$/;"	c
+MODEL_TRIANGLES	globals.h	/^struct MODEL_TRIANGLES{$/;"	s
+NUM_BLOCKS_WIDE	globals.h	17;"	d
+PI	globals.h	16;"	d
+PI	vector_basics.h	8;"	d
+PROJECTILE	projectile.h	2;"	d
+Point	vector_basics.cpp	/^Point::Point(){$/;"	f	class:Point
+Point	vector_basics.cpp	/^Point::Point(double x, double y, double z){$/;"	f	class:Point
+Point	vector_basics.h	/^class Point{$/;"	c
+Polygon3d	polygon3d.cpp	/^Polygon3d::Polygon3d(){$/;"	f	class:Polygon3d
+Polygon3d	polygon3d.cpp	/^Polygon3d::Polygon3d(Point pnt, std::vector<Point>& points){$/;"	f	class:Polygon3d
+Polygon3d	polygon3d.cpp	/^Polygon3d::Polygon3d(Triangle &tri){$/;"	f	class:Polygon3d
+Polygon3d	polygon3d.cpp	/^Polygon3d::Polygon3d(const Polygon3d& other){$/;"	f	class:Polygon3d
+Polygon3d	polygon3d.cpp	/^Polygon3d::Polygon3d(double x,double y,double z){$/;"	f	class:Polygon3d
+Polygon3d	polygon3d.cpp	/^Polygon3d::Polygon3d(std::vector<Point>& points){$/;"	f	class:Polygon3d
+Polygon3d	polygon3d.h	/^class Polygon3d{$/;"	c
+Projectile	projectile.cpp	/^Projectile::Projectile(Point center){$/;"	f	class:Projectile
+Projectile	projectile.cpp	/^Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH)$/;"	f	class:Projectile
+Projectile	projectile.h	/^class Projectile{$/;"	c
+TANK	tank.h	2;"	d
+TARGET	target.h	2;"	d
+TEXTURES_LOADED	globals.h	/^	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; \/\/ allows for easily shared textures, if they use the same name, they get the same texture$/;"	m	class:GLOBAL_SETTINGS
+Tank	tank.cpp	/^Tank::Tank(Point center){$/;"	f	class:Tank
+Tank	tank.h	/^class Tank{$/;"	c
+Target	target.cpp	/^Target::Target(Point center)$/;"	f	class:Target
+Target	target.h	/^class Target{$/;"	c
+TextureInfo	globals.h	/^struct TextureInfo{$/;"	s
+Triangle	vector_basics.h	/^struct Triangle{$/;"	s
+VECTOR_BASICS	vector_basics.h	2;"	d
+Vector	vector_basics.cpp	/^Vector::Vector(){$/;"	f	class:Vector
+Vector	vector_basics.cpp	/^Vector::Vector(Point& p1, Point& p2){ \/\/ p1 is the starting point and p2 is where we are going$/;"	f	class:Vector
+Vector	vector_basics.cpp	/^Vector::Vector(double x, double y, double z){$/;"	f	class:Vector
+Vector	vector_basics.h	/^class Vector{$/;"	c
+WINDOW_MAX_X	globals.h	/^	int WINDOW_MAX_X;$/;"	m	class:GLOBAL_SETTINGS
+WINDOW_MAX_Y	globals.h	/^	int WINDOW_MAX_Y;$/;"	m	class:GLOBAL_SETTINGS
+WORLD_COORDINATE_MAX_X	globals.h	/^	double WORLD_COORDINATE_MAX_X;$/;"	m	class:GLOBAL_SETTINGS
+WORLD_COORDINATE_MAX_Y	globals.h	/^	double WORLD_COORDINATE_MAX_Y;$/;"	m	class:GLOBAL_SETTINGS
+WORLD_COORDINATE_MIN_X	globals.h	/^	double WORLD_COORDINATE_MIN_X;$/;"	m	class:GLOBAL_SETTINGS
+WORLD_COORDINATE_MIN_Y	globals.h	/^	double WORLD_COORDINATE_MIN_Y;$/;"	m	class:GLOBAL_SETTINGS
+__secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){$/;"	f	class:Polygon3d
+a	collision.cpp	/^	double a;$/;"	m	struct:plane	file:
+ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
+aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
+alreadyCalculated	building.h	/^	bool alreadyCalculated;$/;"	m	class:Building
+angleBtw	vector_basics.cpp	/^double Vector::angleBtw(Vector& other){$/;"	f	class:Vector
+angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
+angleV	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
+attenuation_linear	globals.h	/^	double attenuation_linear;$/;"	m	struct:LIGHT_STRUCT
+attenuation_quadratic	globals.h	/^	double attenuation_quadratic;$/;"	m	struct:LIGHT_STRUCT
+b	collision.cpp	/^	double b;$/;"	m	struct:plane	file:
+base	tank.h	/^	std::vector<Polygon3d> base, tower, cannon;$/;"	m	class:Tank
+baseAngle	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Tank
+boundingBox	building.cpp	/^std::vector<Polygon3d> Building::boundingBox(){$/;"	f	class:Building
+boundingBox	projectile.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Projectile
+boundingBox	tank.cpp	/^std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){$/;"	f	class:Tank
+boundingBox	target.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Target
+box	building.h	/^	std::vector<Polygon3d> box;$/;"	m	class:Building
+c	collision.cpp	/^	double c;$/;"	m	struct:plane	file:
+calculatePath	ai.cpp	/^void AI_Tank::calculatePath(int x, int y){\/\/create a new path to new grid coordinate$/;"	f	class:AI_Tank
+camMove_forward	main.cpp	/^double camMove_forward = 0;$/;"	v
+camMove_speed	main.cpp	/^const double camMove_speed = 0.25 \/ 2.0;$/;"	v
+camMove_strafe	main.cpp	/^double camMove_strafe = 0;$/;"	v
+camMove_vert	main.cpp	/^double camMove_vert = 0;$/;"	v
+cameraMode	main.cpp	/^int cameraMode = 0;$/;"	v
+cameraMovement	globals.cpp	/^void cameraMovement(int x, int y, Point center, int cameraMode){$/;"	f
+cannon	tank.h	/^	std::vector<Polygon3d> base, tower, cannon;$/;"	m	class:Tank
+cannonAngle	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Tank
+center	building.h	/^	Point center;$/;"	m	class:Building
+center	polygon3d.h	/^	Point center;$/;"	m	class:Polygon3d
+center	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
+center	tank.h	/^	Point center;$/;"	m	class:Tank
+center	target.h	/^	Point center;$/;"	m	class:Target
+collision	tank.h	/^	bool collision;$/;"	m	class:Tank
+collisionDetect	collision.cpp	/^bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){$/;"	f
+color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT
+color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Polygon3d
+cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank
+cross	vector_basics.cpp	/^Vector Vector::cross(const Vector& other){$/;"	f	class:Vector
+crossProduct	vector_basics.cpp	/^Vector Vector::crossProduct(Vector& other){$/;"	f	class:Vector
+d	collision.cpp	/^	double d;$/;"	m	struct:plane	file:
+data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon3
+data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anon5
+destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
+direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
+display	main.cpp	/^void display(){$/;"	f
+distPlaneToPoint	collision.cpp	/^double distPlaneToPoint (Point a, Point b, Point c, Point d)$/;"	f
+distSquare	collision.cpp	/^double distSquare(Point a, Point b){$/;"	f
+distSquare	collision.cpp	/^double distSquare(Vector a, Vector b){$/;"	f
+distance	collision.cpp	/^double distance(Point a, Point b){$/;"	f
+distance	collision.cpp	/^double distance(Vector a, Vector b){$/;"	f
+distanceBetweenBuildings	building.cpp	/^const double Building::distanceBetweenBuildings = 60;$/;"	m	class:Building	file:
+distanceBetweenBuildings	building.h	/^	static const double distanceBetweenBuildings;$/;"	m	class:Building
+dot	vector_basics.cpp	/^double Vector::dot(Vector& other){$/;"	f	class:Vector
+dotProduct	vector_basics.cpp	/^double Vector::dotProduct(Vector& other){$/;"	f	class:Vector
+drag	projectile.cpp	/^double Projectile::drag( double speed ){$/;"	f	class:Projectile
+draw	building.cpp	/^void Building::draw(){$/;"	f	class:Building
+draw	polygon3d.cpp	/^void Polygon3d::draw(){$/;"	f	class:Polygon3d
+draw	projectile.cpp	/^void Projectile::draw(){$/;"	f	class:Projectile
+draw	tank.cpp	/^void Tank::draw(){$/;"	f	class:Tank
+draw	target.cpp	/^void Target::draw()$/;"	f	class:Target
+drawTesselate	polygon3d.h	/^	bool drawTesselate;$/;"	m	class:Polygon3d
+f	projectile.cpp	/^double Projectile::f ( double p, double q, double C ){$/;"	f	class:Projectile
+findNearestBuilding	ai.cpp	/^void AI_Tank::findNearestBuilding(Point center){$/;"	f	class:AI_Tank
+forwards	ai.cpp	/^void AI_Tank::forwards(){$/;"	f	class:AI_Tank
+forwards	ai.cpp	/^void AI_Tank::forwards(double speed){$/;"	f	class:AI_Tank
+free_CameraMovement	globals.cpp	/^void free_CameraMovement(int x, int y){\/\/move the camera around not bound to the tank$/;"	f
+g	projectile.cpp	/^double  Projectile::g ( double p, double q, double C){$/;"	f	class:Projectile
+gameEngine	main.cpp	/^void gameEngine(){$/;"	f
+getBoundingBox	projectile.cpp	/^std::vector<Polygon3d> Projectile::getBoundingBox(){$/;"	f	class:Projectile
+getBoundingBox	target.cpp	/^std::vector<Polygon3d> Target::getBoundingBox()$/;"	f	class:Target
+getCenter	polygon3d.cpp	/^Point Polygon3d::getCenter(){$/;"	f	class:Polygon3d
+getColor	polygon3d.cpp	/^GLubyte Polygon3d::getColor(int channel){$/;"	f	class:Polygon3d
+getMaxRadius	polygon3d.cpp	/^double Polygon3d::getMaxRadius(){$/;"	f	class:Polygon3d
+getPoints	polygon3d.cpp	/^std::vector<Point>& Polygon3d::getPoints(){$/;"	f	class:Polygon3d
+getRotation	polygon3d.cpp	/^Vector Polygon3d::getRotation(){$/;"	f	class:Polygon3d
+getRotationSpeed	polygon3d.cpp	/^Vector Polygon3d::getRotationSpeed(){$/;"	f	class:Polygon3d
+getScale	polygon3d.cpp	/^double Polygon3d::getScale(){$/;"	f	class:Polygon3d
+getTesselation	polygon3d.cpp	/^bool Polygon3d::getTesselation(){$/;"	f	class:Polygon3d
+getTexture	polygon3d.cpp	/^GLuint Polygon3d::getTexture(){$/;"	f	class:Polygon3d
+getTexturePoints	polygon3d.cpp	/^std::vector<Point>& Polygon3d::getTexturePoints(){$/;"	f	class:Polygon3d
+getTexturePos	polygon3d.cpp	/^Point& Polygon3d::getTexturePos(int index){$/;"	f	class:Polygon3d
+getTransform	polygon3d.cpp	/^Polygon3d Polygon3d::getTransform(){return getWorldPoints();} \/\/ get the transform of the points of the polygon to where they should be$/;"	f	class:Polygon3d
+getVelocity	polygon3d.cpp	/^Vector Polygon3d::getVelocity(){$/;"	f	class:Polygon3d
+getWorldPoints	polygon3d.cpp	/^Polygon3d Polygon3d::getWorldPoints(){$/;"	f	class:Polygon3d
+glop102_polygon3d	polygon3d.h	2;"	d
+grid	ai.h	/^	int grid[15][15];$/;"	m	class:AI_Tank
+h	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+hasTex	polygon3d.h	/^	bool hasTex;$/;"	m	class:Polygon3d
+hasTexture	globals.h	/^	bool hasTexture;$/;"	m	struct:MODEL_TRIANGLES
+hasTexture	polygon3d.cpp	/^bool Polygon3d::hasTexture(){$/;"	f	class:Polygon3d
+height	globals.h	/^	unsigned long width,height;$/;"	m	struct:TextureInfo
+hitSphereCenter	tank.h	/^	Point hitSphereCenter;$/;"	m	class:Tank
+hitSphereRadius	tank.h	/^	double hitSphereRadius;$/;"	m	class:Tank
+intersect	vector_basics.cpp	/^bool LineSeg::intersect(LineSeg& l2){$/;"	f	class:LineSeg
+intersection	vector_basics.cpp	/^Point LineSeg::intersection(LineSeg& l2){$/;"	f	class:LineSeg
+keyboardButtons	main.cpp	/^void keyboardButtons(unsigned char key, int x, int y){$/;"	f
+keyboardButtonsUp	main.cpp	/^void keyboardButtonsUp(unsigned char key, int x, int y){$/;"	f
+keyboardButtonsUp_special	main.cpp	/^void keyboardButtonsUp_special(int key,int x,int y){$/;"	f
+keyboardButtons_special	main.cpp	/^void keyboardButtons_special(int key,int x,int y){$/;"	f
+laser	tank.h	/^	bool laser;$/;"	m	class:Tank
+laserOn	main.cpp	/^bool laserOn = true;$/;"	v
+length	vector_basics.cpp	/^double Vector::length(){$/;"	f	class:Vector
+loadTex	globals.cpp	/^void loadTex(std::string name){$/;"	f
+local	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
+magnitude	vector_basics.cpp	/^double Vector::magnitude(){$/;"	f	class:Vector
+main	main.cpp	/^int main(int argc,char** args){$/;"	f
+mass	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
+maxBuildingWidth	building.cpp	/^const double Building::maxBuildingWidth = 40;$/;"	m	class:Building	file:
+maxBuildingWidth	building.h	/^	static const double maxBuildingWidth;$/;"	m	class:Building
+maxRadius	polygon3d.h	/^	double maxRadius; \/\/ special little optimization for collision checking$/;"	m	class:Polygon3d
+model	building.h	/^	std::vector<Polygon3d> model;$/;"	m	class:Building
+mouseButtons	main.cpp	/^void mouseButtons(int but,int state,int x,int y){$/;"	f
+mouseMovement	main.cpp	/^void mouseMovement(int x,int y){$/;"	f
+name	globals.h	/^	std::string name;$/;"	m	struct:TextureInfo
+nearbyTarget	ai.cpp	/^void AI_Tank::nearbyTarget(Tank * enemy){\/\/check where the enemy tank is, if we think we can aim at him, do so$/;"	f	class:AI_Tank
+numPoints	polygon3d.cpp	/^int Polygon3d::numPoints()const{$/;"	f	class:Polygon3d
+onLock	tank.cpp	/^bool Tank::onLock(int x, int y){\/\/Returns a bool stating if the coordinate is in the grid or not$/;"	f	class:Tank
+operator !=	vector_basics.cpp	/^bool Point::operator!=(const Point& other){$/;"	f	class:Point
+operator !=	vector_basics.cpp	/^bool Vector::operator!=(const Vector& other){$/;"	f	class:Vector
+operator *	vector_basics.cpp	/^Point Point::operator*(const double scale){$/;"	f	class:Point
+operator *	vector_basics.cpp	/^Vector Vector::operator*(const double scale){$/;"	f	class:Vector
+operator *=	vector_basics.cpp	/^Point& Point::operator*=(const double scale){$/;"	f	class:Point
+operator *=	vector_basics.cpp	/^Vector& Vector::operator*=(const double scale){$/;"	f	class:Vector
+operator +	vector_basics.cpp	/^Point Point::operator+(const Point& other){$/;"	f	class:Point
+operator +	vector_basics.cpp	/^Point Point::operator+(const Vector& other){$/;"	f	class:Point
+operator +	vector_basics.cpp	/^Vector Vector::operator+(const Vector& other){$/;"	f	class:Vector
+operator +=	vector_basics.cpp	/^Point& Point::operator+=(const Point& other){$/;"	f	class:Point
+operator +=	vector_basics.cpp	/^Point& Point::operator+=(const Vector& other){$/;"	f	class:Point
+operator +=	vector_basics.cpp	/^Vector& Vector::operator+=(const Vector& other){$/;"	f	class:Vector
+operator -	vector_basics.cpp	/^Vector Vector::operator-(const Vector& other){$/;"	f	class:Vector
+operator -=	vector_basics.cpp	/^Vector& Vector::operator-=(const Vector& other){$/;"	f	class:Vector
+operator /	vector_basics.cpp	/^Point Point::operator\/(const double scale){$/;"	f	class:Point
+operator /	vector_basics.cpp	/^Vector Vector::operator\/(const double scale){$/;"	f	class:Vector
+operator /=	vector_basics.cpp	/^Point& Point::operator\/=(const double scale){$/;"	f	class:Point
+operator /=	vector_basics.cpp	/^Vector& Vector::operator\/=(const double scale){$/;"	f	class:Vector
+operator =	polygon3d.cpp	/^Polygon3d& Polygon3d::operator=(const Polygon3d& other){$/;"	f	class:Polygon3d
+operator ==	vector_basics.cpp	/^bool Point::operator==(const Point& other){$/;"	f	class:Point
+operator ==	vector_basics.cpp	/^bool Vector::operator==(const Vector& other){$/;"	f	class:Vector
+operator []	polygon3d.cpp	/^Point& Polygon3d::operator[](int x){$/;"	f	class:Polygon3d
+operator []	vector_basics.cpp	/^Point& LineSeg::operator[](const int& index){$/;"	f	class:LineSeg
+operator []	vector_basics.cpp	/^double& Point::operator[](const int index){$/;"	f	class:Point
+operator []	vector_basics.cpp	/^double& Vector::operator[](const int index){$/;"	f	class:Vector
+p	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+p1	globals.h	/^	double p1[3];$/;"	m	struct:MODEL_TRIANGLES
+p1	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
+p1	vector_basics.h	/^	Point p1;$/;"	m	class:LineSeg
+p2	globals.h	/^	double p2[3];$/;"	m	struct:MODEL_TRIANGLES
+p2	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
+p2	vector_basics.h	/^	Point p2;$/;"	m	class:LineSeg
+p3	globals.h	/^	double p3[3];$/;"	m	struct:MODEL_TRIANGLES
+p3	vector_basics.h	/^	Point p1,p2,p3;$/;"	m	struct:Triangle
+passiveMouseMovement	main.cpp	/^void passiveMouseMovement(int x,int y){$/;"	f
+plane	collision.cpp	/^struct plane {$/;"	s	file:
+pointToPolygon	collision.cpp	/^bool pointToPolygon(Point p, std::vector<Point> shape){\/\/assumes point is on plane$/;"	f
+polyNormal	polygon3d.cpp	/^Vector Polygon3d::polyNormal(){$/;"	f	class:Polygon3d
+possition	globals.h	/^	double possition[3];$/;"	m	struct:LIGHT_STRUCT
+projectiles	main.cpp	/^std::vector<Projectile*> projectiles;$/;"	v
+q	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+radius	target.h	/^	double radius;$/;"	m	class:Target
+recenter	polygon3d.cpp	/^void Polygon3d::recenter(){} \/\/ moves the center of the polygon to be at the centroid of the shape but does not change its position$/;"	f	class:Polygon3d
+removeTexture	polygon3d.cpp	/^void Polygon3d::removeTexture(){$/;"	f	class:Polygon3d
+rotatePoint	vector_basics.cpp	/^Point Point::rotatePoint(double theta, bool x, bool y, bool z){$/;"	f	class:Point
+rotation	polygon3d.h	/^	Vector rotation;$/;"	m	class:Polygon3d
+rotation	target.h	/^	double rotation;$/;"	m	class:Target
+rotationSpeed	polygon3d.h	/^	Vector rotationSpeed;$/;"	m	class:Polygon3d
+scale	polygon3d.h	/^	double scale;$/;"	m	class:Polygon3d
+scale	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Tank
+scaleMouse	globals.cpp	/^void scaleMouse(int &x, int &y){$/;"	f
+scalePoint	vector_basics.cpp	/^Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){$/;"	f	class:Point
+setCenter	polygon3d.cpp	/^void Polygon3d::setCenter(Point pp){$/;"	f	class:Polygon3d
+setColor	polygon3d.cpp	/^void Polygon3d::setColor(GLubyte red,GLubyte green, GLubyte blue){$/;"	f	class:Polygon3d
+setColor	polygon3d.cpp	/^void Polygon3d::setColor(GLubyte red,GLubyte green, GLubyte blue, GLubyte alpha){$/;"	f	class:Polygon3d
+setRotation	polygon3d.cpp	/^void Polygon3d::setRotation(Vector& rot){$/;"	f	class:Polygon3d
+setRotationSpeed	polygon3d.cpp	/^void Polygon3d::setRotationSpeed(Vector& rot){$/;"	f	class:Polygon3d
+setScale	polygon3d.cpp	/^void Polygon3d::setScale(double sc){$/;"	f	class:Polygon3d
+setTesselation	polygon3d.cpp	/^void Polygon3d::setTesselation(bool tes){$/;"	f	class:Polygon3d
+setTexture	polygon3d.cpp	/^void Polygon3d::setTexture(GLuint tex){$/;"	f	class:Polygon3d
+setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(Vector& x){$/;"	f	class:Polygon3d
+setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(double x, double y, double z){$/;"	f	class:Polygon3d
+shoot	tank.cpp	/^void Tank::shoot() {$/;"	f	class:Tank
+sidewalkWidth	building.cpp	/^const double Building::sidewalkWidth = 3;$/;"	m	class:Building	file:
+sidewalkWidth	building.h	/^	static const double sidewalkWidth;$/;"	m	class:Building
+sphereToPlane	collision.cpp	/^bool sphereToPlane(Point c, double radius,Vector n, Point p){$/;"	f
+step	projectile.cpp	/^void Projectile::step() {$/;"	f	class:Projectile
+stop	ai.cpp	/^void AI_Tank::stop(){$/;"	f	class:AI_Tank
+streetWidth	building.cpp	/^const double Building::streetWidth = 60 - 40; \/\/ distanceBetweenBuildings - maxBuildingWidth;$/;"	m	class:Building	file:
+streetWidth	building.h	/^	static const double streetWidth; \/\/ distanceBetweenBuildings - maxBuildingWidth;$/;"	m	class:Building
+t	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+tank	ai.h	/^	Tank *tank;$/;"	m	class:AI_Tank
+tank	main.cpp	/^Tank * tank;$/;"	v
+tankBaseRotate	main.cpp	/^double tankBaseRotate = 0;$/;"	v
+tankCannonRotate	main.cpp	/^double tankCannonRotate = 0;$/;"	v
+tankScale	main.cpp	/^double tankScale = 0;$/;"	v
+tankSpeed	main.cpp	/^double tankSpeed = 0;$/;"	v
+tankSpeed	tank.h	/^	double tankSpeed;$/;"	m	class:Tank
+tankStart	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
+tankTurretRotate	main.cpp	/^double tankTurretRotate = 0;$/;"	v
+targets	main.cpp	/^std::vector<Target*> targets;$/;"	v
+texture	globals.h	/^	GLuint texture;$/;"	m	struct:MODEL_TRIANGLES
+texture	polygon3d.h	/^	GLuint texture;$/;"	m	class:Polygon3d
+texturePoints	globals.h	/^	double texturePoints[3]; \/\/ at each vertex, what part of the texture is dispalyed$/;"	m	struct:MODEL_TRIANGLES
+textureRef	globals.h	/^	GLuint textureRef;$/;"	m	struct:TextureInfo
+thirdPerson_CameraMovement	globals.cpp	/^void thirdPerson_CameraMovement(int x, int y, Point center){\/\/Camera orbits the tank, focused on the tank (over the shoulder view)$/;"	f
+totalBoundingBox	tank.h	/^	std::vector< std::vector<Polygon3d> > totalBoundingBox; \/\/contains bounding box of all tank components$/;"	m	class:Tank
+tower	tank.h	/^	std::vector<Polygon3d> base, tower, cannon;$/;"	m	class:Tank
+towerAngle	tank.h	/^	double baseAngle, towerAngle, cannonAngle, scale;$/;"	m	class:Tank
+turn	ai.cpp	/^bool AI_Tank::turn(double direction){\/\/assume no angle larger than 360 degrees is passed$/;"	f	class:AI_Tank
+turretFollowMouse	tank.cpp	/^void Tank::turretFollowMouse(int x, int y, int cameraMode){\/\/Turret + cannon follow the mouse cursor$/;"	f	class:Tank
+update	building.cpp	/^void Building::update(){$/;"	f	class:Building
+update	polygon3d.cpp	/^void Polygon3d::update(){$/;"	f	class:Polygon3d
+update	projectile.cpp	/^void Projectile::update()$/;"	f	class:Projectile
+update	tank.cpp	/^void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){$/;"	f	class:Tank
+update	target.cpp	/^void Target::update()$/;"	f	class:Target
+updateTank	ai.cpp	/^void AI_Tank::updateTank(){$/;"	f	class:AI_Tank
+update_AI	ai.cpp	/^void AI_Tank::update_AI(){$/;"	f	class:AI_Tank
+velocity	polygon3d.h	/^	Vector velocity;$/;"	m	class:Polygon3d
+velocity	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
+vertexList	polygon3d.h	/^	std::vector<Point> vertexList;$/;"	m	class:Polygon3d
+vertexTextureList	polygon3d.h	/^	std::vector<Point> vertexTextureList;$/;"	m	class:Polygon3d
+width	globals.h	/^	unsigned long width,height;$/;"	m	struct:TextureInfo
+windowResize	globals.cpp	/^void windowResize(int width, int height){$/;"	f
+x	globals.h	/^		double x;$/;"	m	struct:GLOBAL_SETTINGS::__anon1
+x	globals.h	/^		double x;$/;"	m	struct:GLOBAL_SETTINGS::__anon2
+x	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+x	vector_basics.h	/^			double x,y,z;$/;"	m	struct:Point::__anon3::__anon4
+x	vector_basics.h	/^			double x,y,z;$/;"	m	struct:Vector::__anon5::__anon6
+y	globals.h	/^		double y;$/;"	m	struct:GLOBAL_SETTINGS::__anon1
+y	globals.h	/^		double y;$/;"	m	struct:GLOBAL_SETTINGS::__anon2
+y	projectile.h	/^	double h, t, x, y, p, q;$/;"	m	class:Projectile
+y	vector_basics.h	/^			double x,y,z;$/;"	m	struct:Point::__anon3::__anon4
+y	vector_basics.h	/^			double x,y,z;$/;"	m	struct:Vector::__anon5::__anon6
+z	globals.h	/^		double z;$/;"	m	struct:GLOBAL_SETTINGS::__anon1
+z	globals.h	/^		double z;$/;"	m	struct:GLOBAL_SETTINGS::__anon2
+z	vector_basics.h	/^			double x,y,z;$/;"	m	struct:Point::__anon3::__anon4
+z	vector_basics.h	/^			double x,y,z;$/;"	m	struct:Vector::__anon5::__anon6

@@ -83,27 +83,13 @@ double& Point::operator[](const int index){
 	return this->data[index];
 }
 
-Point Point::translatePoint(double x, double y, double z){
-
-	Point pnt; 
-
-	pnt.x = x;
-	pnt.y = y;
-	pnt.z = z;
-
-	*this += pnt;	  
-	
-	return *this;
-
-}
-
 Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){
-	
-	this->x *= scaleX;
-	this->y *= scaleY;
-	this->z *= scaleZ; 
+	Point temp;
+	temp.x = this->x * scaleX;
+	temp.y = this->y * scaleY;
+	temp.z = this->z * scaleZ; 
 
-	return *this;
+	return temp;
 }
 
 Point Point::rotatePoint(double theta, bool x, bool y, bool z){

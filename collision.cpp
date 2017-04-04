@@ -83,6 +83,8 @@ bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on pla
 // to parameters of a plane and then the equation for the plane
 // will be taken and the distance between point 4 and a orthogonal point
 // is calculated
+// For chris:: Currently doesn't calculate the distance corect
+// division sign? 
 double distPlaneToPoint (Point a, Point b, Point c, Point d)
 {
 	plane tmp;
@@ -91,12 +93,18 @@ double distPlaneToPoint (Point a, Point b, Point c, Point d)
 	v2 = Vector (a,c);
 	v3 = v1.cross (v2);
 	tmp.a = v3.x; tmp.b = v3.y; tmp.c = v3.z;
-	tmp.d = -1*v3.x*v1.x + -1*v3.y*v1.y + -1*v3.z*v1.z;
+	tmp.d = -1*v3.x*a.x + -1*v3.y*a.y + -1*v3.z*a.z;
 	return abs(tmp.a*d.x + tmp.b*d.y + tmp.c*d.z + tmp.d)/(sqrt(tmp.a*tmp.a + tmp.b*tmp.b + tmp.c*tmp.c));
 }
 
 
 bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
+
+	Point a = Point(12,16,45);
+	Point b = Point(12,12,45);
+        Point c = Point(16,12,45);
+        Point d = Point(32,64,0);
+	printf("test distplanetopoint: %f\n", distPlaneToPoint(a,b,c,d));
 
 	for(int i = 0; i < buildings.size(); i++){
 
@@ -106,12 +114,13 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 		std::vector<Polygon3d> sides = buildings[i]->boundingBox();
 		//printf("%f\n",tbDist);
                 if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2+5){
-                        //printf("before here\n");
+                        
+			//printf("before here\n");
 			for(int j = 0; j < sides.size(); j++){
 			//for(int j = 0; j < 3; j++){
 				//printf("Here\n");
-				Polygon3d &wall = sides[j];
-				std::vector<Point> &worldCoords = wall.getPoints();
+				Polygon3d wall = sides[j];
+				std::vector<Point> worldCoords = wall.getPoints();
 
 				for(int k =0; k < 3 ; k++){
 					printf("x:%f y:%f z:%f \n",worldCoords[k].x,worldCoords[k].y,worldCoords[k].z);

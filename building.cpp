@@ -9,6 +9,7 @@ const double Building::streetWidth = 60 - 40; // distanceBetweenBuildings - maxB
 
 Building::Building(Point center){
 	this->center = center;
+	this->alreadyCalculated = false;
 	const int numOfBuildings = 2;
 	switch(rand() % numOfBuildings){
 		case 0:
@@ -36,8 +37,8 @@ void Building::draw(){
 void Building::update(){
 }
 std::vector<Polygon3d> Building::boundingBox(){
-	static bool alreadyCalculated = false;
-	if(!alreadyCalculated){
+	//static bool alreadyCalculated = false;
+	if(!(this->alreadyCalculated)){
 		for(int x=0; x < this->box.size(); x++){
 			//printf("Starting to translate bounding box\n");
 			this->box[x].setCenter(this->center);
@@ -48,5 +49,6 @@ std::vector<Polygon3d> Building::boundingBox(){
 			//printf("put into the array\n");
 		}
 	}
+	this->alreadyCalculated = true;
 	return this->box;
 }

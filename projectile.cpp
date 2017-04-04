@@ -133,7 +133,7 @@ void Projectile::update()
 		step();
 		Point temp = Point(this->local.x, 0, this->local.z);
 		temp = temp.rotatePoint(this->angleH, false, false, true);
-		temp = temp.translatePoint(this->tankStart.x, this->tankStart.y, this->tankStart.z);
+		temp += Point(this->tankStart.x, this->tankStart.y, this->tankStart.z);
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;

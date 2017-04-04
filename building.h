@@ -18,6 +18,7 @@ public:
 	static const double maxBuildingWidth;
 	static const double distanceBetweenBuildings;
 	static const double streetWidth; // distanceBetweenBuildings - maxBuildingWidth;
+	bool alreadyCalculated;
 
 	Building(Point center);
 	void draw();
