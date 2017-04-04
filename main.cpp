@@ -45,6 +45,7 @@ void mouseButtons(int but,int state,int x,int y){
 
 	if(but==0 && state==GLUT_DOWN){
 		//left mouse button
+		tank->shoot();
 	}else if(but==2 && state==GLUT_DOWN){
 		//right mouse button
 	}else if(but==3 && state==GLUT_DOWN){
@@ -453,16 +454,23 @@ int main(int argc,char** args){
 
 	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
 		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
+			Building b(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y,
+					0));
 			buildings.push_back(new Building(Point(
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
+
+			float randomHeight = ((float) rand()) / (RAND_MAX);
 			targets.push_back(new Target(Point(
-					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
-					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
-					3)
+					Building::distanceBetweenBuildings*x/* + Building::maxBuildingWidth/2.0*/,
+					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth+0.7)/2.0,
+					randomHeight * buildings[y]->getBuildingHeight())
 				));
+				std::cout << randomHeight << std::endl;;
 
 		}
 	}

@@ -88,7 +88,7 @@ void Target::draw()
 
 void Target::update()
 {
-    this->rotation += 1;
+//    this->rotation += 1;
     this->draw();
 }
 

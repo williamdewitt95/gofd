@@ -22,6 +22,7 @@ public:
 	Building(Point center);
 	void draw();
 	void update();
+	float getBuildingHeight();
 	std::vector<Polygon3d> boundingBox();
 };
 
