@@ -17,6 +17,13 @@ struct Explosion{
 	double expansionRate;
 	double radius;
 };
+
+struct TrailData{
+	double x;
+	double y;
+	double z;
+	
+};
 //extern std::vector<Explosion> explosions;
 
 class Projectile{
@@ -26,7 +33,9 @@ private:
 	double g(double p, double q, double drag);
 	void step();
 	bool isTrail;
+	int trailNum;
 	std::vector<Explosion> explosions;
+	std::vector<Projectile> trails;
 public:
 	Point center, tankStart, local;
 	double angleV, angleH, velocity, mass, C;

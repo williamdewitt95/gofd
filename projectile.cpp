@@ -3,6 +3,7 @@
 using std::cout;
 
 std::vector<Explosion> explosions;
+std::vector<Projectile> trails;
 
 Projectile::Projectile(Point center){
 	this->center = center;
@@ -21,6 +22,10 @@ Projectile::Projectile(Point center){
 	this->h = 0.1;
 
 	this->hasExploded = false;
+	
+	this->trailNum = 0;
+	this->trailInterval = 30;
+	this->isTrail = false;
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -93,6 +98,9 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->h = 0.01;
 
 	this->hasExploded = false;
+
+	this->trailInterval = 30;
+	this->isTrail = false;
 }
 
 void Projectile::draw(){
@@ -152,6 +160,20 @@ void Projectile::update()
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
+
+		//plan: add current proj coords and angle to a stack, wait 30 frames, create a proj with isTrail true
+		//do this five times then stop
+
+		if (this->trailInterval == 30) {
+			double tx = center.x;
+			double ty = center.y;
+			double tz = center.z;
+			t.decay = 30;
+			t.staticDecay = t.decay;
+			trails.push_back(new Projectile(Point(tx,ty,tz), Point(tx,ty,tz), this->cannonAngle, this->towerAngle+90));
+			this->trailInterval = 0;
+		}
+		this->trailInterval++;
 	}
 	//if z=0, start exploding and generate random values for each splode
 	else if (!this->hasExploded) {
