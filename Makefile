@@ -5,19 +5,16 @@ OPTFLAGS = -O2
 
 # Setup names for custom directories -- make sure there are no spaces after the directory names
 BUILD_DIR   = build
-IMAGE_DIR   = imageLibrary
+
 
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
               building.o tank.o target.o projectile.o ai.o glm.o
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
-# Setup user defined libraries
-USER_LIBS   = image.a
-LIB_OBJS    = $(addprefix $(IMAGE_DIR)/, $(USER_LIBS))
 
 # System librarires to be linked
-LDFLAGS  = -lGL -lGLU -lglut -ljpeg -lpng
+LDFLAGS  = -lGL -lGLU -lglut -lGLEW libSOIL.a
 
 #the available buildings that we depend on when building
 BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp
@@ -28,8 +25,8 @@ build:
 	mkdir build
 
 # The new executable target will be called gofd
-gofd: main.o $(BUILD_OBJS) $(LIB_OBJS)
-	$(CC) $(CFLAGS) -o gofd main.o $(BUILD_OBJS) $(LIB_OBJS) $(LDFLAGS)
+gofd: main.o $(BUILD_OBJS) 
+	$(CC) $(CFLAGS) -o gofd main.o $(BUILD_OBJS) $(LDFLAGS)
 
 # These are the object file targets 
 main.o: main.cpp  
@@ -63,8 +60,6 @@ $(BUILD_DIR)/ai.o: ai.cpp ai.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o 
 
 # Drop into the subdirectory to create the image library
-$(IMAGE_DIR)/image.a:
-	cd $(IMAGE_DIR); make;
 
 clean:
 	rm -f *.o
@@ -72,7 +67,6 @@ clean:
 	rm -f gofd 
 
 distclean: clean
-	cd $(IMAGE_DIR); make distclean
 	rm -rf build
 	rm -f tags
 
