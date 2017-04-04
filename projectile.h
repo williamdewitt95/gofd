@@ -24,7 +24,6 @@ struct Trail{
 	double z;
 	int decay;
 	int staticDecay;
-	double radius;
 };
 //extern std::vector<Explosion> explosions;
 
@@ -49,6 +48,7 @@ public:
 	void draw();
 	void update();
 	void explode(struct Explosion *ex);
+	void drawTrails(std::vector<Trail>& trailList);
 	std::vector<Polygon3d> getBoundingBox();
 };
 

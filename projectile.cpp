@@ -3,6 +3,7 @@
 using std::cout;
 
 std::vector<Explosion> explosions;
+std::vector<Trail> trails;
 
 Projectile::Projectile(Point center){
 	this->center = center;
@@ -19,6 +20,8 @@ Projectile::Projectile(Point center){
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.1;
+
+	this->trailInterval = 0;
 
 	this->hasExploded = false;
 
@@ -92,6 +95,8 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.01;
 
+	this->trailInterval = 0;
+
 	this->hasExploded = false;
 }
 
@@ -138,6 +143,8 @@ void Projectile::draw(){
 			explode(&explosions[i]);
 		}
 	}
+
+	drawTrails(trails);
 }
 
 void Projectile::update()
@@ -152,6 +159,18 @@ void Projectile::update()
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
+
+		if (this->trailInterval == 50) {
+			Trail t;
+			t.x = center.x;
+			t.y = center.y;
+			t.z = center.z;
+			t.decay = 30;
+			t.staticDecay = t.decay;
+			trails.push_back(t);
+			this->trailInterval = 0;
+		}
+		this->trailInterval++;
 	}
 	//if z=0, start exploding and generate random values for each splode
 	else if (!this->hasExploded) {
@@ -273,4 +292,30 @@ void Projectile::explode(struct Explosion *ex) {
 
 		ex->decay--;
 	}
+}
+
+void Projectile::drawTrails(std::vector<Trail>& trailList) {
+	Trail t;
+	for(int i=0; i<trailList.size();i++){
+		t = trailList.at(i);
+		if (t.decay != 0) {
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslated(t.x, t.y, t.z);
+			double decayRatio = (double) t.decay / t.staticDecay;
+			float colorR = 1.0;
+			float colorG = 0.65;
+			float colorB = 0.13;
+
+			colorR = 0.3 + (decayRatio * (colorR - 0.3));
+			colorG = 0.3 + (decayRatio * (colorG - 0.3));
+			colorB = 0.3 + (decayRatio * (colorB - 0.3));
+
+			glColor3f(colorR, colorG, colorB);
+			glutSolidSphere(1.0f, 8, 8);
+			glPopMatrix();
+			t.decay--;
+		}
+	}
+	
 }
