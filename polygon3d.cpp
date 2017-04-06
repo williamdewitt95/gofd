@@ -165,11 +165,11 @@ Polygon3d Polygon3d::getWorldPoints(){
 	//***********************************************
 	
 	Polygon3d poly(this->getPoints());
+	poly.drawTesselate = this->drawTesselate;
 	poly.color[0] = this->color[0];
 	poly.color[1] = this->color[1];
 	poly.color[2] = this->color[2];
 	poly.color[3] = this->color[3];
-	poly.drawTesselate = this->drawTesselate;
 	poly.texture = this->texture ;
 	poly.hasTex = this->hasTex ;
 	poly.vertexTextureList = this->vertexTextureList ;
@@ -293,6 +293,52 @@ void Polygon3d::draw(){
 	}
 
 	glPopMatrix();
+}
+void Polygon3d::draw_static(){
+	if(this->numPoints()<2)return;
+
+	glColor4ub(this->color[0],this->color[1],this->color[2],this->color[3]);
+		
+	//set the normal of the plane
+	Vector normal = Vector(vertexList[0],vertexList[1]).cross(Vector(vertexList[1],vertexList[2]));
+	glNormal3d(normal.x,normal.y,normal.z);
+	// glBegin(GL_LINES); // debug to show the normal of each plane
+	// glVertex3d(0,0,0);
+	// glVertex3d(normal.x,normal.y,normal.z);
+	// glEnd();
+	if(this->hasTexture()){
+		glBindTexture(GL_TEXTURE_2D,this->getTexture());
+	}
+
+	GLUtesselator* tessObj = gluNewTess();
+
+	if(tessObj == NULL) return; // encountered an error and so we are done
+	if(this->drawTesselate){
+		gluTessProperty(tessObj,GLU_TESS_BOUNDARY_ONLY,GL_FALSE); // dont only draw the outer edges but the whole interior
+	}else{
+		gluTessProperty(tessObj,GLU_TESS_BOUNDARY_ONLY,GL_TRUE); // only draw the outer edges
+	}
+	gluTessCallback(tessObj, GLU_TESS_BEGIN, (void(*)())glBegin);
+	// gluTessCallback(tessObj, GLU_TESS_VERTEX, (void(*)())glVertex3dv);
+	gluTessCallback(tessObj, GLU_TESS_VERTEX_DATA, (void(*)())__secretVertexDrawingFunction);
+	gluTessCallback(tessObj, GLU_TESS_END, (void(*)())glEnd);
+
+	//add our points in to the object to be tesselated
+	gluTessBeginPolygon(tessObj,this); // start tesselating and have it able to hand us a pointer to this object
+		gluTessBeginContour(tessObj);
+			for(long x=0;x<this->vertexList.size()-1;x++){
+				gluTessVertex(tessObj,(double*)&this->vertexList[x],(long*)x); // give the tesselator a point and us an index to the pixel
+				// gluTessVertex(tessObj,(double*)&this->vertexList[x],(double*)&this->vertexList[x]);
+			}
+		gluTessEndContour(tessObj);
+	gluTessEndPolygon(tessObj);
+
+	gluDeleteTess(tessObj);
+
+	if(this->hasTexture()){
+		//reset to the default empty texture
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
 void Polygon3d::__secretVertexDrawingFunction(void *data, void *polygon){
 	//for every vertex made by the tesselator, we get called here
