@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "building.h"
 
 GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WINDOW_MAX_X = 1000;
@@ -9,7 +10,10 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WORLD_COORDINATE_MIN_Y = 0.0;
 	WORLD_COORDINATE_MAX_Y = 1000.0;
 
-	CAMERA_POS = {0,-2,0};
+	CAMERA_POS = {Building::distanceBetweenBuildings/2.0,
+	              Building::distanceBetweenBuildings/2.0,
+	              2
+			};
 	CAMERA_LOOK_VECTOR = {0,1,0};
 	CAMERA_ANGLE_VERTICAL = 0;
 	CAMERA_ANGLE_HORIZONTAL = 90;

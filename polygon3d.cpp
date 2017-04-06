@@ -177,11 +177,11 @@ Polygon3d Polygon3d::getWorldPoints(){
 
 	for(int i = 0; i < this->vertexList.size(); i++){
 		
-		worldCoords[i] = worldCoords[i].translatePoint(this->center[0], this->center[1], this->center[2]);
-		worldCoords[i] = worldCoords[i].scalePoint(this->scale, this->scale, this->scale);
 		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.x, 1, 0, 0 );
 		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.y, 0, 1, 0 );
 		worldCoords[i] = worldCoords[i].rotatePoint(this->rotation.z, 0, 0, 1 );		
+		worldCoords[i] = worldCoords[i].translatePoint(this->center[0], this->center[1], this->center[2]);
+		worldCoords[i] = worldCoords[i].scalePoint(this->scale, this->scale, this->scale);
 	}	
 
 	return poly;
