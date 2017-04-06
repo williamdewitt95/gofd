@@ -454,10 +454,6 @@ int main(int argc,char** args){
 
 	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
 		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
-			Building b(Point(
-					Building::distanceBetweenBuildings*x,
-					Building::distanceBetweenBuildings*y,
-					0));
 			buildings.push_back(new Building(Point(
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y,
@@ -465,10 +461,17 @@ int main(int argc,char** args){
 				));
 
 			float randomHeight = ((float) rand()) / (RAND_MAX);
+			float maxHeight = buildings[buildings.size()-1]->box[0][0].z;
+			float targetCenter = randomHeight * maxHeight;
+			if (targetCenter < 3)
+				targetCenter += 5;
+			else if(targetCenter >= maxHeight-3)
+				targetCenter -= 5;
+			
 			targets.push_back(new Target(Point(
 					Building::distanceBetweenBuildings*x/* + Building::maxBuildingWidth/2.0*/,
 					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth+0.7)/2.0,
-					randomHeight * buildings[y]->getBuildingHeight())
+					targetCenter)
 				));
 				std::cout << randomHeight << std::endl;;
 

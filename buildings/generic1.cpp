@@ -117,3 +117,4 @@ void createGeneric1Building(vector<Polygon3d> &model, vector<Polygon3d> &boundin
 	sidewalkTop.setColor(125,125,255);
 	model.push_back( sidewalkTop.getWorldPoints() );
 }
+
