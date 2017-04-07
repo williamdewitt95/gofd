@@ -34,6 +34,13 @@ Building::Building(Point center){
 }
 
 void Building::draw(){
+	if(
+		abs(GLOBAL.CAMERA_POS.x - this->center.x) > 2*distanceBetweenBuildings
+		&&
+		abs(GLOBAL.CAMERA_POS.y - this->center.y) > 2*distanceBetweenBuildings
+		)
+			return;
+
 	glCallList(listName);
 	// this->draw_CPU();
 }

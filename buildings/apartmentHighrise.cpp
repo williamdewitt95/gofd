@@ -102,7 +102,37 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 			for(int x=0; x<numWindowsPerSide; x++){
 				makeNewWindow1(
 					Point( 0 , distBetweenWindows * x , floorHeight * y ) + gridOffset, // centerpoint for the window starts at ground floor-left side
+					270, // rotation
+					windowHeight, // height
+					windowWidth,
+					model
+				);
+			}
+		}
+
+		gridOffset.x = buildingWidth/2.0;
+		gridOffset.y = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
+		gridOffset.z = floorHeight/2.0;
+		for(int y=1; y<numFloors; y++){
+			for(int x=0; x<numWindowsPerSide; x++){
+				makeNewWindow1(
+					Point( 0 , distBetweenWindows * x , floorHeight * y ) + gridOffset, // centerpoint for the window starts at ground floor-left side
 					90, // rotation
+					windowHeight, // height
+					windowWidth,
+					model
+				);
+			}
+		}
+
+		gridOffset.x = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
+		gridOffset.y = buildingWidth/2.0;
+		gridOffset.z = floorHeight/2.0;
+		for(int y=1; y<numFloors; y++){
+			for(int x=0; x<numWindowsPerSide; x++){
+				makeNewWindow1(
+					Point( distBetweenWindows * x , 0 , floorHeight * y ) + gridOffset, // centerpoint for the window starts at ground floor-left side
+					180, // rotation
 					windowHeight, // height
 					windowWidth,
 					model
