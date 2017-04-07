@@ -15,7 +15,7 @@ Building::Building(Point center){
 	switch(rand() % numOfBuildings){
 		case 0:
 			// createGeneric1Building(model,box);
-			apartmentHighriseBuilding(model,box,subLists);
+			apartmentHighriseBuilding(model,box,subLists,sideNorth,sideEast,sideSouth,sideWest);
 			break;
 		case 1:
 			createGenericOctogonBuilding(model,box);
@@ -34,24 +34,41 @@ Building::Building(Point center){
 }
 
 void Building::draw(){
-	if(
-		abs(GLOBAL.CAMERA_POS.x - this->center.x) > 2*distanceBetweenBuildings
-		&&
-		abs(GLOBAL.CAMERA_POS.y - this->center.y) > 2*distanceBetweenBuildings
-		)
+	int dx = GLOBAL.CAMERA_POS.x - this->center.x;
+	int dy = GLOBAL.CAMERA_POS.y - this->center.y;
+	if( abs(dx) > 2*distanceBetweenBuildings &&
+		abs(dy) > 2*distanceBetweenBuildings )
 			return;
 
+	glPushMatrix();
+	glTranslated(center.x,center.y,center.z);
+
 	glCallList(listName);
+
+	if(dy>0){
+		for(int x=0; x<sideNorth.size(); x++)
+			glCallList(sideNorth[x]);
+	}else{
+		for(int x=0; x<sideSouth.size(); x++)
+			glCallList(sideSouth[x]);
+	}
+
+	if(dx>0){
+		for(int x=0; x<sideEast.size(); x++)
+			glCallList(sideEast[x]);
+	}else{
+		for(int x=0; x<sideWest.size(); x++)
+			glCallList(sideWest[x]);
+	}
+
+	glPopMatrix();
 	// this->draw_CPU();
 }
 void Building::draw_CPU(){
-	glPushMatrix();
-	glTranslated(center.x,center.y,center.z);
 	for(int x=0; x<model.size(); x++)
 		this->model[x].getTransform().draw_static();
 	for(int x=0; x<subLists.size(); x++)
 		glCallList(subLists[x]);
-	glPopMatrix();
 }
 void Building::update(){
 }

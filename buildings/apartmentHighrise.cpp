@@ -7,7 +7,7 @@
 
 using std::vector;
 
-void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boundingBox, vector<unsigned int> &subLists){
+void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boundingBox, vector<unsigned int> &subLists,vector<unsigned int> &sideNorth,vector<unsigned int> &sideEast,vector<unsigned int> &sideSouth,vector<unsigned int> &sideWest){
 	const int minFloors = 6;
 	const int maxFloors = 15;
 	const double floorHeight = 5;
@@ -80,6 +80,11 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 
 		Point gridOffset;
 
+		std::vector<Polygon3d> side1;
+		std::vector<Polygon3d> side2;
+		std::vector<Polygon3d> side3;
+		std::vector<Polygon3d> side4;
+
 		gridOffset.x = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
 		gridOffset.y = -1 * buildingWidth/2.0;
 		gridOffset.z = floorHeight/2.0;
@@ -90,22 +95,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 					0, // rotation
 					windowHeight, // height
 					windowWidth,
-					model
-				);
-			}
-		}
-
-		gridOffset.x = -1 * buildingWidth/2.0;
-		gridOffset.y = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
-		gridOffset.z = floorHeight/2.0;
-		for(int y=1; y<numFloors; y++){
-			for(int x=0; x<numWindowsPerSide; x++){
-				makeNewWindow1(
-					Point( 0 , distBetweenWindows * x , floorHeight * y ) + gridOffset, // centerpoint for the window starts at ground floor-left side
-					270, // rotation
-					windowHeight, // height
-					windowWidth,
-					model
+					side1
 				);
 			}
 		}
@@ -120,7 +110,7 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 					90, // rotation
 					windowHeight, // height
 					windowWidth,
-					model
+					side2
 				);
 			}
 		}
@@ -135,10 +125,59 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 					180, // rotation
 					windowHeight, // height
 					windowWidth,
-					model
+					side3
 				);
 			}
 		}
+
+		gridOffset.x = -1 * buildingWidth/2.0;
+		gridOffset.y = distBetweenWindows / 2.0 - buildingWidth/2.0; // bottom left corner + half the window distance
+		gridOffset.z = floorHeight/2.0;
+		for(int y=1; y<numFloors; y++){
+			for(int x=0; x<numWindowsPerSide; x++){
+				makeNewWindow1(
+					Point( 0 , distBetweenWindows * x , floorHeight * y ) + gridOffset, // centerpoint for the window starts at ground floor-left side
+					270, // rotation
+					windowHeight, // height
+					windowWidth,
+					side4
+				);
+			}
+		}
+
+		GLuint side1_list = glGenLists(1);
+		GLuint side2_list = glGenLists(1);
+		GLuint side3_list = glGenLists(1);
+		GLuint side4_list = glGenLists(1);
+
+		glNewList(side1_list,GL_COMPILE);
+		for(int x=0; x<side1.size(); x++){
+			side1[x].getTransform().draw_static();
+		}
+		glEndList();
+
+		glNewList(side2_list,GL_COMPILE);
+		for(int x=0; x<side2.size(); x++){
+			side2[x].getTransform().draw_static();
+		}
+		glEndList();
+
+		glNewList(side3_list,GL_COMPILE);
+		for(int x=0; x<side3.size(); x++){
+			side3[x].getTransform().draw_static();
+		}
+		glEndList();
+
+		glNewList(side4_list,GL_COMPILE);
+		for(int x=0; x<side4.size(); x++){
+			side4[x].getTransform().draw_static();
+		}
+		glEndList();
+
+		sideSouth.push_back(side1_list);
+		sideEast.push_back(side2_list);
+		sideNorth.push_back(side3_list);
+		sideWest.push_back(side4_list);
 	} // windows
 
 

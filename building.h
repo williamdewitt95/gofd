@@ -22,6 +22,7 @@ public:
 
 	unsigned int listName; // used for on GPU rendering
 	std::vector<unsigned int> subLists;
+	std::vector<unsigned int> sideSouth,sideEast, sideNorth, sideWest; // special decerations that are only visable on these sides
 
 	Building(Point center);
 	void draw();
