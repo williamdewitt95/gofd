@@ -21,8 +21,8 @@ void apartmentHighriseBuilding(vector<Polygon3d> &model, vector<Polygon3d> &boun
 		model.push_back(Polygon3d());
 		auto &points = model[model.size()-1].getPoints();
 		auto &texs = model[model.size()-1].getTexturePoints();
-		loadTex("textures/buildings/brick1.jpg");
-		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/buildings/brick1.jpg"].textureRef);
+		loadTex("textures/buildings/brick1.png");
+		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/buildings/brick1.png"].textureRef);
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
