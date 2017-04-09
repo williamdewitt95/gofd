@@ -6,7 +6,7 @@
 #include "target.h"
 #include "mapnode.h"
 #include <queue>
-
+#include <ctime>
 
 class AI_Tank{
 
@@ -31,6 +31,8 @@ public:
 	int dx[8]; // = {1, 1, 0, -1, -1, 0, 1};
 	int dy[8];
 
+
+	Point start;
 	Point destination;
 	void forwards();//go forwards
 	void forwards(double speed);
@@ -51,6 +53,7 @@ public:
 
 	void fillMap();
 
+	std::string getRoute();
 
 };
 

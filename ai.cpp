@@ -16,6 +16,8 @@ AI_Tank::AI_Tank(Tank *tank){
 
 	this->tank = tank;
 
+	Point start = tank->center;
+
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
 			grid[i][j] = 1;
@@ -179,6 +181,8 @@ void AI_Tank::fillMap(){
 }
 
 
+
+
 //something to hold the grid in - 2d array? - Do we even need a grid? Might be able to just calculate based positions of buildings (since we know them)
 
 
@@ -224,9 +228,23 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 }
 
 
+std::string AI_Tank::getRoute(){
+	
+	clock_t startTime = clock();
+	std::string route = findPath(start.x, start.y, destination.x, destination.y);
+	if(route=="") std::cout<<"An empty route generated!"<<std::endl;
+    	clock_t endTime = clock();
+    	double time_elapsed = double(endTime - startTime);
+    	std::cout<<"Time to calculate the route (ms): "<<time_elapsed<<std::endl;
+    	std::cout<<"Route:"<<std::endl;
+    	std::cout<<route<<std::endl<<std::endl;
+	
+	return route;
+}
+
 
 void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordinate
-	this->destination = Point(x,y,0);
+	this->destination = Point(60, 60, 0); //Point(x,y,0);
 	// printf("\ndestination: %f, %f, %f",this->destination.x,this->destination.y,this->destination.z);
 	forwards();
 }

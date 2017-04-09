@@ -179,6 +179,7 @@ getPoints	polygon3d.cpp	/^std::vector<Point>& Polygon3d::getPoints(){$/;"	f	clas
 getPriority	mapnode.cpp	/^        int MapNode::getPriority() const{$/;"	f	class:MapNode
 getRotation	polygon3d.cpp	/^Vector Polygon3d::getRotation(){$/;"	f	class:Polygon3d
 getRotationSpeed	polygon3d.cpp	/^Vector Polygon3d::getRotationSpeed(){$/;"	f	class:Polygon3d
+getRoute	ai.cpp	/^std::string AI_Tank::getRoute(){$/;"	f	class:AI_Tank
 getScale	polygon3d.cpp	/^double Polygon3d::getScale(){$/;"	f	class:Polygon3d
 getTesselation	polygon3d.cpp	/^bool Polygon3d::getTesselation(){$/;"	f	class:Polygon3d
 getTexture	polygon3d.cpp	/^GLuint Polygon3d::getTexture(){$/;"	f	class:Polygon3d
@@ -300,6 +301,7 @@ setVelocity	polygon3d.cpp	/^void Polygon3d::setVelocity(double x, double y, doub
 shoot	tank.cpp	/^void Tank::shoot() {$/;"	f	class:Tank
 sidewalkWidth	building.cpp	/^const double Building::sidewalkWidth = 3;$/;"	m	class:Building	file:
 sidewalkWidth	building.h	/^	static const double sidewalkWidth;$/;"	m	class:Building
+start	ai.h	/^	Point start;$/;"	m	class:AI_Tank
 staticDecay	projectile.h	/^	int staticDecay;$/;"	m	struct:Explosion
 step	projectile.cpp	/^void Projectile::step() {$/;"	f	class:Projectile
 stop	ai.cpp	/^void AI_Tank::stop(){$/;"	f	class:AI_Tank
