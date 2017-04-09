@@ -118,6 +118,66 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 }
 
 
+void AI_Tank::fillMap(){
+
+	// create empty map
+    for(int y=0;y<m;y++)
+    {
+        for(int x=0;x<n;x++) mapGrid[x][y]=1;
+    }
+
+   
+        int blocksWide = 2;
+        int dist = 60;
+        int maxBuildingWidth = 40;
+        int streetWidth = 20;
+        
+	// add path for ai
+        for(int x = 0; x < m; x++){
+                for( int y = 0; y < n; y++){
+                        if(x%((int)(dist/2.0)) == 0 ) 
+                                mapGrid[x][y] = 0;
+                }
+        }
+
+
+        for(int x = 0; x < m; x++){
+                for( int y = 0; y < n; y++){
+                        if(y%((int)(dist/2.0)) == 0 )
+                                mapGrid[x][y] = 0;
+                }
+
+        }
+
+    // set start and target location
+    int xA, yA, xB, yB;
+    xA = 0, yA = 0, xB = 60, yB = 60;
+        mapGrid[xA][yA] = 2;
+        mapGrid[xB][yB] = 4;
+
+    for(int y=0;y<m;y++)
+        {
+            for(int x=0;x<n;x++)
+                if(mapGrid[x][y]==0)
+                    std::cout<<".";
+                else if(mapGrid[x][y]==1)
+                    std::cout<<"O";
+                else if(mapGrid[x][y]==2)
+                    std::cout<<"S";
+                else if(mapGrid[x][y]==3)
+                    std::cout<<"R";
+                else if(mapGrid[x][y]==4)
+                    std::cout<<"F";
+            std::cout<<std::endl;
+        }
+
+
+    std::cout<<"Map Size (X,Y): "<<n<<","<<m<<std::endl;
+    std::cout<<"Start: "<<xA<<","<<yA<<std::endl;
+    std::cout<<"Finish: "<<xB<<","<<yB<<std::endl;
+
+}
+
 
 //something to hold the grid in - 2d array? - Do we even need a grid? Might be able to just calculate based positions of buildings (since we know them)
 

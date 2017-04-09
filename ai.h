@@ -49,6 +49,8 @@ public:
 	void nearbyTarget(Tank * enemy);//check where the enemy is in comparison to where we are
 	void aim(Point enemy);//aim the turret at the enemy
 
+	void fillMap();
+
 
 };
 

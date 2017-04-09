@@ -161,6 +161,7 @@ expansionRate	projectile.h	/^	double expansionRate;$/;"	m	struct:Explosion
 explode	projectile.cpp	/^void Projectile::explode(struct Explosion *ex) {$/;"	f	class:Projectile
 explosions	projectile.h	/^	std::vector<Explosion> explosions;$/;"	m	class:Projectile
 f	projectile.cpp	/^double Projectile::f ( double p, double q, double C ){$/;"	f	class:Projectile
+fillMap	ai.cpp	/^void AI_Tank::fillMap(){$/;"	f	class:AI_Tank
 findNearestBuilding	ai.cpp	/^void AI_Tank::findNearestBuilding(Point center){$/;"	f	class:AI_Tank
 findPath	ai.cpp	/^std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){$/;"	f	class:AI_Tank
 forwards	ai.cpp	/^void AI_Tank::forwards(){$/;"	f	class:AI_Tank
