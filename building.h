@@ -6,13 +6,14 @@
 #include <math.h>
 #include <vector>
 #include <time.h>
+#include "drawableObject.h"
 
-class Building{
+class Building : DrawableObject{
 public:
 	Point center;
 
-	std::vector<Polygon3d> model;
-	std::vector<Polygon3d> box;
+	//std::vector<Polygon3d> model;
+	//std::vector<Polygon3d> collisionBox;
 
 	static const double sidewalkWidth;
 	static const double sidewalkThickness;
@@ -27,8 +28,6 @@ public:
 	Building(Point center);
 	void draw();
 	void draw_CPU();
-	void update();
-	std::vector<Polygon3d> boundingBox();
 };
 
 #endif

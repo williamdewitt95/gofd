@@ -138,6 +138,11 @@ void Projectile::draw(){
 			explode(&explosions[i]);
 		}
 	}
+
+	//clean up
+	gluDeleteQuadric(shellCasing);
+	gluDeleteQuadric(shellPoint);
+	gluDeleteQuadric(shellBottom);
 }
 
 void Projectile::update()

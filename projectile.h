@@ -2,8 +2,8 @@
 #define PROJECTILE
 
 #include "globals.h"
-
 #include "polygon3d.h"
+#include "drawableObject.h"
 
 #include <math.h>
 #include <vector>
@@ -19,7 +19,7 @@ struct Explosion{
 };
 //extern std::vector<Explosion> explosions;
 
-class Projectile{
+class Projectile:DrawableObject{
 private:
 	double drag(double speed);
 	double f(double p, double q, double drag);
@@ -32,7 +32,8 @@ public:
 	double h, t, x, y, p, q;
 	bool hasExploded;
 
-	std::vector<Polygon3d> boundingBox;
+	std::vector<Polygon3d> &boundingBox = DrawableObject::boundingBox;
+	std::vector<Polygon3d> &model = DrawableObject::model;
 	Projectile(Point center);
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();

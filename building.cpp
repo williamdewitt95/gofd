@@ -14,16 +14,16 @@ Building::Building(Point center){
 	const int numOfBuildings = 2;
 	switch(rand() % numOfBuildings){
 		case 0:
-			// createGeneric1Building(model,box);
-			apartmentHighriseBuilding(model,box,subLists,sideNorth,sideEast,sideSouth,sideWest);
+			// createGeneric1Building(model,boundingBox);
+			apartmentHighriseBuilding(DrawableObject::model,DrawableObject::boundingBox,subLists,sideNorth,sideEast,sideSouth,sideWest);
 			break;
 		case 1:
-			createGenericOctogonBuilding(model,box);
+			createGenericOctogonBuilding(DrawableObject::model,DrawableObject::boundingBox);
 			break;
 
 		// === insert new building before here ===
 		default:
-			createGeneric1Building(model,box);
+			createGeneric1Building(DrawableObject::model,DrawableObject::boundingBox);
 			printf("Building selection out of range\n");
 			break;
 	}
@@ -69,9 +69,4 @@ void Building::draw_CPU(){
 		this->model[x].getTransform().draw_static();
 	for(int x=0; x<subLists.size(); x++)
 		glCallList(subLists[x]);
-}
-void Building::update(){
-}
-std::vector<Polygon3d> Building::boundingBox(){
-	return this->box;
 }
