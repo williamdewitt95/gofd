@@ -52,8 +52,10 @@ public:
 	void aim(Point enemy);//aim the turret at the enemy
 
 	void fillMap();
+	void followRoute();	
 
-	std::string getRoute();
+	void setRoute();
+	std::string route;
 
 };
 

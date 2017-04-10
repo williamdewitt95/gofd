@@ -228,18 +228,55 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 }
 
 
-std::string AI_Tank::getRoute(){
+void AI_Tank::setRoute(){
 	
 	clock_t startTime = clock();
-	std::string route = findPath(start.x, start.y, destination.x, destination.y);
-	if(route=="") std::cout<<"An empty route generated!"<<std::endl;
+	std::string routeNew = findPath(start.x, start.y, destination.x, destination.y);
+	if(routeNew=="") std::cout<<"An empty route generated!"<<std::endl;
     	clock_t endTime = clock();
     	double time_elapsed = double(endTime - startTime);
     	std::cout<<"Time to calculate the route (ms): "<<time_elapsed<<std::endl;
     	std::cout<<"Route:"<<std::endl;
-    	std::cout<<route<<std::endl<<std::endl;
+    	std::cout<<routeNew<<std::endl<<std::endl;
 	
-	return route;
+	route = routeNew;
+}
+
+void AI_Tank::followRoute(){
+
+	if(route.length()>0){
+		int j;
+		char c;
+		int x = start.x;
+		int y = start.y;
+		mapGrid[x][y] = 2;
+		
+		for(int i = 0; i < route.length(); i++){
+			c = route.at(i);
+			j = atoi(&c);
+			x=x+dx[j];
+			y=y+dy[j];
+			mapGrid[x][y] = 3;
+		}
+		mapGrid[x][y] = 4;
+
+
+		for(int y=0;y<m;y++){
+            		for(int x=0;x<n;x++)
+                		if(mapGrid[x][y]==0)
+                    			std::cout<<".";
+                		else if(mapGrid[x][y]==1)
+                    			std::cout<<"O"; //obstacle
+                		else if(mapGrid[x][y]==2)
+                    			std::cout<<"S"; //start
+                		else if(mapGrid[x][y]==3)
+                    			std::cout<<"R"; //route
+                		else if(mapGrid[x][y]==4)
+                    			std::cout<<"F"; //finish
+            		std::cout<<std::endl;
+        	}
+	}
+
 }
 
 
