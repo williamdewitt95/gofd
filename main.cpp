@@ -32,7 +32,8 @@ int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
 bool aerial = false;
-
+int oldTime, currentTime;
+float actualfps, fps = 0.0;
 
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
@@ -93,6 +94,52 @@ void gameEngine(){
 
 }
 
+
+void showFPS()
+{
+    currentTime = glutGet(GLUT_ELAPSED_TIME);
+    char str_fps[15];
+    if ( (currentTime - oldTime) > 1000 )     
+
+    {
+        actualfps = fps;
+        fps = 0.0;
+        oldTime = currentTime;
+    }
+    else
+        fps++;
+    sprintf(&str_fps[0], "FPS = %.0f",actualfps);
+
+
+    glPushMatrix();
+    // glTranslatef(-3.5, -3.5, -0.5);
+    // drawString(&str_fps[0]);
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+    void *font = GLUT_STROKE_ROMAN;
+    glColor3f(1.0,1.0,1.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity(); // reset the projection style
+    gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glTranslatef(01, 03, 0);
+    glScalef(0.15, 0.15, 0.15);
+
+    glRotatef(180.0, 1.0, 0.0, 0.0);
+    glScalef(0.055,0.055,0.055);
+    int len = (int) strlen(str_fps);
+    for (int i = 0; i < len; i++) {
+        glutStrokeCharacter(font, str_fps[i]);
+    }
+    glPopMatrix();
+
+   
+}
+
+
 void drawHud()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -104,6 +151,7 @@ void drawHud()
 
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
+	showFPS();
 }
 
 
