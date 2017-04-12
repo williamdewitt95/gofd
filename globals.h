@@ -7,6 +7,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <string.h>
 // #include "imageLibrary/image.h"
 #include "tank.h"
 #include "polygon3d.h"
