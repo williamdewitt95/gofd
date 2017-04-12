@@ -8,7 +8,7 @@
 #include <time.h>
 #include "drawableObject.h"
 
-class Building : DrawableObject{
+class Building : public DrawableObject{
 public:
 	Point center;
 
