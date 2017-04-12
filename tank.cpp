@@ -4,7 +4,7 @@
 #include "building.h"
 #include <iostream>
 #include <stdio.h>
-#include <string.h>
+
 using std::cout;
 
 
