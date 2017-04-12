@@ -124,11 +124,11 @@ void showFPS()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glTranslatef(05, 05, 0);
+    glTranslatef(01, 03, 0);
     glScalef(0.15, 0.15, 0.15);
 
     glRotatef(180.0, 1.0, 0.0, 0.0);
-    glScalef(0.1,0.1,0.1);
+    glScalef(0.055,0.055,0.055);
     int len = (int) strlen(str_fps);
     for (int i = 0; i < len; i++) {
         glutStrokeCharacter(font, str_fps[i]);
