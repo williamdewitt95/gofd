@@ -13,6 +13,7 @@
 #include "tank.h"
 #include "target.h"
 #include "ai.h"
+#include "screencapture.c"
 using std::cin;
 using std::cout;
 
@@ -289,6 +290,8 @@ void display(){
 
 	glFlush();
 	glutSwapBuffers();
+	screencapture(GLOBAL.step); 
+	GLOBAL.step++; 
 	glutPostRedisplay(); //always say we want a redraws
 }
 
