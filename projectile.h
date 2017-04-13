@@ -34,8 +34,8 @@ public:
 	double angleV, angleH, velocity, mass, C;
 	double h, t, x, y, p, q;
 
-	std::vector<Polygon3d> &boundingBox = DrawableObject::boundingBox;
-	std::vector<Polygon3d> &model = DrawableObject::model;
+	//std::vector<Polygon3d> boundingBox;
+	//std::vector<Polygon3d> model;
 	Projectile(Point center);
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();

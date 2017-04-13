@@ -2,7 +2,9 @@
 #include <iostream>
 using std::cout;
 
-std::vector<Explosion> explosions;
+//std::vector<Explosion> explosions;
+//std::vector<Polygon3d> &Projectile::boundingBox = DrawableObject::boundingBox;
+//std::vector<Polygon3d> &Projectile::model = DrawableObject::model;
 
 Projectile::Projectile(Point center){
 	this->center = center;
