@@ -17,6 +17,16 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	CAMERA_LOOK_VECTOR = {0,1,0};
 	CAMERA_ANGLE_VERTICAL = 0;
 	CAMERA_ANGLE_HORIZONTAL = 90;
+
+	LIGHTS[0].possition[0]=0;
+	LIGHTS[0].possition[1]=0;
+	LIGHTS[0].possition[2]=0;
+	LIGHTS[0].attenuation_linear=1.0;
+	LIGHTS[0].attenuation_quadratic=1.0;
+	LIGHTS[0].color_ambient[0]=1.0;
+	LIGHTS[0].color_ambient[1]=1.0;
+	LIGHTS[0].color_ambient[2]=1.0;
+	LIGHTS[0].color_ambient[3]=1.0;
 }
 
 GLOBAL_SETTINGS GLOBAL;
@@ -294,4 +304,8 @@ void drawAxies(){
 		glEndList();
 	}
 
+}
+
+void updateLights(){
+	glLightfv(GL_LIGHT0,GL_AMBIENT,GLOBAL.LIGHTS[0].color_ambient);
 }

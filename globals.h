@@ -19,10 +19,12 @@
 #define GRAVITY 9.81
 
 struct LIGHT_STRUCT{
-	double attenuation_linear;
-	double attenuation_quadratic;
-	double possition[3];
-	double color[3];
+	GLfloat attenuation_linear;
+	GLfloat attenuation_quadratic;
+	GLfloat possition[3];
+	GLfloat color_ambient[4];
+	GLfloat color_diffuse[4];
+	GLfloat color_specular[4];
 };
 
 struct MODEL_TRIANGLES{
@@ -66,7 +68,7 @@ public:
 	double CAMERA_ANGLE_VERTICAL;
 	double CAMERA_ANGLE_HORIZONTAL;
 
-	std::vector<LIGHT_STRUCT> LIGHTS;
+	LIGHT_STRUCT LIGHTS[8];
 	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; // allows for easily shared textures, if they use the same name, they get the same texture
 };
 
@@ -89,5 +91,6 @@ void thirdPerson_CameraMovement(int x, int y, Point center);
 void free_CameraMovement(int x, int y);
 void drawTank (void);
 void drawAxies();
+void updateLights();
 
 #endif

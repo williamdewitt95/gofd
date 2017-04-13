@@ -184,7 +184,7 @@ void Projectile::update()
 			explosions[x].radius += explosions[x].expansionRate;
 			explosions[x].decay--;
 			//remove the sphere if the radius is too small
-			if(explosions[x].radius<=0)
+			if(explosions[x].decay<=0)
 				explosions.erase(explosions.begin()+x);
 		}
 		if(explosions.size()==0)

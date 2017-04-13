@@ -246,10 +246,16 @@ void drawMinimap(){
 }
 
 void display(){
+	glEnable(GL_LIGHTING);
+	updateLights();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 	drawWorld();
 	
+	//===============================================================================
+	glDisable(GL_LIGHTING);
+
 	glClear(GL_DEPTH_BUFFER_BIT);
 	drawHud();
 
@@ -440,6 +446,14 @@ int main(int argc,char** args){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHT2);
+	glEnable(GL_LIGHT3);
+	glEnable(GL_LIGHT4);
+	glEnable(GL_LIGHT5);
+	glEnable(GL_LIGHT6);
+	glEnable(GL_LIGHT7);
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable( GL_CULL_FACE );
@@ -471,6 +485,11 @@ int main(int argc,char** args){
 
 	tank = new Tank(Point(0, 0, 0));
 	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+
+	GLfloat temp[]={1.0,1.0,1.0,1.0};
+	glMaterialfv(GL_FRONT,GL_AMBIENT,temp);
+	glMaterialfv(GL_FRONT,GL_DIFFUSE,temp);
+	glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
 
 	glutMainLoop();
 	return 0;
