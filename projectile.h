@@ -19,7 +19,7 @@ struct Explosion{
 };
 //extern std::vector<Explosion> explosions;
 
-class Projectile:DrawableObject{
+class Projectile:public DrawableObject{
 private:
 	double drag(double speed);
 	double f(double p, double q, double drag);
@@ -27,10 +27,12 @@ private:
 	void step();
 	std::vector<Explosion> explosions;
 public:
+	enum{MOVING,EXPLODING,DEAD};
+	int state; // is one of the above
+
 	Point center, tankStart, local;
 	double angleV, angleH, velocity, mass, C;
 	double h, t, x, y, p, q;
-	bool hasExploded;
 
 	std::vector<Polygon3d> &boundingBox = DrawableObject::boundingBox;
 	std::vector<Polygon3d> &model = DrawableObject::model;
@@ -38,8 +40,7 @@ public:
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();
 	void update();
-	void explode(struct Explosion *ex);
-	std::vector<Polygon3d> getBoundingBox();
+	void drawExplosion(struct Explosion *ex);
 };
 
 #endif

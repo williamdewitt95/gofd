@@ -9,9 +9,9 @@
 #include <string>
 #include <string.h>
 // #include "imageLibrary/image.h"
-#include "tank.h"
 #include "polygon3d.h"
 #include "SOIL.h"
+#include "drawableObject.h"
 
 
 #define PI 3.14159265358979

@@ -20,7 +20,7 @@ Projectile::Projectile(Point center){
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.1;
 
-	this->hasExploded = false;
+	this->state=MOVING;
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -92,64 +92,63 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.01;
 
-	this->hasExploded = false;
+	this->state=MOVING;
 }
 
 void Projectile::draw(){
-	glPushMatrix();
+	if(this->state==MOVING){
+		GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
+		
+		glPushMatrix();
+			glColor3f(1.0, .1, .1);
+			glTranslated(center.x,center.y,center.z);
+			glRotated(this->angleH, 0.0, 0.0, 1.0);
+			glRotated(-this->angleV, 0, 1.0, 0);
+			glTranslated(-.1, 0.0, 0.0);
 
-	GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
-	glColor3f(1.0, .1, .1);
-	glTranslated(center.x,center.y,center.z);
-	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(-this->angleV, 0, 1.0, 0);
-	glTranslated(-.1, 0.0, 0.0);
+			glRotated(90.0, 0.0, 1.0, 0.0);
+			shellCasing = gluNewQuadric();
+			gluCylinder(shellCasing, .05, .05, .2, 30, 1);
+		glPopMatrix();
 
-	glRotated(90.0, 0.0, 1.0, 0.0);
-	shellCasing = gluNewQuadric();
-	gluCylinder(shellCasing, .05, .05, .2, 30, 1);
-	glPopMatrix();
+		glPushMatrix();
+			glColor3f(.1, .1, .1);
+			glTranslated(center.x,center.y,center.z);
+			glRotated(this->angleH, 0.0, 0.0, 1.0);
+			glRotated(-this->angleV, 0, 1.0, 0);
+			glTranslated(0, 0, 0);
 
-	glPushMatrix();
-	glColor3f(.1, .1, .1);
-	glTranslated(center.x,center.y,center.z);
-	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(-this->angleV, 0, 1.0, 0);
-	glTranslated(0, 0, 0);
+			glRotated(90.0, 0.0, 1.0, 0.0);
+			shellBottom = gluNewQuadric();
+			gluDisk(shellBottom, 0, .05, 30, 1);
+		glPopMatrix();
 
-	glRotated(90.0, 0.0, 1.0, 0.0);
-	shellBottom = gluNewQuadric();
-	gluDisk(shellBottom, 0, .05, 30, 1);
-	glPopMatrix();
+		glPushMatrix();
+			glTranslated(center.x,center.y,center.z);
+			glRotated(this->angleH, 0.0, 0.0, 1.0);
+			glRotated(-this->angleV, 0, 1.0, 0);
+			glTranslated(.1, 0.0, 0.0);
+			glRotated(90.0, 0.0, 1.0, 0.0);
 
-	glPushMatrix();
-	glTranslated(center.x,center.y,center.z);
-	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(-this->angleV, 0, 1.0, 0);
-	glTranslated(.1, 0.0, 0.0);
-	glRotated(90.0, 0.0, 1.0, 0.0);
+			shellPoint = gluNewQuadric();
+			gluCylinder(shellPoint, .05, .00, .4, 30, 4);
+		glPopMatrix();
 
-	shellPoint = gluNewQuadric();
-	gluCylinder(shellPoint, .05, .00, .4, 30, 4);
-	glPopMatrix();
-
-	if (this->hasExploded) {
+		//clean up
+		gluDeleteQuadric(shellCasing);
+		gluDeleteQuadric(shellPoint);
+		gluDeleteQuadric(shellBottom);
+	}
+	else if (this->state==EXPLODING) {
 		for(int i=0; i<explosions.size();i++){
-			explode(&explosions[i]);
+			drawExplosion(&explosions[i]);
 		}
 	}
-
-	//clean up
-	gluDeleteQuadric(shellCasing);
-	gluDeleteQuadric(shellPoint);
-	gluDeleteQuadric(shellBottom);
 }
 
 void Projectile::update()
 {
-	// cout << "explosionDecay in update = " << explosionDecay << "\n";
-	if(center.z > 0)
-	{
+	if(this->state == MOVING){
 		step();
 		Point temp = Point(this->local.x, 0, this->local.z);
 		temp = temp.rotatePoint(this->angleH, false, false, true);
@@ -157,28 +156,40 @@ void Projectile::update()
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
-	}
-	//if z=0, start exploding and generate random values for each splode
-	else if (!this->hasExploded) {
-		this->center.z = 0.0;
-		this->hasExploded = true;
-		int splodes = 3 + (rand() % 3);
-		for (int i=0;i < splodes;i++) {
-			Explosion n;
-			n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
-			n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
-			n.z = center.z + ((double) rand() / (RAND_MAX));
-			n.decay = 15 + (rand() % 5);
-			n.staticDecay = n.decay;
-			n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
-			n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
-			explosions.push_back(n);
+
+		//check to see if it has hit the ground. If so, then we have hit and need to explode
+		//if z<=0, start exploding and generate random values for each splode
+		if(center.z <= 0){
+			this->state=EXPLODING;
+			this->center.z = 0.0;
+			int splodes = 3 + (rand() % 3);
+			for (int i=0;i < splodes;i++) {
+				Explosion n;
+				n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+				n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+				n.z = center.z + ((double) rand() / (RAND_MAX));
+				n.decay = 15 + (rand() % 5);
+				n.staticDecay = n.decay;
+				n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
+				n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
+				explosions.push_back(n);
+			}
 		}
 	}
-}
-
-std::vector<Polygon3d> Projectile::getBoundingBox(){
-	return this->boundingBox;
+	else if (this->state==EXPLODING){
+		//now lets update the parameters of every explosion until it decays away
+		for(int x=explosions.size()-1; x>=0; x--){
+			explosions[x].radius += explosions[x].expansionRate;
+			explosions[x].decay--;
+			//remove the sphere if the radius is too small
+			if(explosions[x].radius<=0)
+				explosions.erase(explosions.begin()+x);
+		}
+		if(explosions.size()==0)
+			this->state=DEAD;
+	}else if(this->state==DEAD){
+		//well, we are dead, so what can i say...
+	}
 }
 
 // Compute the drag based on the 155 mm HE Shell
@@ -255,9 +266,8 @@ void Projectile::step() {
     this->t = this->t + this->h;
 }
 
-void Projectile::explode(struct Explosion *ex) {
+void Projectile::drawExplosion(struct Explosion *ex) {
 	if (ex->decay > 0) {
-			
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslated(ex->x, ex->y, ex->z);
@@ -274,8 +284,5 @@ void Projectile::explode(struct Explosion *ex) {
 		glColor3f(colorR, colorG, colorB);
 		glutSolidSphere(ex->radius, 8, 8);
 		glPopMatrix();
-		ex->radius += ex->expansionRate;
-
-		ex->decay--;
 	}
 }

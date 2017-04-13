@@ -2,11 +2,8 @@
 #define GLOP_BUILDING
 
 #include "globals.h"
-#include "polygon3d.h"
 #include <math.h>
 #include <vector>
-#include <time.h>
-#include "drawableObject.h"
 
 class Building : public DrawableObject{
 public:

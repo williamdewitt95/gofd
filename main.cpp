@@ -88,8 +88,10 @@ void gameEngine(){
 	ai_tank->nearbyTarget(tank);
 	
 
-	for(int i=0; i < projectiles.size(); i++){
+	for(int i=projectiles.size()-1; i >=0 ; i--){
 		projectiles[i]->update();
+		if(projectiles[i]->state==Projectile::DEAD)
+			projectiles.erase(projectiles.begin()+i);
 	}
 
 }
