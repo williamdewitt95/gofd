@@ -57,7 +57,10 @@ $(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
 
 $(BUILD_DIR)/ai.o: ai.cpp ai.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o
+
+$(BUILD_DIR)/screencapture.o: screencapture.c
+	$(CC) $(CFLAGS) $(OPTFLAGS) screencapture.c -c -o $(BUILD_DIR)/screencapture.o 
 
 $(BUILD_DIR)/drawableObject.o: drawableObject.cpp drawableObject.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) drawableObject.cpp -c -o $(BUILD_DIR)/drawableObject.o 

@@ -55,6 +55,8 @@ public:
 	double WORLD_COORDINATE_MIN_Y;
 	double WORLD_COORDINATE_MAX_Y;
 
+	int step = 0; //--chris, this is for incrementing the frame); 
+
 	struct {
 		double x;
 		double y;
