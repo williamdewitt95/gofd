@@ -180,17 +180,17 @@ void drawWorld(){
 		glColor3ub(255,255,255);
 
 		glPushMatrix();
-		glTranslated(45,0,0);
+		glTranslated(5,0,0);
 		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
 		glPopMatrix();
 		glPushMatrix();
-		glTranslated(0,45,0);
+		glTranslated(0,5,0);
 		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
 		glPopMatrix();
 		glPushMatrix();
-		glTranslated(0,0,45);
+		glTranslated(0,0,5);
 		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
 		glRotated(90,1,0,0);
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
@@ -267,7 +267,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
-		camMove_forward += camMove_speed;
+		camMove_forward += camMove_speed ;
 	}else if(key == 's' || key == 'S'){
 		camMove_forward -= camMove_speed;
 	}else if(key == 'a' || key == 'A'){
@@ -459,21 +459,55 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
+				int randSide = 0 + (int) ((rand() % (int) (3 - 0 + 1)));	
+				std::cout << randSide << std::endl;
+				float randomHeight = ((float) rand()) / (RAND_MAX);
+				float maxHeight = buildings[buildings.size()-1]->box[0][0].z;
+				float targetCenter = randomHeight * maxHeight;
+				if (targetCenter < 3)
+					targetCenter += 5;
+				else if(targetCenter >= maxHeight-3)
+					targetCenter -= 5;
 
-			float randomHeight = ((float) rand()) / (RAND_MAX);
-			float maxHeight = buildings[buildings.size()-1]->box[0][0].z;
-			float targetCenter = randomHeight * maxHeight;
-			if (targetCenter < 3)
-				targetCenter += 5;
-			else if(targetCenter >= maxHeight-3)
-				targetCenter -= 5;
-			
-			targets.push_back(new Target(Point(
-					Building::distanceBetweenBuildings*x/* + Building::maxBuildingWidth/2.0*/,
-					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth+0.7)/2.0,
-					targetCenter)
-				));
-				std::cout << randomHeight << std::endl;;
+					if(randSide == 0)
+					{//"north" wall
+						targets.push_back(new Target(Point(
+							Building::distanceBetweenBuildings*x,
+							Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/2.0 - 0.55,
+							targetCenter)
+						));
+					}
+					else if(randSide == 1)
+					{//"west"
+						Target *tDawg = new Target(Point(
+							Building::distanceBetweenBuildings*x + (Building::maxBuildingWidth)/2.0 + 0.55,
+							Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+							targetCenter));
+						(*tDawg).setRotation(90.0);
+						targets.push_back(tDawg);
+					}
+					else if(randSide == 2)
+					{//"south
+						targets.push_back(new Target(Point(
+							Building::distanceBetweenBuildings*x,
+							Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth)/2.0 + 0.55,
+							targetCenter)
+						));
+					}
+					else if(randSide == 3)
+					{//"east"
+						Target *tDawg = new Target(Point(
+							Building::distanceBetweenBuildings*x - (Building::maxBuildingWidth)/2.0 - 0.55,
+							Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+							targetCenter));
+						(*tDawg).setRotation(90.0);
+						targets.push_back(tDawg);
+					}
+					else
+					{
+						std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
+						exit(0);
+					}
 
 		}
 	}

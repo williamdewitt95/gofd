@@ -5,7 +5,9 @@ Target::Target(Point center)
     this->center = center;
     this->radius = 3;
     this->rotation = 0;
-
+    this->rVal = 0.0;
+    this->gVal = 0.0;
+    this->bVal = 1.0;
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
@@ -69,7 +71,7 @@ Target::Target(Point center)
 
 void Target::draw()
 {
-    glColor3f(0.0, 0.0, 1.0);
+    glColor3f(rVal, gVal, bVal);
     GLUquadricObj *cylinder;
     GLUquadricObj *topDisk, *bottomDisk;
     glPushMatrix();
@@ -89,6 +91,9 @@ void Target::draw()
 void Target::update()
 {
 //    this->rotation += 1;
+    this->rVal = ((float) rand()) / (RAND_MAX);
+    this->gVal = ((float) rand()) / (RAND_MAX);
+    this->bVal = ((float) rand()) / (RAND_MAX); 	
     this->draw();
 }
 
@@ -96,4 +101,8 @@ std::vector<Polygon3d> Target::getBoundingBox()
 {
     return this->boundingBox;
 
+}
+void Target::setRotation(double rot)
+{
+	this->rotation = rot;
 }

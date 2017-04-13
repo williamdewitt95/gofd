@@ -379,28 +379,28 @@ void Tank::draw(){
 	glRotated(cannonAngle, 1, 0, 0);
 	glTranslated(0, -0.5, -1.375);
 	//draw a laser guide
-	if (laser) {
-		glLineWidth(5);
-		glColor4f(1.0 ,0.0 ,0.0 ,1.0);
-		glBegin(GL_LINES);
-			glVertex3f(0, 0.5, 1.375);
-			glVertex3f(0, 2000, 1.375);
-		glEnd();
-		glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-		glLineWidth(1);
+		if (laser) {
+			glLineWidth(5);
+			glColor4f(((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX));
+			glBegin(GL_LINES);
+				glVertex3f(0, 0.5, 1.375);
+				glVertex3f(0, 2000, 1.375);
+			glEnd();
+			glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+			glLineWidth(1);
+		}
+		for(int x=0; x<cannon.size(); x++)
+			this->cannon[x].draw();
+		glPopMatrix();
+		glPopMatrix();
 	}
-	for(int x=0; x<cannon.size(); x++)
-		this->cannon[x].draw();
-	glPopMatrix();
-	glPopMatrix();
-}
 
-void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
-	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
-	
-	if(onLock(newX,newY)){
-		this->center.x = newX;
+	void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
+		double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+		double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+		
+		if(onLock(newX,newY)){
+			this->center.x = newX;
 		this->center.y = newY;
 	}
 
