@@ -70,7 +70,8 @@ $(BUILD_DIR)/drawableObject.o: drawableObject.cpp drawableObject.h
 clean:
 	rm -f *.o
 	rm -f build/*.o
-	rm -f gofd 
+	rm -f gofd
+	rm -f *.tga 
 
 distclean: clean
 	rm -rf build
