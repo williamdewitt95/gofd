@@ -9,7 +9,7 @@
  */
 
 
-void screencapture (int const num)
+int screencapture (int const num)
 {
 	typedef unsigned char uchar;
 
@@ -32,7 +32,7 @@ void screencapture (int const num)
 	pixels = new unsigned char [screenStats[2]*screenStats[3]*3];
 
 	//reads pixel data
-	glReadPixel(0, 0, screenStats[2], screenStats[3], 0x80E0, GL_UNSIGNED_BYTE, pixels);
+	glReadPixels(0, 0, screenStats[2], screenStats[3], 0x80E0, GL_UNSIGNED_BYTE, pixels);
 
 	//opens file for writing, if unsuccesful, return 1
 	//might rewrite this later to optimize it --chris
