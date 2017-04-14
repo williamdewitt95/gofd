@@ -66,8 +66,13 @@ Target::Target(Point center)
     }
 }
 
-void Target::draw()
-{
+void Target::draw(){
+    glPushMatrix();
+
+    // glTranslated(center.x,center.y,center.z);
+    // glRotated(90, 1, 0, 0);
+    // glRotated(this->rotation, 0, 1, 0);
+
     glColor3f(0.0, 0.0, 1.0);
     GLUquadricObj *cylinder = gluNewQuadric();
     GLUquadricObj *topDisk = gluNewQuadric();
@@ -75,27 +80,23 @@ void Target::draw()
     gluQuadricDrawStyle(cylinder, GLU_FILL);
 
     glPushMatrix();
-    	glTranslated(center.x,center.y,center.z);
+        glTranslated(center.x,center.y,center.z);
         glRotated(90, 1, 0, 0);
         glRotated(this->rotation, 0, 1, 0);
 
-    	gluCylinder(cylinder, this->radius, this->radius, .1, 30, 1);
+        gluCylinder(cylinder, this->radius, this->radius, .1, 30, 1);
 
         gluDisk(topDisk, 0, this->radius, 30, 1);
 
         gluDisk(bottomDisk, this->radius, 4, 30, 1);
-	glPopMatrix();
+    glPopMatrix();
+
+    glPopMatrix();
 }
 
 void Target::update(){
 }
 
-std::vector<Polygon3d> Target::getBoundingBox()
-{
-    return this->boundingBox;
-
-}
-void Target::setRotation(double rot)
-{
+void Target::setRotation(double rot){
 	this->rotation = rot;
 }

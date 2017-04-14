@@ -122,9 +122,9 @@ Tank::Tank(Point center){
 		base[base.size()-1].setTesselation(true);
 
 		points.push_back(Point(  -1,  -1.5,  1));
-		points.push_back(Point(  -1,  1.5,   1));
-		points.push_back(Point(   1,  1.5,   1));
 		points.push_back(Point(   1, -1.5,  1));
+		points.push_back(Point(   1,  1.5,   1));
+		points.push_back(Point(  -1,  1.5,   1));
 		points.push_back(Point(  -1,  -1.5,  1));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
@@ -225,9 +225,9 @@ Tank::Tank(Point center){
 		tower[tower.size()-1].setTesselation(true);
 
 		points.push_back(Point(  -0.5,  -0.5,  1.75));
-		points.push_back(Point(  -0.5,  0.5,   1.75));
-		points.push_back(Point(   0.5,  0.5,   1.75));
 		points.push_back(Point(   0.5, -0.5,  1.75));
+		points.push_back(Point(   0.5,  0.5,   1.75));
+		points.push_back(Point(  -0.5,  0.5,   1.75));
 		points.push_back(Point(  -0.5,  -0.5,  1.75));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
@@ -328,9 +328,9 @@ Tank::Tank(Point center){
 		cannon[cannon.size()-1].setTesselation(true);
 
 		points.push_back(Point(  -0.125, 0.5,  1.5));
-		points.push_back(Point(  -0.125, 2.25,  1.5));
-		points.push_back(Point(  0.125, 2.25,  1.5));
 		points.push_back(Point(  0.125, 0.5,  1.5));
+		points.push_back(Point(  0.125, 2.25,  1.5));
+		points.push_back(Point(  -0.125, 2.25,  1.5));
 		points.push_back(Point(  -0.125, 0.5,  1.5));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
@@ -359,50 +359,51 @@ Tank::Tank(Point center){
 		texs.push_back(Point(0,0,0));
 	}
 	
-	totalBoundingBox.push_back(base);
-	totalBoundingBox.push_back(tower);
-	totalBoundingBox.push_back(cannon);
+	baseBoundingBox=base; // use these to provide our bounding box
+	towerBoundingBox=tower;
+	cannonBoundingBox=cannon;
 }
 
 
 
 void Tank::draw(){
 	glPushMatrix();
-	glTranslated(center.x, center.y, center.z);
-	glScaled(scale, scale, scale);
-	glRotated(baseAngle, 0, 0, 1);
-	for(int x=0; x<base.size(); x++)
-		this->base[x].draw();
+		glTranslated(center.x, center.y, center.z);
+		glScaled(scale, scale, scale);
+		glRotated(baseAngle, 0, 0, 1);
+		for(int x=0; x<base.size(); x++)
+			this->base[x].draw();
 	glPopMatrix();//When we rotate the base, let the turret stay on target
+
 	glPushMatrix();
-	glTranslated(center.x, center.y, center.z);
-	glRotated(towerAngle, 0, 0, 1);
-	for(int x=0; x<tower.size(); x++)
-		this->tower[x].draw();
-	glPushMatrix();
-	glTranslated(0, 0.5, 1.375);
-	if (cannonAngle > 75)
-		cannonAngle = 75;
-	else if (cannonAngle < -10)
-		cannonAngle = -10;
-	glRotated(cannonAngle, 1, 0, 0);
-	glTranslated(0, -0.5, -1.375);
-	//draw a laser guide
-		if (laser) {
-			glLineWidth(5);
-			glColor4f(1.0 ,0.0 ,0.0 ,1.0);
-			glBegin(GL_LINES);
-				glVertex3f(0, 0.5, 1.375);
-				glVertex3f(0, 2000, 1.375);
-			glEnd();
-			glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-			glLineWidth(1);
-		}
-		for(int x=0; x<cannon.size(); x++)
-			this->cannon[x].draw();
+		glTranslated(center.x, center.y, center.z);
+		glRotated(towerAngle, 0, 0, 1);
+		for(int x=0; x<tower.size(); x++)
+			this->tower[x].draw();
+		glPushMatrix();
+			glTranslated(0, 0.5, 1.375);
+			if (cannonAngle > 75)
+				cannonAngle = 75;
+			else if (cannonAngle < -10)
+				cannonAngle = -10;
+			glRotated(cannonAngle, 1, 0, 0);
+			glTranslated(0, -0.5, -1.375);
+			//draw a laser guide
+			if (laser) {
+				glLineWidth(5);
+				glColor4f(1.0 ,0.0 ,0.0 ,1.0);
+				glBegin(GL_LINES);
+					glVertex3f(0, 0.5, 1.375);
+					glVertex3f(0, 2000, 1.375);
+				glEnd();
+				glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+				glLineWidth(1);
+			}
+			for(int x=0; x<cannon.size(); x++)
+				this->cannon[x].draw();
 		glPopMatrix();
-		glPopMatrix();
-	}
+	glPopMatrix();
+}
 
 void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
 	
@@ -518,15 +519,8 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 		this->cannonAngle = angleV; 	
 	}
 
-	
-
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
-
-	// printf("PassiveFunc\t%dx%d\n",dx,dy); // pixel deltas
-	// printf("PassiveFunc\t%f %f\n",angleH,angleV); // look angles
-	// printf("PassiveFunc\n%.2f %.2f %.2f\n",cameraLook.x,cameraLook.y,cameraLook.z); // look vector
-
 }
 
 bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
@@ -538,11 +532,32 @@ bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in
 }
 
 
-std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
-	return this->totalBoundingBox;
+std::vector<Polygon3d> Tank::boundingBox(void){
+	//every time someone needs the polygons for our bounding box, we have to make it from scratch
+	//we start out with having the starting polygons for the tank in the default positions
+	//we need to set the rotation for all of them and then put them into a single list
+
+	std::vector<Polygon3d> temp;
+	Vector baseRot(0,0,baseAngle);
+	Vector towerRot(0,0,towerAngle);
+	Vector cannonRot(0,0,cannonAngle);
+
+	for(int x=0; x < baseBoundingBox.size(); x++){
+		baseBoundingBox[x].setRotation(baseRot);
+		temp.push_back(baseBoundingBox[x]);
+	}
+	for(int x=0; x < towerBoundingBox.size(); x++){
+		towerBoundingBox[x].setRotation(towerRot);
+		temp.push_back(towerBoundingBox[x]);
+	}
+	for(int x=0; x < cannonBoundingBox.size(); x++){
+		cannonBoundingBox[x].setRotation(cannonRot);
+		temp.push_back(cannonBoundingBox[x]);
+	}
+	return temp;
 }
-void Tank::drawScore()
-{
+
+void Tank::drawScore(){
 	int score = 40;
 	glPushMatrix();
 
@@ -575,8 +590,8 @@ void Tank::drawScore()
 		glPopMatrix();
 	glPopMatrix();
 }
-void Tank::drawCooldownBar()
-{
+
+void Tank::drawCooldownBar(){
 	glPushMatrix();
 
 	int i, len;
@@ -618,46 +633,46 @@ void Tank::drawCooldownBar()
 
 	glPopMatrix();
 }
-void Tank::drawHealthBar()
-{
+
+void Tank::drawHealthBar(){
 	glPushMatrix();
 
-	int i, len;
-	char healthLabel[] = "Health";
-	void *font = GLUT_STROKE_ROMAN;
+		int i, len;
+		char healthLabel[] = "Health";
+		void *font = GLUT_STROKE_ROMAN;
 
-	glTranslatef(82, 95, 0);
-	glScalef(0.15, 0.15, 0.15);
+		glTranslatef(82, 95, 0);
+		glScalef(0.15, 0.15, 0.15);
 
-	glPushMatrix();
-	glColor3f(1.0,1.0,1.0);
-	glRotatef(180.0,1.0,0.0,0.0);
-	glScalef(0.125,0.125,0.125);
-	glTranslatef(-400, -130, 0);
-	len = (int) strlen(healthLabel);
-	for(i = 0;i<len;i++)
-		glutStrokeCharacter(font, healthLabel[i]);
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.125,0.125,0.125);
+			glTranslatef(-400, -130, 0);
+			len = (int) strlen(healthLabel);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, healthLabel[i]);
 
-	glPopMatrix();
-	
-	glBegin(GL_POLYGON);
-		//draw remaining health
-		glColor3ub(0,255,0);
-		glVertex2f(0.0,0.0);
-		glVertex2f(0.0,20.0);
-		glVertex2f((float) (this->health/100.0)*100.0, 20.0);
-		glVertex2f((float) (this->health/100.0)*100.0,  0.0);
-	glEnd();
-	
-	glBegin(GL_POLYGON);
+		glPopMatrix();
 		
-		//draw missing heath bar
-		glColor3ub(255,0,0);
-		glVertex2f((float) (this->health/100.0)*100.0,  0.0);
-		glVertex2f((float) (this->health/100.0)*100.0, 20.0);
-		glVertex2f(100.0,20.0);
-		glVertex2f(100.0,0.0);
-	glEnd();
+		glBegin(GL_POLYGON);
+			//draw remaining health
+			glColor3ub(0,255,0);
+			glVertex2f(0.0,0.0);
+			glVertex2f(0.0,20.0);
+			glVertex2f((float) (this->health/100.0)*100.0, 20.0);
+			glVertex2f((float) (this->health/100.0)*100.0,  0.0);
+		glEnd();
+		
+		glBegin(GL_POLYGON);
+			
+			//draw missing heath bar
+			glColor3ub(255,0,0);
+			glVertex2f((float) (this->health/100.0)*100.0,  0.0);
+			glVertex2f((float) (this->health/100.0)*100.0, 20.0);
+			glVertex2f(100.0,20.0);
+			glVertex2f(100.0,0.0);
+		glEnd();
 
 	glPopMatrix();
 }
