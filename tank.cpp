@@ -519,15 +519,8 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 		this->cannonAngle = angleV; 	
 	}
 
-	
-
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
-
-	// printf("PassiveFunc\t%dx%d\n",dx,dy); // pixel deltas
-	// printf("PassiveFunc\t%f %f\n",angleH,angleV); // look angles
-	// printf("PassiveFunc\n%.2f %.2f %.2f\n",cameraLook.x,cameraLook.y,cameraLook.z); // look vector
-
 }
 
 bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
@@ -540,7 +533,8 @@ bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in
 
 
 std::vector<Polygon3d> Tank::boundingBox(void){
-	//we start out with having the starting polygons for the tank
+	//every time someone needs the polygons for our bounding box, we have to make it from scratch
+	//we start out with having the starting polygons for the tank in the default positions
 	//we need to set the rotation for all of them and then put them into a single list
 
 	std::vector<Polygon3d> temp;
@@ -562,8 +556,8 @@ std::vector<Polygon3d> Tank::boundingBox(void){
 	}
 	return temp;
 }
-void Tank::drawScore()
-{
+
+void Tank::drawScore(){
 	int score = 40;
 	glPushMatrix();
 
@@ -596,8 +590,8 @@ void Tank::drawScore()
 		glPopMatrix();
 	glPopMatrix();
 }
-void Tank::drawCooldownBar()
-{
+
+void Tank::drawCooldownBar(){
 	glPushMatrix();
 
 	int i, len;
@@ -639,8 +633,8 @@ void Tank::drawCooldownBar()
 
 	glPopMatrix();
 }
-void Tank::drawHealthBar()
-{
+
+void Tank::drawHealthBar(){
 	glPushMatrix();
 
 		int i, len;

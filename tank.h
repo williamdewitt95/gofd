@@ -10,7 +10,6 @@
 class Tank:public DrawableObject{
 
 public:
-	Point center;
 	Point hitSphereCenter;
 	double hitSphereRadius;
 	double baseAngle, towerAngle, cannonAngle, scale;

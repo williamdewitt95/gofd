@@ -2,15 +2,19 @@
 #include <iostream>
 using std::cout;
 
-//std::vector<Explosion> explosions;
-//std::vector<Polygon3d> &Projectile::boundingBox = DrawableObject::boundingBox;
-//std::vector<Polygon3d> &Projectile::model = DrawableObject::model;
-
 Projectile::Projectile(Point center){
+	this->baseInit(center,center,45,0);
+}
+
+Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH){
+	this->baseInit(center,tankStart,angleV,angleH);
+}
+
+void Projectile::baseInit(Point center, Point tankStart, double angleV, double angleH){
 	this->center = center;
-	this->tankStart = center;
-	this->angleV = 45;
-	this->angleH = 0;
+	this->tankStart = tankStart;
+	this->angleV = angleV;
+	this->angleH = angleH;
 	this->mass = 50.0;
 	this->velocity = 50.0;
 	this->C = 0.05;
@@ -75,26 +79,6 @@ Projectile::Projectile(Point center){
 		points.push_back(Point(  -5, -5,  20));
 		points.push_back(Point(  -5,  5,  20));
 	}
-}
-
-Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH)
-{
-	this->center = center;
-	this->angleV = angleV;
-	this->angleH = angleH;
-	this->tankStart = tankStart;
-	this->mass = 50.0;
-	this->velocity = 50.0;
-	this->C = 0.05;
-
-	this->t = 0.0;
-	this->local = Point(0, 0, 0);
-
-	this->p = this->velocity*cos(angleV*M_PI/180.0);
-	this->q = this->velocity*sin(angleV*M_PI/180.0);
-	this->h = 0.01;
-
-	this->state=MOVING;
 }
 
 void Projectile::draw(){

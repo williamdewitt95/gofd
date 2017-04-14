@@ -159,16 +159,8 @@ void FPS_CameraMovement(int x, int y, Point center){//first person is actually s
 
 	GLOBAL.CAMERA_POS.x = center.x;
 	GLOBAL.CAMERA_POS.y = center.y;
-
-
-
-	// 
 	// GLOBAL.CAMERA_POS.z = center_z + sin(angleV*PI/180.0)+2;
 	GLOBAL.CAMERA_POS.z=2;
-
-
-
-	// GLOBAL.CAMERA_LOOK_VECTOR.z = 0;
 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
@@ -192,7 +184,6 @@ void free_CameraMovement(int x, int y){//move the camera around not bound to the
 	int dx = x-midX;
 	int dy = y-midY;
 	
-
 	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
 	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
 	angleH += dx/movementDivisor;
@@ -211,7 +202,6 @@ void free_CameraMovement(int x, int y){//move the camera around not bound to the
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
 
-
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
 }
 
@@ -225,7 +215,6 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 
 	int dx = x-midX;
 	int dy = y-midY;
-	
 
 	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
 	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
@@ -236,15 +225,9 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 	if(angleV>90)angleV=90;
 	if(angleV<-20)angleV=-20;
 
-
-
-
 	GLOBAL.CAMERA_POS.x = center.x + 4.0*cos(angleH*PI/180.0);//camera rotates around the center at a radius of 4
 	GLOBAL.CAMERA_POS.y = center.y + 4.0*-sin(angleH*PI/180.0);
 	GLOBAL.CAMERA_POS.z = ( center.z + sin(angleV*PI/180.0 ) ) +3.0;
-	// GLOBAL.CAMERA_POS.z=2;
-
-
 
 	// GLOBAL.CAMERA_LOOK_VECTOR.x = center.x - GLOBAL.CAMERA_POS.x;//look at the center
 	// GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
@@ -254,15 +237,10 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 	GLOBAL.CAMERA_LOOK_VECTOR.y = (center.y+100000)*sin(angleH*PI/180.0);
 	GLOBAL.CAMERA_LOOK_VECTOR.z = (center.z+100000)*sin(angleV*PI/180.0);
 
-	
-
-
-	// 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
 
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
-
 }
 
 void drawAxies(){
@@ -292,20 +270,20 @@ void drawAxies(){
 		glColor3ub(255,255,255);
 
 		glPushMatrix();
-		glTranslated(45,0,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
+			glTranslated(10,0,0);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
 		glPopMatrix();
 		glPushMatrix();
-		glTranslated(0,45,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
+			glTranslated(0,10,0);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
 		glPopMatrix();
 		glPushMatrix();
-		glTranslated(0,0,45);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glRotated(90,1,0,0);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
+			glTranslated(0,0,10);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glRotated(90,1,0,0);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
 		glPopMatrix();
 
 		glEndList();

@@ -17,7 +17,6 @@ struct Explosion{
 	double expansionRate;
 	double radius;
 };
-//extern std::vector<Explosion> explosions;
 
 class Projectile:public DrawableObject{
 private:
@@ -26,11 +25,13 @@ private:
 	double g(double p, double q, double drag);
 	void step();
 	std::vector<Explosion> explosions;
+
+	void baseInit(Point center, Point tankStart, double angleV, double angleH); // sets variable to the known most basic values
 public:
 	enum{MOVING,EXPLODING,DEAD};
 	int state; // is one of the above
 
-	Point center, tankStart, local;
+	Point tankStart, local;
 	double angleV, angleH, velocity, mass, C;
 	double h, t, x, y, p, q;
 

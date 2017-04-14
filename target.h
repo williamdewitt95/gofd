@@ -5,21 +5,17 @@
 #include "polygon3d.h"
 #include <math.h>
 #include <vector>
+#include "drawableObject.h"
 
-class Target{
+class Target:public DrawableObject{
 private:
 	double rotation;
 public:
-	Point center;
-	std::vector<Polygon3d> boundingBox;
 	double radius;
-
-	unsigned int listName;
 
 	Target(Point center);
 	void draw();
-	void update(); 
-	std::vector<Polygon3d> getBoundingBox();
+	void update();
 	
 	void setRotation(double);
 };

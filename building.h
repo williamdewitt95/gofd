@@ -7,8 +7,6 @@
 
 class Building : public DrawableObject{
 public:
-	Point center;
-
 	//std::vector<Polygon3d> model;
 	//std::vector<Polygon3d> collisionBox;
 

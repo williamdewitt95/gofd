@@ -6,10 +6,6 @@ Polygon3d::Polygon3d(){
 	color[1]=0;
 	color[2]=0;
 	color[3]=0;
-	color_specular[0]=255;
-	color_specular[1]=255;
-	color_specular[2]=255;
-	color_specular[3]=255;
 	scale = 1;
 	maxRadius = 0;
 	texture = 0;
@@ -24,10 +20,6 @@ Polygon3d::Polygon3d(double x,double y,double z){
 	color[1]=0;
 	color[2]=0;
 	color[3]=0;
-	color_specular[0]=255;
-	color_specular[1]=255;
-	color_specular[2]=255;
-	color_specular[3]=255;
 	scale = 1;
 	maxRadius = 0;
 	texture = 0;
@@ -41,10 +33,6 @@ Polygon3d::Polygon3d(std::vector<Point>& points){
 	color[1]=0;
 	color[2]=0;
 	color[3]=0;
-	color_specular[0]=255;
-	color_specular[1]=255;
-	color_specular[2]=255;
-	color_specular[3]=255;
 	scale = 1;
 	maxRadius = 0;
 	texture = 0;
@@ -61,10 +49,6 @@ Polygon3d::Polygon3d(Point pnt, std::vector<Point>& points){
 	color[1]=0;
 	color[2]=0;
 	color[3]=0;
-	color_specular[0]=255;
-	color_specular[1]=255;
-	color_specular[2]=255;
-	color_specular[3]=255;
 	scale = 1;
 	maxRadius = 0;
 	texture = 0;
@@ -78,10 +62,6 @@ Polygon3d::Polygon3d(Triangle &tri){
 	color[1]=0;
 	color[2]=0;
 	color[3]=0;
-	color_specular[0]=255;
-	color_specular[1]=255;
-	color_specular[2]=255;
-	color_specular[3]=255;
 	scale = 1;
 	maxRadius = 0;
 	texture = 0;
@@ -104,7 +84,6 @@ Polygon3d::Polygon3d(const Polygon3d& other){
 
 	this->drawTesselate=other.drawTesselate;
 	for(int x=0;x<4;x++)this->color[x] = other.color[x];
-	for(int x=0;x<4;x++)this->color_specular[x] = other.color_specular[x];
 
 	this->maxRadius = 0;
 
@@ -206,10 +185,6 @@ Polygon3d Polygon3d::getWorldPoints(){
 	poly.color[1] = this->color[1];
 	poly.color[2] = this->color[2];
 	poly.color[3] = this->color[3];
-	poly.color_specular[0] = this->color_specular[0];
-	poly.color_specular[1] = this->color_specular[1];
-	poly.color_specular[2] = this->color_specular[2];
-	poly.color_specular[3] = this->color_specular[3];
 	poly.texture = this->texture ;
 	poly.hasTex = this->hasTex ;
 	poly.vertexTextureList = this->vertexTextureList ;
@@ -258,7 +233,6 @@ Polygon3d& Polygon3d::operator=(Polygon3d other){
 	this->scale = other.scale;
 	this->drawTesselate = other.drawTesselate;
 	for(int x=0;x<4;x++)this->color[x] = other.color[x];
-	for(int x=0;x<4;x++)this->color_specular[x] = other.color_specular[x];
 
 	this->velocity=other.velocity;
 	this->rotationSpeed=other.rotationSpeed;

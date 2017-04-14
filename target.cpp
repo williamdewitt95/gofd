@@ -97,12 +97,6 @@ void Target::draw(){
 void Target::update(){
 }
 
-std::vector<Polygon3d> Target::getBoundingBox()
-{
-    return this->boundingBox;
-
-}
-void Target::setRotation(double rot)
-{
+void Target::setRotation(double rot){
 	this->rotation = rot;
 }

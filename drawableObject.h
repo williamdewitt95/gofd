@@ -9,6 +9,8 @@ protected:
 	std::vector<Polygon3d> boundingBox;
 	std::vector<Polygon3d> model;
 public:
+	Point center;
+	
 	virtual void draw();
 	virtual void update();
 	virtual std::vector<Polygon3d> getBoundingBox();
