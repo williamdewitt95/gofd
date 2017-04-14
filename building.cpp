@@ -38,18 +38,3 @@ void Building::update(){
 std::vector<Polygon3d> Building::boundingBox(){
 	return this->box;
 }
-/*float Building::getBuildingHeight()
-{
-	
-	const int minFloors = 5;
-	const int maxFloors = 15;
-	const double floorHeight = 5;
-	const double buildingWidth = Building::maxBuildingWidth;
-	const double sidewalkWidth = Building::sidewalkWidth;
-	const double streetWidth = Building::streetWidth;
-	
-	int numFloors = (rand() % (maxFloors - minFloors)) + minFloors;
-
-	//return numFloors*floorHeight;
-	return this->box[0].z;
-}*/

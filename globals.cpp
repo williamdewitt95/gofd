@@ -93,8 +93,6 @@ void cameraMovement(int x, int y, Point center, int cameraMode){
 		case 2:
 			thirdPerson_CameraMovement(x,y,center);
 			break;
-		case 3: 
-			break;
 	}
 	
 }

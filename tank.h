@@ -5,6 +5,7 @@
 #include "polygon3d.h"
 #include <math.h>
 #include <vector>
+#include <sstream>
 #include "projectile.h"
 class Projectile;
 

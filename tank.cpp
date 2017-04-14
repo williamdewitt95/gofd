@@ -2,8 +2,6 @@
 #include "globals.h"
 #include "building.h"
 #include <iostream>
-#include <sstream>
-#include <string>
 using std::cout;
 
 
@@ -381,7 +379,7 @@ void Tank::draw(){
 	//draw a laser guide
 		if (laser) {
 			glLineWidth(5);
-			glColor4f(((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX));
+			glColor4f(1.0 ,0.0 ,0.0 ,1.0);
 			glBegin(GL_LINES);
 				glVertex3f(0, 0.5, 1.375);
 				glVertex3f(0, 2000, 1.375);
@@ -395,12 +393,12 @@ void Tank::draw(){
 		glPopMatrix();
 	}
 
-	void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
-		double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
-		double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
+void Tank::update(double tankSpeed, double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode){
+	double newX = this->center.x + tankSpeed * cos((this->baseAngle + 90) * (M_PI / 180));
+	double newY = this->center.y + tankSpeed * sin((this->baseAngle + 90) * (M_PI / 180));
 		
-		if(onLock(newX,newY)){
-			this->center.x = newX;
+	if(onLock(newX,newY)){
+		this->center.x = newX;
 		this->center.y = newY;
 	}
 
@@ -481,35 +479,34 @@ void Tank::drawScore()
 	int score = 40;
 	glPushMatrix();
 
-	int i, len;
-	char label[] = "Score: ";
-	void *font = GLUT_STROKE_ROMAN;
+		int i, len;
+		char label[] = "Score: ";
+		void *font = GLUT_STROKE_ROMAN;
 
-	glTranslatef(82, 90, 0);
-	glScalef(0.15, 0.15, 0.15);
+		glTranslatef(82, 90, 0);
+		glScalef(0.15, 0.15, 0.15);
 
-	glPushMatrix();
-	glColor3f(1.0,1.0,1.0);
-	glRotatef(180.0,1.0,0.0,0.0);
-	glScalef(0.125,0.125,0.125);
-	glTranslatef(-550.0, 100, 0);
-	len = (int) strlen(label);
-	for(i = 0;i<len;i++)
-		glutStrokeCharacter(font, label[i]);
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.125,0.125,0.125);
+			glTranslatef(-550.0, 100, 0);
+			len = (int) strlen(label);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
 
-	std::ostringstream printNum;
-	std::string printy;
+			std::ostringstream printNum;
+			std::string printy;
 
-	printNum << score;
-	printy = printNum.str();
-	len = (int) strlen(&printy[0]);
-	for(i = 0;i<len;i++)
-		glutStrokeCharacter(font,printy[i]);
+			printNum << score;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
 
-	printNum.str("");
+			printNum.str("");
+		glPopMatrix();
 	glPopMatrix();
-
-
 }
 void Tank::drawCooldownBar()
 {

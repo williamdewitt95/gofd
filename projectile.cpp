@@ -91,7 +91,7 @@ void Projectile::draw(){
 	glPushMatrix();
 
 	GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
-	glColor3f(((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX));
+	glColor3f(.1, .1, .1);
 	glTranslated(center.x,center.y,center.z);
 	glRotated(this->angleH, 0.0, 0.0, 1.0);
 	glRotated(-this->angleV, 0, 1.0, 0);
@@ -103,7 +103,7 @@ void Projectile::draw(){
 	glPopMatrix();
 
 	glPushMatrix();
-	glColor3f(((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX),((float) rand()) / (RAND_MAX));
+	glColor3f(.1, .1, .1);
 	glTranslated(center.x,center.y,center.z);
 	glRotated(this->angleH, 0.0, 0.0, 1.0);
 	glRotated(-this->angleV, 0, 1.0, 0);
