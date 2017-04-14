@@ -21,7 +21,7 @@
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;
 	GLfloat attenuation_quadratic;
-	GLfloat possition[3];
+	GLfloat possition[4]; //XYZ 1 - this last index should always be one
 	GLfloat color_ambient[4];
 	GLfloat color_diffuse[4];
 	GLfloat color_specular[4];

@@ -21,12 +21,21 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	LIGHTS[0].possition[0]=0;
 	LIGHTS[0].possition[1]=0;
 	LIGHTS[0].possition[2]=0;
-	LIGHTS[0].attenuation_linear=1.0;
-	LIGHTS[0].attenuation_quadratic=1.0;
-	LIGHTS[0].color_ambient[0]=1.0;
-	LIGHTS[0].color_ambient[1]=1.0;
-	LIGHTS[0].color_ambient[2]=1.0;
+	LIGHTS[0].possition[3]=1;
+	LIGHTS[0].attenuation_linear=0.0001;
+	LIGHTS[0].attenuation_quadratic=0.001;
+	LIGHTS[0].color_ambient[0]=0.0;
+	LIGHTS[0].color_ambient[1]=0.0;
+	LIGHTS[0].color_ambient[2]=0.0;
 	LIGHTS[0].color_ambient[3]=1.0;
+	LIGHTS[0].color_diffuse[0]=1.0;
+	LIGHTS[0].color_diffuse[1]=1.0;
+	LIGHTS[0].color_diffuse[2]=1.0;
+	LIGHTS[0].color_diffuse[3]=1.0;
+	LIGHTS[0].color_specular[0]=0.01;
+	LIGHTS[0].color_specular[1]=0.01;
+	LIGHTS[0].color_specular[2]=0.01;
+	LIGHTS[0].color_specular[3]=1.0;
 }
 
 GLOBAL_SETTINGS GLOBAL;
@@ -115,8 +124,6 @@ void cameraMovement(int x, int y, Point center, int cameraMode){
 		case 2:
 			thirdPerson_CameraMovement(x,y,center);
 			break;
-		case 3: 
-			break;
 	}
 	
 }
@@ -143,15 +150,15 @@ void FPS_CameraMovement(int x, int y, Point center){//first person is actually s
 	if(angleV<-90)angleV=-90;
 
 	
-			// we will have a length of 5 for the line in the XY plane
-		GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
-		GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
-		// make the z from pathagarean formula - our angle is measured from the horizontal plane
-		GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
-		// GLOBAL.CAMERA_POS.z = 0;
+	// we will have a length of 5 for the line in the XY plane
+	GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
+	GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
+	// make the z from pathagarean formula - our angle is measured from the horizontal plane
+	GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
+	// GLOBAL.CAMERA_POS.z = 0;
 
-		GLOBAL.CAMERA_POS.x = center.x;
-		GLOBAL.CAMERA_POS.y = center.y;
+	GLOBAL.CAMERA_POS.x = center.x;
+	GLOBAL.CAMERA_POS.y = center.y;
 
 
 
@@ -307,5 +314,13 @@ void drawAxies(){
 }
 
 void updateLights(){
-	glLightfv(GL_LIGHT0,GL_AMBIENT,GLOBAL.LIGHTS[0].color_ambient);
+	GLfloat temp[]={1.0,1.0,1.0,1.0};
+	glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
+
+	glLightfv(GL_LIGHT0,GL_POSITION,GLOBAL.LIGHTS[0].possition     );
+	glLightfv(GL_LIGHT0,GL_AMBIENT ,GLOBAL.LIGHTS[0].color_ambient );
+	glLightfv(GL_LIGHT0,GL_DIFFUSE ,GLOBAL.LIGHTS[0].color_diffuse );
+	glLightfv(GL_LIGHT0,GL_SPECULAR,GLOBAL.LIGHTS[0].color_specular);
+	glLightf (GL_LIGHT0,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_linear);
+	glLightf (GL_LIGHT0,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_quadratic);
 }

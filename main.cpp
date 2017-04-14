@@ -89,6 +89,9 @@ void gameEngine(){
 	ai_tank->updateTank();
 	ai_tank->nearbyTarget(tank);
 	
+	GLOBAL.LIGHTS[0].possition[0]=tank->center.x;
+	GLOBAL.LIGHTS[0].possition[1]=tank->center.y;
+	GLOBAL.LIGHTS[0].possition[2]=tank->center.z+5;
 
 	for(int i=projectiles.size()-1; i >=0 ; i--){
 		projectiles[i]->update();
@@ -449,6 +452,9 @@ int main(int argc,char** args){
 	glEnable(GL_LIGHT5);
 	glEnable(GL_LIGHT6);
 	glEnable(GL_LIGHT7);
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE); // make the lighting track the color of objects
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable( GL_CULL_FACE );
@@ -515,11 +521,6 @@ int main(int argc,char** args){
 			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
 			0)
 		));
-
-	GLfloat temp[]={1.0,1.0,1.0,1.0};
-	glMaterialfv(GL_FRONT,GL_AMBIENT,temp);
-	glMaterialfv(GL_FRONT,GL_DIFFUSE,temp);
-	glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
 
 	glutMainLoop();
 	return 0;

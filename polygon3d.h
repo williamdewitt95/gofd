@@ -33,6 +33,7 @@ protected: // we let our children get to this but not the world
 
 	bool drawTesselate;
 	GLubyte color[4]; //RGBA - 1 byte a piece
+	GLubyte color_specular[4]; //RGBA - 1 byte a piece
 
 	double maxRadius; // special little optimization for collision checking
 
