@@ -6,6 +6,7 @@
 #include "globals.h"
 #include <math.h>
 #include <vector>
+#include <sstream>
 #include "projectile.h"
 class Projectile;
 
@@ -27,6 +28,7 @@ public:
 	Tank(Point center);
 	void drawHealthBar();
 	void drawCooldownBar();
+	void drawScore();
 	void draw();
 	void shoot();
 	void applyRecoil();

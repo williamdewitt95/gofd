@@ -388,21 +388,21 @@ void Tank::draw(){
 	glRotated(cannonAngle, 1, 0, 0);
 	glTranslated(0, -0.5, -1.375);
 	//draw a laser guide
-	if (laser) {
-		glLineWidth(5);
-		glColor4f(1.0 ,0.0 ,0.0 ,1.0);
-		glBegin(GL_LINES);
-			glVertex3f(0, 0.5, 1.375);
-			glVertex3f(0, 2000, 1.375);
-		glEnd();
-		glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-		glLineWidth(1);
+		if (laser) {
+			glLineWidth(5);
+			glColor4f(1.0 ,0.0 ,0.0 ,1.0);
+			glBegin(GL_LINES);
+				glVertex3f(0, 0.5, 1.375);
+				glVertex3f(0, 2000, 1.375);
+			glEnd();
+			glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+			glLineWidth(1);
+		}
+		for(int x=0; x<cannon.size(); x++)
+			this->cannon[x].draw();
+		glPopMatrix();
+		glPopMatrix();
 	}
-	for(int x=0; x<cannon.size(); x++)
-		this->cannon[x].draw();
-	glPopMatrix();
-	glPopMatrix();
-}
 
 void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
 	
@@ -463,7 +463,7 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 
 	newX += this->tankSpeedX * cos((this->baseAngle) * (M_PI / 180));
 	newY += this->tankSpeedX * sin((this->baseAngle) * (M_PI / 180));
-	
+
 	if(onLock(newX,newY)){
 		this->center.x = newX;
 		this->center.y = newY;
@@ -540,6 +540,40 @@ bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in
 
 std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){
 	return this->totalBoundingBox;
+}
+void Tank::drawScore()
+{
+	int score = 40;
+	glPushMatrix();
+
+		int i, len;
+		char label[] = "Score: ";
+		void *font = GLUT_STROKE_ROMAN;
+
+		glTranslatef(82, 90, 0);
+		glScalef(0.15, 0.15, 0.15);
+
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.125,0.125,0.125);
+			glTranslatef(-550.0, 100, 0);
+			len = (int) strlen(label);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
+
+			std::ostringstream printNum;
+			std::string printy;
+
+			printNum << score;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
+
+			printNum.str("");
+		glPopMatrix();
+	glPopMatrix();
 }
 void Tank::drawCooldownBar()
 {

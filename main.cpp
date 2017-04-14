@@ -32,6 +32,7 @@ int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
 bool aerial = false;
+
 int oldTime, currentTime;
 float actualfps, fps = 0.0;
 
@@ -46,6 +47,7 @@ void mouseButtons(int but,int state,int x,int y){
 
 	if(but==0 && state==GLUT_DOWN){
 		//left mouse button
+		tank->shoot();
 	}else if(but==2 && state==GLUT_DOWN){
 		//right mouse button
 	}else if(but==3 && state==GLUT_DOWN){
@@ -140,7 +142,8 @@ void showFPS()
 
 
 void drawHud()
-{
+
+{//to draw the 2d hud on 3d scene
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the projection style
 	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
@@ -148,8 +151,11 @@ void drawHud()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
+	tank->drawScore();
+
 	showFPS();
 }
 
@@ -210,20 +216,20 @@ void drawWorld(){
 		glColor3ub(255,255,255);
 
 		glPushMatrix();
-		glTranslated(45,0,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
+			glTranslated(5,0,0);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
 		glPopMatrix();
 		glPushMatrix();
-		glTranslated(0,45,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
+			glTranslated(0,5,0);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
 		glPopMatrix();
 		glPushMatrix();
-		glTranslated(0,0,45);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glRotated(90,1,0,0);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
+			glTranslated(0,0,5);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glRotated(90,1,0,0);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
 		glPopMatrix();
 	}
 	for(int x=0; x<buildings.size(); x++)
@@ -273,6 +279,7 @@ void drawMinimap(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
 }
 
 void display(){
@@ -488,17 +495,52 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(
-					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
-					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
-					3)
+
+			int randSide = (rand()/(double)RAND_MAX) * 4;
+			double randomHeight = rand() / (double)RAND_MAX;
+			double maxHeight = buildings[buildings.size()-1]->box[0][0].z;
+			double targetCenter = randomHeight * (3.0*maxHeight/4.0) + (maxHeight/8.0); //randomly spawns in the middle 3/4 of the building
+
+			if(randSide == 0) {//"north" wall
+				targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/2.0 - 0.55,
+					targetCenter)
 				));
+			} else if(randSide == 1) {//"west"
+				Target *tDawg = new Target(Point(
+					Building::distanceBetweenBuildings*x + (Building::maxBuildingWidth)/2.0 + 0.55,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+					targetCenter));
+				(*tDawg).setRotation(90.0);
+				targets.push_back(tDawg);
+			} else if(randSide == 2) {//"south
+				targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth)/2.0 + 0.55,
+					targetCenter)
+				));
+			} else if(randSide == 3) {//"east"
+				Target *tDawg = new Target(Point(
+					Building::distanceBetweenBuildings*x - (Building::maxBuildingWidth)/2.0 - 0.55,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+					targetCenter));
+				(*tDawg).setRotation(90.0);
+				targets.push_back(tDawg);
+			} else {
+				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
+				exit(0);
+			}
 
 		}
 	}
 
-	tank = new Tank(Point(0, 0, 0));
-	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+	tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+	ai_tank = new AI_Tank(new Tank(
+		Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+			0)
+		));
 
 	glutMainLoop();
 	return 0;
