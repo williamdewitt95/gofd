@@ -1,5 +1,5 @@
-#ifndef screencapture
-#define screencapture
+#ifndef SCREENCAPTURE
+#define SCREENCAPTURE
 
 /*
  * Grab the OpenGL screen and save it as a .tga
