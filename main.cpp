@@ -32,6 +32,7 @@ int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
 bool aerial = false;
+
 int oldTime, currentTime;
 float actualfps, fps = 0.0;
 
@@ -46,6 +47,7 @@ void mouseButtons(int but,int state,int x,int y){
 
 	if(but==0 && state==GLUT_DOWN){
 		//left mouse button
+		tank->shoot();
 	}else if(but==2 && state==GLUT_DOWN){
 		//right mouse button
 	}else if(but==3 && state==GLUT_DOWN){
@@ -97,26 +99,20 @@ void gameEngine(){
 }
 
 
-void showFPS()
-{
+void showFPS() {
     currentTime = glutGet(GLUT_ELAPSED_TIME);
     char str_fps[15];
-    if ( (currentTime - oldTime) > 1000 )     
-
-    {
+    if ( (currentTime - oldTime) > 1000 ){
         actualfps = fps;
         fps = 0.0;
         oldTime = currentTime;
-    }
-    else
+    } else
         fps++;
     sprintf(&str_fps[0], "FPS = %.0f",actualfps);
 
 
     glPushMatrix();
-    // glTranslatef(-3.5, -3.5, -0.5);
-    // drawString(&str_fps[0]);
-        glClear(GL_DEPTH_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
     void *font = GLUT_STROKE_ROMAN;
     glColor3f(1.0,1.0,1.0);
@@ -137,13 +133,10 @@ void showFPS()
         glutStrokeCharacter(font, str_fps[i]);
     }
     glPopMatrix();
-
-   
 }
 
 
-void drawHud()
-{
+void drawHud() {//to draw the 2d hud on 3d scene
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the projection style
 	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
@@ -151,8 +144,11 @@ void drawHud()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
+	tank->drawScore();
+
 	showFPS();
 }
 
@@ -192,8 +188,6 @@ void drawWorld(){
 
 	
 	glMatrixMode(GL_MODELVIEW);
-
-	drawAxies();
 
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
@@ -243,6 +237,7 @@ void drawMinimap(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
 }
 
 void display(){
@@ -475,16 +470,51 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(
-					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
-					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
-					3)
+
+			int randSide = (rand()/(double)RAND_MAX) * 4;
+			double randomHeight = rand() / (double)RAND_MAX;
+			double maxHeight = buildings[buildings.size()-1]->getBoundingBox()[0][0].z;
+			double targetCenter = randomHeight * (3.0*maxHeight/4.0) + (maxHeight/8.0); //randomly spawns in the middle 3/4 of the building
+
+			if(randSide == 0) {//"north" wall
+				targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/2.0 - 0.55,
+					targetCenter)
 				));
+			} else if(randSide == 1) {//"west"
+				Target *tDawg = new Target(Point(
+					Building::distanceBetweenBuildings*x + (Building::maxBuildingWidth)/2.0 + 0.55,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+					targetCenter));
+				(*tDawg).setRotation(90.0);
+				targets.push_back(tDawg);
+			} else if(randSide == 2) {//"south
+				targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth)/2.0 + 0.55,
+					targetCenter)
+				));
+			} else if(randSide == 3) {//"east"
+				Target *tDawg = new Target(Point(
+					Building::distanceBetweenBuildings*x - (Building::maxBuildingWidth)/2.0 - 0.55,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+					targetCenter));
+				(*tDawg).setRotation(90.0);
+				targets.push_back(tDawg);
+			} else {
+				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
+				exit(0);
+			}
 		}
 	}
 
-	tank = new Tank(Point(0, 0, 0));
-	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+	tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+	ai_tank = new AI_Tank(new Tank(
+		Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+			0)
+		));
 
 	GLfloat temp[]={1.0,1.0,1.0,1.0};
 	glMaterialfv(GL_FRONT,GL_AMBIENT,temp);

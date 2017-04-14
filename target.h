@@ -9,7 +9,6 @@
 class Target{
 private:
 	double rotation;
-
 public:
 	Point center;
 	std::vector<Polygon3d> boundingBox;
@@ -22,6 +21,8 @@ public:
 	void draw_CPU();
 	void update(); 
 	std::vector<Polygon3d> getBoundingBox();
+	
+	void setRotation(double);
 };
 
 #endif

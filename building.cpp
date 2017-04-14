@@ -64,6 +64,7 @@ void Building::draw(){
 	glPopMatrix();
 	// this->draw_CPU();
 }
+
 void Building::draw_CPU(){
 	for(int x=0; x<model.size(); x++)
 		this->model[x].getTransform().draw_static();
