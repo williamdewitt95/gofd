@@ -26,7 +26,7 @@ int screencapture (int const num)
 
 	//retrieves the values of the width/height
 	//glGetIntegerv (GL_VIEWPORT, screenStats);
-	screenStats[0] = 0; screenStats[1] = 0; screenStats[3] = GLOBAL.WINDOW_MAX_X; GLOBAL.WINDOW_MAX_Y;
+	screenStats[0] = 0; screenStats[1] = 0; screenStats[3] = GLOBAL.WINDOW_MAX_X; screenStats[4] = GLOBAL.WINDOW_MAX_Y;
 
 	//array that holds pixel data
 	pixels = new unsigned char [screenStats[2]*screenStats[3]*3];
