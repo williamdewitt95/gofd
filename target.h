@@ -18,7 +18,6 @@ public:
 
 	Target(Point center);
 	void draw();
-	void draw_CPU();
 	void update(); 
 	std::vector<Polygon3d> getBoundingBox();
 	
