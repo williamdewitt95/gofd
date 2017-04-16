@@ -23,9 +23,18 @@ AI_Tank::AI_Tank(Tank *tank){
 			grid[i][j] = 1;
 		}
 	}
+	
+	maxTankDist = 5;
+
 	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
-	calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
-				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
+	//calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
+				 // Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
+
+	// function get closest target
+	
+	// function fillMap
+	// function setRoute
+
 }
 
 std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){
@@ -251,30 +260,41 @@ void AI_Tank::followRoute(){
 		int y = start.y;
 		mapGrid[x][y] = 2;
 		
-		for(int i = 0; i < route.length(); i++){
-			c = route.at(i);
-			j = atoi(&c);
-			x=x+dx[j];
-			y=y+dy[j];
+		//for(int i = 0; i < route.length(); i++){
+		c = route.at(0);
+		j = atoi(&c);
+		x=x+dx[j];
+		y=y+dy[j];
+			
+			// move tank to next point
+		if(this->tank->center.x < (x+dx[j]))
+			this->tank->center.x = x+dx[j]*this->tank->tankSpeed;		
+		if(this->tank->center.y < (y+dy[j]))
+			this->tank->center.y = y+dy[j]*this->tank->tankSpeed;				
+
+		else{
 			mapGrid[x][y] = 3;
+		//}
+			mapGrid[x][y] = 4;
+			//update route str
+			route.erase(0, 1);
+
+
+			for(int y=0;y<m;y++){
+            			for(int x=0;x<n;x++)
+                			if(mapGrid[x][y]==0)
+                    				std::cout<<".";
+                			else if(mapGrid[x][y]==1)
+                    				std::cout<<"O"; //obstacle
+                			else if(mapGrid[x][y]==2)
+                    				std::cout<<"S"; //start
+                			else if(mapGrid[x][y]==3)
+                    				std::cout<<"R"; //route
+                			else if(mapGrid[x][y]==4)
+                    				std::cout<<"F"; //finish
+            			std::cout<<std::endl;
+        		}
 		}
-		mapGrid[x][y] = 4;
-
-
-		for(int y=0;y<m;y++){
-            		for(int x=0;x<n;x++)
-                		if(mapGrid[x][y]==0)
-                    			std::cout<<".";
-                		else if(mapGrid[x][y]==1)
-                    			std::cout<<"O"; //obstacle
-                		else if(mapGrid[x][y]==2)
-                    			std::cout<<"S"; //start
-                		else if(mapGrid[x][y]==3)
-                    			std::cout<<"R"; //route
-                		else if(mapGrid[x][y]==4)
-                    			std::cout<<"F"; //finish
-            		std::cout<<std::endl;
-        	}
 	}
 
 }
@@ -291,7 +311,16 @@ void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordi
 //AI update function that checks the grid location now, and then gives directions at junctions
 
 void AI_Tank::update_AI(){
-	if((int)this->tank->center.x > (int)this->destination.x){//for now, we will simply go down x until we reach destination x, then we go down y
+	
+	if(route.length() < maxTankDist){
+		followRoute();
+	}
+	else{
+		aim(destination);		
+	}
+	
+
+	/*if((int)this->tank->center.x > (int)this->destination.x){//for now, we will simply go down x until we reach destination x, then we go down y
 		turn(90.0);
 	}
 	else if((int)this->tank->center.x < (int)this->destination.x){
@@ -308,15 +337,18 @@ void AI_Tank::update_AI(){
 				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
 		stop();
 	}
+*/
 
 }
 
 void AI_Tank::updateTank(){
 	update_AI();
-	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
+
+/*	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
 	this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
 	if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
-		this->tank->baseAngle = 0;
+		this->tank->baseAngle = 0;*/
+
 	// this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;

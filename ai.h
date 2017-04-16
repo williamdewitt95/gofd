@@ -26,7 +26,7 @@ public:
 	
 	//const static int numDir;
 
-	int n, m, dir;
+	int n, m, dir, maxTankDist;
 
 	int dx[8]; // = {1, 1, 0, -1, -1, 0, 1};
 	int dy[8];

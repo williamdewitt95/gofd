@@ -133,7 +133,7 @@ data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon8
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anon10
 decay	projectile.h	/^	int decay;$/;"	m	struct:Explosion
 destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
-dir	ai.h	/^	int n, m, dir;$/;"	m	class:AI_Tank
+dir	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 dir	mapnode.h	/^		int dir;$/;"	m	class:MapNode
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
 directionalMap	ai.h	/^	int directionalMap[100][100];$/;"	m	class:AI_Tank
@@ -215,7 +215,7 @@ length	vector_basics.cpp	/^double Vector::length(){$/;"	f	class:Vector
 level	mapnode.h	/^	int xpos, ypos, level, priority;$/;"	m	class:MapNode
 loadTex	globals.cpp	/^void loadTex(std::string name){$/;"	f
 local	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
-m	ai.h	/^	int n, m, dir;$/;"	m	class:AI_Tank
+m	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 magnitude	vector_basics.cpp	/^double Vector::magnitude(){$/;"	f	class:Vector
 main	main.cpp	/^int main(int argc,char** args){$/;"	f
 mapGrid	ai.h	/^	int mapGrid[100][100];$/;"	m	class:AI_Tank
@@ -223,10 +223,11 @@ mass	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Proje
 maxBuildingWidth	building.cpp	/^const double Building::maxBuildingWidth = 40;$/;"	m	class:Building	file:
 maxBuildingWidth	building.h	/^	static const double maxBuildingWidth;$/;"	m	class:Building
 maxRadius	polygon3d.h	/^	double maxRadius; \/\/ special little optimization for collision checking$/;"	m	class:Polygon3d
+maxTankDist	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 model	building.h	/^	std::vector<Polygon3d> model;$/;"	m	class:Building
 mouseButtons	main.cpp	/^void mouseButtons(int but,int state,int x,int y){$/;"	f
 mouseMovement	main.cpp	/^void mouseMovement(int x,int y){$/;"	f
-n	ai.h	/^	int n, m, dir;$/;"	m	class:AI_Tank
+n	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 name	globals.h	/^	std::string name;$/;"	m	struct:TextureInfo
 nearbyTarget	ai.cpp	/^void AI_Tank::nearbyTarget(Tank * enemy){\/\/check where the enemy tank is, if we think we can aim at him, do so$/;"	f	class:AI_Tank
 numPoints	polygon3d.cpp	/^int Polygon3d::numPoints()const{$/;"	f	class:Polygon3d
