@@ -460,6 +460,8 @@ int main(int argc,char** args){
 
 	glClearColor(0,0,0,0);
 
+    GLOBAL.step=0;
+
 	glutReshapeFunc(windowResize);
 	glutDisplayFunc(display);
 	glutIdleFunc(gameEngine);

@@ -41,31 +41,31 @@ int screencapture (int const num)
 	std::string filename = "";
 	if(num < 10) 
 	{
-		filename = "Plot-000000" + strNum + ".tga";
+		filename = "screenshots/Plot-000000" + strNum + ".tga";
 	}
 	else if (num < 100)
 	{
-		filename = "Plot-00000" + strNum + ".tga";
+		filename = "screenshots/Plot-00000" + strNum + ".tga";
 	}
 	else if(num < 1000)
 	{
-		filename = "Plot-0000" + strNum + ".tga";
+		filename = "screenshots/Plot-0000" + strNum + ".tga";
 	}
 	else if(num < 10000)
 	{
-		filename = "Plot-000" + strNum + ".tga";
+		filename = "screenshots/Plot-000" + strNum + ".tga";
 	}
 	else if(num < 100000)
 	{
-		filename = "Plot-00" + strNum + ".tga";
+		filename = "screenshots/Plot-00" + strNum + ".tga";
 	}
 	else if(num < 1000000)
 	{
-		filename = "Plot-0" + strNum + ".tga";
+		filename = "screenshots/Plot-0" + strNum + ".tga";
 	}
 	else
 	{
-		filename = "Plot-" + strNum + ".tga";
+		filename = "/screenshots/Plot-" + strNum + ".tga";
 	}
 
 	shot = fopen(filename.c_str(), "wb");
@@ -84,7 +84,8 @@ int screencapture (int const num)
 	 * header[4] - bits per pixel
 	 * header[5] - ?
 	 */
-	uchar header[6] = {((int)(screenStats[2]%256)), ((int)(screenStats[2]/256)), ((int)(screenStats[3]%256)), ((int)(screenStats[3]/256)), 24, 0};
+	//uchar header[6] = {((int)(screenStats[2]%256)), ((int)(screenStats[2]/256)), ((int)(screenStats[3]%256)), ((int)(screenStats[3]/256)), 24, 0};
+	uchar header[6] = {((uchar)(screenStats[2]%256)), ((uchar)(screenStats[2]/256)), ((uchar)(screenStats[3]%256)), ((uchar)(screenStats[3]/256)), 24, 0};
 	
 	//write out the TGA header
 	fwrite (TGAheader, sizeof (uchar), 12, shot);
