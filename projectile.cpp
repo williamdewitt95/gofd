@@ -140,6 +140,7 @@ void Projectile::update()
 		double currTime = glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
 		this->h = (currTime - this->t) / 10.0;
    		while( (float)this->t < (float)currTime){ step(); }
+   		this->t = currTime;
 
 		// step();
 		Point temp = Point(this->local.x, 0, this->local.z);
