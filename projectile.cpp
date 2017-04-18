@@ -19,12 +19,12 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 	this->velocity = 50.0;
 	this->C = 0.05;
 
-	this->t = 0.0;
+	this->t = glutGet(GLUT_ELAPSED_TIME)/1000.0;
 	this->local = Point(0.0, 0.0, 0.0);
 
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
-	this->h = 0.1;
+	this->h = 0.01;
 
 	this->state=MOVING;
 
@@ -135,13 +135,22 @@ void Projectile::draw(){
 void Projectile::update()
 {
 	if(this->state == MOVING){
-		step();
+
+		//sync with actual time
+		double currTime = glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
+		this->h = (currTime - this->t) / 10.0;
+   		while( (float)this->t < (float)currTime){ step(); }
+
+		// step();
 		Point temp = Point(this->local.x, 0, this->local.z);
 		temp = temp.rotatePoint(this->angleH, false, false, true);
 		temp = temp.translatePoint(this->tankStart.x, this->tankStart.y, this->tankStart.z);
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
+
+
+
 
 		//check to see if it has hit the ground. If so, then we have hit and need to explode
 		//if z<=0, start exploding and generate random values for each splode
