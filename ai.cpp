@@ -282,21 +282,41 @@ void AI_Tank::followRoute(){
 	if(route.length()>0){
 		int j;
 		char c;
-		int x = start.x;
-		int y = start.y;
+		int x = 60.0; //start.x;
+		int y = 60.0; //start.y;
 		mapGrid[x][y] = 2;
 		
 		//for(int i = 0; i < route.length(); i++){
 		c = route.at(0);
+		std::cout << "c: " << c << std::endl;
 		j = atoi(&c);
 		x=x+dx[j];
 		y=y+dy[j];
 			
+		std::cout << "this->tank->center.x: " << this->tank->center.x << std::endl;
+		//route.erase(0, 1);
+
+		std::cout << "(x+dx[j]): " << (x+dx[j]) << std::endl;
+		std::cout << "(y+dy[j]): " << (y+dy[j]) << std::endl;
 			// move tank to next point
-		if(this->tank->center.x < (x+dx[j]))
-			this->tank->center.x = x+dx[j]*0.95;//this->tank->tankSpeed;		
-		if(this->tank->center.y < (y+dy[j]))
-			this->tank->center.y = y+dy[j]*0.95; //this->tank->tankSpeed;				
+		if(this->tank->center.x < (x+dx[j]) && dx[j] >= 0 ){
+			this->tank->center.x = x+dx[j];		
+			std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+		}
+		else if(this->tank->center.x > (x+dx[j]) && dx[j] < 0 ){
+                        this->tank->center.x = x+dx[j];                 
+                        std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+                }
+		else if(this->tank->center.y < (y+dy[j]) && dy[j] >= 0 ){
+                        this->tank->center.y = y+dy[j];                 
+                        std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+                }
+		else if(this->tank->center.y > (y+dy[j]) && dy[j] < 0 ){
+			this->tank->center.y = y+dy[j]; //*0.95; //this->tank->tankSpeed;				
+			std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
+
+		}
+
 
 		else{
 			mapGrid[x][y] = 3;
@@ -306,7 +326,7 @@ void AI_Tank::followRoute(){
 			route.erase(0, 1);
 
 
-			for(int y=0;y<m;y++){
+			/*for(int y=0;y<m;y++){
             			for(int x=0;x<n;x++)
                 			if(mapGrid[x][y]==0)
                     				std::cout<<".";
@@ -319,7 +339,7 @@ void AI_Tank::followRoute(){
                 			else if(mapGrid[x][y]==4)
                     				std::cout<<"F"; //finish
             			std::cout<<std::endl;
-        		}
+        		}*/
 		}
 	}
 
@@ -343,8 +363,9 @@ void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid co
 void AI_Tank::update_AI(){
 
 	std::cout << "updateAI " << std::endl;	
-	
-	if(route.length() < maxTankDist){
+	std::cout << "route " << route << std::endl;	
+
+	if(route.length() > maxTankDist){
 		followRoute();
 	}
 	else{
