@@ -109,7 +109,7 @@ boundingBox	projectile.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Proj
 boundingBox	tank.cpp	/^std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){$/;"	f	class:Tank
 boundingBox	target.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Target
 box	building.h	/^	std::vector<Polygon3d> box;$/;"	m	class:Building
-calculatePath	ai.cpp	/^void AI_Tank::calculatePath(int x, int y){\/\/create a new path to new grid coordinate$/;"	f	class:AI_Tank
+calculatePath	ai.cpp	/^void AI_Tank::calculatePath(){\/\/int x, int y){\/\/create a new path to new grid coordinate$/;"	f	class:AI_Tank
 camMove_forward	main.cpp	/^double camMove_forward = 0;$/;"	v
 camMove_speed	main.cpp	/^const double camMove_speed = 0.25 \/ 2.0;$/;"	v
 camMove_strafe	main.cpp	/^double camMove_strafe = 0;$/;"	v
@@ -342,7 +342,7 @@ update	polygon3d.cpp	/^void Polygon3d::update(){$/;"	f	class:Polygon3d
 update	projectile.cpp	/^void Projectile::update()$/;"	f	class:Projectile
 update	tank.cpp	/^void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){$/;"	f	class:Tank
 update	target.cpp	/^void Target::update()$/;"	f	class:Target
-updateTank	ai.cpp	/^void AI_Tank::updateTank(){$/;"	f	class:AI_Tank
+updateTank	ai.cpp	/^void AI_Tank::updateTank(Tank *enemy){$/;"	f	class:AI_Tank
 update_AI	ai.cpp	/^void AI_Tank::update_AI(){$/;"	f	class:AI_Tank
 velocity	polygon3d.h	/^	Vector velocity;$/;"	m	class:Polygon3d
 velocity	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile

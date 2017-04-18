@@ -82,7 +82,7 @@ void gameEngine(){
 
 	//iterate tank properties
 	tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
-	ai_tank->updateTank();
+	ai_tank->updateTank(tank);
 	ai_tank->nearbyTarget(tank);
 	
 
@@ -426,6 +426,8 @@ int main(int argc,char** args){
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));
 
+	std::cout << "fire " << std::endl;
+
 	// enable blending to have translucent materials
 	// you must draw objects back to front to get proper blending
 	//glEnable(GL_BLEND);
@@ -450,8 +452,9 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, 0, 0));
-	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
-
+	std::cout << "fire " << std::endl;
+	ai_tank = new AI_Tank(new Tank(Point(60, 60,0)));//Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+	std::cout << "fire " << std::endl;
 	glutMainLoop();
 
 	return 0;

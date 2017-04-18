@@ -26,6 +26,11 @@ AI_Tank::AI_Tank(Tank *tank){
 	
 	maxTankDist = 5;
 
+	this->calculatePath();
+
+	//this->tank->destination->x =  
+	
+
 	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
 	//calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
 				 // Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
@@ -38,6 +43,8 @@ AI_Tank::AI_Tank(Tank *tank){
 }
 
 std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){
+
+	std::cout << "findPath " << std::endl;
 	
 	static std::priority_queue<MapNode> pq[2];
 	static int pqi;
@@ -131,6 +138,9 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 
 void AI_Tank::fillMap(){
 
+
+	std::cout << "fillMap" << std::endl;
+
 	// create empty map
     for(int y=0;y<m;y++)
     {
@@ -198,6 +208,9 @@ void AI_Tank::fillMap(){
 
 //forwards
 void AI_Tank::forwards(){
+
+	std::cout << "forwards" << std::endl;
+
 	this->tank->tankSpeed = 0.15;
 }
 void AI_Tank::forwards(double speed){
@@ -205,11 +218,17 @@ void AI_Tank::forwards(double speed){
 }
 //stop or do nothing
 void AI_Tank::stop(){
+
+	std::cout << "stop" << std::endl;
+
 	this->tank->tankSpeed = 0;
 }
 //turn left
 //turn right
 bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees is passed
+
+	std::cout << "forwards" << std::endl;
+
 	if(direction < 0){
 		direction += 360.0;
 	}
@@ -238,6 +257,8 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 
 
 void AI_Tank::setRoute(){
+
+	std::cout << "setRoute " << std::endl;
 	
 	clock_t startTime = clock();
 	std::string routeNew = findPath(start.x, start.y, destination.x, destination.y);
@@ -252,6 +273,8 @@ void AI_Tank::setRoute(){
 }
 
 void AI_Tank::followRoute(){
+
+	std::cout << "followRoute " << std::endl;
 
 	if(route.length()>0){
 		int j;
@@ -268,9 +291,9 @@ void AI_Tank::followRoute(){
 			
 			// move tank to next point
 		if(this->tank->center.x < (x+dx[j]))
-			this->tank->center.x = x+dx[j]*this->tank->tankSpeed;		
+			this->tank->center.x = x+dx[j]*0.95;//this->tank->tankSpeed;		
 		if(this->tank->center.y < (y+dy[j]))
-			this->tank->center.y = y+dy[j]*this->tank->tankSpeed;				
+			this->tank->center.y = y+dy[j]*0.95; //this->tank->tankSpeed;				
 
 		else{
 			mapGrid[x][y] = 3;
@@ -300,8 +323,12 @@ void AI_Tank::followRoute(){
 }
 
 
-void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordinate
-	this->destination = Point(60, 60, 0); //Point(x,y,0);
+void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid coordinate
+
+	std::cout << "calculatePath " << std::endl;
+
+	this->destination = Point(0, 0, 0);//60, 60, 0); //Point(x,y,0);
+	this->setRoute();
 	// printf("\ndestination: %f, %f, %f",this->destination.x,this->destination.y,this->destination.z);
 	forwards();
 }
@@ -311,6 +338,8 @@ void AI_Tank::calculatePath(int x, int y){//create a new path to new grid coordi
 //AI update function that checks the grid location now, and then gives directions at junctions
 
 void AI_Tank::update_AI(){
+
+	std::cout << "updateAI " << std::endl;	
 	
 	if(route.length() < maxTankDist){
 		followRoute();
@@ -341,7 +370,13 @@ void AI_Tank::update_AI(){
 
 }
 
-void AI_Tank::updateTank(){
+void AI_Tank::updateTank(Tank *enemy){
+
+	std::cout << "updateTank " << std::endl;
+
+	//destination.x = enemy->center.x;
+	//destination.y = enemy->center.y;
+  
 	update_AI();
 
 /*	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));

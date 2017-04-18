@@ -40,12 +40,12 @@ public:
 	void stop();//stop or do nothing
 
 
-	void calculatePath(int x, int y);//create a new path to new grid coordinate
+	void calculatePath();//int x, int y);//create a new path to new grid coordinate
 
 	std::string findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd);
 
 	void update_AI();//give current command on what to do
-	void updateTank();
+	void updateTank(Tank* enemy);
 
 	void findNearestBuilding(Point center);
 	void nearbyTarget(Tank * enemy);//check where the enemy is in comparison to where we are
