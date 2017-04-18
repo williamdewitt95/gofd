@@ -33,6 +33,8 @@ Tank * tank;
 bool orthoView = false;
 bool aerial = false;
 
+int oldTime, currentTime;
+float actualfps, fps = 0.0;
 
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
@@ -71,9 +73,10 @@ void mouseMovement(int x,int y){
 void gameEngine(){
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
-	//printf("Here\n");
+
 	for(int x=0; x<targets.size();x++)
 		targets[x]->update();
+	
 	GLOBAL.CAMERA_POS.z += camMove_vert;
 	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
@@ -86,15 +89,57 @@ void gameEngine(){
 	ai_tank->updateTank();
 	ai_tank->nearbyTarget(tank);
 	
+	GLOBAL.LIGHTS[0].possition[0]=tank->center.x;
+	GLOBAL.LIGHTS[0].possition[1]=tank->center.y;
+	GLOBAL.LIGHTS[0].possition[2]=tank->center.z+5;
 
-	for(int i=0; i < projectiles.size(); i++){
+	for(int i=projectiles.size()-1; i >=0 ; i--){
 		projectiles[i]->update();
+		if(projectiles[i]->state==Projectile::DEAD)
+			projectiles.erase(projectiles.begin()+i);
 	}
 
 }
 
-void drawHud()
-{
+
+void showFPS() {
+    currentTime = glutGet(GLUT_ELAPSED_TIME);
+    char str_fps[15];
+    if ( (currentTime - oldTime) > 1000 ){
+        actualfps = fps;
+        fps = 0.0;
+        oldTime = currentTime;
+    } else
+        fps++;
+    sprintf(&str_fps[0], "FPS = %.0f",actualfps);
+
+
+    glPushMatrix();
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    void *font = GLUT_STROKE_ROMAN;
+    glColor3f(1.0,1.0,1.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity(); // reset the projection style
+    gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glTranslatef(01, 03, 0);
+    glScalef(0.15, 0.15, 0.15);
+
+    glRotatef(180.0, 1.0, 0.0, 0.0);
+    glScalef(0.055,0.055,0.055);
+    int len = (int) strlen(str_fps);
+    for (int i = 0; i < len; i++) {
+        glutStrokeCharacter(font, str_fps[i]);
+    }
+    glPopMatrix();
+}
+
+
+void drawHud() {//to draw the 2d hud on 3d scene
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the projection style
 	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
@@ -102,8 +147,12 @@ void drawHud()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
+	tank->drawScore();
+
+	showFPS();
 }
 
 
@@ -136,54 +185,19 @@ void drawWorld(){
 	
 	else{
 		glOrtho(-500.0, 500.0, -500.0, 500.0, 0.1, 1000);{
-			gluLookAt(450.0, 450.0, -800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
+			gluLookAt(450.0, 450.0, 800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
 		}
 	}
 
 	
 	glMatrixMode(GL_MODELVIEW);
 
-	{ // axies
-		glBegin(GL_LINES);
-			//X
-			glColor3ub(255, 0 , 0 );
-			glVertex3d(-50,0,0);
-			glVertex3d( 50,0,0);
-			//Y
-			glColor3ub( 0 ,255, 0 );
-			glVertex3d(0,-50,0);
-			glVertex3d(0, 50,0);
-			//Z
-			glColor3ub( 0 , 0 ,255);
-			glVertex3d(0,0,-50);
-			glVertex3d(0,0, 50);
-		glEnd();
-
-		// Label our axies
-		glColor3ub(255,255,255);
-
-		glPushMatrix();
-		glTranslated(45,0,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
-		glPopMatrix();
-		glPushMatrix();
-		glTranslated(0,45,0);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
-		glPopMatrix();
-		glPushMatrix();
-		glTranslated(0,0,45);
-		glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
-		glRotated(90,1,0,0);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
-		glPopMatrix();
-	}
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw();
 
 	tank->draw();
 	ai_tank->tank->draw();
+
 	for(int i=0; i<projectiles.size();i++){
 		projectiles[i]->draw();
 	}
@@ -226,13 +240,20 @@ void drawMinimap(){
 		buildings[x]->draw();
 
 	tank->draw();
+	ai_tank->tank->draw();
 }
 
 void display(){
+	glEnable(GL_LIGHTING);
+	updateLights();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 	drawWorld();
 	
+	//===============================================================================
+	glDisable(GL_LIGHTING);
+
 	glClear(GL_DEPTH_BUFFER_BIT);
 	drawHud();
 
@@ -421,6 +442,21 @@ int main(int argc,char** args){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHT2);
+	glEnable(GL_LIGHT3);
+	glEnable(GL_LIGHT4);
+	glEnable(GL_LIGHT5);
+	glEnable(GL_LIGHT6);
+	glEnable(GL_LIGHT7);
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE); // make the lighting track the color of objects
+
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable( GL_CULL_FACE );
+	glCullFace( GL_BACK );
 
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));
@@ -431,7 +467,6 @@ int main(int argc,char** args){
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
-
 	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
 		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
 			buildings.push_back(new Building(Point(
@@ -439,17 +474,51 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-			targets.push_back(new Target(Point(
-					Building::distanceBetweenBuildings*x + Building::distanceBetweenBuildings/2.0,
-					Building::distanceBetweenBuildings*y + Building::distanceBetweenBuildings/2.0,
-					3)
-				));
 
+			int randSide = (rand()/(double)RAND_MAX) * 4;
+			double randomHeight = rand() / (double)RAND_MAX;
+			double maxHeight = buildings[buildings.size()-1]->getBoundingBox()[0][0].z;
+			double targetCenter = randomHeight * (3.0*maxHeight/4.0) + (maxHeight/8.0); //randomly spawns in the middle 3/4 of the building
+
+			if(randSide == 0) {//"north" wall
+				targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/2.0 - 0.55,
+					targetCenter)
+				));
+			} else if(randSide == 1) {//"west"
+				Target *tDawg = new Target(Point(
+					Building::distanceBetweenBuildings*x + (Building::maxBuildingWidth)/2.0 + 0.55,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+					targetCenter));
+				(*tDawg).setRotation(90.0);
+				targets.push_back(tDawg);
+			} else if(randSide == 2) {//"south
+				targets.push_back(new Target(Point(
+					Building::distanceBetweenBuildings*x,
+					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth)/2.0 + 0.55,
+					targetCenter)
+				));
+			} else if(randSide == 3) {//"east"
+				Target *tDawg = new Target(Point(
+					Building::distanceBetweenBuildings*x - (Building::maxBuildingWidth)/2.0 - 0.55,
+					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
+					targetCenter));
+				(*tDawg).setRotation(90.0);
+				targets.push_back(tDawg);
+			} else {
+				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
+				exit(0);
+			}
 		}
 	}
 
-	tank = new Tank(Point(0, 0, 0));
-	ai_tank = new AI_Tank(new Tank(Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+	tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+	ai_tank = new AI_Tank(new Tank(
+		Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+			0)
+		));
 
 	glutMainLoop();
 	return 0;
