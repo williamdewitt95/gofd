@@ -28,7 +28,7 @@
 	}
 
        	void MapNode::incLevel( const int &i){
-		level+=(dir%2);
+		level+= (dir==4?(i%2==0?10:14):10);//(dir%2);
 	}
 
         const int& MapNode::estimateDistance(const int &xDest, const int &yDest){

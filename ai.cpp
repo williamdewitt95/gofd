@@ -6,13 +6,13 @@
 
 AI_Tank::AI_Tank(Tank *tank){
 	
-	dx = {1, 1, 0, -1, -1, 0, 1};
-        dy = {0, 1, 1, 1, 0, -1, -1, -1};
+	dx = {1, 0, -1, 0};
+        dy = {0, 1, 0, -1};
 
 	n = 100;
 	m = 100;
 
-	dir = 8;
+	dir = 4;
 
 	this->tank = tank;
 
@@ -24,6 +24,8 @@ AI_Tank::AI_Tank(Tank *tank){
 		}
 	}
 	
+	this->fillMap();
+
 	maxTankDist = 5;
 
 	this->calculatePath();
@@ -81,6 +83,7 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				j=directionalMap[x][y];
 				c='0'+(j+dir/2)%dir;
 				path=c+path;
+				std::cout << "pth " << path << std::endl;
 				x+=dx[j];
 				y+=dy[j];
 			}
@@ -172,7 +175,7 @@ void AI_Tank::fillMap(){
 
     // set start and target location
     int xA, yA, xB, yB;
-    xA = 0, yA = 0, xB = 60, yB = 60;
+    xA = 60, yA = 60, xB = 0, yB = 0;
         mapGrid[xA][yA] = 2;
         mapGrid[xB][yB] = 4;
 
@@ -261,7 +264,7 @@ void AI_Tank::setRoute(){
 	std::cout << "setRoute " << std::endl;
 	
 	clock_t startTime = clock();
-	std::string routeNew = findPath(start.x, start.y, destination.x, destination.y);
+	std::string routeNew = findPath(60, 60, 0, 0); //start.x, start.y, destination.x, destination.y);
 	if(routeNew=="") std::cout<<"An empty route generated!"<<std::endl;
     	clock_t endTime = clock();
     	double time_elapsed = double(endTime - startTime);
