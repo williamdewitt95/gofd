@@ -98,11 +98,8 @@ void gameEngine(){
 
 	GLOBAL.LIGHTS[2].position[0]=tank->center.x;
 	GLOBAL.LIGHTS[2].position[1]=tank->center.y;
-	GLOBAL.LIGHTS[2].position[2]=tank->center.z+3;
+	GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
 
-	GLOBAL.LIGHTS[2].spotlight_direction[0] = -sin((tank->towerAngle) *PI/180.0);
-	GLOBAL.LIGHTS[2].spotlight_direction[1] = cos((tank->towerAngle) *PI/180.0);
-	GLOBAL.LIGHTS[2].spotlight_direction[2] = tan(tank->cannonAngle *PI/180.0);
 
 
 

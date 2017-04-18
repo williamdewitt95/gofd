@@ -24,9 +24,9 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	LIGHTS[0].position[3]=1;
 	LIGHTS[0].attenuation_linear=0.0001;
 	LIGHTS[0].attenuation_quadratic=0.001;
-	LIGHTS[0].color_ambient[0]=0.0;
-	LIGHTS[0].color_ambient[1]=0.0;
-	LIGHTS[0].color_ambient[2]=0.0;
+	LIGHTS[0].color_ambient[0]=0.2;
+	LIGHTS[0].color_ambient[1]=0.2;
+	LIGHTS[0].color_ambient[2]=0.2;
 	LIGHTS[0].color_ambient[3]=1.0;
 	LIGHTS[0].color_diffuse[0]=1.0;
 	LIGHTS[0].color_diffuse[1]=1.0;
@@ -45,9 +45,9 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	LIGHTS[1].position[1] = 0.0;
 	LIGHTS[1].position[2] = 100.0;
 	LIGHTS[1].position[3] = 1.0;
-    LIGHTS[1].color_ambient[0] = 0.0;
-    LIGHTS[1].color_ambient[1] = 0.0;
-    LIGHTS[1].color_ambient[2] = 0.0;
+    LIGHTS[1].color_ambient[0] = 0.4;
+    LIGHTS[1].color_ambient[1] = 0.4;
+    LIGHTS[1].color_ambient[2] = 0.4;
     LIGHTS[1].color_ambient[3] = 1.0;
     LIGHTS[1].color_diffuse[0] = 0.1;
     LIGHTS[1].color_diffuse[1] = 0.1;
@@ -73,18 +73,18 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
     LIGHTS[2].color_ambient[2] = 0.0;
     LIGHTS[2].color_ambient[3] = 1.0;
     LIGHTS[2].color_diffuse[0] = 1.0;
-    LIGHTS[2].color_diffuse[1] = 1.0;
-    LIGHTS[2].color_diffuse[2] = 1.0;
-    LIGHTS[2].color_diffuse[3] = 1.0;
-    LIGHTS[2].color_specular[0] = 0.0;
-    LIGHTS[2].color_specular[1] = 0.0;
-    LIGHTS[2].color_specular[2] = 0.0;
+    LIGHTS[2].color_diffuse[1] = 0.5;
+    LIGHTS[2].color_diffuse[2] = 0.5;
+    LIGHTS[2].color_diffuse[3] = 0.5;
+    LIGHTS[2].color_specular[0] = 0.1;
+    LIGHTS[2].color_specular[1] = 0.1;
+    LIGHTS[2].color_specular[2] = 0.1;
     LIGHTS[2].color_specular[3] = 1.0;
     LIGHTS[2].attenuation_linear=0.01;
 	LIGHTS[2].attenuation_quadratic=0.01;
 	LIGHTS[2].spotlight_direction[0] = 0.0;
 	LIGHTS[2].spotlight_direction[1] = 0.0;
-	LIGHTS[2].spotlight_direction[2] = 1.0;
+	LIGHTS[2].spotlight_direction[2] =-1.0;
 
 
 }
