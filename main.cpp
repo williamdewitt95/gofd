@@ -456,12 +456,12 @@ int main(int argc,char** args){
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
-	glEnable(GL_LIGHT3);
-	glEnable(GL_LIGHT4);
-	glEnable(GL_LIGHT5);
-	glEnable(GL_LIGHT6);
-	glEnable(GL_LIGHT7);
+	// glEnable(GL_LIGHT2);
+	// glEnable(GL_LIGHT3);
+	// glEnable(GL_LIGHT4);
+	// glEnable(GL_LIGHT5);
+	// glEnable(GL_LIGHT6);
+	// glEnable(GL_LIGHT7);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE); // make the lighting track the color of objects
