@@ -2,8 +2,8 @@
 #define PROJECTILE
 
 #include "globals.h"
-
 #include "polygon3d.h"
+#include "drawableObject.h"
 
 #include <math.h>
 #include <vector>
@@ -18,37 +18,34 @@ struct Explosion{
 	double radius;
 };
 
-struct TrailData{
-	double x;
-	double y;
-	double z;
-	
-};
-//extern std::vector<Explosion> explosions;
-
-class Projectile{
+class Projectile:public DrawableObject{
 private:
 	double drag(double speed);
 	double f(double p, double q, double drag);
 	double g(double p, double q, double drag);
 	void step();
-	bool isTrail;
-	int trailNum;
 	std::vector<Explosion> explosions;
-	std::vector<Projectile> trails;
+	std::vector<Point> trail;
+	int trailInterval; 
+
+	void baseInit(Point center, Point tankStart, double angleV, double angleH); // sets variable to the known most basic values
 public:
-	Point center, tankStart, local;
+	enum{MOVING,EXPLODING,DEAD};
+	int state; // is one of the above
+
+	Point tankStart, local;
 	double angleV, angleH, velocity, mass, C;
 	double h, t, x, y, p, q;
-	bool hasExploded;
 
-	std::vector<Polygon3d> boundingBox;
+	//std::vector<Polygon3d> boundingBox;
+	//std::vector<Polygon3d> model;
 	Projectile(Point center);
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
 	void draw();
 	void update();
-	void explode(struct Explosion *ex);
-	std::vector<Polygon3d> getBoundingBox();
+	void drawExplosion(struct Explosion *ex);
+
+
 };
 
 #endif
