@@ -16,6 +16,7 @@ public:
 	Point center, tankStart, local;
 	double angleV, angleH, velocity, mass, C;
 	double h, t, x, y, p, q;
+	bool collision;
 
 	std::vector<Polygon3d> boundingBox;
 	Projectile(Point center);

@@ -84,6 +84,7 @@ boundingBox	projectile.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Proj
 boundingBox	tank.cpp	/^std::vector< std::vector<Polygon3d> > Tank::boundingBox(void){$/;"	f	class:Tank
 boundingBox	target.h	/^	std::vector<Polygon3d> boundingBox;$/;"	m	class:Target
 box	building.h	/^	std::vector<Polygon3d> box;$/;"	m	class:Building
+bulletCollision	collision.cpp	/^bool bulletCollision(){$/;"	f
 c	collision.cpp	/^	double c;$/;"	m	struct:plane	file:
 calculatePath	ai.cpp	/^void AI_Tank::calculatePath(int x, int y){\/\/create a new path to new grid coordinate$/;"	f	class:AI_Tank
 camMove_forward	main.cpp	/^double camMove_forward = 0;$/;"	v
@@ -99,6 +100,7 @@ center	polygon3d.h	/^	Point center;$/;"	m	class:Polygon3d
 center	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
 center	tank.h	/^	Point center;$/;"	m	class:Tank
 center	target.h	/^	Point center;$/;"	m	class:Target
+collision	projectile.h	/^	bool collision;$/;"	m	class:Projectile
 collision	tank.h	/^	bool collision;$/;"	m	class:Tank
 collisionDetect	collision.cpp	/^bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){$/;"	f
 color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT

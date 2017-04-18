@@ -1,4 +1,5 @@
 #include "projectile.h"
+#include "collision.h"
 
 Projectile::Projectile(Point center){
 	this->center = center;
@@ -6,8 +7,9 @@ Projectile::Projectile(Point center){
 	this->angleV = 45;
 	this->angleH = 0;
 	this->mass = 50.0;
-	this->velocity = 500.0;
+	this->velocity = 20.0;
 	this->C = 0.05;
+	this->collision = false;
 
 	this->t = 0.0;
 	this->local = Point(0.0, 0.0, 0.0);
@@ -134,9 +136,13 @@ void Projectile::update()
 		Point temp = Point(this->local.x, 0, this->local.z);
 		temp = temp.rotatePoint(this->angleH, false, false, true);
 		temp += Point(this->tankStart.x, this->tankStart.y, this->tankStart.z);
+		
+		//bulletCollision();
+
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
+	
 	}
 }
 

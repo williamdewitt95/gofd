@@ -216,6 +216,8 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 
 }
 
+bool bulletCollision(){
 
 
 
+}
