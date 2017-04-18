@@ -55,7 +55,9 @@ public:
 	double WORLD_COORDINATE_MIN_Y;
 	double WORLD_COORDINATE_MAX_Y;
 
-	int step = 0; //--chris, this is for incrementing the frame); 
+	int step; //--chris, this is for incrementing the frame); 
+
+              // But you can's initialize it in the global header...
 
 	struct {
 		double x;
