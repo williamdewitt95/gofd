@@ -443,11 +443,7 @@ int main(int argc,char** args){
 
 	glClearColor(0,0,0,0);
 
-<<<<<<< HEAD
 	GLOBAL.step=0;
-=======
-    GLOBAL.step=0;
->>>>>>> f02abc15a7c16da4fd2679ba36e89a20a54c7f51
 
 	glutReshapeFunc(windowResize);
 	glutDisplayFunc(display);
