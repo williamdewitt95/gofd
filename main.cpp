@@ -1,3 +1,4 @@
+#include <limits>
 #include <GL/glew.h> 
 #include <stdlib.h>
 #include <stdio.h>
@@ -101,28 +102,48 @@ void gameEngine(){
 
 }
 
-int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){
-	double x,y,z;
-	std::vector<Point> points = poly.getPoints();
+int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){//only works for rectangles
+	double x=0,y=0,z=0;
+	int imin = std::numeric_limits<int>::min(); // minimum value
+	int imax = std::numeric_limits<int>::max();
+	double maxX=imin, maxY=imin, maxZ=imin;
+	double minX=imax, minY=imax, minZ=imax;
+
+	std::vector<Point> points = poly.getWorldPoints().getPoints();
 	printf("intersect\n");
 	for(int i=0;i<points.size();i++){
-		x+=points.at(i)[0];
-		y+=points.at(i)[1];
-		z+=points.at(i)[2];
+		// printf("i: %d\n",i);
+		x += points.at(i)[0];
+		y += points.at(i)[1];
+		z += points.at(i)[2];
+		if(points.at(i)[0] > maxX)
+			maxX = points.at(i)[0];
+		if(points.at(i)[0] < minX)
+			minX = points.at(i)[0];
+		if(points.at(i)[1] > maxY)
+			maxY = points.at(i)[1];
+		if(points.at(i)[1] < minY)
+			minY = points.at(i)[1];
+		if(points.at(i)[2] > maxZ)
+			maxZ = points.at(i)[2];
+		if(points.at(i)[2] < minZ)
+			minZ = points.at(i)[2];
+
 	}
 
 	x = x/(points.size()*1.0);
 	y = y/(points.size()*1.0);
 	z = z/(points.size()*1.0);
 	Point p = Point(x,y,z);
-	printf("poly.center (%f,%f,%f) ",p[0],p[1],p[2]);
-	printf("seg.p1 (%f,%f,%f) ",seg.p1[0],seg.p1[1],seg.p1[2]);
-	printf("seg.p2 (%f,%f,%f) ",seg.p2[0],seg.p2[1],seg.p2[2]);
+	
+	printf("poly.world.center (%f,%f,%f) ",p[0],p[1],p[2]);
+	// printf("seg.p1 (%f,%f,%f) ",seg.p1[0],seg.p1[1],seg.p1[2]);
+	// printf("seg.p2 (%f,%f,%f) ",seg.p2[0],seg.p2[1],seg.p2[2]);
 
     Vector u = Vector(seg.p1, seg.p2);
     Vector w = Vector(seg.p1[0] - p[0], seg.p1[1]-p[1], seg.p1[2] - p[2]);
 
-    Vector normal = poly.getNormal();
+    Vector normal = poly.getWorldPoints().getNormal();
     double D = normal.dot(u);
     double N = -normal.dot(w);
 
@@ -138,47 +159,96 @@ int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){
     double sI = N / D;
     if (sI < 0 || sI > 1)
         return 0;                        // no intersection
-
-    printf(" working   ");
-    I = Point(seg.p1[0]+sI*u[0], seg.p1[1]+sI*u[1], seg.p1[2]+sI*u[2]);                  // compute segment intersect point
-    return 1;
+    const double zero = std::numeric_limits<double>::epsilon();
+    printf(" working   %f  ",std::numeric_limits<double>::round_error());
+    I = Point(seg.p1[0]+sI*u[0], seg.p1[1]+sI*u[1], seg.p1[2]+sI*u[2]);                  // compute segment intersect poin
+    if(points.at(0)[0] != points.at(2)[0]){
+    	// printf("XXXXXXXX, %f, %f, %f        %f, %f, %f\n",points.at(0)[0],points.at(0)[1],points.at(0)[2],points.at(2)[0],points.at(2)[1],points.at(2)[2]);
+    	if(points.size()==5){//rectangle
+   			printf("XXX\t%f > %f && %f < %f && %.3f > %.3f && %.3f < %.3f\n",maxY, I[1],minY,I[1],maxZ,I[2],minZ,I[2]);
+    		if(maxY < I[1] || minY > I[1] || (float)maxZ < (float)I[2] || (float)minZ > (float)I[2]){
+    			printf("outside, doesn't collide 3\n");
+    			return 3;
+    		}
+    		else{
+    			return 1;
+    		}
+    	}
+    }
+    else if(points.at(0)[1] != points.at(2)[1]){
+    	// printf("YYYYYYYY");
+    	if(points.size()==5){//rectangle
+  			printf("YYY\t%.3f < %.3f && %.3f > %.3f && %.3f > %.3f && %.3f < %.3f\n",maxX, I[0],minX,I[0],maxZ,I[2],minZ,I[2]);
+    		if(maxX < I[0] || minX > I[0] || maxZ < I[2] || minZ > I[2]){
+    			printf("outside, doesn't collide 4\n");
+    			return 4;
+    		}
+    		else{
+    			return 1;
+    		}
+    	}
+    }
+    else{
+		if(points.size()==5){//rectangle
+    		if(maxX < I[0] || minX > I[0] || maxY < I[1] || minY > I[1]){
+    			printf("outside, doesn't collide 5\n");
+    			return 5;
+    		}
+    		else{
+    			return 1;
+    		}
+    	}
+    }
+	return 1;
 }
 
 void collisionTest(){
 	printf("\ncollision test\n");
 
 	// printf("building center %f,%f,%f\n",buildings.at(0));
-	LineSeg testLine = LineSeg(Point(0,0,1),tank->center);
-	glPushMatrix();
+	for(int k=0; k<buildings.size();k++){
 
-	glLineWidth(5);
-	glColor4f(1.0 ,0.0 ,0.0 ,1.0);
-	glBegin(GL_LINES);
-		glVertex3f(0, 0.0, 1);
-		glVertex3f(tank->center[0], tank->center[1], tank->center[2]);
-	glEnd();
-	glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-	glLineWidth(1);
+		// double sq = sqrt((buildings.at(k)->center[0]-tank->center[0])*(buildings.at(k)->center[0]-tank->center[0])
+		// 	+(buildings.at(k)->center[1]-tank->center[1])*(buildings.at(k)->center[1]-tank->center[1])
+		// 	+(buildings.at(k)->center[2]-tank->center[2])*(buildings.at(k)->center[2]-tank->center[2]));
+		double sq = sqrt((buildings.at(k)->center[0]-tank->center[0])*(buildings.at(k)->center[0]-tank->center[0])
+			+(buildings.at(k)->center[1]-tank->center[1])*(buildings.at(k)->center[1]-tank->center[1]));
+		if(sq > buildings.at(k)->maxBuildingWidth)
+			continue;
+		printf("~~~~~~~~~~~~~k: %d    %f,%f,%f\n",k,buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
+		LineSeg testLine = LineSeg(buildings.at(k)->center,tank->center);
+		glPushMatrix();
 
-	glPopMatrix();
-	// printf("(%f,%f,%f)\n",testLine.p2[0],testLine.p2[1],testLine.p2[2]);
-	Point intersect;
-	for(int i=0; i<4;i++){
+		glLineWidth(5);
+		glColor4f(0.0 ,1.0, 1.0 ,1.0);
+		glBegin(GL_LINES);
+			glVertex3f(buildings.at(k)->center[0], buildings.at(k)->center[1], 1);
+			glVertex3f(tank->center[0], tank->center[1], tank->center[2]);
+		glEnd();
+		glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+		glLineWidth(1);
 
-		int a = intersect3D_SegmentPlane(testLine, buildings.at(0)->getBoundingBox().at(i), intersect);
-		printf("%d\t",a);
-		if(a==1){
-			printf("\nintersect at (%f,%f,%f)\n",(intersect)[0], (intersect)[1], intersect[2]);
-			glColor4f(0.33*i ,1.0-i*.22 ,0.0 ,1.0);
-			glPushMatrix();
-		    glLoadIdentity();
-		    glTranslatef(intersect[0],intersect[1],intersect[2]); 
-		    glutSolidSphere(1.5,20,20);
-		    glPopMatrix();
-			glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-		}
-		else{
-			printf("\n");
+		glPopMatrix();
+		std::vector<Polygon3d> buildingSides = buildings.at(k)->getBoundingBox();
+		Point intersect;
+		for(int i=0; i<buildingSides.size();i++){
+			buildingSides.at(i).setCenter(buildings.at(k)->center);
+			int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
+			printf("%d\t",a);
+			if(a==1){
+				printf("\nintersect at (%f,%f,%f)\n",intersect[0], intersect[1], intersect[2]);
+				glColor4f(0.33*i ,1.0-i*.22 ,0.0 ,1.0);
+				glPushMatrix();
+			    glLoadIdentity();
+			    // glTranslatef(buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
+			    glTranslatef(intersect[0],intersect[1],intersect[2]); 
+			    glutSolidSphere(0.5,20,20);
+			    glPopMatrix();
+				glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+			}
+			else{
+				printf("\t%d\n",a);
+			}
 		}
 	}
 }
