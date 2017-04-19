@@ -228,33 +228,34 @@ void collisionTest(){
 	// printf("building center %f,%f,%f\n",buildings.at(0));
 	for(int j=0;j<projectiles.size();j++){
 		Projectile * tempProjectile = projectiles.at(j);
+		if(tempProjectile->state == Projectile::MOVING){
+			for(int k=0; k<buildings.size();k++){
 
-		for(int k=0; k<buildings.size();k++){
+				
+				double sq = sqrt((buildings.at(k)->center[0] - tempProjectile->center[0])*(buildings.at(k)->center[0] - tempProjectile->center[0])
+					+(buildings.at(k)->center[1] - tempProjectile->center[1])*(buildings.at(k)->center[1] - tempProjectile->center[1])
+					+(buildings.at(k)->center[2] - tempProjectile->center[2])*(buildings.at(k)->center[2] - tempProjectile->center[2]));
+				if(sq > buildings.at(k)->maxBuildingWidth*2)
+					continue;
+				// printf("~~~~~~~~~~~~~k: %d    %f,%f,%f\n",k,buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
+				LineSeg testLine = LineSeg(tempProjectile->oldCenter,tempProjectile->center);
 
-			
-			double sq = sqrt((buildings.at(k)->center[0] - tempProjectile->center[0])*(buildings.at(k)->center[0] - tempProjectile->center[0])
-				+(buildings.at(k)->center[1] - tempProjectile->center[1])*(buildings.at(k)->center[1] - tempProjectile->center[1])
-				+(buildings.at(k)->center[2] - tempProjectile->center[2])*(buildings.at(k)->center[2] - tempProjectile->center[2]));
-			if(sq > buildings.at(k)->maxBuildingWidth*2)
-				continue;
-			// printf("~~~~~~~~~~~~~k: %d    %f,%f,%f\n",k,buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
-			LineSeg testLine = LineSeg(tempProjectile->oldCenter,tempProjectile->center);
-
-			std::vector<Polygon3d> buildingSides = buildings.at(k)->getBoundingBox();
-			Point intersect;
-			for(int i=0; i<buildingSides.size();i++){
-				buildingSides.at(i).setCenter(buildings.at(k)->center);
-				int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
-				// printf("%d\t",a);
-				if(a==1){
-					// printf("\nintersect at (%f,%f,%f)\n",intersect[0], intersect[1], intersect[2]);
-				    tempProjectile->setExploding(intersect);
-				    // printf("\nprojectile state %d, velocity %f)\n",tempProjectile->state, tempProjectile->velocity);
-				   	continue;
-					// exit(0);
-				}
-				else{
-					// printf("\t%d\n",a);
+				std::vector<Polygon3d> buildingSides = buildings.at(k)->getBoundingBox();
+				Point intersect;
+				for(int i=0; i<buildingSides.size();i++){
+					buildingSides.at(i).setCenter(buildings.at(k)->center);
+					int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
+					// printf("%d\t",a);
+					if(a==1){
+						// printf("\nintersect at (%f,%f,%f)\n",intersect[0], intersect[1], intersect[2]);
+					    tempProjectile->setExploding(intersect);
+					    // printf("\nprojectile state %d, velocity %f)\n",tempProjectile->state, tempProjectile->velocity);
+					   	continue;
+						// exit(0);
+					}
+					else{
+						// printf("\t%d\n",a);
+					}
 				}
 			}
 		}
