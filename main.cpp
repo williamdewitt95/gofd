@@ -33,6 +33,7 @@ int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
 bool aerial = false;
+bool captureTime = 0;
 
 int oldTime, currentTime;
 float actualfps, fps = 0.0;
@@ -264,8 +265,11 @@ void display(){
 
 	glFlush();
 	glutSwapBuffers();
-	screencapture(GLOBAL.step); 
-	GLOBAL.step++; 
+	if(captureTime == 1)
+	{
+		screencapture(GLOBAL.step); 
+		GLOBAL.step++;
+	} 
 	glutPostRedisplay(); //always say we want a redraws
 }
 
@@ -425,6 +429,9 @@ void keyboardButtonsUp_special(int key,int x,int y){
 }
 
 int main(int argc,char** args){
+	if(argc > 1)
+		captureTime=1;	
+
 	glutInit(&argc, args);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA);
 
@@ -434,7 +441,7 @@ int main(int argc,char** args){
 
 	glClearColor(0,0,0,0);
 
-    GLOBAL.step=0;
+	GLOBAL.step=0;
 
 	glutReshapeFunc(windowResize);
 	glutDisplayFunc(display);
