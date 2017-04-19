@@ -39,6 +39,7 @@ protected: // we let our children get to this but not the world
 	GLuint texture;
 	bool hasTex;
 	std::vector<Point> vertexTextureList;
+	Vector normal;
 public:
 	Polygon3d();
 	Polygon3d(double,double,double); // specifies the center
@@ -64,6 +65,7 @@ public:
 	void setRotationSpeed(Vector&);
 	Vector getRotationSpeed();
 	double getMaxRadius();
+	Vector getNormal();
 
 	void setTexture(GLuint tex);
 	GLuint getTexture();
