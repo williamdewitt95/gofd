@@ -84,7 +84,7 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 void Projectile::draw(){
 	if(this->state==MOVING){
 		GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
-		
+
 		glPushMatrix();
 			glColor3f(1.0, .1, .1);
 			glTranslated(center.x,center.y,center.z);
