@@ -19,10 +19,14 @@ LDFLAGS  = -lGL -lGLU -lglut -lGLEW libSOIL.a
 #the available buildings that we depend on when building
 BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp
 
-all: build gofd tags
+all: build wipe gofd tags
 
 build:
 	mkdir build
+	mkdir screenshots
+
+wipe:
+	rm -f screenshots/*.tga
 
 # The new executable target will be called gofd
 gofd: main.o $(BUILD_OBJS) 
@@ -65,10 +69,11 @@ clean:
 	rm -f *.o
 	rm -f build/*.o
 	rm -f gofd
-	rm -f *.tga 
+	rm -f screenshots/*.tga 
 
 distclean: clean
 	rm -rf build
+	rm -rf screenshots
 	rm -f tags
 
 tags: *.cpp *.h
