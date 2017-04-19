@@ -160,13 +160,23 @@ int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){//only wor
     if (sI < 0 || sI > 1)
         return 0;                        // no intersection
     const double zero = std::numeric_limits<double>::epsilon();
-    printf(" working   %f  ",std::numeric_limits<double>::round_error());
-    I = Point(seg.p1[0]+sI*u[0], seg.p1[1]+sI*u[1], seg.p1[2]+sI*u[2]);                  // compute segment intersect poin
+    printf(" working  ");
+    I = Point(seg.p1[0]+sI*u[0], seg.p1[1]+sI*u[1], seg.p1[2]+sI*u[2]);                  // compute segment intersect point
+    if(points.size()==5){//rectangle
+   			printf("XXX\t%.25f > %.25f && %f < %f && %.3f > %.3f && %.13f < %.13f\n",maxY, I[1],minY,I[1],maxZ,I[2],minZ,I[2]);
+    		if(maxY < I[1] || minY > I[1] || (float)maxZ < (float)I[2] || (float)minZ > (float)I[2] || maxX < I[0] || minX > I[0]){
+    			printf("outside, doesn't collide 3\n");
+    			return 3;
+    		}
+    		else{
+    			return 1;
+    		}
+    }
     if(points.at(0)[0] != points.at(2)[0]){
     	// printf("XXXXXXXX, %f, %f, %f        %f, %f, %f\n",points.at(0)[0],points.at(0)[1],points.at(0)[2],points.at(2)[0],points.at(2)[1],points.at(2)[2]);
     	if(points.size()==5){//rectangle
-   			printf("XXX\t%f > %f && %f < %f && %.3f > %.3f && %.3f < %.3f\n",maxY, I[1],minY,I[1],maxZ,I[2],minZ,I[2]);
-    		if(maxY < I[1] || minY > I[1] || (float)maxZ < (float)I[2] || (float)minZ > (float)I[2]){
+   			printf("XXX\t%.25f > %.25f && %f < %f && %.3f > %.3f && %.13f < %.13f\n",maxY, I[1],minY,I[1],maxZ,I[2],minZ,I[2]);
+    		if(maxY < I[1] || minY > I[1] || (float)maxZ < (float)I[2] || (float)minZ > (float)I[2] || maxX < I[0] || minX > I[0]){
     			printf("outside, doesn't collide 3\n");
     			return 3;
     		}
