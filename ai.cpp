@@ -16,7 +16,9 @@ AI_Tank::AI_Tank(Tank *tank){
 
 	this->tank = tank;
 
-	Point start = tank->center;
+	start = Point(60, 60, 0);//tank->center;
+
+	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
 
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
@@ -175,7 +177,8 @@ void AI_Tank::fillMap(){
 
     // set start and target location
     int xA, yA, xB, yB;
-    xA = 60, yA = 60, xB = 0, yB = 0;
+    xA = start.x, yA = start.y, xB = 0, yB = 0;
+    std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
         mapGrid[xA][yA] = 2;
         mapGrid[xB][yB] = 4;
 
@@ -264,7 +267,8 @@ void AI_Tank::setRoute(){
 	std::cout << "setRoute " << std::endl;
 	
 	clock_t startTime = clock();
-	std::string routeNew = findPath(60, 60, 0, 0); //start.x, start.y, destination.x, destination.y);
+	std::string routeNew = findPath( start.x, start.y, 0, 0); //start.x, start.y, destination.x, destination.y);
+	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
 	if(routeNew=="") std::cout<<"An empty route generated!"<<std::endl;
     	clock_t endTime = clock();
     	double time_elapsed = double(endTime - startTime);
@@ -277,56 +281,82 @@ void AI_Tank::setRoute(){
 
 void AI_Tank::followRoute(){
 
+	// updates tank location 
+
+
 	std::cout << "followRoute " << std::endl;
 
 	if(route.length()>0){
 		int j;
 		char c;
-		int x = 60.0; //start.x;
-		int y = 60.0; //start.y;
+		int x = this->tank->center.x;
+		int y = this->tank->center.y;
+
+		//std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
+
 		mapGrid[x][y] = 2;
 		
 		//for(int i = 0; i < route.length(); i++){
 		c = route.at(0);
 		std::cout << "c: " << c << std::endl;
 		j = atoi(&c);
+
+
+		//std::cout << "x=x+dx[j] : " << x=x+dx[j] << " = " << x << " + " << dx[j] << std::endl;
+		//std::cout << "y=x+dx[j] : " << y=y+dy[j] << " = " << y << " + " << dy[j] << std::endl;
+
+                //std::cout << y=y+dy[j];
+
+
 		x=x+dx[j];
 		y=y+dy[j];
-			
+
+		//std::cout << x << std::endl;
+                //std::cout << y << std::endl;
+	
+		mapGrid[x][y] = 3;
+		
 		std::cout << "this->tank->center.x: " << this->tank->center.x << std::endl;
 		//route.erase(0, 1);
 
-		std::cout << "(x+dx[j]): " << (x+dx[j]) << std::endl;
-		std::cout << "(y+dy[j]): " << (y+dy[j]) << std::endl;
+		std::cout << "(x+dx[j]): " << x << std::endl;
+		std::cout << "(y+dy[j]): " << y << std::endl;
 			// move tank to next point
-		if(this->tank->center.x < (x+dx[j]) && dx[j] >= 0 ){
-			this->tank->center.x = x+dx[j];		
+		/*if( this->tank->center.x < (x+dx[j]) && this->tank->center.x > (x-dx[j]) ){
+			this->tank->center.x = x+dx[j] * 0.5;		
 			std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
-		}
-		else if(this->tank->center.x > (x+dx[j]) && dx[j] < 0 ){
+		}*/
+		/*else if(this->tank->center.x > (x+dx[j]) && dx[j] < 0 ){
                         this->tank->center.x = x+dx[j];                 
                         std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
-                }
-		else if(this->tank->center.y < (y+dy[j]) && dy[j] >= 0 ){
-                        this->tank->center.y = y+dy[j];                 
-                        std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
-                }
-		else if(this->tank->center.y > (y+dy[j]) && dy[j] < 0 ){
+                }*/
+		/*else if(this->tank->center.y < (y+dy[j]) && this->tank->center.y > (y-dy[j])){
+                        this->tank->center.y = y+dy[j] * 0.5;                 
+                        std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
+                }*/
+		/*else if(this->tank->center.y > (y+dy[j]) && dy[j] < 0 ){
 			this->tank->center.y = y+dy[j]; //*0.95; //this->tank->tankSpeed;				
 			std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
 
-		}
+		}*/
 
 
-		else{
-			mapGrid[x][y] = 3;
+		//else{
+			this->tank->center.x = x;  //x+dx[j]; // * 0.5;           
+                        std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+	
+			this->tank->center.y = y; //y+dy[j]; // * 0.5;                 
+                        std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
+
+
+			//mapGrid[x][y] = 3;
 		//}
-			mapGrid[x][y] = 4;
+			//mapGrid[x][y] = 4;
 			//update route str
 			route.erase(0, 1);
-
-
-			/*for(int y=0;y<m;y++){
+			
+			/*
+			for(int y=0;y<m;y++){
             			for(int x=0;x<n;x++)
                 			if(mapGrid[x][y]==0)
                     				std::cout<<".";
@@ -339,8 +369,9 @@ void AI_Tank::followRoute(){
                 			else if(mapGrid[x][y]==4)
                     				std::cout<<"F"; //finish
             			std::cout<<std::endl;
-        		}*/
-		}
+        		}
+			*/
+		//}
 	}
 
 }
@@ -369,6 +400,24 @@ void AI_Tank::update_AI(){
 		followRoute();
 	}
 	else{
+
+		//mapGrid[x][y] = 4;
+
+		for(int y=0;y<m;y++){
+                                for(int x=0;x<n;x++)
+                                        if(mapGrid[x][y]==0)
+                                                std::cout<<".";
+                                        else if(mapGrid[x][y]==1)
+                                                std::cout<<"O"; //obstacle
+                                        else if(mapGrid[x][y]==2)
+                                                std::cout<<"S"; //start
+                                        else if(mapGrid[x][y]==3)
+                                                std::cout<<"R"; //route
+                                        else if(mapGrid[x][y]==4)
+                                                std::cout<<"F"; //finish
+                                std::cout<<std::endl;
+                        }
+
 		aim(destination);		
 	}
 	
