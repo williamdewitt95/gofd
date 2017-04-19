@@ -12,6 +12,7 @@ Projectile::Projectile(Point center, Point tankStart, double angleV, double angl
 
 void Projectile::baseInit(Point center, Point tankStart, double angleV, double angleH){
 	this->center = center;
+	this->oldCenter = center;
 	this->tankStart = tankStart;
 	this->angleV = angleV;
 	this->angleH = angleH;
@@ -136,16 +137,20 @@ void Projectile::update()
 {
 	if(this->state == MOVING){
 
+		this->oldCenter.x = this->center.x;
+		this->oldCenter.y = this->center.y;
+		this->oldCenter.z = this->center.z;
 		//sync with actual time
 		double currTime = glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
 		this->h = (currTime - this->t) / 10.0;
    		while( (float)this->t < (float)currTime){ step(); }
-   		this->t = currTime;
+   		// this->t = currTime;
 
 		// step();
 		Point temp = Point(this->local.x, 0, this->local.z);
 		temp = temp.rotatePoint(this->angleH, false, false, true);
 		temp = temp.translatePoint(this->tankStart.x, this->tankStart.y, this->tankStart.z);
+		
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
@@ -281,4 +286,26 @@ void Projectile::drawExplosion(struct Explosion *ex) {
 		glutSolidSphere(ex->radius, 8, 8);
 		glPopMatrix();
 	}
+}
+void Projectile::setExploding(Point p){
+	if(this->state==MOVING){
+		this->state=EXPLODING;
+		this->center = p;
+		int splodes = 3 + (rand() % 3);
+		for (int i=0;i < splodes;i++) {
+			Explosion n;
+			n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+			n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+			n.z = center.z + ((double) rand() / (RAND_MAX));
+			n.decay = 15 + (rand() % 5);
+			n.staticDecay = n.decay;
+			n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
+			n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
+			explosions.push_back(n);
+		}
+	}
+}
+
+void Projectile::setExploding(){
+	setExploding(this->center);
 }

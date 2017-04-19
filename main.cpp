@@ -120,7 +120,7 @@ int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){//only wor
 	double minX=imax, minY=imax, minZ=imax;
 
 	std::vector<Point> points = poly.getWorldPoints().getPoints();
-	printf("intersect\n");
+	// printf("intersect\n");
 	for(int i=0;i<points.size();i++){
 		// printf("i: %d\n",i);
 		x += points.at(i)[0];
@@ -146,7 +146,7 @@ int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){//only wor
 	z = z/(points.size()*1.0);
 	Point p = Point(x,y,z);
 	
-	printf("poly.world.center (%f,%f,%f) ",p[0],p[1],p[2]);
+	// printf("poly.world.center (%f,%f,%f) ",p[0],p[1],p[2]);
 	// printf("seg.p1 (%f,%f,%f) ",seg.p1[0],seg.p1[1],seg.p1[2]);
 	// printf("seg.p2 (%f,%f,%f) ",seg.p2[0],seg.p2[1],seg.p2[2]);
 
@@ -226,48 +226,58 @@ void collisionTest(){
 	printf("\ncollision test\n");
 
 	// printf("building center %f,%f,%f\n",buildings.at(0));
-	for(int k=0; k<buildings.size();k++){
+	for(int j=0;j<projectiles.size();j++){
+		Projectile * tempProjectile = projectiles.at(j);
 
-		// double sq = sqrt((buildings.at(k)->center[0]-tank->center[0])*(buildings.at(k)->center[0]-tank->center[0])
-		// 	+(buildings.at(k)->center[1]-tank->center[1])*(buildings.at(k)->center[1]-tank->center[1])
-		// 	+(buildings.at(k)->center[2]-tank->center[2])*(buildings.at(k)->center[2]-tank->center[2]));
-		double sq = sqrt((buildings.at(k)->center[0]-tank->center[0])*(buildings.at(k)->center[0]-tank->center[0])
-			+(buildings.at(k)->center[1]-tank->center[1])*(buildings.at(k)->center[1]-tank->center[1]));
-		if(sq > buildings.at(k)->maxBuildingWidth)
-			continue;
-		printf("~~~~~~~~~~~~~k: %d    %f,%f,%f\n",k,buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
-		LineSeg testLine = LineSeg(buildings.at(k)->center,tank->center);
-		glPushMatrix();
+		for(int k=0; k<buildings.size();k++){
 
-		glLineWidth(5);
-		glColor4f(0.0 ,1.0, 1.0 ,1.0);
-		glBegin(GL_LINES);
-			glVertex3f(buildings.at(k)->center[0], buildings.at(k)->center[1], 1);
-			glVertex3f(tank->center[0], tank->center[1], tank->center[2]);
-		glEnd();
-		glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-		glLineWidth(1);
+			// double sq = sqrt((buildings.at(k)->center[0]-tank->center[0])*(buildings.at(k)->center[0]-tank->center[0])
+			// 	+(buildings.at(k)->center[1]-tank->center[1])*(buildings.at(k)->center[1]-tank->center[1])
+			// 	+(buildings.at(k)->center[2]-tank->center[2])*(buildings.at(k)->center[2]-tank->center[2]));
+			double sq = sqrt((buildings.at(k)->center[0] - tempProjectile->center[0])*(buildings.at(k)->center[0] - tempProjectile->center[0])
+				+(buildings.at(k)->center[1] - tempProjectile->center[1])*(buildings.at(k)->center[1] - tempProjectile->center[1])
+				+(buildings.at(k)->center[2] - tempProjectile->center[2])*(buildings.at(k)->center[2] - tempProjectile->center[2]));
+			if(sq > buildings.at(k)->maxBuildingWidth*2)
+				continue;
+			printf("~~~~~~~~~~~~~k: %d    %f,%f,%f\n",k,buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
+			LineSeg testLine = LineSeg(tempProjectile->oldCenter,tempProjectile->center);
+			glPushMatrix();
 
-		glPopMatrix();
-		std::vector<Polygon3d> buildingSides = buildings.at(k)->getBoundingBox();
-		Point intersect;
-		for(int i=0; i<buildingSides.size();i++){
-			buildingSides.at(i).setCenter(buildings.at(k)->center);
-			int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
-			printf("%d\t",a);
-			if(a==1){
-				printf("\nintersect at (%f,%f,%f)\n",intersect[0], intersect[1], intersect[2]);
-				glColor4f(0.33*i ,1.0-i*.22 ,0.0 ,1.0);
-				glPushMatrix();
-			    glLoadIdentity();
-			    // glTranslatef(buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
-			    glTranslatef(intersect[0],intersect[1],intersect[2]); 
-			    glutSolidSphere(0.5,20,20);
-			    glPopMatrix();
-				glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-			}
-			else{
-				printf("\t%d\n",a);
+			glLineWidth(5);
+			glColor4f(0.0 ,1.0, 1.0 ,1.0);
+			glBegin(GL_LINES);
+				glVertex3f(tempProjectile->oldCenter[0], tempProjectile->oldCenter[1],tempProjectile->oldCenter[2]);
+				glVertex3f(tempProjectile->center[0], tempProjectile->center[1], tempProjectile->center[2]);
+			glEnd();
+			glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+			glLineWidth(1);
+
+			glPopMatrix();
+			std::vector<Polygon3d> buildingSides = buildings.at(k)->getBoundingBox();
+			Point intersect;
+			for(int i=0; i<buildingSides.size();i++){
+				buildingSides.at(i).setCenter(buildings.at(k)->center);
+				int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
+				printf("%d\t",a);
+				if(a==1){
+					printf("\nintersect at (%f,%f,%f)\n",intersect[0], intersect[1], intersect[2]);
+					// glColor4f(0.33*i ,1.0-i*.22 ,0.0 ,1.0);
+					// glPushMatrix();
+				 //    glLoadIdentity();
+				 //    glTranslatef(buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
+				 //    glTranslatef(intersect[0],intersect[1],intersect[2]); 
+				 //    glutSolidSphere(2.5,20,20);
+				 //     glPopMatrix();
+					// glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+					// tempProjectile
+				    tempProjectile->setExploding(intersect);
+				    printf("\nprojectile state %d, velocity %f)\n",tempProjectile->state, tempProjectile->velocity);
+				   
+					// exit(0);
+				}
+				else{
+					// printf("\t%d\n",a);
+				}
 			}
 		}
 	}
