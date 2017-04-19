@@ -53,9 +53,9 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
     LIGHTS[1].color_diffuse[1] = 0.9;
     LIGHTS[1].color_diffuse[2] = 0.9;
     LIGHTS[1].color_diffuse[3] = 1.0;
-    LIGHTS[1].color_specular[0] = 0.0;
-    LIGHTS[1].color_specular[1] = 0.0;
-    LIGHTS[1].color_specular[2] = 0.0;
+    LIGHTS[1].color_specular[0] = 0.1;
+    LIGHTS[1].color_specular[1] = 0.1;
+    LIGHTS[1].color_specular[2] = 0.1;
     LIGHTS[1].color_specular[3] = 1.0;
     LIGHTS[1].attenuation_linear=0.0001;
 	LIGHTS[1].attenuation_quadratic=0.001;
@@ -66,24 +66,24 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 
 	LIGHTS[2].position[0] = 0.0;
 	LIGHTS[2].position[1] = 0.0;
-	LIGHTS[2].position[2] = 0.0;
+	LIGHTS[2].position[2] = 100.0;
 	LIGHTS[2].position[3] = 1.0;
     LIGHTS[2].color_ambient[0] = 0.0;
     LIGHTS[2].color_ambient[1] = 0.0;
     LIGHTS[2].color_ambient[2] = 0.0;
     LIGHTS[2].color_ambient[3] = 1.0;
-    LIGHTS[2].color_diffuse[0] = 1.0;
+    LIGHTS[2].color_diffuse[0] = 0.5;
     LIGHTS[2].color_diffuse[1] = 0.5;
     LIGHTS[2].color_diffuse[2] = 0.5;
-    LIGHTS[2].color_diffuse[3] = 0.5;
+    LIGHTS[2].color_diffuse[3] = 1.0;
     LIGHTS[2].color_specular[0] = 0.1;
     LIGHTS[2].color_specular[1] = 0.1;
     LIGHTS[2].color_specular[2] = 0.1;
     LIGHTS[2].color_specular[3] = 1.0;
     LIGHTS[2].attenuation_linear=0.01;
 	LIGHTS[2].attenuation_quadratic=0.01;
-	LIGHTS[2].spotlight_direction[0] = 0.0;
-	LIGHTS[2].spotlight_direction[1] = 0.0;
+	LIGHTS[2].spotlight_direction[0] = 0.01;
+	LIGHTS[2].spotlight_direction[1] = 0.01;
 	LIGHTS[2].spotlight_direction[2] =-1.0;
 
 
@@ -366,7 +366,7 @@ void updateLights(){
 
 	
 	
-	GLfloat light_2_spot_cutoff = 15.0;
+	GLfloat light_2_spot_cutoff = 45.0;
 	GLfloat light_2_spot_exponent = 0;//64
 
 	glLightfv(GL_LIGHT2,GL_POSITION,GLOBAL.LIGHTS[2].position      );

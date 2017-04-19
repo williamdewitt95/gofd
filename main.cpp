@@ -98,7 +98,7 @@ void gameEngine(){
 
 	GLOBAL.LIGHTS[2].position[0]=tank->center.x;
 	GLOBAL.LIGHTS[2].position[1]=tank->center.y;
-	GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
+	// GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
 
 
 
