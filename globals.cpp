@@ -86,6 +86,7 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	LIGHTS[2].spotlight_direction[1] = 0.01;
 	LIGHTS[2].spotlight_direction[2] =-1.0;
 
+	score=0;
 
 }
 

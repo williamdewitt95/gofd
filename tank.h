@@ -23,9 +23,7 @@ public:
 	std::vector<Polygon3d> baseBoundingBox, towerBoundingBox, cannonBoundingBox;
 
 	Tank(Point center);
-	void drawHealthBar();
-	void drawCooldownBar();
-	void drawScore();
+	
 	void draw();
 	void shoot();
 	void applyRecoil();

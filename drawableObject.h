@@ -22,7 +22,7 @@ public:
 	virtual bool collisionPoint(const Vector); //for a given line, where on that line does it collide
 	                                            //this returns the point from the the first end of the vector to the second
 
-	
+
 };
 
 #endif

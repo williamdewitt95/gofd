@@ -97,11 +97,15 @@ void AI_Tank::update_AI(){
 }
 
 void AI_Tank::updateTank(){
-	update_AI();
-	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
-	this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
-	if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
-		this->tank->baseAngle = 0;
+	// update_AI();
+	// this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
+	// this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
+	// if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
+	// 	this->tank->baseAngle = 0;
+
+	if(this->tank->cooldown > 0)
+		this->tank->cooldown--;
+
 	// this->baseAngle += tankBaseRotate;
 	// this->towerAngle += tankTurretRotate;
 	// this->cannonAngle += tankCannonRotate;
@@ -145,6 +149,8 @@ void AI_Tank::aim(Point enemy){
 		//do nothing
 	}
 	double delta = this->tank->towerAngle - angle;
+	printf("delta %f\n",delta);
+
 	// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
 	if(delta < 1.0 && delta > -1.0){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
 		this->tank->shoot();//spawn a projectile in the global projectiles vector

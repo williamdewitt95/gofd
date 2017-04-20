@@ -71,6 +71,8 @@ public:
 
 	LIGHT_STRUCT LIGHTS[8];
 	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; // allows for easily shared textures, if they use the same name, they get the same texture
+	int score;
+
 };
 
 extern GLOBAL_SETTINGS GLOBAL;
