@@ -100,8 +100,10 @@ void AI_Tank::updateTank(){
 	// update_AI();
 	// this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
 	// this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
-	// if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
-	// 	this->tank->baseAngle = 0;
+	if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
+		this->tank->baseAngle = 0;
+	if ((this->tank->towerAngle > 360) || (this->tank->towerAngle < -360))
+		this->tank->towerAngle = 0;
 
 	if(this->tank->cooldown > 0)
 		this->tank->cooldown--;
@@ -139,6 +141,7 @@ void AI_Tank::nearbyTarget(Tank * enemy){//check where the enemy tank is, if we 
 
 
 void AI_Tank::aim(Point enemy){
+
 	double y = this->tank->center.y - enemy.y;
 	double x = this->tank->center.x - enemy.x;
 	double angle = (180.0/M_PI * atan(y / x) + 90.0);
@@ -148,11 +151,12 @@ void AI_Tank::aim(Point enemy){
 	else{
 		//do nothing
 	}
+
 	double delta = this->tank->towerAngle - angle;
-	printf("delta %f\n",delta);
+	// printf("delta %f, angle %f, this->tank->towerAngle %f\n",delta,angle, this->tank->towerAngle);
 
 	// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
-	if(delta < 1.0 && delta > -1.0){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
+	if((delta < 1.0 && delta > -1.0) || (delta < -359.0 && delta > -361.0)){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
 		this->tank->shoot();//spawn a projectile in the global projectiles vector
 		// printf("\n\nBang!\t %f",this->tank->towerAngle);
 	}
