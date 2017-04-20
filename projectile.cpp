@@ -19,6 +19,7 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 	this->mass = 50.0;
 	this->velocity = 50.0;
 	this->C = 0.05;
+	this->invincibility = 5;
 
 	this->t = glutGet(GLUT_ELAPSED_TIME)/1000.0;
 	this->local = Point(0.0, 0.0, 0.0);
@@ -155,12 +156,18 @@ void Projectile::update()
 		this->center.y = temp.y;
 		this->center.z = temp.z;
 
-
-
+		if(this->invincibility>0)
+			invincibility--;
 
 		//check to see if it has hit the ground. If so, then we have hit and need to explode
 		//if z<=0, start exploding and generate random values for each splode
 		if(center.z <= 0){
+			// printf("angle %f\t\tdeath coordinates: %f, %f",this->angleV,this->center.x, this->center.y);
+			// printf("\t\tstart coordinates: %f, %f\n",this->tankStart.x,this->tankStart.y);
+			double distance = sqrt((this->center.x-this->tankStart.x)*(this->center.x-this->tankStart.x) + 
+				(this->center.y-this->tankStart.y)*(this->center.y-this->tankStart.y));
+			// printf("%.3f\t %d\n",this->angleV,(int)distance);
+
 			this->state=EXPLODING;
 			this->center.z = 0.0;
 			int splodes = 3 + (rand() % 3);

@@ -228,7 +228,7 @@ void collisionTest(){
 	// printf("building center %f,%f,%f\n",buildings.at(0));
 	for(int j=0;j<projectiles.size();j++){
 		Projectile * tempProjectile = projectiles.at(j);
-		if(tempProjectile->state == Projectile::MOVING){
+		if(tempProjectile->state == Projectile::MOVING && !tempProjectile->invincibility){
 			for(int k=0; k<buildings.size();k++){
 
 				

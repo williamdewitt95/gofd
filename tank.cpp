@@ -568,7 +568,7 @@ void Tank::shoot() {
 	double z = this->center.z + 1.375 + 1.75*sin(this->cannonAngle*M_PI/180.0);
 	// printf("%.3f\n",z);
 
-
+	// printf("%f,%f,%f\t",x,y,z);
 	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90));
 	this->cooldown = 100;
 	// return projectile;

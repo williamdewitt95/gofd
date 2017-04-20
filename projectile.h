@@ -31,6 +31,7 @@ public:
 	enum{MOVING,EXPLODING,DEAD};
 	int state; // is one of the above
 	Point oldCenter;
+	int invincibility;
 
 	Point tankStart, local;
 	double angleV, angleH, velocity, mass, C;
