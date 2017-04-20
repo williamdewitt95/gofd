@@ -98,7 +98,7 @@ double distPlaneToPoint (Point a, Point b, Point c, Point d)
 }
 
 
-bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles){
+bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Projectile*>& projectiles){
 
 	Point a = Point(12,16,45);
 	Point b = Point(12,12,45);

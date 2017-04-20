@@ -85,6 +85,7 @@ public:
 	Polygon3d getWorldPoints();
 
 	void draw();
+	void draw_static(); // does not rotate or translate the world before drawing
 	static void __secretVertexDrawingFunction(void *data, void *polygon);
 	void update();
 };

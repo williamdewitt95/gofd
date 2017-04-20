@@ -1,27 +1,30 @@
 #ifndef GLOP_GLOBALS
 #define GLOP_GLOBALS
 
+#include <GL/glew.h> 
+
 #include <GL/glut.h>
-#include <GL/glu.h>
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include "imageLibrary/image.h"
-//#include "tank.h"
+#include <string.h>
+// #include "imageLibrary/image.h"
 #include "polygon3d.h"
-//#include "collision.h"
-//#include "projectile.h"
-//#include "building.h"
+#include "SOIL.h"
+#include "drawableObject.h"
+
 
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
 
 struct LIGHT_STRUCT{
-	double attenuation_linear;
-	double attenuation_quadratic;
-	double possition[3];
-	double color[3];
+	GLfloat attenuation_linear;
+	GLfloat attenuation_quadratic;
+	GLfloat possition[4]; //XYZ 1 - this last index should always be one
+	GLfloat color_ambient[4];
+	GLfloat color_diffuse[4];
+	GLfloat color_specular[4];
 };
 
 struct MODEL_TRIANGLES{
@@ -36,7 +39,7 @@ struct MODEL_TRIANGLES{
 
 struct TextureInfo{
 	std::string name;
-	unsigned long width,height;
+	int width,height;
 	GLuint textureRef;
 };
 void loadTex(std::string name);
@@ -65,7 +68,7 @@ public:
 	double CAMERA_ANGLE_VERTICAL;
 	double CAMERA_ANGLE_HORIZONTAL;
 
-	std::vector<LIGHT_STRUCT> LIGHTS;
+	LIGHT_STRUCT LIGHTS[8];
 	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; // allows for easily shared textures, if they use the same name, they get the same texture
 };
 
@@ -87,5 +90,7 @@ void FPS_CameraMovement(int x, int y, Point center);
 void thirdPerson_CameraMovement(int x, int y, Point center);
 void free_CameraMovement(int x, int y);
 void drawTank (void);
+void drawAxies();
+void updateLights();
 
 #endif

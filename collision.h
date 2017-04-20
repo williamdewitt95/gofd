@@ -1,6 +1,7 @@
 #ifndef COLLISION
 #define COLLISION
 
+#include <GL/glew.h>
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <vector>
@@ -16,7 +17,7 @@ double distance(Point a, Point b);
 double distance(Vector a, Vector b);
 bool sphereToPlane(Point c, double radius,Vector n, Point p);
 double distPlaneToPoint (Point a, Point b, Point c, Point d);
-bool collisionDetect(Point center, double sphdist, std::vector<Building*> &buildings, std::vector<Target*>& targets, std::vector<Projectile*>& projectiles);
+bool collisionDetect(Point center, double sphdist, std::vector<Building*> &buildings, std::vector<Projectile*>& projectiles);
 bool pointToPolygon(Point p, std::vector<Point> shape);//assumes point and polygon lie on same plane
 
 
