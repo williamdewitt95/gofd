@@ -11,6 +11,7 @@ const double Building::streetWidth = 60 - 40; // distanceBetweenBuildings - maxB
 
 Building::Building(Point center){
 	this->center = center;
+	printf("This building is at x = %f, y = %f, and z = %f\n",this->center.x,this->center.y,this->center.z);
 	this->alreadyCalculated = false;
 	const int numOfBuildings = 2;
 	switch(rand() % numOfBuildings){
@@ -68,21 +69,30 @@ void Building::draw(){
 //void Building::update(){
 //}
 std::vector<Polygon3d> Building::boundingBox(){
-	//static bool alreadyCalculated = false;
 	std::vector<Polygon3d> boundingBox = this->getBoundingBox();
 
 	if(!(this->alreadyCalculated)){
 		for(int x=0; x < boundingBox.size(); x++){
 			//printf("Starting to translate bounding box\n");
 			boundingBox[x].setCenter(this->center);
+
+			//printf("Building center x = %f, y = %f",this->center.x,this->center.y);
 			//printf("About to copy of num points %d\n",this->box[x].numPoints());
-			Polygon3d p=boundingBox[x].getTransform();
+			Polygon3d p = Polygon3d(boundingBox[x].getWorldPoints());
+
+			//std::vector<Point> test = p.getPoints();
+
+			//printf("first point x: %f, y: %f\n", test[0].x, test[0].y);
+	
+			//printf("poly center x =%f , y =%f \n",p.getCenter().x,p.getCenter().y);
 			//printf("Made the copy of num points %d\n",p.numPoints());
 			boundingBox[x] = p;
 			//printf("put into the array\n");
+			
 		}
+		//this->boundingBox = &boundingBox;
 	}
-	this->alreadyCalculated = true;
+	this->alreadyCalculated = false;
 	return boundingBox;
 }
 

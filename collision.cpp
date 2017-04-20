@@ -104,23 +104,21 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 	Point b = Point(12,12,45);
         Point c = Point(16,12,45);
         Point d = Point(32,64,0);
-	printf("test distplanetopoint: %f\n", distPlaneToPoint(a,b,c,d));
+	//printf("test distplanetopoint: %f\n", distPlaneToPoint(a,b,c,d));
 
 	for(int i = 0; i < buildings.size(); i++){
 
                 //tbDist has the distance between the center point and the buildings center
                 double tbDist = distance(center,buildings[i]->center);
-		//printf("About to copy\n");
 		std::vector<Polygon3d> sides = buildings[i]->boundingBox();
 		//printf("%f\n",tbDist);
                 if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2+5){
                         
-			//printf("before here\n");
 			for(int j = 0; j < sides.size(); j++){
-			//for(int j = 0; j < 3; j++){
-				//printf("Here\n");
-				Polygon3d wall = sides[j];
-				std::vector<Point> worldCoords = wall.getPoints();
+				//Polygon3d wall = sides[j];
+				std::vector<Point> worldCoords = sides[j].getPoints();
+
+				//printf("wall center = %f   %f\n", wall.getCenter().x, wall.getCenter().y);
 
 				for(int k =0; k < 3 ; k++){
 					printf("x:%f y:%f z:%f \n",worldCoords[k].x,worldCoords[k].y,worldCoords[k].z);
@@ -131,51 +129,12 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 				if(dptp < sphdist){        
 					printf("ptpdist : %f , sphdist %f\n",dptp, sphdist);
 					return true;
-                        	        printf("collide true\n");
                         	}
 			}
                 }
         }
 
         return false;
-
-	/*
-	Point ax = Point(10,10,0);
-	Point bx = Point(1,0,0);
-	Point cx = Point(0,1,1);
-	Point dx = Point(0,10,15);
-	
-	printf("%f\n",distPlaneToPoint(ax,bx,cx,dx));
-	*/
-
-	/*
-	double targetRadius;
-	double tankRadius = distance(tank->getFurthestPoint(), tank->center);
-	double tankProjCenterDistance;
-	double projTankCenterDistance; 
-	double projRadius;
-	double tarRadius;
-	*/
-
-	// getFurthestPoint (alternately radius variable) should return point of each object furthest from center  
-
-	// check tank & building collision
-	// projectile collision
-	
-	/*
- 	*
- 	*
- 	* cases: 
- 	*
- 	* 	>1: projectile + building
- 	* 	>2: projectile + targets
- 	* 	>3: tank + building
- 	* 	>4: tank + projectile
- 	*
- 	*
- 	*/
-
-	// cases 1 and 2
 
 	/*		
 	for (int i = 0; i < projectiles.size(); i++){
