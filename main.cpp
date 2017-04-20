@@ -138,6 +138,77 @@ void showFPS() {
     glPopMatrix();
 }
 
+void drawScore(){
+	//int score = 40;
+	glPushMatrix();
+
+		int i, len;
+		char label[] = "Score: ";
+		void *font = GLUT_STROKE_ROMAN;
+
+		glTranslatef(82, 90, 0);
+		glScalef(0.15, 0.15, 0.15);
+
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.125,0.125,0.125);
+			glTranslatef(-550.0, 100, 0);
+			len = (int) strlen(label);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
+
+			std::ostringstream printNum;
+			std::string printy;
+
+			printNum << GLOBAL.score;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
+
+			printNum.str("");
+		glPopMatrix();
+	glPopMatrix();
+}
+
+void drawTime()
+{
+	glPushMatrix();
+
+		int i, len;
+		char label[] = "Time Remaining: ";
+		void *font = GLUT_STROKE_ROMAN;
+
+		glTranslatef(82, 90, 0);
+		glScalef(0.15, 0.15, 0.15);
+
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.125,0.125,0.125);
+			glTranslatef(-550.0, 300, 0);
+			len = (int) strlen(label);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
+
+			std::ostringstream printNum;
+			std::string printy;
+			
+//			clock_t now = time(0);
+			double testy = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
+
+			printNum << testy;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
+
+			printNum.str("");
+		glPopMatrix();
+	glPopMatrix();
+
+}
 
 void drawHud() {//to draw the 2d hud on 3d scene
 	glMatrixMode(GL_PROJECTION);
@@ -150,7 +221,8 @@ void drawHud() {//to draw the 2d hud on 3d scene
 	//draw 2D stuff
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
-	tank->drawScore();
+	drawScore();
+	drawTime();
 
 	showFPS();
 }
@@ -496,17 +568,18 @@ int main(int argc,char** args){
 				(*tDawg).setRotation(90.0);
 				targets.push_back(tDawg);
 			} else if(randSide == 2) {//"south
-				targets.push_back(new Target(Point(
+				Target *tDawg = new Target(Point(	
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth)/2.0 + 0.55,
-					targetCenter)
-				));
+					targetCenter));
+				(*tDawg).setRotation(180.0);
+				targets.push_back(tDawg);	
 			} else if(randSide == 3) {//"east"
 				Target *tDawg = new Target(Point(
 					Building::distanceBetweenBuildings*x - (Building::maxBuildingWidth)/2.0 - 0.55,
 					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
 					targetCenter));
-				(*tDawg).setRotation(90.0);
+				(*tDawg).setRotation(-90.0);
 				targets.push_back(tDawg);
 			} else {
 				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;

@@ -557,39 +557,6 @@ std::vector<Polygon3d> Tank::boundingBox(void){
 	return temp;
 }
 
-void Tank::drawScore(){
-	int score = 40;
-	glPushMatrix();
-
-		int i, len;
-		char label[] = "Score: ";
-		void *font = GLUT_STROKE_ROMAN;
-
-		glTranslatef(82, 90, 0);
-		glScalef(0.15, 0.15, 0.15);
-
-		glPushMatrix();
-			glColor3f(1.0,1.0,1.0);
-			glRotatef(180.0,1.0,0.0,0.0);
-			glScalef(0.125,0.125,0.125);
-			glTranslatef(-550.0, 100, 0);
-			len = (int) strlen(label);
-			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label[i]);
-
-			std::ostringstream printNum;
-			std::string printy;
-
-			printNum << score;
-			printy = printNum.str();
-			len = (int) strlen(&printy[0]);
-			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font,printy[i]);
-
-			printNum.str("");
-		glPopMatrix();
-	glPopMatrix();
-}
 
 void Tank::drawCooldownBar(){
 	glPushMatrix();

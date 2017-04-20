@@ -25,7 +25,7 @@ public:
 	Tank(Point center);
 	void drawHealthBar();
 	void drawCooldownBar();
-	void drawScore();
+//	void drawScore();
 	void draw();
 	void shoot();
 	void applyRecoil();
