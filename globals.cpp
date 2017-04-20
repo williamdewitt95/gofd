@@ -5,7 +5,7 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WINDOW_MAX_X = 1000;
 	WINDOW_MAX_Y = 1000;
 
-	score = 4096;
+	score = 0;
 	timeStart = time(0);
 
 	WORLD_COORDINATE_MIN_X = 0.0;
