@@ -98,9 +98,9 @@ void AI_Tank::update_AI(){
 }
 
 void AI_Tank::updateTank(){
-	// update_AI();
-	// this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
-	// this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
+	update_AI();
+	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
+	this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
 	if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
 		this->tank->baseAngle = 0;
 	if ((this->tank->towerAngle > 360) || (this->tank->towerAngle < -360))
@@ -124,20 +124,21 @@ void AI_Tank::findNearestBuilding(Point center){
 }
 
 void AI_Tank::nearbyTarget(Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
-	if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
-		enemy->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
-		//TO-DO
-		//Detect if there is a building in the way of looking at the player tank
-		//
-		aim(enemy->center);
-	}
-	else if(enemy->center.y - this->tank->center.y < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
-		enemy->center.y - this->tank->center.y > -1.0*Building::streetWidth/2.0 ){
-		//TO-DO
-		//Detect if there is a building in the way of looking at the player tank
-		//
-		aim(enemy->center);
-	}
+	aim(enemy->center);
+	// if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
+	// 	enemy->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
+	// 	//TO-DO
+	// 	//Detect if there is a building in the way of looking at the player tank
+	// 	//
+	// 	aim(enemy->center);
+	// }
+	// else if(enemy->center.y - this->tank->center.y < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
+	// 	enemy->center.y - this->tank->center.y > -1.0*Building::streetWidth/2.0 ){
+	// 	//TO-DO
+	// 	//Detect if there is a building in the way of looking at the player tank
+	// 	//
+	// 	aim(enemy->center);
+	// }
 }
 
 
@@ -152,8 +153,8 @@ void AI_Tank::aim(Point enemy){
 	else{
 		//do nothing
 	}
-
-	float vang = lookup((int)sqrt(y*y + x*x));
+	int dist = (int)sqrt(y*y + x*x);
+	float vang = lookup(dist);
 	float deltaV = this->tank->cannonAngle - vang;
 	double delta = this->tank->towerAngle - angle;
 
@@ -162,7 +163,8 @@ void AI_Tank::aim(Point enemy){
 
 		// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
 		if((delta < 1.0 && delta > -1.0) || (delta < -359.0 && delta > -361.0)){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
-			this->tank->shoot();//spawn a projectile in the global projectiles vector
+			if(dist<255)
+				this->tank->shoot();//spawn a projectile in the global projectiles vector
 			// printf("\n\nBang!\t %f",this->tank->towerAngle);
 		}
 		
