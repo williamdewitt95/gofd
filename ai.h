@@ -13,7 +13,7 @@ class AI_Tank{
 
 
 public:
-	AI_Tank(Tank *tank);
+	AI_Tank(Tank *tank, Tank *enemy);
 	Tank *tank;
 	int grid[15][15];
 
@@ -22,13 +22,9 @@ public:
 	int uncheckedMap[100][100];
 	int directionalMap[100][100];
 	
-	//static const int numDir = 8;
-	
-	//const static int numDir;
-
 	int n, m, dir, maxTankDist;
 
-	int dx[8]; // = {1, 1, 0, -1, -1, 0, 1};
+	int dx[8]; 
 	int dy[8];
 
 
@@ -56,6 +52,14 @@ public:
 
 	void setRoute();
 	std::string route;
+
+
+	// for a star
+	bool initialized;
+	double startX;
+	double startY;
+	double destX;
+	double destY;
 
 };
 

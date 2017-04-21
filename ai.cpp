@@ -1,10 +1,6 @@
-
 #include "ai.h"
 
-
-
-
-AI_Tank::AI_Tank(Tank *tank){
+AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 	
 	dx = {1, 0, -1, 0};
         dy = {0, 1, 0, -1};
@@ -16,7 +12,9 @@ AI_Tank::AI_Tank(Tank *tank){
 
 	this->tank = tank;
 
-	start = Point(60, 60, 0);//tank->center;
+	destination = enemy->center;
+
+	start = this->tank->center;//Point(60, 60, 0);//tank->center;
 
 	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
 
@@ -177,7 +175,7 @@ void AI_Tank::fillMap(){
 
     // set start and target location
     int xA, yA, xB, yB;
-    xA = start.x, yA = start.y, xB = 0, yB = 0;
+    xA = start.x, yA = start.y, xB = destination.x, yB = destination.y;
     std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
         mapGrid[xA][yA] = 2;
         mapGrid[xB][yB] = 4;
@@ -267,7 +265,7 @@ void AI_Tank::setRoute(){
 	std::cout << "setRoute " << std::endl;
 	
 	clock_t startTime = clock();
-	std::string routeNew = findPath( start.x, start.y, 0, 0); //start.x, start.y, destination.x, destination.y);
+	std::string routeNew = findPath( start.x, start.y, destination.x, destination.y);//0, 0); //start.x, start.y, destination.x, destination.y);
 	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
 	if(routeNew=="") std::cout<<"An empty route generated!"<<std::endl;
     	clock_t endTime = clock();
@@ -381,7 +379,8 @@ void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid co
 
 	std::cout << "calculatePath " << std::endl;
 
-	this->destination = Point(0, 0, 0);//60, 60, 0); //Point(x,y,0);
+	//this->destination = Point(0, 0, 0);//60, 60, 0); //Point(x,y,0);
+	
 	this->setRoute();
 	// printf("\ndestination: %f, %f, %f",this->destination.x,this->destination.y,this->destination.z);
 	forwards();
@@ -446,8 +445,12 @@ void AI_Tank::update_AI(){
 void AI_Tank::updateTank(Tank *enemy){
 
 	std::cout << "updateTank " << std::endl;
+	
+	if(destination != enemy->center){
+		destination = enemy->center;
+		this->calculatePath();		
+	}
 
-	//destination.x = enemy->center.x;
 	//destination.y = enemy->center.y;
   
 	update_AI();

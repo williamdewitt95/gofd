@@ -453,7 +453,7 @@ int main(int argc,char** args){
 
 	tank = new Tank(Point(0, 0, 0));
 	std::cout << "fire " << std::endl;
-	ai_tank = new AI_Tank(new Tank(Point(60, 60,0)));//Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
+	ai_tank = new AI_Tank(new Tank(Point(60, 60,0)), tank);//Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 	std::cout << "fire " << std::endl;
 	glutMainLoop();
 

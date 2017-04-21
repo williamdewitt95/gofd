@@ -5,7 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 AI	ai.h	2;"	d
-AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank){$/;"	f	class:AI_Tank
+AI_Tank	ai.cpp	/^AI_Tank::AI_Tank(Tank *tank, Tank *enemy){$/;"	f	class:AI_Tank
 AI_Tank	ai.h	/^class AI_Tank{$/;"	c
 Building	building.cpp	/^Building::Building(Point center){$/;"	f	class:Building
 Building	building.h	/^class Building{$/;"	c
@@ -132,6 +132,8 @@ crossProduct	vector_basics.cpp	/^Vector Vector::crossProduct(Vector& other){$/;"
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Point::__anon8
 data	vector_basics.h	/^		double data[3];$/;"	m	union:Vector::__anon10
 decay	projectile.h	/^	int decay;$/;"	m	struct:Explosion
+destX	ai.h	/^	double destX;$/;"	m	class:AI_Tank
+destY	ai.h	/^	double destY;$/;"	m	class:AI_Tank
 destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
 dir	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 dir	mapnode.h	/^		int dir;$/;"	m	class:MapNode
@@ -154,7 +156,7 @@ drawHud	main.cpp	/^void drawHud()$/;"	f
 drawMinimap	main.cpp	/^void drawMinimap(){$/;"	f
 drawTesselate	polygon3d.h	/^	bool drawTesselate;$/;"	m	class:Polygon3d
 drawWorld	main.cpp	/^void drawWorld(){$/;"	f
-dx	ai.h	/^	int dx[8]; \/\/ = {1, 1, 0, -1, -1, 0, 1};$/;"	m	class:AI_Tank
+dx	ai.h	/^	int dx[8]; $/;"	m	class:AI_Tank
 dy	ai.h	/^	int dy[8];$/;"	m	class:AI_Tank
 estimateDistance	mapnode.cpp	/^        const int& MapNode::estimateDistance(const int &xDest, const int &yDest){$/;"	f	class:MapNode
 expansionRate	projectile.h	/^	double expansionRate;$/;"	m	struct:Explosion
@@ -202,6 +204,7 @@ height	globals.h	/^	int width,height;$/;"	m	struct:TextureInfo
 hitSphereCenter	tank.h	/^	Point hitSphereCenter;$/;"	m	class:Tank
 hitSphereRadius	tank.h	/^	double hitSphereRadius;$/;"	m	class:Tank
 incLevel	mapnode.cpp	/^       	void MapNode::incLevel( const int &i){$/;"	f	class:MapNode
+initialized	ai.h	/^	bool initialized;$/;"	m	class:AI_Tank
 intersect	vector_basics.cpp	/^bool LineSeg::intersect(LineSeg& l2){$/;"	f	class:LineSeg
 intersection	vector_basics.cpp	/^Point LineSeg::intersection(LineSeg& l2){$/;"	f	class:LineSeg
 keyboardButtons	main.cpp	/^void keyboardButtons(unsigned char key, int x, int y){$/;"	f
@@ -305,6 +308,8 @@ shoot	tank.cpp	/^void Tank::shoot() {$/;"	f	class:Tank
 sidewalkWidth	building.cpp	/^const double Building::sidewalkWidth = 3;$/;"	m	class:Building	file:
 sidewalkWidth	building.h	/^	static const double sidewalkWidth;$/;"	m	class:Building
 start	ai.h	/^	Point start;$/;"	m	class:AI_Tank
+startX	ai.h	/^	double startX;$/;"	m	class:AI_Tank
+startY	ai.h	/^	double startY;$/;"	m	class:AI_Tank
 staticDecay	projectile.h	/^	int staticDecay;$/;"	m	struct:Explosion
 step	projectile.cpp	/^void Projectile::step() {$/;"	f	class:Projectile
 stop	ai.cpp	/^void AI_Tank::stop(){$/;"	f	class:AI_Tank
