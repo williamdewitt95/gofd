@@ -26,8 +26,9 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 	
 	this->fillMap();
 
-	maxTankDist = 5;
-
+	maxTankDist = 15;
+	
+	dirPrev = 3;
 	this->calculatePath();
 
 	//this->tank->destination->x =  
@@ -299,6 +300,24 @@ void AI_Tank::followRoute(){
 		std::cout << "c: " << c << std::endl;
 		j = atoi(&c);
 
+		if(dirPrev != j){
+			int diff = dirPrev - j;
+				std::cout << "diff " << diff << std::endl;
+			if(diff > 0 && diff%2 == 1){
+				turn(270.0);
+				std::cout << "turn(270) " << std::endl;
+			}
+			else if(diff < 0 && diff%2 == 1){
+				std::cout << "turn(90) " << std::endl;
+				turn(90.0);
+			
+			}
+			else if(diff%2 == 0){
+				std::cout << "turn(180) " << std::endl;
+				turn(180.0);
+			}
+		}
+
 
 		//std::cout << "x=x+dx[j] : " << x=x+dx[j] << " = " << x << " + " << dx[j] << std::endl;
 		//std::cout << "y=x+dx[j] : " << y=y+dy[j] << " = " << y << " + " << dy[j] << std::endl;
@@ -351,8 +370,13 @@ void AI_Tank::followRoute(){
 		//}
 			//mapGrid[x][y] = 4;
 			//update route str
+			dirPrev = j;
 			route.erase(0, 1);
+
 			
+
+
+
 			/*
 			for(int y=0;y<m;y++){
             			for(int x=0;x<n;x++)

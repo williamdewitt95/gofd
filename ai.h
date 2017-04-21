@@ -24,8 +24,8 @@ public:
 	
 	int n, m, dir, maxTankDist;
 
-	int dx[8]; 
-	int dy[8];
+	int dx[4]; //[8]; 
+	int dy[4]; //[8];
 
 
 	Point start;
@@ -54,13 +54,13 @@ public:
 	std::string route;
 
 
-	// for a star
+	// for a-star
 	bool initialized;
 	double startX;
 	double startY;
 	double destX;
 	double destY;
-
+	int dirPrev;
 };
 
 

@@ -137,6 +137,7 @@ destY	ai.h	/^	double destY;$/;"	m	class:AI_Tank
 destination	ai.h	/^	Point destination;$/;"	m	class:AI_Tank
 dir	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 dir	mapnode.h	/^		int dir;$/;"	m	class:MapNode
+dirPrev	ai.h	/^	int dirPrev;$/;"	m	class:AI_Tank
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
 directionalMap	ai.h	/^	int directionalMap[100][100];$/;"	m	class:AI_Tank
 display	main.cpp	/^void display(){$/;"	f
@@ -156,8 +157,8 @@ drawHud	main.cpp	/^void drawHud()$/;"	f
 drawMinimap	main.cpp	/^void drawMinimap(){$/;"	f
 drawTesselate	polygon3d.h	/^	bool drawTesselate;$/;"	m	class:Polygon3d
 drawWorld	main.cpp	/^void drawWorld(){$/;"	f
-dx	ai.h	/^	int dx[8]; $/;"	m	class:AI_Tank
-dy	ai.h	/^	int dy[8];$/;"	m	class:AI_Tank
+dx	ai.h	/^	int dx[4]; \/\/[8]; $/;"	m	class:AI_Tank
+dy	ai.h	/^	int dy[4]; \/\/[8];$/;"	m	class:AI_Tank
 estimateDistance	mapnode.cpp	/^        const int& MapNode::estimateDistance(const int &xDest, const int &yDest){$/;"	f	class:MapNode
 expansionRate	projectile.h	/^	double expansionRate;$/;"	m	struct:Explosion
 explode	projectile.cpp	/^void Projectile::explode(struct Explosion *ex) {$/;"	f	class:Projectile
