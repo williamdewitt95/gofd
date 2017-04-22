@@ -100,7 +100,7 @@ GLOBAL_SETTINGS GLOBAL;
 
 void loadShader(){
 	printf("loadShader()\n");
-	
+	GLint result;
 	const GLchar* vertexSource3 = R"glsl(
 	const int NUM_LIGHTS = 3;
 
@@ -121,7 +121,7 @@ void loadShader(){
 		// gl_Position.a = 10;
 		// set the normal for the fragment shader and
 		// the vector from the vertex to the camera
-		fragmentNormal = transpose(inverse(mat3(gl_ModelViewProjectionMatrix))) * gl_Normal ;
+		fragmentNormal = gl_Normal ;
 		cameraVector = cameraPosition - gl_Position.xyz;
 
 		// set the vectors from the vertex to each light
@@ -249,7 +249,9 @@ void loadShader(){
     // glEnableVertexAttribArray(posAttrib);
     // glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-   	
+   	/*
+	More shaders functionality is included in display function in main.cpp and in the updateLights function in globals.cpp
+   	*/
 	
 
     // printf("End\n");
