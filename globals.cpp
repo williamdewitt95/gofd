@@ -21,7 +21,7 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 
 	/* set up red/green/blue lights */
 	GLOBAL.g_lightColor[0] = 1.0f; GLOBAL.g_lightColor[1] = 0.0f; GLOBAL.g_lightColor[2] = 0.0f;
-	GLOBAL.g_lightColor[3] = 1.0f; GLOBAL.g_lightColor[4] = 1.0f; GLOBAL.g_lightColor[5] = 0.0f;
+	GLOBAL.g_lightColor[3] = 0.0f; GLOBAL.g_lightColor[4] = 1.0f; GLOBAL.g_lightColor[5] = 0.0f;
 	GLOBAL.g_lightColor[6] = 0.0f; GLOBAL.g_lightColor[7] = 0.0f; GLOBAL.g_lightColor[8] = 1.0f;
 	GLOBAL.g_lightColor[9] = 0.0f; GLOBAL.g_lightColor[10] = 1.0f; GLOBAL.g_lightColor[11] = 0.0f;
 	GLOBAL.g_lightColor[12] = 0.0f; GLOBAL.g_lightColor[13] = 1.0f; GLOBAL.g_lightColor[14] = 1.0f;
@@ -52,7 +52,7 @@ void loadShader(){
 	printf("loadShader()\n");
 	GLint result;
 	const GLchar* vertexSource3 = R"glsl(
-	const int NUM_LIGHTS = 10;
+	const int NUM_LIGHTS = 3;
 
 	// uniform int NUM_LIGHTS
 	uniform vec3 cameraPosition;
@@ -89,7 +89,7 @@ void loadShader(){
 	
 
     const GLchar* fragmentSource5 = R"glsl(
-	const int NUM_LIGHTS = 10;
+	const int NUM_LIGHTS = 3;
 
 	const vec3 AMBIENT = vec3(0.1, 0.1, 0.1);
 	const float MAX_DIST = 102.5;

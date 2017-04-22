@@ -17,7 +17,7 @@
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
-#define NUM_LIGHTS 10
+#define NUM_LIGHTS 3
 
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;

@@ -97,14 +97,14 @@ void gameEngine(){
 	}
 
 	
-	GLOBAL.g_lightRotation+=.01;
+	GLOBAL.g_lightRotation+=.05;
 	for(int i = 0; i < NUM_LIGHTS; i++) {
-		const float radius = 54.75f;
+		const float radius = 2.75f;
 		float r = (((M_PI * 2.0f) / (float)NUM_LIGHTS) * (float)i) + GLOBAL.g_lightRotation;
 
-		// GLOBAL.g_lightPosition[i * 3 + 0] = cosf(r) * radius + tank->center.x;
-		// GLOBAL.g_lightPosition[i * 3 + 1] = sin(r) * radius + tank->center.y;
-		// GLOBAL.g_lightPosition[i * 3 + 2] =  tank->center.z+2;
+		GLOBAL.g_lightPosition[i * 3 + 0] = cosf(r) * radius + tank->center.x;
+		GLOBAL.g_lightPosition[i * 3 + 1] = cosf(r) * radius + tank->center.y;
+		GLOBAL.g_lightPosition[i * 3 + 2] = sinf(r) * radius + tank->center.z+2;
 		// printf("g_lightPosition%d  %f,%f,%f\n",i,GLOBAL.g_lightPosition[i*3],GLOBAL.g_lightPosition[i*3+1],GLOBAL.g_lightPosition[i*3+2]);
 
 
@@ -115,9 +115,9 @@ void gameEngine(){
 		// GLOBAL.g_lightPosition[i * 3 + 2] = tank->center.z +5.0* i+2.0;
 
 
-		if(GLOBAL.g_lightPosition[i*3+0] < -40.0)
-			GLOBAL.g_lightPosition[i*3+0]=Building::distanceBetweenBuildings*NUM_LIGHTS+Building::distanceBetweenBuildings/2.0;
-		GLOBAL.g_lightPosition[i*3+0]-=1;
+		// if(GLOBAL.g_lightPosition[i*3+0] < -40.0)
+		// 	GLOBAL.g_lightPosition[i*3+0]=Building::distanceBetweenBuildings*NUM_LIGHTS+Building::distanceBetweenBuildings/2.0;
+		// GLOBAL.g_lightPosition[i*3+0]-=1;
 	
 
 
