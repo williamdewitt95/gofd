@@ -18,79 +18,29 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	CAMERA_ANGLE_VERTICAL = 0;
 	CAMERA_ANGLE_HORIZONTAL = 90;
 
-	LIGHTS[0].position[0]=0;
-	LIGHTS[0].position[1]=0;
-	LIGHTS[0].position[2]=0;
-	LIGHTS[0].position[3]=1;
-	LIGHTS[0].attenuation_linear=0.0001;
-	LIGHTS[0].attenuation_quadratic=0.001;
-	LIGHTS[0].color_ambient[0]=0.4;
-	LIGHTS[0].color_ambient[1]=0.4;
-	LIGHTS[0].color_ambient[2]=0.4;
-	LIGHTS[0].color_ambient[3]=1.0;
-	LIGHTS[0].color_diffuse[0]=1.0;
-	LIGHTS[0].color_diffuse[1]=1.0;
-	LIGHTS[0].color_diffuse[2]=1.0;
-	LIGHTS[0].color_diffuse[3]=1.0;
-	LIGHTS[0].color_specular[0]=0.01;
-	LIGHTS[0].color_specular[1]=0.01;
-	LIGHTS[0].color_specular[2]=0.01;
-	LIGHTS[0].color_specular[3]=1.0;
-	LIGHTS[0].spotlight_direction[0] = -1.0;
-	LIGHTS[0].spotlight_direction[1] = -0.01;
-	LIGHTS[0].spotlight_direction[2] = -0.1;
-
-
-	LIGHTS[1].position[0] = 0.0;
-	LIGHTS[1].position[1] = 0.0;
-	LIGHTS[1].position[2] = 1000.0;
-	LIGHTS[1].position[3] = 0.0;
-    LIGHTS[1].color_ambient[0] = 0.0;
-    LIGHTS[1].color_ambient[1] = 0.0;
-    LIGHTS[1].color_ambient[2] = 0.0;
-    LIGHTS[1].color_ambient[3] = 1.0;
-    LIGHTS[1].color_diffuse[0] = 0.9;
-    LIGHTS[1].color_diffuse[1] = 0.9;
-    LIGHTS[1].color_diffuse[2] = 0.9;
-    LIGHTS[1].color_diffuse[3] = 1.0;
-    LIGHTS[1].color_specular[0] = 0.1;
-    LIGHTS[1].color_specular[1] = 0.1;
-    LIGHTS[1].color_specular[2] = 0.1;
-    LIGHTS[1].color_specular[3] = 1.0;
-    LIGHTS[1].attenuation_linear=0.0001;
-	LIGHTS[1].attenuation_quadratic=0.001;
-	LIGHTS[1].spotlight_direction[0] = 0.0;
-	LIGHTS[1].spotlight_direction[1] = 0.0;
-	LIGHTS[1].spotlight_direction[2] = 1.0;
-
-
-	LIGHTS[2].position[0] = 0.0;
-	LIGHTS[2].position[1] = 0.0;
-	LIGHTS[2].position[2] = 100.0;
-	LIGHTS[2].position[3] = 1.0;
-    LIGHTS[2].color_ambient[0] = 0.0;
-    LIGHTS[2].color_ambient[1] = 0.0;
-    LIGHTS[2].color_ambient[2] = 0.0;
-    LIGHTS[2].color_ambient[3] = 1.0;
-    LIGHTS[2].color_diffuse[0] = 0.5;
-    LIGHTS[2].color_diffuse[1] = 0.5;
-    LIGHTS[2].color_diffuse[2] = 0.5;
-    LIGHTS[2].color_diffuse[3] = 1.0;
-    LIGHTS[2].color_specular[0] = 0.1;
-    LIGHTS[2].color_specular[1] = 0.1;
-    LIGHTS[2].color_specular[2] = 0.1;
-    LIGHTS[2].color_specular[3] = 1.0;
-    LIGHTS[2].attenuation_linear=0.01;
-	LIGHTS[2].attenuation_quadratic=0.01;
-	LIGHTS[2].spotlight_direction[0] = 0.01;
-	LIGHTS[2].spotlight_direction[1] = 0.01;
-	LIGHTS[2].spotlight_direction[2] =-1.0;
 
 	/* set up red/green/blue lights */
 	GLOBAL.g_lightColor[0] = 1.0f; GLOBAL.g_lightColor[1] = 0.0f; GLOBAL.g_lightColor[2] = 0.0f;
-	GLOBAL.g_lightColor[3] = 0.0f; GLOBAL.g_lightColor[4] = 1.0f; GLOBAL.g_lightColor[5] = 0.0f;
+	GLOBAL.g_lightColor[3] = 1.0f; GLOBAL.g_lightColor[4] = 1.0f; GLOBAL.g_lightColor[5] = 0.0f;
 	GLOBAL.g_lightColor[6] = 0.0f; GLOBAL.g_lightColor[7] = 0.0f; GLOBAL.g_lightColor[8] = 1.0f;
+	GLOBAL.g_lightColor[9] = 0.0f; GLOBAL.g_lightColor[10] = 1.0f; GLOBAL.g_lightColor[11] = 0.0f;
+	GLOBAL.g_lightColor[12] = 0.0f; GLOBAL.g_lightColor[13] = 1.0f; GLOBAL.g_lightColor[14] = 1.0f;
+	GLOBAL.g_lightColor[15] = 1.0f; GLOBAL.g_lightColor[16] = 0.0f; GLOBAL.g_lightColor[17] = 1.0f;
+	GLOBAL.g_lightColor[18] = 0.7f; GLOBAL.g_lightColor[19] = 0.8f; GLOBAL.g_lightColor[20] = 0.8f;
+	GLOBAL.g_lightColor[21] = 0.5f; GLOBAL.g_lightColor[24] = 0.2f; GLOBAL.g_lightColor[23] = 1.0f;
+	GLOBAL.g_lightColor[24] = 0.3f; GLOBAL.g_lightColor[25] = 0.7f; GLOBAL.g_lightColor[26] = 1.0f;
+	GLOBAL.g_lightColor[27] = 0.7f; GLOBAL.g_lightColor[28] = 0.2f; GLOBAL.g_lightColor[29] = 0.2f;
+	GLOBAL.g_lightColor[30] = 0.1f; GLOBAL.g_lightColor[31] = 0.5f; GLOBAL.g_lightColor[32] = 0.8f;
+
 	GLOBAL.g_lightRotation = 0.0f;
+
+	for(int i = 0; i < NUM_LIGHTS; i++) {
+		const float radius = 54.75f;
+		float r = (((M_PI * 2.0f) / (float)NUM_LIGHTS) * (float)i) + GLOBAL.g_lightRotation;
+		GLOBAL.g_lightPosition[i*3+0]=Building::distanceBetweenBuildings*i + -50*GLOBAL.g_lightRotation+Building::distanceBetweenBuildings/2.0;
+		GLOBAL.g_lightPosition[i*3+1]=Building::distanceBetweenBuildings/2.0;
+		GLOBAL.g_lightPosition[i*3+2]=5;
+	}
 
 }
 
@@ -102,15 +52,16 @@ void loadShader(){
 	printf("loadShader()\n");
 	GLint result;
 	const GLchar* vertexSource3 = R"glsl(
-	const int NUM_LIGHTS = 3;
+	const int NUM_LIGHTS = 10;
 
+	// uniform int NUM_LIGHTS
 	uniform vec3 cameraPosition;
 	uniform vec3 lightPosition[NUM_LIGHTS];
 
 	out vec3 fragmentNormal;
 	out vec3 cameraVector;
 	out vec3 lightVector[NUM_LIGHTS];
-	varying vec2 texture_coordinate;
+	out vec2 texture_coordinate;
 
 
 	void
@@ -138,8 +89,9 @@ void loadShader(){
 	
 
     const GLchar* fragmentSource5 = R"glsl(
-	const int NUM_LIGHTS = 3;
-	const vec3 AMBIENT = vec3(0.01, 0.01, 0.01);
+	const int NUM_LIGHTS = 10;
+
+	const vec3 AMBIENT = vec3(0.1, 0.1, 0.1);
 	const float MAX_DIST = 102.5;
 	const float MAX_DIST_SQUARED = MAX_DIST * MAX_DIST;
 
@@ -149,7 +101,7 @@ void loadShader(){
 	in vec3 fragmentNormal;
 	in vec3 cameraVector;
 	in vec3 lightVector[NUM_LIGHTS];
-	varying vec2 texture_coordinate;
+	in vec2 texture_coordinate;
 
 	void
 	main()
@@ -177,12 +129,12 @@ void loadShader(){
 			vec3 halfAngle = normalize(cameraDir + lightDir);
 			vec3 specularColor = min(lightColor[i] + 0.2, 1.0);
 			float specularDot = dot(normal, halfAngle);
-			specular += specularColor * pow(clamp(specularDot, 0.0, 1.0), 64.0) * distFactor;
+			specular += specularColor * pow(clamp(specularDot, 0.0, 1.0), 1024.0) * distFactor;
 		}
 
 		vec4 sample = texture2D(my_color_texture, texture_coordinate);
-		if(sample.x < 0.001)
-			sample.xyza = vec4(1,1,1,1);
+		if(sample.x < 0.001 )
+			sample.xyza = vec4(0.5,0.5,0.5,1);
 
 		gl_FragColor = vec4(clamp(sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
 		// gl_FragColor = texture2D(my_color_texture, texture_coordinate);
@@ -513,55 +465,20 @@ void drawAxies(){
 }
 
 void updateLights(){
-	// GLfloat temp[]={1.0,1.0,1.0,1.0};
-	// glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
-
-	// glLightfv(GL_LIGHT0,GL_POSITION,GLOBAL.LIGHTS[0].position      );
-	// glLightfv(GL_LIGHT0,GL_AMBIENT ,GLOBAL.LIGHTS[0].color_ambient );
-	// glLightfv(GL_LIGHT0,GL_DIFFUSE ,GLOBAL.LIGHTS[0].color_diffuse );
-	// glLightfv(GL_LIGHT0,GL_SPECULAR,GLOBAL.LIGHTS[0].color_specular);
-	// glLightf (GL_LIGHT0,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_linear);
-	// glLightf (GL_LIGHT0,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_quadratic);
-
 
 	
-
-	// glLightfv(GL_LIGHT1,GL_POSITION,GLOBAL.LIGHTS[1].position      );
-	// glLightfv(GL_LIGHT1,GL_AMBIENT ,GLOBAL.LIGHTS[1].color_ambient );
-	// glLightfv(GL_LIGHT1,GL_DIFFUSE ,GLOBAL.LIGHTS[1].color_diffuse );
-	// glLightfv(GL_LIGHT1,GL_SPECULAR,GLOBAL.LIGHTS[1].color_specular);
-	// glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_linear);
-	// glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_quadratic);
-
-
-	
-	
-	// GLfloat light_2_spot_cutoff = 45.0;
-	// GLfloat light_2_spot_exponent = 0;//64
-
-	// glLightfv(GL_LIGHT2,GL_POSITION,GLOBAL.LIGHTS[2].position      );
-	// glLightfv(GL_LIGHT2,GL_AMBIENT ,GLOBAL.LIGHTS[2].color_ambient );
-	// glLightfv(GL_LIGHT2,GL_DIFFUSE ,GLOBAL.LIGHTS[2].color_diffuse );
-	// glLightfv(GL_LIGHT2,GL_SPECULAR,GLOBAL.LIGHTS[2].color_specular);
-	// // glLightf (GL_LIGHT2,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_linear);
-	// // glLightf (GL_LIGHT2,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_quadratic);
-	// glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, GLOBAL.LIGHTS[2].spotlight_direction);
-	// glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &light_2_spot_cutoff);
-	// glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &light_2_spot_exponent);
 
     g_cameraPosition[0] = (float)GLOBAL.CAMERA_POS.x;
 	g_cameraPosition[1] = (float)GLOBAL.CAMERA_POS.y;
 	g_cameraPosition[2] = (float)GLOBAL.CAMERA_POS.z;
 
- //    g_cameraPosition[0] = (float)GLOBAL.CAMERA_LOOK_VECTOR.x;
-	// g_cameraPosition[1] = (float)GLOBAL.CAMERA_LOOK_VECTOR.y;
-	// g_cameraPosition[2] = (float)GLOBAL.CAMERA_LOOK_VECTOR.z;
 	
-	// printf("%f, %f, %f\n",g_cameraPosition[0],g_cameraPosition[1],g_cameraPosition[2]);
 
 	glUniform3fv(GLOBAL.shader_ProgramCameraPositionLocation, 1, g_cameraPosition);
 	glUniform3fv(GLOBAL.shader_ProgramLightPositionLocation, NUM_LIGHTS, GLOBAL.g_lightPosition);
 	glUniform3fv(GLOBAL.shader_ProgramLightColorLocation, NUM_LIGHTS, GLOBAL.g_lightColor);
+	// glUniform1i(GLOBAL.shader_ProgramNumberOfLights, NUM_LIGHTS);
+
 	// glUniform1i(GLOBAL.baseImageLoc, 0); //Texture unit 0 is for base images.
 
 }

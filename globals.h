@@ -17,7 +17,7 @@
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
-#define NUM_LIGHTS 3
+#define NUM_LIGHTS 10
 
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;
@@ -71,7 +71,7 @@ public:
 	double CAMERA_ANGLE_HORIZONTAL;
 
 
-	LIGHT_STRUCT LIGHTS[8];
+	// LIGHT_STRUCT LIGHTS[8];
 	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; // allows for easily shared textures, if they use the same name, they get the same texture
 
 
@@ -82,6 +82,7 @@ public:
 	GLuint shader_ProgramCameraPositionLocation;
 	GLuint shader_ProgramLightPositionLocation;
 	GLuint shader_ProgramLightColorLocation;
+	GLuint shader_ProgramNumberOfLights;
 	GLint baseImageLoc;
 
 };
