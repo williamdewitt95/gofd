@@ -312,9 +312,9 @@ void createCylinder(unsigned int divisions)
 void display(){
 	// glEnable(GL_LIGHTING);
    	glUseProgram(GLOBAL.shaderProgram);
- //   	GLOBAL.shader_ProgramCameraPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "cameraPosition");
-	// GLOBAL.shader_ProgramLightPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightPosition");
-	// GLOBAL.shader_ProgramLightColorLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightColor");
+   	GLOBAL.shader_ProgramCameraPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "cameraPosition");
+	GLOBAL.shader_ProgramLightPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightPosition");
+	GLOBAL.shader_ProgramLightColorLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightColor");
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);

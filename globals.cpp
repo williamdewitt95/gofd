@@ -122,7 +122,7 @@ void loadShader(){
 		// set the normal for the fragment shader and
 		// the vector from the vertex to the camera
 		fragmentNormal = gl_Normal ;
-		cameraVector = cameraPosition - gl_Position.xyz;
+		cameraVector = cameraPosition - gl_Vertex.xyz;
 
 		// set the vectors from the vertex to each light
 		for(int i = 0; i < NUM_LIGHTS; ++i)
