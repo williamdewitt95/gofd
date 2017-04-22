@@ -98,9 +98,16 @@ void gameEngine(){
 
 	GLOBAL.LIGHTS[2].position[0]=tank->center.x;
 	GLOBAL.LIGHTS[2].position[1]=tank->center.y;
-	// GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
+	GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
+
+	GLOBAL.LIGHTS[2].spotlight_direction[0]=-sin(tank->towerAngle*PI/180.0);
+	GLOBAL.LIGHTS[2].spotlight_direction[1]=cos(tank->towerAngle*PI/180.0);
+	GLOBAL.LIGHTS[2].spotlight_direction[2]=tan(tank->cannonAngle*PI/180.0);
 
 
+ //    g_cameraPosition[0] = tank->center.x;
+	// g_cameraPosition[1] = tank->center.y;
+	// g_cameraPosition[2] = tank->center.z+5;
 
 
 	for(int i=projectiles.size()-1; i >=0 ; i--){
@@ -253,17 +260,96 @@ void drawMinimap(){
 	ai_tank->tank->draw();
 }
 
+
+void createCylinder(unsigned int divisions)
+{
+	const int floatsPerVertex = 6;
+	unsigned int i, size;
+	float *v;
+
+	g_cylinderNumVertices = (divisions + 1) * 2;
+	size = floatsPerVertex * g_cylinderNumVertices;
+
+	/* generate vertex data */
+	v = (float*)malloc(sizeof(float) * size);
+	for(i = 0; i <= divisions; ++i) {
+		float r = ((M_PI * 2.0f) / (float)divisions) * (float)i;
+		unsigned int index1 = i * 2 * floatsPerVertex;
+		unsigned int index2 = index1 + floatsPerVertex;
+
+		/* vertex positions */
+		v[index1 + 0] = cosf(r);
+		v[index1 + 1] = 1.0f;
+		v[index1 + 2] = -sinf(r);
+		v[index2 + 0] = cosf(r);
+		v[index2 + 1] = -1.0f;
+		v[index2 + 2] = -sinf(r);
+
+		/* normals */
+		v[index1 + 3] = cosf(r);
+		v[index1 + 4] = 0.0f;
+		v[index1 + 5] = -sinf(r);
+		v[index2 + 3] = v[index1 + 3];
+		v[index2 + 4] = v[index1 + 4];
+		v[index2 + 5] = v[index1 + 5];
+	}
+
+	/* create vertex buffer */
+	glGenBuffers(1, &g_cylinderBufferId);
+	glBindBuffer(GL_ARRAY_BUFFER, g_cylinderBufferId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, v, GL_STATIC_DRAW);
+	free(v);
+
+	/* enable arrays */
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
+	/* set pointers */
+	glVertexPointer(3, GL_FLOAT, sizeof(float) * floatsPerVertex, 0);
+	glNormalPointer(GL_FLOAT, sizeof(float) * floatsPerVertex, (const GLvoid *)(sizeof(float) * 3));
+}
+
 void display(){
-	glEnable(GL_LIGHTING);
-	updateLights();
+	// glEnable(GL_LIGHTING);
+   	glUseProgram(GLOBAL.shaderProgram);
+ //   	GLOBAL.shader_ProgramCameraPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "cameraPosition");
+	// GLOBAL.shader_ProgramLightPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightPosition");
+	// GLOBAL.shader_ProgramLightColorLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightColor");
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
-	drawWorld();
-	
-	//===============================================================================
-	glDisable(GL_LIGHTING);
 
+	updateLights();
+
+
+	drawWorld();
+
+	for(int i = 0; i < NUM_LIGHTS; ++i) {
+		/* render sphere with the light's color/position */
+		glPushMatrix();
+		glTranslatef(GLOBAL.g_lightPosition[i * 3 + 0], GLOBAL.g_lightPosition[i * 3 + 1], GLOBAL.g_lightPosition[i * 3 + 2]);
+		glColor3fv(GLOBAL.g_lightColor + (i * 3));
+		// printf("g_lightColor%d  %f,%f,%f\n",i,GLOBAL.g_lightColor[i*3],GLOBAL.g_lightColor[i*3+1],GLOBAL.g_lightColor[i*3+2]);
+		glutSolidSphere(0.4, 36, 36);
+		glPopMatrix();
+	}
+	GLOBAL.g_lightRotation+=.05;
+	for(int i = 0; i < NUM_LIGHTS; ++i) {
+		const float radius = 1.75f;
+		float r = (((M_PI * 2.0f) / (float)NUM_LIGHTS) * (float)i) + GLOBAL.g_lightRotation;
+
+		GLOBAL.g_lightPosition[i * 3 + 0] = cosf(r) * radius + tank->center.x;
+		GLOBAL.g_lightPosition[i * 3 + 1] = cosf(r) * sinf(r) + tank->center.y;
+		GLOBAL.g_lightPosition[i * 3 + 2] = sinf(r) * radius + tank->center.z+1;
+		// printf("g_lightPosition%d  %f,%f,%f\n",i,GLOBAL.g_lightPosition[i*3],GLOBAL.g_lightPosition[i*3+1],GLOBAL.g_lightPosition[i*3+2]);
+		// g_lightPosition[i * 3 + 0] = tank->center.x +i;
+		// g_lightPosition[i * 3 + 1] = tank->center.y + i;
+		// g_lightPosition[i * 3 + 2] = tank->center.z +i +1;
+	}
+
+	glUseProgram(0);
+	//===============================================================================
+	// glDisable(GL_LIGHTING);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	drawHud();
 
@@ -433,11 +519,17 @@ void keyboardButtonsUp_special(int key,int x,int y){
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA);
+
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA);
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 	glutCreateWindow("Pendulum");
+
+	glewInit();
+	glewExperimental = GL_TRUE;
+	if(glewInit() != GLEW_OK)
+        throw std::runtime_error("glewInit failed");
 
 	glClearColor(0,0,0,0);
 
@@ -451,20 +543,21 @@ int main(int argc,char** args){
 	glutKeyboardUpFunc(keyboardButtonsUp);
 	glutSpecialFunc(keyboardButtons_special);
 	glutSpecialUpFunc(keyboardButtonsUp_special);
+	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
+	// glEnable(GL_LIGHT0);
+	// glEnable(GL_LIGHT1);
 	// glEnable(GL_LIGHT2);
 	// glEnable(GL_LIGHT3);
 	// glEnable(GL_LIGHT4);
 	// glEnable(GL_LIGHT5);
 	// glEnable(GL_LIGHT6);
 	// glEnable(GL_LIGHT7);
-	glShadeModel(GL_SMOOTH);
+	// glShadeModel(GL_SMOOTH);
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE); // make the lighting track the color of objects
+	// glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE); // make the lighting track the color of objects
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable( GL_CULL_FACE );
@@ -531,6 +624,9 @@ int main(int argc,char** args){
 			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
 			0)
 		));
+
+	loadShader();
+
 
 	glutMainLoop();
 	return 0;

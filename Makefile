@@ -1,6 +1,6 @@
 
 CC       = g++
-CFLAGS   = -std=gnu++0x 
+CFLAGS   = -std=gnu++0x -DGL_GLEXT_PROTOTYPES
 OPTFLAGS = -O2
 
 # Setup names for custom directories -- make sure there are no spaces after the directory names

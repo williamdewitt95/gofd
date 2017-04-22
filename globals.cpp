@@ -86,10 +86,438 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	LIGHTS[2].spotlight_direction[1] = 0.01;
 	LIGHTS[2].spotlight_direction[2] =-1.0;
 
+	/* set up red/green/blue lights */
+	GLOBAL.g_lightColor[0] = 1.0f; GLOBAL.g_lightColor[1] = 0.0f; GLOBAL.g_lightColor[2] = 0.0f;
+	GLOBAL.g_lightColor[3] = 0.0f; GLOBAL.g_lightColor[4] = 1.0f; GLOBAL.g_lightColor[5] = 0.0f;
+	GLOBAL.g_lightColor[6] = 0.0f; GLOBAL.g_lightColor[7] = 0.0f; GLOBAL.g_lightColor[8] = 1.0f;
+	GLOBAL.g_lightRotation = 0.0f;
 
 }
 
 GLOBAL_SETTINGS GLOBAL;
+
+
+
+void loadShader(){
+	printf("loadShader()\n");
+	const GLchar* vertexSource = R"glsl(
+	    #version 150 core
+	    in vec3 position;
+	    void main()
+	    {
+	        gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	    }
+	)glsl";
+	const GLchar* vertexSource2 = R"glsl(
+		varying vec3 N;
+		varying vec3 v;
+
+		void main(void)  
+		{     
+		   v = vec3(gl_ModelViewMatrix * gl_Vertex);       
+		   N = normalize(gl_NormalMatrix * gl_Normal);
+
+		   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;  
+		})glsl";
+	const GLchar* vertexSource3 = R"glsl(
+	const int NUM_LIGHTS = 3;
+
+	uniform vec3 cameraPosition;
+	uniform vec3 lightPosition[NUM_LIGHTS];
+
+	out vec3 fragmentNormal;
+	out vec3 cameraVector;
+	out vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
+
+
+	void
+	main()
+	{
+		// output the transformed vertex
+		gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+		// gl_Position.a = 10;
+		// set the normal for the fragment shader and
+		// the vector from the vertex to the camera
+		fragmentNormal = transpose(inverse(mat3(gl_ModelViewProjectionMatrix))) * gl_Normal ;
+		cameraVector = cameraPosition - gl_Position.xyz;
+
+		// set the vectors from the vertex to each light
+		for(int i = 0; i < NUM_LIGHTS; ++i)
+			lightVector[i] = lightPosition[i] - gl_Position.xyz;
+
+
+		texture_coordinate = gl_MultiTexCoord0.xy;
+
+	}
+				)glsl";
+
+	const GLchar * vertexSource4 = R"glsl(
+	// const int NUM_LIGHTS = 3;
+
+	// uniform vec3 cameraPosition;
+	// uniform vec3 lightPosition[NUM_LIGHTS];
+	varying vec3 normal;
+	varying vec4 pos;
+	varying vec4 rawpos;
+	// varying vec3 lightVector[NUM_LIGHTS];
+	// varying vec3 lightVector;
+
+	void main() {
+	  normal = gl_NormalMatrix * gl_Normal;
+	  gl_Position = ftransform();
+	  pos = gl_ModelViewMatrix * gl_Vertex;
+	  rawpos = gl_Vertex;
+	  gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+	}
+	)glsl";
+
+	const GLchar * vertexSource5 = R"glsl(
+
+	const int NUM_LIGHTS = 3;
+
+	uniform vec3 cameraPosition;
+	uniform vec3 lightPosition[NUM_LIGHTS];
+
+	out vec3 fragmentNormal;
+	out vec3 cameraVector;
+	out vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
+
+	void
+	main()
+	{
+		// set the normal for the fragment shader and
+		// the vector from the vertex to the camera
+		fragmentNormal = gl_Normal;
+		cameraVector = cameraPosition - gl_Vertex.xyz;
+
+		// set the vectors from the vertex to each light
+		for(int i = 0; i < NUM_LIGHTS; ++i)
+			lightVector[i] = lightPosition[i] - gl_Vertex.xyz;
+
+		// output the transformed vertex
+		gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+		texture_coordinate = gl_MultiTexCoord0.xy;
+	}
+	)glsl";
+
+	const GLchar * vertexSource6 = R"glsl(
+	#version 150
+
+	uniform mat4 camera;
+	uniform mat4 model;
+
+	in vec3 vert;
+	in vec2 vertTexCoord;
+	in vec3 vertNormal;
+
+	out vec3 fragVert;
+	out vec2 fragTexCoord;
+	out vec3 fragNormal;
+
+	void main() {
+	    // Pass some variables to the fragment shader
+	    fragTexCoord = vertTexCoord;
+	    fragNormal = vertNormal;
+	    fragVert = vert;
+	    
+	    // Apply all matrix transformations to vert
+	    gl_Position = camera * model * vec4(vert, 1);
+	}
+	)glsl";
+	const GLchar* fragmentSource = R"glsl(
+	    #version 150 core
+	    out vec4 outColor;
+	    void main()
+	    {
+	        outColor = vec4(1.0, 1.0, 1.0, 1.0);
+	        // outColor = outColor;
+	    }
+	)glsl";
+	const GLchar* fragmentSource2 = R"glsl(
+	
+	varying vec3 fragmentNormal;
+	varying vec3 cameraVector; 
+
+	#define MAX_LIGHTS 3 
+	// varying lightVector[MAX_LIGHTS]
+
+	void main (void) 
+	{ 
+	   vec3 N = normalize(fragmentNormal);
+	   vec4 finalColor = vec4(0.0, 0.0, 0.0, 0.0);
+	   
+	   for (int i=0;i<MAX_LIGHTS;i++)
+	   {
+	      vec3 L = normalize(gl_LightSource[i].position.xyz - cameraVector); 
+	      vec3 E = normalize(-cameraVector); // we are in Eye Coordinates, so EyePos is (0,0,0) 
+	      vec3 R = normalize(-reflect(L,N)); 
+	   
+	      //calculate Ambient Term: 
+	      vec4 Iamb = gl_FrontLightProduct[i].ambient; 
+
+	      //calculate Diffuse Term: 
+	      vec4 Idiff = gl_FrontLightProduct[i].diffuse * max(dot(N,L), 0.0);
+	      Idiff = clamp(Idiff, 0.0, 1.0); 
+	   
+	      // calculate Specular Term:
+	      vec4 Ispec = gl_FrontLightProduct[i].specular 
+	             * pow(max(dot(R,E),0.0),0.3*gl_FrontMaterial.shininess);
+	      Ispec = clamp(Ispec, 0.0, 1.0); 
+	   
+	      finalColor += Iamb + Idiff + Ispec;
+	   }
+	   
+	   // write Total Color: 
+	   gl_FragColor = gl_FrontLightModelProduct.sceneColor + finalColor; 
+	}
+	          
+	)glsl";
+
+
+	const GLchar* fragmentSource3 = R"glsl(
+	const int NUM_LIGHTS = 3;
+	const vec3 AMBIENT = vec3(0.0, 0.0, 0.0);
+	const float MAX_DIST = 102.5;
+	const float MAX_DIST_SQUARED = MAX_DIST * MAX_DIST;
+
+	uniform vec3 lightColor[NUM_LIGHTS];
+
+	in vec3 fragmentNormal;
+	in vec3 cameraVector;
+	in vec3 lightVector[NUM_LIGHTS];
+
+
+	void
+	main()
+	{
+		// initialize diffuse/specular lighting
+		vec3 diffuse = vec3(0.0, 0.0, 0.0);
+		vec3 specular = vec3(0.0, 0.0, 0.0);
+
+		// normalize the fragment normal and camera direction
+		vec3 normal = normalize(fragmentNormal);
+		vec3 cameraDir = normalize(cameraVector);
+
+		// loop through each light
+		for(int i = 0; i < NUM_LIGHTS; ++i) {
+			// calculate distance between 0.0 and 1.0
+			float dist = min(dot(lightVector[i], lightVector[i]), MAX_DIST_SQUARED) / MAX_DIST_SQUARED;
+			float distFactor = 1.0 - dist;
+
+			// diffuse
+			vec3 lightDir = normalize(lightVector[i]);
+			float diffuseDot = dot(normal, lightDir);
+			// float diffuseDot = 1.0;
+			diffuse += lightColor[i] * clamp(diffuseDot, 0.0, 1.0)*distFactor;
+
+			// specular
+			vec3 halfAngle = normalize(cameraDir + lightDir);
+			vec3 specularColor = min(lightColor[i] + 0.5, 1.0);
+			float specularDot = dot(normal, halfAngle);
+			// specular += specularColor * pow(clamp(specularDot, 0.0, 1.0), 16.0) * distFactor;
+		}
+
+		vec4 sample = vec4(1.0, 1.0, 1.0, 1.0);
+		gl_FragColor = vec4(clamp(sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
+	}
+
+	)glsl";
+
+	const GLchar* fragmentSource4 = R"glsl(
+	const int NUM_LIGHTS = 3;
+	uniform vec3 lightPosition[NUM_LIGHTS];
+	varying vec3 normal;
+	varying vec4 pos;
+
+	void main() {
+	  vec4 color = gl_FrontMaterial.diffuse;
+	  vec4 matspec = gl_FrontMaterial.specular;
+	  float shininess = gl_FrontMaterial.shininess;
+	  vec4 lightspec = vec4(0,0,0,0);
+	  vec4 lpos = vec4(lightPosition[0],lightPosition[1], lightPosition[2], 0);
+	  vec4 s = -normalize(pos-lpos);
+
+	  vec3 light = s.xyz;
+	  vec3 n = normalize(normal);
+	  vec3 r = -reflect(light, n);
+	  r = normalize(r);
+	  vec3 v = -pos.xyz;
+	  v = normalize(v);
+	   
+	  vec4 diffuse  = color * max(0.0, dot(n, s.xyz)) * gl_LightSource[0].diffuse;
+	  vec4 specular;
+	  if (shininess != 0.0) {
+	    specular = lightspec * matspec * pow(max(0.0, dot(r, v)), shininess);
+	  } else {
+	    specular = vec4(0.0, 0.0, 0.0, 0.0);
+	  }
+
+	  gl_FragColor = vec4(clamp(diffuse + specular));
+	}
+
+	)glsl";
+    GLint result;
+
+    const GLchar* fragmentSource5 = R"glsl(
+	const int NUM_LIGHTS = 3;
+	const vec3 AMBIENT = vec3(0.01, 0.01, 0.01);
+	const float MAX_DIST = 102.5;
+	const float MAX_DIST_SQUARED = MAX_DIST * MAX_DIST;
+
+	uniform vec3 lightColor[NUM_LIGHTS];
+	uniform sampler2D my_color_texture;
+
+	in vec3 fragmentNormal;
+	in vec3 cameraVector;
+	in vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
+
+	void
+	main()
+	{
+		// initialize diffuse/specular lighting
+		vec3 diffuse = vec3(0.0, 0.0, 0.0);
+		vec3 specular = vec3(0.0, 0.0, 0.0);
+
+		// normalize the fragment normal and camera direction
+		vec3 normal = normalize(fragmentNormal);
+		vec3 cameraDir = normalize(cameraVector);
+
+		// loop through each light
+		for(int i = 0; i < NUM_LIGHTS; ++i) {
+			// calculate distance between 0.0 and 1.0
+			float dist = min(dot(lightVector[i], lightVector[i]), MAX_DIST_SQUARED) / MAX_DIST_SQUARED;
+			float distFactor = 1.0 - dist;
+
+			// diffuse
+			vec3 lightDir = normalize(lightVector[i]);
+			float diffuseDot = dot(normal, lightDir);
+			diffuse += lightColor[i] * clamp(diffuseDot, 0.0, 1.0)*distFactor;
+
+			// specular
+			vec3 halfAngle = normalize(cameraDir + lightDir);
+			vec3 specularColor = min(lightColor[i] + 0.2, 1.0);
+			float specularDot = dot(normal, halfAngle);
+			// specular += specularColor * pow(clamp(specularDot, 0.0, 1.0), 16.0) * distFactor;
+		}
+
+		vec4 sample = texture2D(my_color_texture, texture_coordinate);
+		gl_FragColor = vec4(clamp(sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
+		// gl_FragColor = texture2D(my_color_texture, texture_coordinate);
+	}
+
+	)glsl";
+
+	const GLchar* fragmentSource6 = R"glsl(
+	#version 150
+
+	uniform mat4 model;
+	uniform sampler2D tex;
+
+	uniform struct Light {
+	   vec3 position;
+	   vec3 intensities; //a.k.a the color of the light
+	} light;
+
+	in vec2 fragTexCoord;
+	in vec3 fragNormal;
+	in vec3 fragVert;
+
+	out vec4 finalColor;
+
+	void main() {
+	    //calculate normal in world coordinates
+	    mat3 normalMatrix = transpose(inverse(mat3(model)));
+	    vec3 normal = normalize(normalMatrix * fragNormal);
+	    
+	    //calculate the location of this fragment (pixel) in world coordinates
+	    vec3 fragPosition = vec3(model * vec4(fragVert, 1));
+	    
+	    //calculate the vector from this pixels surface to the light source
+	    vec3 surfaceToLight = light.position - fragPosition;
+
+	    //calculate the cosine of the angle of incidence
+	    float brightness = dot(normal, surfaceToLight) / (length(surfaceToLight) * length(normal));
+	    brightness = clamp(brightness, 0, 1);
+
+	    //calculate final color of the pixel, based on:
+	    // 1. The angle of incidence: brightness
+	    // 2. The color/intensities of the light: light.intensities
+	    // 3. The texture and texture coord: texture(tex, fragTexCoord)
+	    vec4 surfaceColor = texture(tex, fragTexCoord);
+	    finalColor = vec4(brightness * light.intensities * surfaceColor.rgb, surfaceColor.a);
+	}
+	)glsl";
+
+	 // Create and compile the vertex shader
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexSource3, NULL);
+    glCompileShader(vertexShader);
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &result);
+	if(result == GL_FALSE) {
+		printf("shaderCompile: Unable to compile vertexShader: \n");
+		glDeleteShader(vertexShader);
+		exit(1);
+	}
+
+
+    // Create and compile the fragment shader
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentSource5, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &result);
+    if(result == GL_FALSE){
+    	printf("shaderCompile: Unable to compile fragmentShader: \n");
+    	glDeleteShader(fragmentShader);
+    	exit(1);
+    }
+
+	// printf("Link the vertex and fragment shader into a shader program\n");
+    // Link the vertex and fragment shader into a shader program
+    GLOBAL.shaderProgram = glCreateProgram();
+    glAttachShader(GLOBAL.shaderProgram, vertexShader);
+    glAttachShader(GLOBAL.shaderProgram, fragmentShader);
+    // glBindFragDataLocation(shaderProgram, 0, "outColor");
+    glLinkProgram(GLOBAL.shaderProgram);
+
+    glGetProgramiv(GLOBAL.shaderProgram, GL_LINK_STATUS, &result);
+	if(result == GL_FALSE) {
+		printf("shader link: Unable to link \n");
+		exit(1);
+	}
+	else{
+		printf("Shader linked\n");
+	}
+
+/* get uniform locations */
+	
+
+	// GLOBAL.baseImageLoc = glGetUniformLocation(GLOBAL.shaderProgram, "my_color_texture");
+
+	
+
+	// createCylinder(36);
+
+
+	g_cameraPosition[0] = GLOBAL.CAMERA_POS.x;
+	g_cameraPosition[1] = GLOBAL.CAMERA_POS.y;
+	g_cameraPosition[2] = GLOBAL.CAMERA_POS.z;
+
+	
+
+    // printf("Specify the layout of the vertex data\n");
+    // Specify the layout of the vertex data
+    // GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+    // glEnableVertexAttribArray(posAttrib);
+    // glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+   	
+	
+
+    // printf("End\n");
+}
 
 void loadTex(std::string name){
 	if(GLOBAL.TEXTURES_LOADED.count(name) != 0){
@@ -343,41 +771,61 @@ void drawAxies(){
 }
 
 void updateLights(){
-	GLfloat temp[]={1.0,1.0,1.0,1.0};
-	glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
+	// GLfloat temp[]={1.0,1.0,1.0,1.0};
+	// glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
 
-	glLightfv(GL_LIGHT0,GL_POSITION,GLOBAL.LIGHTS[0].position      );
-	glLightfv(GL_LIGHT0,GL_AMBIENT ,GLOBAL.LIGHTS[0].color_ambient );
-	glLightfv(GL_LIGHT0,GL_DIFFUSE ,GLOBAL.LIGHTS[0].color_diffuse );
-	glLightfv(GL_LIGHT0,GL_SPECULAR,GLOBAL.LIGHTS[0].color_specular);
-	glLightf (GL_LIGHT0,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_linear);
-	glLightf (GL_LIGHT0,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_quadratic);
-
-
-	
-
-	glLightfv(GL_LIGHT1,GL_POSITION,GLOBAL.LIGHTS[1].position      );
-	glLightfv(GL_LIGHT1,GL_AMBIENT ,GLOBAL.LIGHTS[1].color_ambient );
-	glLightfv(GL_LIGHT1,GL_DIFFUSE ,GLOBAL.LIGHTS[1].color_diffuse );
-	glLightfv(GL_LIGHT1,GL_SPECULAR,GLOBAL.LIGHTS[1].color_specular);
-	glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_linear);
-	glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_quadratic);
+	// glLightfv(GL_LIGHT0,GL_POSITION,GLOBAL.LIGHTS[0].position      );
+	// glLightfv(GL_LIGHT0,GL_AMBIENT ,GLOBAL.LIGHTS[0].color_ambient );
+	// glLightfv(GL_LIGHT0,GL_DIFFUSE ,GLOBAL.LIGHTS[0].color_diffuse );
+	// glLightfv(GL_LIGHT0,GL_SPECULAR,GLOBAL.LIGHTS[0].color_specular);
+	// glLightf (GL_LIGHT0,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_linear);
+	// glLightf (GL_LIGHT0,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_quadratic);
 
 
 	
+
+	// glLightfv(GL_LIGHT1,GL_POSITION,GLOBAL.LIGHTS[1].position      );
+	// glLightfv(GL_LIGHT1,GL_AMBIENT ,GLOBAL.LIGHTS[1].color_ambient );
+	// glLightfv(GL_LIGHT1,GL_DIFFUSE ,GLOBAL.LIGHTS[1].color_diffuse );
+	// glLightfv(GL_LIGHT1,GL_SPECULAR,GLOBAL.LIGHTS[1].color_specular);
+	// glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_linear);
+	// glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_quadratic);
+
+
 	
-	GLfloat light_2_spot_cutoff = 45.0;
-	GLfloat light_2_spot_exponent = 0;//64
+	
+	// GLfloat light_2_spot_cutoff = 45.0;
+	// GLfloat light_2_spot_exponent = 0;//64
 
-	glLightfv(GL_LIGHT2,GL_POSITION,GLOBAL.LIGHTS[2].position      );
-	glLightfv(GL_LIGHT2,GL_AMBIENT ,GLOBAL.LIGHTS[2].color_ambient );
-	glLightfv(GL_LIGHT2,GL_DIFFUSE ,GLOBAL.LIGHTS[2].color_diffuse );
-	glLightfv(GL_LIGHT2,GL_SPECULAR,GLOBAL.LIGHTS[2].color_specular);
-	// glLightf (GL_LIGHT2,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_linear);
-	// glLightf (GL_LIGHT2,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_quadratic);
-	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, GLOBAL.LIGHTS[2].spotlight_direction);
-	glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &light_2_spot_cutoff);
-	glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &light_2_spot_exponent);
+	// glLightfv(GL_LIGHT2,GL_POSITION,GLOBAL.LIGHTS[2].position      );
+	// glLightfv(GL_LIGHT2,GL_AMBIENT ,GLOBAL.LIGHTS[2].color_ambient );
+	// glLightfv(GL_LIGHT2,GL_DIFFUSE ,GLOBAL.LIGHTS[2].color_diffuse );
+	// glLightfv(GL_LIGHT2,GL_SPECULAR,GLOBAL.LIGHTS[2].color_specular);
+	// // glLightf (GL_LIGHT2,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_linear);
+	// // glLightf (GL_LIGHT2,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_quadratic);
+	// glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, GLOBAL.LIGHTS[2].spotlight_direction);
+	// glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &light_2_spot_cutoff);
+	// glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &light_2_spot_exponent);
 
+    g_cameraPosition[0] = (float)GLOBAL.CAMERA_POS.x;
+	g_cameraPosition[1] = (float)GLOBAL.CAMERA_POS.y;
+	g_cameraPosition[2] = (float)GLOBAL.CAMERA_POS.z;
+
+ //    g_cameraPosition[0] = (float)GLOBAL.CAMERA_LOOK_VECTOR.x;
+	// g_cameraPosition[1] = (float)GLOBAL.CAMERA_LOOK_VECTOR.y;
+	// g_cameraPosition[2] = (float)GLOBAL.CAMERA_LOOK_VECTOR.z;
+	
+	// printf("%f, %f, %f\n",g_cameraPosition[0],g_cameraPosition[1],g_cameraPosition[2]);
+
+	glUniform3fv(GLOBAL.shader_ProgramCameraPositionLocation, 1, g_cameraPosition);
+	glUniform3fv(GLOBAL.shader_ProgramLightPositionLocation, NUM_LIGHTS, GLOBAL.g_lightPosition);
+	glUniform3fv(GLOBAL.shader_ProgramLightColorLocation, NUM_LIGHTS, GLOBAL.g_lightColor);
+	// glUniform1i(GLOBAL.baseImageLoc, 0); //Texture unit 0 is for base images.
 
 }
+
+
+
+
+
+

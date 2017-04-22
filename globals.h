@@ -17,6 +17,7 @@
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
+#define NUM_LIGHTS 3
 
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;
@@ -69,8 +70,20 @@ public:
 	double CAMERA_ANGLE_VERTICAL;
 	double CAMERA_ANGLE_HORIZONTAL;
 
+
 	LIGHT_STRUCT LIGHTS[8];
 	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; // allows for easily shared textures, if they use the same name, they get the same texture
+
+
+	float g_lightPosition[NUM_LIGHTS * 3];
+	float g_lightColor[NUM_LIGHTS * 3];
+	float g_lightRotation;
+	GLuint shaderProgram;
+	GLuint shader_ProgramCameraPositionLocation;
+	GLuint shader_ProgramLightPositionLocation;
+	GLuint shader_ProgramLightColorLocation;
+	GLint baseImageLoc;
+
 };
 
 extern GLOBAL_SETTINGS GLOBAL;
@@ -83,6 +96,13 @@ extern std::vector<Building*> buildings;
 class Projectile;
 extern std::vector<Projectile*> projectiles;
 
+static GLuint g_cylinderBufferId;
+static unsigned int g_cylinderNumVertices;
+
+static float g_cameraPosition[3];
+
+
+
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
@@ -93,5 +113,6 @@ void free_CameraMovement(int x, int y);
 void drawTank (void);
 void drawAxies();
 void updateLights();
+void loadShader();
 
 #endif

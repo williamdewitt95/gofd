@@ -371,11 +371,14 @@ void Tank::draw(){
 		glTranslated(center.x, center.y, center.z);
 		glScaled(scale, scale, scale);
 		glRotated(baseAngle, 0, 0, 1);
-		for(int x=0; x<base.size(); x++)
+		
+		for(int x=0; x<base.size(); x++){		
 			this->base[x].draw();
+		}
 	glPopMatrix();//When we rotate the base, let the turret stay on target
 
 	glPushMatrix();
+
 		glTranslated(center.x, center.y, center.z);
 		glRotated(towerAngle, 0, 0, 1);
 		for(int x=0; x<tower.size(); x++)

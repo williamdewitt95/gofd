@@ -322,7 +322,10 @@ void Polygon3d::draw_static(){
 	// glVertex3d(normal.x,normal.y,normal.z);
 	// glEnd();
 	if(this->hasTexture()){
+		// glUniform1i(baseImageLoc, 0);
+		glActiveTexture(GL_TEXTURE0 + 0);
 		glBindTexture(GL_TEXTURE_2D,this->getTexture());
+		// glBindSampler(0, linearFiltering);
 	}
 
 	GLUtesselator* tessObj = gluNewTess();
