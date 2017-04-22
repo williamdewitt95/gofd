@@ -323,8 +323,10 @@ void display(){
 
 
 	drawWorld();
+		glUseProgram(0);
 
-	for(int i = 0; i < NUM_LIGHTS; ++i) {
+
+	for(int i = 0; i < NUM_LIGHTS; i++) {
 		/* render sphere with the light's color/position */
 		glPushMatrix();
 		glTranslatef(GLOBAL.g_lightPosition[i * 3 + 0], GLOBAL.g_lightPosition[i * 3 + 1], GLOBAL.g_lightPosition[i * 3 + 2]);
@@ -334,7 +336,7 @@ void display(){
 		glPopMatrix();
 	}
 	GLOBAL.g_lightRotation+=.05;
-	for(int i = 0; i < NUM_LIGHTS; ++i) {
+	for(int i = 0; i < NUM_LIGHTS; i++) {
 		const float radius = 1.75f;
 		float r = (((M_PI * 2.0f) / (float)NUM_LIGHTS) * (float)i) + GLOBAL.g_lightRotation;
 
@@ -342,12 +344,11 @@ void display(){
 		GLOBAL.g_lightPosition[i * 3 + 1] = cosf(r) * sinf(r) + tank->center.y;
 		GLOBAL.g_lightPosition[i * 3 + 2] = sinf(r) * radius + tank->center.z+1;
 		// printf("g_lightPosition%d  %f,%f,%f\n",i,GLOBAL.g_lightPosition[i*3],GLOBAL.g_lightPosition[i*3+1],GLOBAL.g_lightPosition[i*3+2]);
-		// g_lightPosition[i * 3 + 0] = tank->center.x +i;
-		// g_lightPosition[i * 3 + 1] = tank->center.y + i;
-		// g_lightPosition[i * 3 + 2] = tank->center.z +i +1;
+		// GLOBAL.g_lightPosition[i * 3 + 0] = tank->center.x ;
+		// GLOBAL.g_lightPosition[i * 3 + 1] = tank->center.y ;
+		// GLOBAL.g_lightPosition[i * 3 + 2] = tank->center.z +i +2;
 	}
 
-	glUseProgram(0);
 	//===============================================================================
 	// glDisable(GL_LIGHTING);
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -565,7 +566,7 @@ int main(int argc,char** args){
 
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));
-
+	loadTex("textures/white.png");
 	// enable blending to have translucent materials
 	// you must draw objects back to front to get proper blending
 	//glEnable(GL_BLEND);
@@ -626,6 +627,7 @@ int main(int argc,char** args){
 		));
 
 	loadShader();
+
 
 
 	glutMainLoop();
