@@ -126,7 +126,7 @@ void loadShader(){
 
 		// set the vectors from the vertex to each light
 		for(int i = 0; i < NUM_LIGHTS; ++i)
-			lightVector[i] = lightPosition[i] - gl_Position.xyz;
+			lightVector[i] = lightPosition[i] - gl_Vertex.xyz;
 
 
 		texture_coordinate = gl_MultiTexCoord0.xy;
