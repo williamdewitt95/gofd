@@ -41,8 +41,14 @@ void Tank::draw(){
 	glScaled(scale*.75, scale*.75, scale*.75);
 	glRotated(baseAngle, 0, 0, 1);
 	glRotatef(90,1,0,0);//rotate the body
-	glColor3f(.35,.35,.35);
-	glmDraw(tankModel, GLM_MATERIAL);	
+	//glColor3f(.35,.35,.35);
+	glDisable(GL_COLOR_MATERIAL);
+	//glmUnitize(tankModel);
+	glmFacetNormals(tankModel);
+	glmVertexNormals(tankModel,90.0);
+	glmLinearTexture(tankModel);
+	glmDraw(tankModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glEnable(GL_COLOR_MATERIAL);	
 	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
 	*/
@@ -79,7 +85,9 @@ void Tank::draw(){
 	glTranslatef(.8,2.05,1.35);//move the body down
 	glScaled(scale*.75, scale*.75, scale*.75);
 	glRotated(91.15, 0, 0, 1);
+	glDisable(GL_COLOR_MATERIAL);
 	glmDraw(cannonModel, GLM_MATERIAL);
+	glEnable(GL_COLOR_MATERIAL);
 	//////
 	/*for(int x=0; x<cannon.size(); x++)
 		this->cannon[x].draw();

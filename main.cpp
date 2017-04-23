@@ -244,7 +244,7 @@ void drawMinimap(){
 }
 
 void display(){
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	updateLights();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
