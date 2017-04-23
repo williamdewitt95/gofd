@@ -129,7 +129,7 @@ void loadShader(){
 			vec3 halfAngle = normalize(cameraDir + lightDir);
 			vec3 specularColor = min(lightColor[i] + 0.2, 1.0);
 			float specularDot = dot(normal, halfAngle);
-			specular += specularColor * pow(clamp(specularDot, 0.0, 1.0), 1024.0) * distFactor;
+			specular += specularColor * pow(clamp(specularDot, 0.0, 1.0), 64.0) * distFactor;
 		}
 
 		vec4 sample = texture2D(my_color_texture, texture_coordinate);
