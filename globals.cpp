@@ -58,22 +58,23 @@ void loadShader(){
 	uniform vec3 cameraPosition;
 	uniform vec3 lightPosition[NUM_LIGHTS];
 
-	out vec3 fragmentNormal;
-	out vec3 cameraVector;
-	out vec3 lightVector[NUM_LIGHTS];
-	out vec2 texture_coordinate;
+	varying vec3 fragmentNormal;
+	varying vec3 cameraVector;
+	varying vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
 
 
 	void
 	main()
 	{
 		// output the transformed vertex
-		// gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
-		gl_Position = ftransform();
+		gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+		// gl_Position = ftransform();
 		// gl_Position.a = 10;
 		// set the normal for the fragment shader and
 		// the vector from the vertex to the camera
 		fragmentNormal = gl_Normal ;
+		// fragmentNormal = vec3(1,0,0);
 		cameraVector = cameraPosition - mat4(gl_ModelViewMatrix)*gl_Vertex;
 
 		// set the vectors from the vertex to each light
@@ -98,10 +99,10 @@ void loadShader(){
 	uniform vec3 lightColor[NUM_LIGHTS];
 	uniform sampler2D my_color_texture;
 
-	in vec3 fragmentNormal;
-	in vec3 cameraVector;
-	in vec3 lightVector[NUM_LIGHTS];
-	in vec2 texture_coordinate;
+	varying vec3 fragmentNormal;
+	varying vec3 cameraVector;
+	varying vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
 
 	void
 	main()
@@ -138,6 +139,7 @@ void loadShader(){
 
 		gl_FragColor = vec4(clamp(sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
 		// gl_FragColor = texture2D(my_color_texture, texture_coordinate);
+		// gl_FragColor = vec4(1.0,0.0,0.0,0.0);
 	}
 
 	)glsl";

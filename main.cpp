@@ -479,8 +479,8 @@ int main(int argc,char** args){
 
 	glewInit();
 	glewExperimental = GL_TRUE;
-	if(glewInit() != GLEW_OK)
-        throw std::runtime_error("glewInit failed");
+	// if(glewInit() != GLEW_OK)
+ //        throw std::runtime_error("glewInit failed");
 
 	glClearColor(0,0,0,0);
 
