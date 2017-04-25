@@ -62,6 +62,7 @@ void loadShader(){
 	varying vec3 cameraVector;
 	varying vec3 lightVector[NUM_LIGHTS];
 	varying vec2 texture_coordinate;
+	varying vec4 colorValues;
 
 
 	void
@@ -83,6 +84,7 @@ void loadShader(){
 
 
 		texture_coordinate = gl_MultiTexCoord0.xy;
+		colorValues = gl_Color;
 
 	}
 				)glsl";
@@ -103,6 +105,7 @@ void loadShader(){
 	in vec3 cameraVector;
 	in vec3 lightVector[NUM_LIGHTS];
 	in vec2 texture_coordinate;
+	in vec4 colorValues;
 
 	void
 	main()
@@ -134,10 +137,10 @@ void loadShader(){
 		}
 
 		vec4 sample = texture2D(my_color_texture, texture_coordinate);
-		if(sample.x < 0.001 )
+		if(sample.x < 0.001 && sample.y < 0.001 && sample.z < 0.001)
 			sample.xyza = vec4(0.5,0.5,0.5,1);
 
-		gl_FragColor = vec4(clamp(sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
+		gl_FragColor = vec4(clamp(colorValues.rgb * sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
 		// gl_FragColor = texture2D(my_color_texture, texture_coordinate);
 		// gl_FragColor = vec4(1.0,0.0,0.0,0.0);
 	}
