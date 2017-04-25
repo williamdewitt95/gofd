@@ -70,20 +70,19 @@ void loadShader(){
 	{
 		// output the transformed vertex
 		gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
-		// gl_Position = ftransform();
-		// gl_Position.a = 10;
+		
 		// set the normal for the fragment shader and
 		// the vector from the vertex to the camera
 		fragmentNormal = gl_Normal ;
-		// fragmentNormal = vec3(1,0,0);
 		cameraVector = cameraPosition - mat4(gl_ModelViewMatrix)*gl_Vertex;
 
 		// set the vectors from the vertex to each light
 		for(int i = 0; i < NUM_LIGHTS; i++)
 			lightVector[i] = lightPosition[i] - mat4(gl_ModelViewMatrix)*gl_Vertex;
 
-
+		//set Texture Coordinates
 		texture_coordinate = gl_MultiTexCoord0.xy;
+		//Get colour of the polygon
 		colorValues = gl_Color;
 
 	}
@@ -140,8 +139,9 @@ void loadShader(){
 		if(sample.x < 0.001 && sample.y < 0.001 && sample.z < 0.001)
 			sample.xyza = vec4(0.5,0.5,0.5,1);
 
+		//multiply eveything together
 		gl_FragColor = vec4(clamp(colorValues.rgb * sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
-		// gl_FragColor = texture2D(my_color_texture, texture_coordinate);
+		// gl_FragColor = vec4(clamp(sample.rgb, 0.0, 1.0),sample.a);
 		// gl_FragColor = vec4(1.0,0.0,0.0,0.0);
 	}
 
