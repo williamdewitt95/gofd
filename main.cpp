@@ -479,8 +479,10 @@ int main(int argc,char** args){
 
 	glewInit();
 	glewExperimental = GL_TRUE;
-	if(glewInit() != GLEW_OK)
-        throw std::runtime_error("glewInit failed");
+	if(glewInit() != GLEW_OK){
+        printf("glewInit failed\n");
+        exit(0);
+	}
 
 	glClearColor(0,0,0,0);
 
@@ -516,7 +518,7 @@ int main(int argc,char** args){
 
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));
-	loadTex("textures/white.png");
+	// loadTex("textures/white.png");
 	// enable blending to have translucent materials
 	// you must draw objects back to front to get proper blending
 	//glEnable(GL_BLEND);

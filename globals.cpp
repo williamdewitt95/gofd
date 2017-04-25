@@ -58,10 +58,10 @@ void loadShader(){
 	uniform vec3 cameraPosition;
 	uniform vec3 lightPosition[NUM_LIGHTS];
 
-	out vec3 fragmentNormal;
-	out vec3 cameraVector;
-	out vec3 lightVector[NUM_LIGHTS];
-	out vec2 texture_coordinate;
+	varying vec3 fragmentNormal;
+	varying vec3 cameraVector;
+	varying vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
 
 
 	void
