@@ -272,11 +272,15 @@ void drawMinimap(){
 void display(){
 	// glEnable(GL_LIGHTING);
    	glUseProgram(GLOBAL.shaderProgram);
-   	GLOBAL.shader_ProgramCameraPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "cameraPosition");
-	GLOBAL.shader_ProgramLightPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightPosition");
-	GLOBAL.shader_ProgramLightColorLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightColor");
-	GLOBAL.shader_ProgramNumberOfLights = glGetUniformLocation(GLOBAL.shaderProgram, "NUM_LIGHTS");
+   	int a = GLOBAL.shader_ProgramCameraPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "cameraPosition");
+	int b = GLOBAL.shader_ProgramLightPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightPosition");
+	int c = GLOBAL.shader_ProgramLightColorLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightColor");
+	// GLOBAL.shader_ProgramNumberOfLights = glGetUniformLocation(GLOBAL.shaderProgram, "NUM_LIGHTS");
+	if(a == -1 || b==-1 || c==-1){
+		printf("-1 returned for setting uniforms %d, %d, %d\n",a,b,c);
+		exit(1);
 
+	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
@@ -470,17 +474,19 @@ void keyboardButtonsUp_special(int key,int x,int y){
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
-
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA);
 
 	glutInitWindowPosition(0,0);
 	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 	glutCreateWindow("Pendulum");
 
-	glewInit();
-	glewExperimental = GL_TRUE;
-	// if(glewInit() != GLEW_OK)
- //        throw std::runtime_error("glewInit failed");
+	// glewInit();
+	if(glewInit() != GLEW_OK){
+        printf("glewInit failed\n");
+        exit(0);
+	}
+		glewExperimental = GL_TRUE;
+
 
 	glClearColor(0,0,0,0);
 
@@ -516,7 +522,7 @@ int main(int argc,char** args){
 
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));
-	loadTex("textures/white.png");
+	// loadTex("textures/white.png");
 	// enable blending to have translucent materials
 	// you must draw objects back to front to get proper blending
 	//glEnable(GL_BLEND);

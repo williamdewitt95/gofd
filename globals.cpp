@@ -99,10 +99,10 @@ void loadShader(){
 	uniform vec3 lightColor[NUM_LIGHTS];
 	uniform sampler2D my_color_texture;
 
-	varying vec3 fragmentNormal;
-	varying vec3 cameraVector;
-	varying vec3 lightVector[NUM_LIGHTS];
-	varying vec2 texture_coordinate;
+	in vec3 fragmentNormal;
+	in vec3 cameraVector;
+	in vec3 lightVector[NUM_LIGHTS];
+	in vec2 texture_coordinate;
 
 	void
 	main()
@@ -212,7 +212,7 @@ void loadShader(){
    	*/
 	
 
-    // printf("End\n");
+    // printf("End Shader\n");
 }
 
 void loadTex(std::string name){
