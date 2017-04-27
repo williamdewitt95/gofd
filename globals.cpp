@@ -176,7 +176,6 @@ void loadShader(){
     GLOBAL.shaderProgram = glCreateProgram();
     glAttachShader(GLOBAL.shaderProgram, vertexShader);
     glAttachShader(GLOBAL.shaderProgram, fragmentShader);
-    // glBindFragDataLocation(shaderProgram, 0, "outColor");
     glLinkProgram(GLOBAL.shaderProgram);
 
     glGetProgramiv(GLOBAL.shaderProgram, GL_LINK_STATUS, &result);
@@ -188,14 +187,6 @@ void loadShader(){
 		printf("Shader linked\n");
 	}
 
-/* get uniform locations */
-	
-
-	// GLOBAL.baseImageLoc = glGetUniformLocation(GLOBAL.shaderProgram, "my_color_texture");
-
-	
-
-	// createCylinder(36);
 
 
 	g_cameraPosition[0] = GLOBAL.CAMERA_POS.x;
@@ -203,19 +194,6 @@ void loadShader(){
 	g_cameraPosition[2] = GLOBAL.CAMERA_POS.z;
 
 	
-
-    // printf("Specify the layout of the vertex data\n");
-    // Specify the layout of the vertex data
-    // GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
-    // glEnableVertexAttribArray(posAttrib);
-    // glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-   	/*
-	More shaders functionality is included in display function in main.cpp and in the updateLights function in globals.cpp
-   	*/
-	
-
-    // printf("End Shader\n");
 }
 
 void loadTex(std::string name){
@@ -471,21 +449,14 @@ void drawAxies(){
 
 void updateLights(){
 
-	
-
-    g_cameraPosition[0] = (float)GLOBAL.CAMERA_POS.x;
+	g_cameraPosition[0] = (float)GLOBAL.CAMERA_POS.x;
 	g_cameraPosition[1] = (float)GLOBAL.CAMERA_POS.y;
 	g_cameraPosition[2] = (float)GLOBAL.CAMERA_POS.z;
-
-	
 
 	glUniform3fv(GLOBAL.shader_ProgramCameraPositionLocation, 1, g_cameraPosition);
 	glUniform3fv(GLOBAL.shader_ProgramLightPositionLocation, NUM_LIGHTS, GLOBAL.g_lightPosition);
 	glUniform3fv(GLOBAL.shader_ProgramLightColorLocation, NUM_LIGHTS, GLOBAL.g_lightColor);
-	// glUniform1i(GLOBAL.shader_ProgramNumberOfLights, NUM_LIGHTS);
-
-	// glUniform1i(GLOBAL.baseImageLoc, 0); //Texture unit 0 is for base images.
-
+	
 }
 
 

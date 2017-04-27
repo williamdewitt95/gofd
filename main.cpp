@@ -275,11 +275,9 @@ void display(){
    	int a = GLOBAL.shader_ProgramCameraPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "cameraPosition");
 	int b = GLOBAL.shader_ProgramLightPositionLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightPosition");
 	int c = GLOBAL.shader_ProgramLightColorLocation = glGetUniformLocation(GLOBAL.shaderProgram, "lightColor");
-	// GLOBAL.shader_ProgramNumberOfLights = glGetUniformLocation(GLOBAL.shaderProgram, "NUM_LIGHTS");
 	if(a == -1 || b==-1 || c==-1){
 		printf("-1 returned for setting uniforms %d, %d, %d\n",a,b,c);
 		exit(1);
-
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
