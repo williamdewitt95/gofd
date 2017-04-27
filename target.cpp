@@ -1,4 +1,5 @@
 #include "target.h"
+#include "globals.h"
 
 Target::Target(Point center)
 {
@@ -78,6 +79,8 @@ void Target::draw(){
     GLUquadricObj *topDisk = gluNewQuadric();
     GLUquadricObj *bottomDisk = gluNewQuadric();
     gluQuadricDrawStyle(cylinder, GLU_FILL);
+    loadTex("textures/buildings/brick1.png");
+    glBindTexture(GL_TEXTURE_2D,GLOBAL.TEXTURES_LOADED["textures/buildings/brick1.png"].textureRef);
 
     glPushMatrix();
         glTranslated(center.x,center.y,center.z);
@@ -85,14 +88,16 @@ void Target::draw(){
         glRotated(this->rotation, 0, 1, 0);
 
         gluCylinder(cylinder, this->radius, this->radius, .1, 30, 1);
-
+        gluQuadricTexture(topDisk, GL_TRUE);
         gluDisk(topDisk, 0, this->radius, 30, 1);
-
+        gluQuadricTexture(bottomDisk, GL_TRUE);
         gluDisk(bottomDisk, this->radius, 4, 30, 1);
     glPopMatrix();
 
     glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D,0);
 }
+
 
 void Target::update(){
 }
