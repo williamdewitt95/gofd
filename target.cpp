@@ -7,10 +7,52 @@ Target::Target(Point center)
     this->center = center;
     this->radius = 3;
     this->rotation = 0;
-    //this->mascotChoice = rand() % 5;
-    loadTex("textures/mascots/woffordterriers.png");
-    this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/woffordterriers.png"].textureRef;
-    //glBindTexture(GL_TEXTURE_2D,GLOBAL.TEXTURES_LOADED["textures/mascots/woffordterriers.png"].textureRef);
+    int choice = rand() % 9;
+    if(choice == 0)
+    {
+    	loadTex("textures/mascots/woffordterriers.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/woffordterriers.png"].textureRef;
+	}
+	else if (choice == 1)
+	{
+    	loadTex("textures/mascots/citadelbulldogs.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/citadelbulldogs.png"].textureRef;
+    }
+	else if (choice == 2)
+	{
+    	loadTex("textures/mascots/chattanoogamocs.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/chattanoogamocs.png"].textureRef;
+    }
+	else if (choice == 3)
+	{
+    	loadTex("textures/mascots/furmanpaladins.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/furmanpaladins.png"].textureRef;
+    }
+	else if (choice == 4)
+	{
+    	loadTex("textures/mascots/samfordbulldogs.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/samfordbulldogs.png"].textureRef;
+    }
+	else if (choice == 5)
+	{
+    	loadTex("textures/mascots/uncgspartans.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/uncgspartans.png"].textureRef;
+    }
+	else if (choice == 6)
+	{
+    	loadTex("textures/mascots/vmilogo.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/vmilogo.png"].textureRef;
+    }
+	else if (choice == 7)
+	{
+    	loadTex("textures/mascots/wcucatamounts.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/wcucatamounts.png"].textureRef;
+    }
+	else if (choice == 8)
+	{
+    	loadTex("textures/mascots/etsubucs.png");
+    	this->mascotChoice = GLOBAL.TEXTURES_LOADED["textures/mascots/etsubucs.png"].textureRef;
+    }
 
     {
         boundingBox.push_back(Polygon3d());
@@ -84,7 +126,7 @@ void Target::draw(){
     GLUquadricObj *topDisk = gluNewQuadric();
     GLUquadricObj *bottomDisk = gluNewQuadric();
     gluQuadricDrawStyle(cylinder, GLU_FILL);
-    //loadTex("textures/mascots/woffordterriers.png");
+
     glBindTexture(GL_TEXTURE_2D,this->mascotChoice);
 
     glPushMatrix();
