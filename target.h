@@ -10,6 +10,7 @@
 class Target:public DrawableObject{
 private:
 	double rotation;
+	int mascotChoice;
 public:
 	double radius;
 
