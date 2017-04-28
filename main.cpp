@@ -34,6 +34,7 @@ bool orthoView = false;
 bool aerial = false;
 
 int oldTime, currentTime;
+double timeRemaining = TIME_LIMIT;
 float actualfps, fps = 0.0;
 
 AI_Tank * ai_tank;
@@ -59,11 +60,18 @@ void mouseButtons(int but,int state,int x,int y){
 		if(state == GLUT_DOWN)printf("Unknown Mouse Button %d\n",but);
 	}
 }
+bool youLose()
+{
+	return ((GLOBAL.gameOver) || (timeRemaining <= 0));
+}
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	cameraMovement(x,y,tank->center,cameraMode);
-	tank->turretFollowMouse(x, y,cameraMode);
+	if(!youLose())
+	{
+		cameraMovement(x,y,tank->center,cameraMode);
+		tank->turretFollowMouse(x, y,cameraMode);
+	}
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
@@ -72,6 +80,8 @@ void mouseMovement(int x,int y){
 }
 
 void gameEngine(){
+	if(tank->health == 0)
+		GLOBAL.gameOver = true;
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->update();
 
@@ -231,7 +241,7 @@ void drawGameOver(){
 
 	glPopMatrix();
 }
-void drawTime()
+double drawTime()
 {
 	glPushMatrix();
 
@@ -254,10 +264,9 @@ void drawTime()
 			std::ostringstream printNum;
 			std::string printy;
 			
-//			clock_t now = time(0);
-			double testy = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
+			double timeRemaining = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
 
-			printNum << testy;
+			printNum << timeRemaining;
 			printy = printNum.str();
 			len = (int) strlen(&printy[0]);
 			for(i = 0;i<len;i++)
@@ -267,6 +276,7 @@ void drawTime()
 		glPopMatrix();
 	glPopMatrix();
 
+	return timeRemaining;
 }
 
 void drawHud() {//to draw the 2d hud on 3d scene
@@ -281,7 +291,7 @@ void drawHud() {//to draw the 2d hud on 3d scene
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
 	drawScore();
-	drawTime();
+	timeRemaining = drawTime();
 
 	showFPS();
 }
@@ -373,15 +383,14 @@ void drawMinimap(){
 	tank->draw();
 	ai_tank->tank->draw();
 }
-
 void display(){
 	glEnable(GL_LIGHTING);
 	updateLights();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
-	if(!GLOBAL.gameOver)
+	if(!youLose())
 	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 		drawWorld();
 	
 	//===============================================================================
@@ -395,8 +404,10 @@ void display(){
 		drawMinimap();
 	}
 	else
+	{
+		glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 		drawGameOver();
-
+	}
 	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
@@ -459,7 +470,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'r' || key == 'R'){
 		aerial = !aerial;
 	}else{
-		printf("Unknown Key Down %d\n",key);
+//		printf("Unknown Key Down %d\n",key); 
 	}
 
 	if(camMove_forward > camMove_speed)
@@ -516,7 +527,7 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	}else if(key == 'x' || key == 'X' || key == 'y' || key == 'Y'){
 		//do nothing, but stop printing unknown key
 	}else{
-		printf("Unknown Key Up %d\n",key);
+	//	printf("Unknown Key Up %d\n",key); This is kind of annoying
 	}
 
 	if(camMove_forward > camMove_speed)

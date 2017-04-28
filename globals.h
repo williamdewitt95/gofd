@@ -18,7 +18,7 @@
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
-#define TIME_LIMIT 602 //extra 2 seconds since there's ~2sec gap from creation of global obj and opening of window
+#define TIME_LIMIT 10//602 //extra 2 seconds since there's ~2sec gap from creation of global obj and opening of window
 
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;
