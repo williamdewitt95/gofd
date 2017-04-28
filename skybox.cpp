@@ -16,18 +16,18 @@ Skybox::Skybox()
 		points.push_back(Point( 999,  1000,  1000));
 		points.push_back(Point( 999,  1000, -1000));
 		points.push_back(Point( 999, -1000, -1000));
-		texs.push_back(Point(0, 0, 0));
-		texs.push_back(Point(0, 0, 1));
-		texs.push_back(Point(0, 1, 1));
-		texs.push_back(Point(0, 1, 0));
-		texs.push_back(Point(0, 0, 0));
+		texs.push_back(Point(.33,  0,  0));
+		texs.push_back(Point(.66,  0,  0));
+		texs.push_back(Point(.66, .25, 0));
+		texs.push_back(Point(.33, .25, 0));
+		texs.push_back(Point(.33, 0, 0));
 	}
 	{
         model.push_back(Polygon3d());
 		auto &points = model[model.size()-1].getPoints();
 		auto &texs = model[model.size()-1].getTexturePoints();
-		//loadTex("textures/Skybox/skyboxcubemap.jpg");
-		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
+		loadTex("textures/Skybox/skyboxcubemapreversed.jpg");
+		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemapreversed.jpg"].textureRef);
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
@@ -36,18 +36,18 @@ Skybox::Skybox()
 		points.push_back(Point( -999,  1000,  1000));
 		points.push_back(Point( -999, -1000,  1000));
 		points.push_back(Point( -999, -1000, -1000));
-		texs.push_back(Point(0, 0, 0));
-		texs.push_back(Point(0, 1, 0));
-		texs.push_back(Point(0, 1, 1));
-		texs.push_back(Point(0, 0, 1));
-		texs.push_back(Point(0, 0, 0));
+		texs.push_back(Point(.33, .25, 0));
+		texs.push_back(Point(.33, .50, 0));
+		texs.push_back(Point(.66, .50, 1));
+		texs.push_back(Point(.66, .25, 1));
+		texs.push_back(Point(.33, .25, 0));
 	}
 	{
         model.push_back(Polygon3d());
 		auto &points = model[model.size()-1].getPoints();
 		auto &texs = model[model.size()-1].getTexturePoints();
 		//loadTex("textures/Skybox/skyboxcubemap.jpg");
-		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
+		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemapreversed.jpg"].textureRef);
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
@@ -56,11 +56,11 @@ Skybox::Skybox()
 		points.push_back(Point(  1000,  999,  1000));
 		points.push_back(Point( -1000,  999,  1000));
 		points.push_back(Point( -1000,  999, -1000));
-		texs.push_back(Point(0, 0, 0));
-		texs.push_back(Point(0, 0, 1));
-		texs.push_back(Point(1, 0, 1));
-		texs.push_back(Point(1, 0, 0));
-		texs.push_back(Point(0, 0, 0));
+		texs.push_back(Point(.33, .50, 0));
+		texs.push_back(Point(.33, .75, 0));
+		texs.push_back(Point(.66, .75, 0));
+		texs.push_back(Point(.66, .50, 0));
+		texs.push_back(Point(.33, .50, 0));
 	}
 	{
         model.push_back(Polygon3d());
@@ -76,11 +76,11 @@ Skybox::Skybox()
 		points.push_back(Point(  1000, -999,  1000));
 		points.push_back(Point(  1000, -999, -1000));
 		points.push_back(Point( -1000, -999, -1000));
-		texs.push_back(Point(0, 0, 0));
-		texs.push_back(Point(1, 0, 0));
-		texs.push_back(Point(1, 0, 1));
-		texs.push_back(Point(0, 0, 1));
-		texs.push_back(Point(0, 0, 0));
+		texs.push_back(Point(.33, .75, 0));
+		texs.push_back(Point(.66,   .75, 0));
+		texs.push_back(Point(.66,   1, 1));
+		texs.push_back(Point(.33, 1, 1));
+		texs.push_back(Point(.33, .75, 0));
 	}
 	{
         model.push_back(Polygon3d());
@@ -96,11 +96,11 @@ Skybox::Skybox()
 		points.push_back(Point( 1000,  1000,  999));
 		points.push_back(Point( 1000, -1000,  999));
 		points.push_back(Point(-1000, -1000,  999));
-		texs.push_back(Point(0, 0, 0));
-		texs.push_back(Point(1, 0, 0));
-		texs.push_back(Point(1, 1, 0));
-		texs.push_back(Point(0, 1, 0));
-		texs.push_back(Point(0, 0, 0));
+		texs.push_back(Point(1, .5, 0));
+		texs.push_back(Point(.66, .5, 0));
+		texs.push_back(Point(.66, .250, 0));
+		texs.push_back(Point(1, .250, 0));
+		texs.push_back(Point(1, .5, 0));
 	}
 	{
         model.push_back(Polygon3d());
@@ -116,11 +116,11 @@ Skybox::Skybox()
 		points.push_back(Point( 1000,  1000, -999));
 		points.push_back(Point(-1000,  1000, -999));
 		points.push_back(Point(-1000, -1000, -999));
-		texs.push_back(Point(0, 0, 0));
-		texs.push_back(Point(0, 1, 0));
-		texs.push_back(Point(1, 1, 0));
-		texs.push_back(Point(1, 0, 0));
-		texs.push_back(Point(0, 0, 0));
+		texs.push_back(Point(0, .25, 0));
+		texs.push_back(Point(0, .50, 0));
+		texs.push_back(Point(.33, .50, 0));
+		texs.push_back(Point(.33, .25, 0));
+		texs.push_back(Point(0, .25, 0));
 	}
 }
 
@@ -129,28 +129,8 @@ void Skybox::draw()
 	glPushMatrix();
 	glTranslated(GLOBAL.CAMERA_POS.x, GLOBAL.CAMERA_POS.y, GLOBAL.CAMERA_POS.z);
 	for(int i = 0; i < this->model.size(); i++)
-	//int i = 0;
 		this->model[i].draw();
 	glPopMatrix();
-	/*i++;
-	this->model[i].draw();
-	i++;
-	glPopMatrix();
-	glPushMatrix();
-	glTranslated(GLOBAL.CAMERA_POS.x, GLOBAL.CAMERA_POS.y, GLOBAL.CAMERA_POS.z);
-	glScaled(scaleFactorSize, scaleFactorDist, scaleFactorSize);
-	this->model[i].draw();
-	i++;
-	this->model[i].draw();
-	i++;
-	glPopMatrix();
-	glPushMatrix();
-	glTranslated(GLOBAL.CAMERA_POS.x, GLOBAL.CAMERA_POS.y, GLOBAL.CAMERA_POS.z);
-	glScaled(scaleFactorSize, scaleFactorSize, scaleFactorDist);
-	this->model[i].draw();
-	i++;
-	this->model[i].draw();
-	glPopMatrix();*/
 
 }
 
@@ -160,13 +140,13 @@ void Skybox::update()
 	double distance, size;
 	if(abs(angle) > 45)
 	{
-		distance = cos(angle/180.0 *PI)*999;
-		size = cos(angle/180.0 *PI)*1000;
+		distance = sin(angle/180.0 *PI)*600;
+		size = sin(angle/180.0 *PI)*605;
 	}
 	else
 	{
-		distance = sin(angle/180.0 *PI)*999;
-		size = sin(angle/180.0 *PI)*1000;
+		distance = cos(angle/180.0 *PI)*600;
+		size = cos(angle/180.0 *PI)*605;
 	}
 
 	if(size < 0)
