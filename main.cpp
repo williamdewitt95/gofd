@@ -50,6 +50,7 @@ void mouseButtons(int but,int state,int x,int y){
 		tank->shoot();
 	}else if(but==2 && state==GLUT_DOWN){
 		//right mouse button
+		GLOBAL.gameOver = true;
 	}else if(but==3 && state==GLUT_DOWN){
 		//scroll up
 	}else if(but==4 && state==GLUT_DOWN){
@@ -172,6 +173,64 @@ void drawScore(){
 	glPopMatrix();
 }
 
+void drawGameOver(){
+	glPushMatrix();
+
+		int i, len;
+		char label[] = "GAME OVER";
+		void *font = GLUT_STROKE_ROMAN;
+
+		glTranslatef(82, 90, 0);
+		glScalef(0.5, 0.5, 0.5);
+
+		glPushMatrix();
+			glColor3f(1.0,1.0,0.0);
+			glScalef(0.125, 0.125, 0.125);
+			len = (int) strlen(label);
+			glTranslatef(-2800.0, 100, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
+		glPopMatrix();
+		char label2[] = "LOOK AT YOU";
+		glPushMatrix();
+			glColor3f(0.0,1.0,0.0);
+			glScalef(0.125, 0.125, 0.125);
+			len = (int) strlen(label2);
+			glTranslatef(-1850.0, -500, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label2[i]);
+		glPopMatrix();
+		char label3[] = "WHAT A LOSER";
+		glPushMatrix();
+			glColor3f(0.0,1.0,1.0);
+			glScalef(0.125, 0.125, 0.125);
+			len = (int) strlen(label3);
+			glTranslatef(-850.0, -1100, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label3[i]);
+		glPopMatrix();
+		char label4[] = "Your pathetic score was: ";
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glScalef(0.125, 0.125, 0.125);
+			len = (int) strlen(label4);
+			glTranslatef(-2350.0, -2200, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label4[i]);
+			std::ostringstream printNum;
+			std::string printy;
+
+			printNum << GLOBAL.score;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
+
+			printNum.str("");
+		glPopMatrix();
+
+	glPopMatrix();
+}
 void drawTime()
 {
 	glPushMatrix();
@@ -321,17 +380,22 @@ void display(){
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
-	drawWorld();
+	if(!GLOBAL.gameOver)
+	{
+		drawWorld();
 	
 	//===============================================================================
-	glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHTING);
 
-	glClear(GL_DEPTH_BUFFER_BIT);
-	drawHud();
+		glClear(GL_DEPTH_BUFFER_BIT);
+		drawHud();
 
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
-	drawMinimap();
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
+		drawMinimap();
+	}
+	else
+		drawGameOver();
 
 	glFlush();
 	glutSwapBuffers();

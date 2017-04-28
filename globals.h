@@ -54,6 +54,7 @@ public:
 
 	int score;
 	time_t timeStart;
+	bool gameOver;
 	
 	double WORLD_COORDINATE_MIN_X;
 	double WORLD_COORDINATE_MAX_X;

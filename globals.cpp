@@ -7,6 +7,7 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 
 	score = 0;
 	timeStart = time(0);
+	gameOver = false;
 
 	WORLD_COORDINATE_MIN_X = 0.0;
 	WORLD_COORDINATE_MAX_X = 1000.0;
