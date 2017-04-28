@@ -12,8 +12,8 @@ class Skybox:public DrawableObject
 private:
 
 public:
-	Skybox(Point CameraCenter);
+	Skybox();
 	void draw();
-}
+};
 
 #endif

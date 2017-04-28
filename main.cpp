@@ -13,6 +13,7 @@
 #include "tank.h"
 #include "target.h"
 #include "ai.h"
+#include "skybox.h"
 using std::cin;
 using std::cout;
 
@@ -32,6 +33,7 @@ int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
 bool aerial = false;
+Skybox * skybox;
 
 int oldTime, currentTime;
 float actualfps, fps = 0.0;
@@ -215,6 +217,7 @@ void drawWorld(){
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
 
+	skybox->draw();
 	//tank->drawHealthBar(tank->health);
 }
 
@@ -531,7 +534,7 @@ int main(int argc,char** args){
 			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
 			0)
 		));
-
+	skybox = new Skybox();
 	glutMainLoop();
 	return 0;
 }
