@@ -14,6 +14,7 @@ private:
 public:
 	Skybox();
 	void draw();
+	void update();
 };
 
 #endif

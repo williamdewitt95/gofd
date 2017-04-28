@@ -90,6 +90,7 @@ void gameEngine(){
 	tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
 	ai_tank->updateTank();
 	ai_tank->nearbyTarget(tank);
+	skybox->update();
 	
 	GLOBAL.LIGHTS[0].position[0]=tank->center.x;
 	GLOBAL.LIGHTS[0].position[1]=tank->center.y;
