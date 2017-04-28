@@ -387,8 +387,11 @@ void display(){
 	glEnable(GL_LIGHTING);
 	updateLights();
 
+	//remove this clear for game over cast over moment of failure
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if(!youLose())
 	{
+		//remove this clear for game over to have its own screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 		drawWorld();
