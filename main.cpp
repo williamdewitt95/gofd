@@ -186,6 +186,12 @@ void drawScore(){
 }
 
 void drawGameOver(){
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the projection style
+	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	glPushMatrix();
 
 		int i, len;
@@ -197,36 +203,40 @@ void drawGameOver(){
 
 		glPushMatrix();
 			glColor3f(1.0,1.0,0.0);
-			glScalef(0.125, 0.125, 0.125);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.105, 0.105, 0.105);
 			len = (int) strlen(label);
-			glTranslatef(-2800.0, 100, 0);
+			glTranslatef(-1530.0, 1575, 0);
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label[i]);
 		glPopMatrix();
 		char label2[] = "LOOK AT YOU";
 		glPushMatrix();
 			glColor3f(0.0,1.0,0.0);
-			glScalef(0.125, 0.125, 0.125);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.105, 0.105, 0.105);
 			len = (int) strlen(label2);
-			glTranslatef(-1850.0, -500, 0);
+			glTranslatef(-1100.0, 1150, 0);
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label2[i]);
 		glPopMatrix();
 		char label3[] = "WHAT A LOSER";
 		glPushMatrix();
 			glColor3f(0.0,1.0,1.0);
-			glScalef(0.125, 0.125, 0.125);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.105, 0.105, 0.105);
 			len = (int) strlen(label3);
-			glTranslatef(-850.0, -1100, 0);
+			glTranslatef(-755.0, 725, 0);
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label3[i]);
 		glPopMatrix();
 		char label4[] = "Your pathetic score was: ";
 		glPushMatrix();
 			glColor3f(1.0,1.0,1.0);
-			glScalef(0.125, 0.125, 0.125);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.08, 0.08, 0.08);
 			len = (int) strlen(label4);
-			glTranslatef(-2290.0, -2200, 0);
+			glTranslatef(-1700.0, 400, 0);
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label4[i]);
 			std::ostringstream printNum;
@@ -243,9 +253,10 @@ void drawGameOver(){
 		char label5[] = "Press 'q' to exit or 'r' to restart";	
 		glPushMatrix();
 			glColor3f(1.0,1.0,1.0);
-			glScalef(0.08, 0.08, 0.08);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.06, 0.06, 0.06);
 			len = (int) strlen(label5);
-			glTranslatef(-3290.0, -3700, 0);
+			glTranslatef(-2140.0, 300, 0);
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label5[i]);
 		glPopMatrix();
@@ -414,7 +425,11 @@ void display(){
 		drawMinimap();
 	}
 	else
-		drawGameOver();
+	{
+	//	glPushMatrix();
+			drawGameOver();
+	//	glPopMatrix();
+	}
 	
 	glFlush();
 	glutSwapBuffers();
@@ -488,8 +503,6 @@ void keyboardButtons(unsigned char key, int x, int y){
 				0)
 				));
 			GLOBAL.reset();
-/*			GLOBAL.gameOver = false;
-			timeRemaining = TIME_LIMIT;*/
 		}
 		else
 			aerial = !aerial;
