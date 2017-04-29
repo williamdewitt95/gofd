@@ -430,6 +430,16 @@ void keyboardButtonsUp_special(int key,int x,int y){
 		printf("Unknown Special Key Up %d\n",key);
 	}
 }
+void joystickControls(unsigned int buttonMask, int x, int y, int z)
+{
+	for(int i = 0; i < 32; i++)
+	{
+		printf("%d", buttonMask & 1);
+		buttonMask >>=1;
+	}
+	printf(" %d %d %d \n", x, y, z);
+
+}
 
 int main(int argc,char** args){
 	glutInit(&argc, args);
@@ -451,6 +461,7 @@ int main(int argc,char** args){
 	glutKeyboardUpFunc(keyboardButtonsUp);
 	glutSpecialFunc(keyboardButtons_special);
 	glutSpecialUpFunc(keyboardButtonsUp_special);
+	glutJoystickFunc(joystickControls, 1);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
