@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "building.h"
 
 GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WINDOW_MAX_X = 1000;
@@ -9,10 +10,83 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WORLD_COORDINATE_MIN_Y = 0.0;
 	WORLD_COORDINATE_MAX_Y = 1000.0;
 
-	CAMERA_POS = {0,-2,0};
+	CAMERA_POS = {Building::distanceBetweenBuildings/2.0,
+	              Building::distanceBetweenBuildings/2.0,
+	              2
+			};
 	CAMERA_LOOK_VECTOR = {0,1,0};
 	CAMERA_ANGLE_VERTICAL = 0;
 	CAMERA_ANGLE_HORIZONTAL = 90;
+
+	LIGHTS[0].position[0]=0;
+	LIGHTS[0].position[1]=0;
+	LIGHTS[0].position[2]=0;
+	LIGHTS[0].position[3]=1;
+	LIGHTS[0].attenuation_linear=0.0001;
+	LIGHTS[0].attenuation_quadratic=0.001;
+	LIGHTS[0].color_ambient[0]=0.4;
+	LIGHTS[0].color_ambient[1]=0.4;
+	LIGHTS[0].color_ambient[2]=0.4;
+	LIGHTS[0].color_ambient[3]=1.0;
+	LIGHTS[0].color_diffuse[0]=1.0;
+	LIGHTS[0].color_diffuse[1]=1.0;
+	LIGHTS[0].color_diffuse[2]=1.0;
+	LIGHTS[0].color_diffuse[3]=1.0;
+	LIGHTS[0].color_specular[0]=0.01;
+	LIGHTS[0].color_specular[1]=0.01;
+	LIGHTS[0].color_specular[2]=0.01;
+	LIGHTS[0].color_specular[3]=1.0;
+	LIGHTS[0].spotlight_direction[0] = -1.0;
+	LIGHTS[0].spotlight_direction[1] = -0.01;
+	LIGHTS[0].spotlight_direction[2] = -0.1;
+
+
+	LIGHTS[1].position[0] = 0.0;
+	LIGHTS[1].position[1] = 0.0;
+	LIGHTS[1].position[2] = 1000.0;
+	LIGHTS[1].position[3] = 0.0;
+    LIGHTS[1].color_ambient[0] = 0.0;
+    LIGHTS[1].color_ambient[1] = 0.0;
+    LIGHTS[1].color_ambient[2] = 0.0;
+    LIGHTS[1].color_ambient[3] = 1.0;
+    LIGHTS[1].color_diffuse[0] = 0.9;
+    LIGHTS[1].color_diffuse[1] = 0.9;
+    LIGHTS[1].color_diffuse[2] = 0.9;
+    LIGHTS[1].color_diffuse[3] = 1.0;
+    LIGHTS[1].color_specular[0] = 0.1;
+    LIGHTS[1].color_specular[1] = 0.1;
+    LIGHTS[1].color_specular[2] = 0.1;
+    LIGHTS[1].color_specular[3] = 1.0;
+    LIGHTS[1].attenuation_linear=0.0001;
+	LIGHTS[1].attenuation_quadratic=0.001;
+	LIGHTS[1].spotlight_direction[0] = 0.0;
+	LIGHTS[1].spotlight_direction[1] = 0.0;
+	LIGHTS[1].spotlight_direction[2] = 1.0;
+
+
+	LIGHTS[2].position[0] = 0.0;
+	LIGHTS[2].position[1] = 0.0;
+	LIGHTS[2].position[2] = 100.0;
+	LIGHTS[2].position[3] = 1.0;
+    LIGHTS[2].color_ambient[0] = 0.0;
+    LIGHTS[2].color_ambient[1] = 0.0;
+    LIGHTS[2].color_ambient[2] = 0.0;
+    LIGHTS[2].color_ambient[3] = 1.0;
+    LIGHTS[2].color_diffuse[0] = 0.5;
+    LIGHTS[2].color_diffuse[1] = 0.5;
+    LIGHTS[2].color_diffuse[2] = 0.5;
+    LIGHTS[2].color_diffuse[3] = 1.0;
+    LIGHTS[2].color_specular[0] = 0.1;
+    LIGHTS[2].color_specular[1] = 0.1;
+    LIGHTS[2].color_specular[2] = 0.1;
+    LIGHTS[2].color_specular[3] = 1.0;
+    LIGHTS[2].attenuation_linear=0.01;
+	LIGHTS[2].attenuation_quadratic=0.01;
+	LIGHTS[2].spotlight_direction[0] = 0.01;
+	LIGHTS[2].spotlight_direction[1] = 0.01;
+	LIGHTS[2].spotlight_direction[2] =-1.0;
+
+
 }
 
 GLOBAL_SETTINGS GLOBAL;
@@ -24,10 +98,12 @@ void loadTex(std::string name){
 	struct TextureInfo ti;
 	ti.name = name;
 
+	unsigned char * data;
+
 	bool wrap = true;
-	Image im(name);
-	ti.width = im.width();
-	ti.height = im.height();
+	// Image im(name);
+	// ti.width = im.width();
+	// ti.height = im.height();
 
 	glGenTextures(1,(GLuint*)&ti.textureRef); // create the texture space
 	glBindTexture(GL_TEXTURE_2D,ti.textureRef);
@@ -43,11 +119,17 @@ void loadTex(std::string name){
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap ? GL_REPEAT : GL_CLAMP );
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap ? GL_REPEAT : GL_CLAMP );
 
+	//pull the actual image data from the texture
+	data = SOIL_load_image(ti.name.c_str(), &ti.width, &ti.height, 0, SOIL_LOAD_RGBA);
+
 	//time to finnally put in our pixel data
-	gluBuild2DMipmaps(GL_TEXTURE_2D,4,im.width(),im.height(),GL_RGBA,GL_UNSIGNED_BYTE,&im[0][0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ti.width, ti.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	gluBuild2DMipmaps(GL_TEXTURE_2D,4,ti.width,ti.height,GL_RGBA,GL_UNSIGNED_BYTE,data);
 
 	GLOBAL.TEXTURES_LOADED[name]=ti;
 	glBindTexture(GL_TEXTURE_2D,0); // reset to the basic texture again
+    SOIL_free_image_data(data);
+
 }
 
 void windowResize(int width, int height){
@@ -119,25 +201,17 @@ void FPS_CameraMovement(int x, int y, Point center){//first person is actually s
 	if(angleV<-90)angleV=-90;
 
 	
-			// we will have a length of 5 for the line in the XY plane
-		GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
-		GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
-		// make the z from pathagarean formula - our angle is measured from the horizontal plane
-		GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
-		// GLOBAL.CAMERA_POS.z = 0;
+	// we will have a length of 5 for the line in the XY plane
+	GLOBAL.CAMERA_LOOK_VECTOR.x = 5 * ( cos(angleH*PI/180.0));
+	GLOBAL.CAMERA_LOOK_VECTOR.y = 5 * (-sin(angleH*PI/180.0));
+	// make the z from pathagarean formula - our angle is measured from the horizontal plane
+	GLOBAL.CAMERA_LOOK_VECTOR.z = 5 * tan(angleV*PI/180.0);
+	// GLOBAL.CAMERA_POS.z = 0;
 
-		GLOBAL.CAMERA_POS.x = center.x;
-		GLOBAL.CAMERA_POS.y = center.y;
-
-
-
-	// 
+	GLOBAL.CAMERA_POS.x = center.x;
+	GLOBAL.CAMERA_POS.y = center.y;
 	// GLOBAL.CAMERA_POS.z = center_z + sin(angleV*PI/180.0)+2;
 	GLOBAL.CAMERA_POS.z=2;
-
-
-
-	// GLOBAL.CAMERA_LOOK_VECTOR.z = 0;
 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
@@ -161,7 +235,6 @@ void free_CameraMovement(int x, int y){//move the camera around not bound to the
 	int dx = x-midX;
 	int dy = y-midY;
 	
-
 	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
 	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
 	angleH += dx/movementDivisor;
@@ -180,7 +253,6 @@ void free_CameraMovement(int x, int y){//move the camera around not bound to the
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
 
-
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
 }
 
@@ -194,7 +266,6 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 
 	int dx = x-midX;
 	int dy = y-midY;
-	
 
 	double &angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
 	double &angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
@@ -205,15 +276,9 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 	if(angleV>90)angleV=90;
 	if(angleV<-20)angleV=-20;
 
-
-
-
 	GLOBAL.CAMERA_POS.x = center.x + 4.0*cos(angleH*PI/180.0);//camera rotates around the center at a radius of 4
 	GLOBAL.CAMERA_POS.y = center.y + 4.0*-sin(angleH*PI/180.0);
 	GLOBAL.CAMERA_POS.z = ( center.z + sin(angleV*PI/180.0 ) ) +3.0;
-	// GLOBAL.CAMERA_POS.z=2;
-
-
 
 	// GLOBAL.CAMERA_LOOK_VECTOR.x = center.x - GLOBAL.CAMERA_POS.x;//look at the center
 	// GLOBAL.CAMERA_LOOK_VECTOR.y = center.y - GLOBAL.CAMERA_POS.y;
@@ -223,14 +288,96 @@ void thirdPerson_CameraMovement(int x, int y, Point center){//Camera orbits the 
 	GLOBAL.CAMERA_LOOK_VECTOR.y = (center.y+100000)*sin(angleH*PI/180.0);
 	GLOBAL.CAMERA_LOOK_VECTOR.z = (center.z+100000)*sin(angleV*PI/180.0);
 
-	
-
-
-	// 
 	if(dx==0 && dy==0)
 		return; //we are not really doing anything, so we will simply ignore this thing
 
 	glutWarpPointer(midX,GLOBAL.WINDOW_MAX_Y-midY);
+}
+
+void drawAxies(){
+	static unsigned int listName = 0;
+	if(listName!=0){
+		glCallList(listName);
+	}else{
+		listName = glGenLists(1);
+		glNewList(listName,GL_COMPILE);
+
+		glBegin(GL_LINES);
+			//X
+			glColor3ub(255, 0 , 0 );
+			glVertex3d(-50,0,0);
+			glVertex3d( 50,0,0);
+			//Y
+			glColor3ub( 0 ,255, 0 );
+			glVertex3d(0,-50,0);
+			glVertex3d(0, 50,0);
+			//Z
+			glColor3ub( 0 , 0 ,255);
+			glVertex3d(0,0,-50);
+			glVertex3d(0,0, 50);
+		glEnd();
+
+		// Label our axies
+		glColor3ub(255,255,255);
+
+		glPushMatrix();
+			glTranslated(10,0,0);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'X');
+		glPopMatrix();
+		glPushMatrix();
+			glTranslated(0,10,0);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'Y');
+		glPopMatrix();
+		glPushMatrix();
+			glTranslated(0,0,10);
+			glScaled(4.0/104.76,4.0/104.76,4.0/104.76);
+			glRotated(90,1,0,0);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,'Z');
+		glPopMatrix();
+
+		glEndList();
+	}
 
 }
 
+void updateLights(){
+	GLfloat temp[]={1.0,1.0,1.0,1.0};
+	glMaterialfv(GL_FRONT,GL_SPECULAR,temp);
+
+	glLightfv(GL_LIGHT0,GL_POSITION,GLOBAL.LIGHTS[0].position      );
+	glLightfv(GL_LIGHT0,GL_AMBIENT ,GLOBAL.LIGHTS[0].color_ambient );
+	glLightfv(GL_LIGHT0,GL_DIFFUSE ,GLOBAL.LIGHTS[0].color_diffuse );
+	glLightfv(GL_LIGHT0,GL_SPECULAR,GLOBAL.LIGHTS[0].color_specular);
+	glLightf (GL_LIGHT0,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_linear);
+	glLightf (GL_LIGHT0,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_quadratic);
+
+
+	
+
+	glLightfv(GL_LIGHT1,GL_POSITION,GLOBAL.LIGHTS[1].position      );
+	glLightfv(GL_LIGHT1,GL_AMBIENT ,GLOBAL.LIGHTS[1].color_ambient );
+	glLightfv(GL_LIGHT1,GL_DIFFUSE ,GLOBAL.LIGHTS[1].color_diffuse );
+	glLightfv(GL_LIGHT1,GL_SPECULAR,GLOBAL.LIGHTS[1].color_specular);
+	glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_linear);
+	glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_quadratic);
+
+
+	
+	
+	GLfloat light_2_spot_cutoff = 45.0;
+	GLfloat light_2_spot_exponent = 0;//64
+
+	glLightfv(GL_LIGHT2,GL_POSITION,GLOBAL.LIGHTS[2].position      );
+	glLightfv(GL_LIGHT2,GL_AMBIENT ,GLOBAL.LIGHTS[2].color_ambient );
+	glLightfv(GL_LIGHT2,GL_DIFFUSE ,GLOBAL.LIGHTS[2].color_diffuse );
+	glLightfv(GL_LIGHT2,GL_SPECULAR,GLOBAL.LIGHTS[2].color_specular);
+	// glLightf (GL_LIGHT2,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_linear);
+	// glLightf (GL_LIGHT2,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[2].attenuation_quadratic);
+	glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, GLOBAL.LIGHTS[2].spotlight_direction);
+	glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, &light_2_spot_cutoff);
+	glLightfv(GL_LIGHT2, GL_SPOT_EXPONENT, &light_2_spot_exponent);
+
+
+}

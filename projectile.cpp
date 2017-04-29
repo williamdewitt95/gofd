@@ -1,20 +1,32 @@
 #include "projectile.h"
+#include <iostream>
+using std::cout;
 
 Projectile::Projectile(Point center){
+	this->baseInit(center,center,45,0);
+}
+
+Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH){
+	this->baseInit(center,tankStart,angleV,angleH);
+}
+
+void Projectile::baseInit(Point center, Point tankStart, double angleV, double angleH){
 	this->center = center;
-	this->tankStart = center;
-	this->angleV = 45;
-	this->angleH = 0;
+	this->tankStart = tankStart;
+	this->angleV = angleV;
+	this->angleH = angleH;
 	this->mass = 50.0;
-	this->velocity = 500.0;
+	this->velocity = 50.0;
 	this->C = 0.05;
 
-	this->t = 0.0;
+	this->t = glutGet(GLUT_ELAPSED_TIME)/1000.0;
 	this->local = Point(0.0, 0.0, 0.0);
 
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
-	this->h = 0.1;
+	this->h = 0.01;
+
+	this->state=MOVING;
 
 	{
 		boundingBox.push_back(Polygon3d());
@@ -69,79 +81,111 @@ Projectile::Projectile(Point center){
 	}
 }
 
-Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH)
-{
-	this->center = center;
-	this->angleV = angleV;
-	this->angleH = angleH;
-	this->tankStart = tankStart;
-	this->mass = 50.0;
-	this->velocity = 500.0;
-	this->C = 0.05;
-
-	this->t = 0.0;
-	this->local = Point(0, 0, 0);
-
-	this->p = this->velocity*cos(angleV*M_PI/180.0);
-	this->q = this->velocity*sin(angleV*M_PI/180.0);
-	this->h = 0.01;
-}
-
 void Projectile::draw(){
-	glPushMatrix();
+	if(this->state==MOVING){
+		GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
 
-	GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
-	glColor3f(.1, .1, .1);
-	glTranslated(center.x,center.y,center.z);
-	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(-this->angleV, 0, 1.0, 0);
-	glTranslated(-.1, 0.0, 0.0);
+		glPushMatrix();
+			glColor3f(1.0, .1, .1);
+			glTranslated(center.x,center.y,center.z);
+			glRotated(this->angleH, 0.0, 0.0, 1.0);
+			glRotated(-this->angleV, 0, 1.0, 0);
+			glTranslated(-.1, 0.0, 0.0);
 
-	glRotated(90.0, 0.0, 1.0, 0.0);
-	shellCasing = gluNewQuadric();
-	gluCylinder(shellCasing, .05, .05, .2, 30, 1);
-	glPopMatrix();
+			glRotated(90.0, 0.0, 1.0, 0.0);
+			shellCasing = gluNewQuadric();
+			gluCylinder(shellCasing, .05, .05, .2, 30, 1);
+		glPopMatrix();
 
-	glPushMatrix();
-	glColor3f(.1, .1, .1);
-	glTranslated(center.x,center.y,center.z);
-	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(-this->angleV, 0, 1.0, 0);
-	glTranslated(0, 0, 0);
+		glPushMatrix();
+			glColor3f(.1, .1, .1);
+			glTranslated(center.x,center.y,center.z);
+			glRotated(this->angleH, 0.0, 0.0, 1.0);
+			glRotated(-this->angleV, 0, 1.0, 0);
+			glTranslated(0, 0, 0);
 
-	glRotated(90.0, 0.0, 1.0, 0.0);
-	shellBottom = gluNewQuadric();
-	gluDisk(shellBottom, 0, .05, 30, 1);
-	glPopMatrix();
+			glRotated(90.0, 0.0, 1.0, 0.0);
+			shellBottom = gluNewQuadric();
+			gluDisk(shellBottom, 0, .05, 30, 1);
+		glPopMatrix();
 
-	glPushMatrix();
-	glTranslated(center.x,center.y,center.z);
-	glRotated(this->angleH, 0.0, 0.0, 1.0);
-	glRotated(-this->angleV, 0, 1.0, 0);
-	glTranslated(.1, 0.0, 0.0);
-	glRotated(90.0, 0.0, 1.0, 0.0);
+		glPushMatrix();
+			glTranslated(center.x,center.y,center.z);
+			glRotated(this->angleH, 0.0, 0.0, 1.0);
+			glRotated(-this->angleV, 0, 1.0, 0);
+			glTranslated(.1, 0.0, 0.0);
+			glRotated(90.0, 0.0, 1.0, 0.0);
 
-	shellPoint = gluNewQuadric();
-	gluCylinder(shellPoint, .05, .00, .4, 30, 4);
-	glPopMatrix();
+			shellPoint = gluNewQuadric();
+			gluCylinder(shellPoint, .05, .00, .4, 30, 4);
+		glPopMatrix();
+
+		//clean up
+		gluDeleteQuadric(shellCasing);
+		gluDeleteQuadric(shellPoint);
+		gluDeleteQuadric(shellBottom);
+	}
+	else if (this->state==EXPLODING) {
+		for(int i=0; i<explosions.size();i++){
+			drawExplosion(&explosions[i]);
+		}
+	}
 }
 
 void Projectile::update()
 {
-	if(center.z > 0)
-	{
-		step();
+	if(this->state == MOVING){
+
+		//sync with actual time
+		double currTime = glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
+		this->h = (currTime - this->t) / 10.0;
+   		while( (float)this->t < (float)currTime){ step(); }
+   		this->t = currTime;
+
+		// step();
 		Point temp = Point(this->local.x, 0, this->local.z);
 		temp = temp.rotatePoint(this->angleH, false, false, true);
 		temp = temp.translatePoint(this->tankStart.x, this->tankStart.y, this->tankStart.z);
 		this->center.x = temp.x;
 		this->center.y = temp.y;
 		this->center.z = temp.z;
-	}
-}
 
-std::vector<Polygon3d> Projectile::getBoundingBox(){
-	return this->boundingBox;
+
+
+
+		//check to see if it has hit the ground. If so, then we have hit and need to explode
+		//if z<=0, start exploding and generate random values for each splode
+		if(center.z <= 0){
+			this->state=EXPLODING;
+			this->center.z = 0.0;
+			int splodes = 3 + (rand() % 3);
+			for (int i=0;i < splodes;i++) {
+				Explosion n;
+				n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+				n.y = center.y + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
+				n.z = center.z + ((double) rand() / (RAND_MAX));
+				n.decay = 15 + (rand() % 5);
+				n.staticDecay = n.decay;
+				n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
+				n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
+				explosions.push_back(n);
+			}
+		}
+	}
+	else if (this->state==EXPLODING){
+		//now lets update the parameters of every explosion until it decays away
+		for(int x=explosions.size()-1; x>=0; x--){
+			explosions[x].radius += explosions[x].expansionRate;
+			explosions[x].decay--;
+			//remove the sphere if the radius is too small
+			if(explosions[x].decay<=0)
+				explosions.erase(explosions.begin()+x);
+		}
+		if(explosions.size()==0)
+			this->state=DEAD;
+	}else if(this->state==DEAD){
+		//well, we are dead, so what can i say...
+	}
 }
 
 // Compute the drag based on the 155 mm HE Shell
@@ -216,4 +260,25 @@ void Projectile::step() {
     this->p = this->p + dp*this->h;
     this->q = this->q + dq*this->h;
     this->t = this->t + this->h;
+}
+
+void Projectile::drawExplosion(struct Explosion *ex) {
+	if (ex->decay > 0) {
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslated(ex->x, ex->y, ex->z);
+		//gradually change color to a dark grey (0.3, 0.3, 0.3)
+		double decayRatio = (double) ex->decay / ex->staticDecay;
+		float colorR = 1.0;
+		float colorG = 0.65;
+		float colorB = 0.13;
+
+		colorR = 0.3 + (decayRatio * (colorR - 0.3));
+		colorG = 0.3 + (decayRatio * (colorG - 0.3));
+		colorB = 0.3 + (decayRatio * (colorB - 0.3));
+
+		glColor3f(colorR, colorG, colorB);
+		glutSolidSphere(ex->radius, 8, 8);
+		glPopMatrix();
+	}
 }
