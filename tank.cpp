@@ -7,7 +7,8 @@
 
 using std::cout;
 GLMmodel* cannonModel = glmReadOBJ("objects/cannon.obj");
-GLMmodel* tankModel = glmReadOBJ("objects/tankbody.obj");
+GLMmodel* tankModel = glmReadOBJ("objects/tank.obj");
+GLMmodel* stars = glmReadOBJ("objects/s.obj");
 
 
 Tank::Tank(Point center){
@@ -43,7 +44,8 @@ void Tank::draw(){
 	glRotatef(90,1,0,0);//rotate the body
 	//glColor3f(.35,.35,.35);
 	glDisable(GL_COLOR_MATERIAL);
-	glmDraw(tankModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glmDraw(tankModel, GLM_SMOOTH | GLM_MATERIAL);
+	glmDraw(stars, GLM_SMOOTH | GLM_MATERIAL);
 	glEnable(GL_COLOR_MATERIAL);	
 	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
