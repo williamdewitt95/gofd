@@ -123,7 +123,7 @@ center	polygon3d.h	/^	Point center;$/;"	m	class:Polygon3d
 center	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
 center	tank.h	/^	Point center;$/;"	m	class:Tank
 center	target.h	/^	Point center;$/;"	m	class:Target
-checkedMap	ai.h	/^	int checkedMap[100][100];$/;"	m	class:AI_Tank
+checkedMap	ai.h	/^	int checkedMap[180][180];\/\/[100][100];$/;"	m	class:AI_Tank
 color	globals.h	/^	double color[3];$/;"	m	struct:LIGHT_STRUCT
 color	polygon3d.h	/^	GLubyte color[4]; \/\/RGBA - 1 byte a piece$/;"	m	class:Polygon3d
 cooldown	tank.h	/^	int cooldown;$/;"	m	class:Tank
@@ -139,7 +139,7 @@ dir	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 dir	mapnode.h	/^		int dir;$/;"	m	class:MapNode
 dirPrev	ai.h	/^	int dirPrev;$/;"	m	class:AI_Tank
 direction	vector_basics.cpp	/^Vector LineSeg::direction(){$/;"	f	class:LineSeg
-directionalMap	ai.h	/^	int directionalMap[100][100];$/;"	m	class:AI_Tank
+directionalMap	ai.h	/^	int directionalMap[180][180]; \/\/[100][100];$/;"	m	class:AI_Tank
 display	main.cpp	/^void display(){$/;"	f
 distanceBetweenBuildings	building.cpp	/^const double Building::distanceBetweenBuildings = 60;$/;"	m	class:Building	file:
 distanceBetweenBuildings	building.h	/^	static const double distanceBetweenBuildings;$/;"	m	class:Building
@@ -222,7 +222,7 @@ local	projectile.h	/^	Point center, tankStart, local;$/;"	m	class:Projectile
 m	ai.h	/^	int n, m, dir, maxTankDist;$/;"	m	class:AI_Tank
 magnitude	vector_basics.cpp	/^double Vector::magnitude(){$/;"	f	class:Vector
 main	main.cpp	/^int main(int argc,char** args){$/;"	f
-mapGrid	ai.h	/^	int mapGrid[100][100];$/;"	m	class:AI_Tank
+mapGrid	ai.h	/^	int mapGrid[180][180]; \/\/[100][100];$/;"	m	class:AI_Tank
 mass	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 maxBuildingWidth	building.cpp	/^const double Building::maxBuildingWidth = 40;$/;"	m	class:Building	file:
 maxBuildingWidth	building.h	/^	static const double maxBuildingWidth;$/;"	m	class:Building
@@ -342,7 +342,7 @@ towerToBaseAngle	tank.h	/^	double tankSpeedX, tankSpeedY, tankSpeed, recoilSpeed
 translatePoint	vector_basics.cpp	/^Point Point::translatePoint(double x, double y, double z){$/;"	f	class:Point
 turn	ai.cpp	/^bool AI_Tank::turn(double direction){\/\/assume no angle larger than 360 degrees is passed$/;"	f	class:AI_Tank
 turretFollowMouse	tank.cpp	/^void Tank::turretFollowMouse(int x, int y, int cameraMode){\/\/Turret + cannon follow the mouse cursor$/;"	f	class:Tank
-uncheckedMap	ai.h	/^	int uncheckedMap[100][100];$/;"	m	class:AI_Tank
+uncheckedMap	ai.h	/^	int uncheckedMap[180][180]; \/\/[100][100];$/;"	m	class:AI_Tank
 update	building.cpp	/^void Building::update(){$/;"	f	class:Building
 update	polygon3d.cpp	/^void Polygon3d::update(){$/;"	f	class:Polygon3d
 update	projectile.cpp	/^void Projectile::update()$/;"	f	class:Projectile

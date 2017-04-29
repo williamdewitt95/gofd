@@ -17,10 +17,10 @@ public:
 	Tank *tank;
 	int grid[15][15];
 
-	int mapGrid[100][100];
-	int checkedMap[100][100];
-	int uncheckedMap[100][100];
-	int directionalMap[100][100];
+	int mapGrid[180][180]; //[100][100];
+	int checkedMap[180][180];//[100][100];
+	int uncheckedMap[180][180]; //[100][100];
+	int directionalMap[180][180]; //[100][100];
 	
 	int n, m, dir, maxTankDist;
 

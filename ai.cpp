@@ -5,8 +5,8 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 	dx = {1, 0, -1, 0};
         dy = {0, 1, 0, -1};
 
-	n = 100;
-	m = 100;
+	n = 180; //100;
+	m = 180; //100;
 
 	dir = 4;
 
@@ -17,13 +17,13 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 	start = this->tank->center;//Point(60, 60, 0);//tank->center;
 
 	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
-
+/*
 	for(int i=0;i<15;i++){
 		for(int j=0;j<15;j++){
 			grid[i][j] = 1;
 		}
 	}
-	
+*/	
 	this->fillMap();
 
 	maxTankDist = 15;
