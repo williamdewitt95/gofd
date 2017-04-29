@@ -12,7 +12,7 @@ class Groundbox: public DrawableObject
 private:
 
 public:
-	Groundbox(double buildingWidth, double streetWidth);
+	Groundbox(double buildingWidth, double streetWidth, double sidewalkWidth);
 	void draw();
 };
 

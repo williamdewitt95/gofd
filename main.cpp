@@ -539,7 +539,7 @@ int main(int argc,char** args){
 			0)
 		));
 	skybox = new Skybox();
-	groundbox = new Groundbox(Building::maxBuildingWidth, Building::streetWidth);
+	groundbox = new Groundbox(Building::maxBuildingWidth, Building::streetWidth, Building:: sidewalkWidth);
 	glutMainLoop();
 	return 0;
 }

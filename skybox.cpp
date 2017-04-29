@@ -27,7 +27,7 @@ Skybox::Skybox()
 		auto &points = model[model.size()-1].getPoints();
 		auto &texs = model[model.size()-1].getTexturePoints();
 		loadTex("textures/Skybox/skyboxcubemapreversed.jpg");
-		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemapreversed.jpg"].textureRef);
+		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
@@ -36,18 +36,18 @@ Skybox::Skybox()
 		points.push_back(Point( -999,  1000,  1000));
 		points.push_back(Point( -999, -1000,  1000));
 		points.push_back(Point( -999, -1000, -1000));
-		texs.push_back(Point(.33, .25, 0));
+		texs.push_back(Point(.33, .75, 0));
 		texs.push_back(Point(.33, .50, 0));
 		texs.push_back(Point(.66, .50, 1));
-		texs.push_back(Point(.66, .25, 1));
-		texs.push_back(Point(.33, .25, 0));
+		texs.push_back(Point(.66, .75, 1));
+		texs.push_back(Point(.33, .75, 0));
 	}
 	{
         model.push_back(Polygon3d());
 		auto &points = model[model.size()-1].getPoints();
 		auto &texs = model[model.size()-1].getTexturePoints();
 		//loadTex("textures/Skybox/skyboxcubemap.jpg");
-		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemapreversed.jpg"].textureRef);
+		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
 		model[model.size()-1].setColor(255,255,255);
 		model[model.size()-1].setTesselation(true);
 
@@ -57,8 +57,8 @@ Skybox::Skybox()
 		points.push_back(Point( -1000,  999,  1000));
 		points.push_back(Point( -1000,  999, -1000));
 		texs.push_back(Point(.33, .50, 0));
-		texs.push_back(Point(.33, .75, 0));
-		texs.push_back(Point(.66, .75, 0));
+		texs.push_back(Point(.33, .25, 0));
+		texs.push_back(Point(.66, .25, 0));
 		texs.push_back(Point(.66, .50, 0));
 		texs.push_back(Point(.33, .50, 0));
 	}
@@ -98,8 +98,8 @@ Skybox::Skybox()
 		points.push_back(Point(-1000, -1000,  999));
 		texs.push_back(Point(1, .5, 0));
 		texs.push_back(Point(.66, .5, 0));
-		texs.push_back(Point(.66, .250, 0));
-		texs.push_back(Point(1, .250, 0));
+		texs.push_back(Point(.66, .25, 0));
+		texs.push_back(Point(1, .25, 0));
 		texs.push_back(Point(1, .5, 0));
 	}
 	{
