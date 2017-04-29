@@ -126,11 +126,13 @@ Skybox::Skybox()
 
 void Skybox::draw()
 {
+	glDisable(GL_LIGHTING);
 	glPushMatrix();
 	glTranslated(GLOBAL.CAMERA_POS.x, GLOBAL.CAMERA_POS.y, GLOBAL.CAMERA_POS.z);
 	for(int i = 0; i < this->model.size(); i++)
 		this->model[i].draw();
 	glPopMatrix();
+	glEnable(GL_LIGHTING);
 
 }
 
