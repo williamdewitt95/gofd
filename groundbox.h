@@ -14,7 +14,7 @@ private:
 public:
 	Groundbox(double buildingWidth, double streetWidth);
 	void draw();
-}
+};
 
 
 #endif

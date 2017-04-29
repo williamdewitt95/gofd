@@ -14,6 +14,7 @@
 #include "target.h"
 #include "ai.h"
 #include "skybox.h"
+#include "groundbox.h"
 using std::cin;
 using std::cout;
 
@@ -34,6 +35,7 @@ Tank * tank;
 bool orthoView = false;
 bool aerial = false;
 Skybox * skybox;
+Groundbox * groundbox;
 
 int oldTime, currentTime;
 float actualfps, fps = 0.0;
@@ -219,6 +221,7 @@ void drawWorld(){
 	    targets[x]->draw();
 
 	skybox->draw();
+	groundbox->draw();
 	//tank->drawHealthBar(tank->health);
 }
 
@@ -536,6 +539,7 @@ int main(int argc,char** args){
 			0)
 		));
 	skybox = new Skybox();
+	groundbox = new Groundbox(Building::maxBuildingWidth, Building::streetWidth);
 	glutMainLoop();
 	return 0;
 }
