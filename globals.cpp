@@ -44,6 +44,48 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 
 GLOBAL_SETTINGS GLOBAL;
 
+void GLOBAL_SETTINGS::reset()
+{
+	WINDOW_MAX_X = 1000;
+	WINDOW_MAX_Y = 1000;
+
+	score = 0;
+	timeStart = time(0);
+	gameOver = false;
+
+	WORLD_COORDINATE_MIN_X = 0.0;
+	WORLD_COORDINATE_MAX_X = 1000.0;
+	WORLD_COORDINATE_MIN_Y = 0.0;
+	WORLD_COORDINATE_MAX_Y = 1000.0;
+
+	CAMERA_POS = {Building::distanceBetweenBuildings/2.0,
+	              Building::distanceBetweenBuildings/2.0,
+	              2
+			};
+	CAMERA_LOOK_VECTOR = {0,1,0};
+	CAMERA_ANGLE_VERTICAL = 0;
+	CAMERA_ANGLE_HORIZONTAL = 90;
+
+	LIGHTS[0].possition[0]=0;
+	LIGHTS[0].possition[1]=0;
+	LIGHTS[0].possition[2]=0;
+	LIGHTS[0].possition[3]=1;
+	LIGHTS[0].attenuation_linear=0.0001;
+	LIGHTS[0].attenuation_quadratic=0.001;
+	LIGHTS[0].color_ambient[0]=0.0;
+	LIGHTS[0].color_ambient[1]=0.0;
+	LIGHTS[0].color_ambient[2]=0.0;
+	LIGHTS[0].color_ambient[3]=1.0;
+	LIGHTS[0].color_diffuse[0]=1.0;
+	LIGHTS[0].color_diffuse[1]=1.0;
+	LIGHTS[0].color_diffuse[2]=1.0;
+	LIGHTS[0].color_diffuse[3]=1.0;
+	LIGHTS[0].color_specular[0]=0.01;
+	LIGHTS[0].color_specular[1]=0.01;
+	LIGHTS[0].color_specular[2]=0.01;
+	LIGHTS[0].color_specular[3]=1.0;
+}
+
 void loadTex(std::string name){
 	if(GLOBAL.TEXTURES_LOADED.count(name) != 0){
 		return; //the texture has already been loaded

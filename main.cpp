@@ -82,34 +82,36 @@ void mouseMovement(int x,int y){
 void gameEngine(){
 	if(tank->health == 0)
 		GLOBAL.gameOver = true;
-	for(int x=0; x<buildings.size(); x++)
-		buildings[x]->update();
+	if(!GLOBAL.gameOver)
+	{
+		for(int x=0; x<buildings.size(); x++)
+			buildings[x]->update();
 
-	for(int x=0; x<targets.size();x++)
-		targets[x]->update();
+		for(int x=0; x<targets.size();x++)
+			targets[x]->update();
 	
-	GLOBAL.CAMERA_POS.z += camMove_vert;
-	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
-	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.z += camMove_vert;
+		GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
-	GLOBAL.CAMERA_POS.x += camMove_strafe * sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
-	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.x += camMove_strafe * sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
-	//iterate tank properties
-	tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
-	ai_tank->updateTank();
-	ai_tank->nearbyTarget(tank);
+		//iterate tank properties
+		tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
+		ai_tank->updateTank();
+		ai_tank->nearbyTarget(tank);
 	
-	GLOBAL.LIGHTS[0].possition[0]=tank->center.x;
-	GLOBAL.LIGHTS[0].possition[1]=tank->center.y;
-	GLOBAL.LIGHTS[0].possition[2]=tank->center.z+5;
+		GLOBAL.LIGHTS[0].possition[0]=tank->center.x;
+		GLOBAL.LIGHTS[0].possition[1]=tank->center.y;
+		GLOBAL.LIGHTS[0].possition[2]=tank->center.z+5;
 
-	for(int i=projectiles.size()-1; i >=0 ; i--){
-		projectiles[i]->update();
-		if(projectiles[i]->state==Projectile::DEAD)
-			projectiles.erase(projectiles.begin()+i);
+		for(int i=projectiles.size()-1; i >=0 ; i--){
+			projectiles[i]->update();
+			if(projectiles[i]->state==Projectile::DEAD)
+				projectiles.erase(projectiles.begin()+i);
+		}
 	}
-
 }
 
 
@@ -224,7 +226,7 @@ void drawGameOver(){
 			glColor3f(1.0,1.0,1.0);
 			glScalef(0.125, 0.125, 0.125);
 			len = (int) strlen(label4);
-			glTranslatef(-2350.0, -2200, 0);
+			glTranslatef(-2290.0, -2200, 0);
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label4[i]);
 			std::ostringstream printNum;
@@ -238,10 +240,19 @@ void drawGameOver(){
 
 			printNum.str("");
 		glPopMatrix();
+		char label5[] = "Press 'q' to exit or 'r' to restart";	
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glScalef(0.08, 0.08, 0.08);
+			len = (int) strlen(label5);
+			glTranslatef(-3290.0, -3700, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label5[i]);
+		glPopMatrix();
 
 	glPopMatrix();
 }
-double drawTime()
+void drawTime()
 {
 	glPushMatrix();
 
@@ -264,7 +275,7 @@ double drawTime()
 			std::ostringstream printNum;
 			std::string printy;
 			
-			double timeRemaining = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
+			timeRemaining = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
 
 			printNum << timeRemaining;
 			printy = printNum.str();
@@ -275,8 +286,6 @@ double drawTime()
 			printNum.str("");
 		glPopMatrix();
 	glPopMatrix();
-
-	return timeRemaining;
 }
 
 void drawHud() {//to draw the 2d hud on 3d scene
@@ -291,7 +300,7 @@ void drawHud() {//to draw the 2d hud on 3d scene
 	tank->drawHealthBar();
 	tank->drawCooldownBar();
 	drawScore();
-	timeRemaining = drawTime();
+	drawTime();
 
 	showFPS();
 }
@@ -388,12 +397,10 @@ void display(){
 	updateLights();
 
 	//remove this clear for game over cast over moment of failure
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 	if(!youLose())
 	{
-		//remove this clear for game over to have its own screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 		drawWorld();
 	
 	//===============================================================================
@@ -407,10 +414,8 @@ void display(){
 		drawMinimap();
 	}
 	else
-	{
-		glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 		drawGameOver();
-	}
+	
 	glFlush();
 	glutSwapBuffers();
 	glutPostRedisplay(); //always say we want a redraws
@@ -471,7 +476,23 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'v' || key == 'V' ){
 		orthoView = !orthoView;
 	}else if(key == 'r' || key == 'R'){
-		aerial = !aerial;
+		if(GLOBAL.gameOver)//when game over, r to restart game
+		{
+			delete tank;
+			delete ai_tank;
+			
+			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+			ai_tank = new AI_Tank(new Tank(
+				Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+				Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+				0)
+				));
+			GLOBAL.reset();
+/*			GLOBAL.gameOver = false;
+			timeRemaining = TIME_LIMIT;*/
+		}
+		else
+			aerial = !aerial;
 	}else{
 //		printf("Unknown Key Down %d\n",key); 
 	}
