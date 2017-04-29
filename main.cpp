@@ -289,10 +289,12 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_strafe -= camMove_speed;
 	}else if(key == 'i' || key == 'I'){
 		tankAccel += 0.005;
+		printf("%f\n", tankAccel);
 	}else if(key == 'j' || key == 'J'){
 		tankBaseRotate += 2;
 	}else if(key == 'k' || key == 'K'){
 		tankAccel -= 0.005;
+		printf("%f\n", tankAccel);
 	}else if(key == 'l' || key == 'L'){
 		tankBaseRotate -= 2;
 	}else if(key == 'u' || key == 'U'){
@@ -432,13 +434,70 @@ void keyboardButtonsUp_special(int key,int x,int y){
 }
 void joystickControls(unsigned int buttonMask, int x, int y, int z)
 {
+	
+	/*unsigned int a = buttonMask;
 	for(int i = 0; i < 32; i++)
 	{
-		printf("%d", buttonMask & 1);
-		buttonMask >>=1;
+		printf("%d", a & 1);
+		a >>=1;
 	}
-	printf(" %d %d %d \n", x, y, z);
+	printf(" %d %d %d \n", x, y, z);*/
+	
 
+	if( buttonMask & 1 || (buttonMask >> 1) & 1)
+		tank->shoot();
+
+	if((buttonMask >> 20) & 1)
+	{
+		tankTurretRotate = 2;
+	}
+	else if((buttonMask >> 22) & 1)
+	{
+		tankTurretRotate = -2;
+	}
+	else
+	{
+		tankTurretRotate = 0;
+	}
+
+	if(abs(z) < 200)
+	{
+		tankAccel = 0;
+	}
+	else if(z > 200)
+	{
+		tankAccel = 0.005;
+	}
+	else if(z < -200)
+	{
+		tankAccel = -0.005;
+	}
+
+	if(abs(x) < 50)
+	{
+		tankBaseRotate = 0;
+	}
+	else if(x > 50)
+	{
+		tankBaseRotate = 2;
+	}
+	else if(x < -50)
+	{
+		tankBaseRotate = -2;
+	}
+
+	if(abs(y) < 50)
+	{
+		tankCannonRotate = 0;
+	}
+	else if(y > 50)
+	{
+		tankCannonRotate = 2;
+	}
+	else if(y < -50)
+	{
+		tankCannonRotate = -2;
+	}
 }
 
 int main(int argc,char** args){
