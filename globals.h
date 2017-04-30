@@ -8,6 +8,12 @@
 #include <unordered_map>
 #include <string>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+#include <iostream>
+#include <limits>
 // #include "imageLibrary/image.h"
 #include "polygon3d.h"
 #include "SOIL.h"
@@ -85,6 +91,12 @@ extern std::vector<Building*> buildings;
 class Projectile;
 extern std::vector<Projectile*> projectiles;
 
+class Tank;
+extern Tank * tank;
+
+class AI_Tank;
+extern AI_Tank * ai_tank;
+
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
@@ -95,5 +107,13 @@ void free_CameraMovement(int x, int y);
 void drawTank (void);
 void drawAxies();
 void updateLights();
+
+#include "projectile.h"
+#include "building.h"
+#include "tank.h"
+#include "ai.h"
+#include "collisions.h"
+#include "target.h"
+#include "hud.h"
 
 #endif

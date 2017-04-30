@@ -10,7 +10,7 @@ BUILD_DIR   = build
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
               building.o tank.o target.o projectile.o ai.o\
-              drawableObject.o hud.o
+              drawableObject.o hud.o collisions.o
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 
@@ -64,6 +64,9 @@ $(BUILD_DIR)/drawableObject.o: drawableObject.cpp drawableObject.h
 
 $(BUILD_DIR)/hud.o: hud.cpp hud.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) hud.cpp -c -o $(BUILD_DIR)/hud.o 
+	
+$(BUILD_DIR)/collisions.o: collisions.cpp collisions.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) collisions.cpp -c -o $(BUILD_DIR)/collisions.o 
 
 # Drop into the subdirectory to create the image library
 
