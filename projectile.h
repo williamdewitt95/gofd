@@ -30,6 +30,8 @@ private:
 public:
 	enum{MOVING,EXPLODING,DEAD};
 	int state; // is one of the above
+	Point oldCenter;
+	int invincibility;
 
 	Point tankStart, local;
 	double angleV, angleH, velocity, mass, C;
@@ -42,6 +44,8 @@ public:
 	void draw();
 	void update();
 	void drawExplosion(struct Explosion *ex);
+	void setExploding();
+	void setExploding(Point p);
 };
 
 #endif

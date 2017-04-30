@@ -251,6 +251,12 @@ Polygon3d Polygon3d::getTransform(){ // get the transform of the points of the p
 }
 void Polygon3d::recenter(){} // moves the center of the polygon to be at the centroid of the shape but does not change its position
 
+Vector Polygon3d::getNormal(){
+	std::vector<Point> worldPoints = getTransform().getPoints();
+	this->normal = Vector(worldPoints.at(0),worldPoints.at(1)).cross(Vector(worldPoints.at(1),worldPoints.at(2)));
+	return this->normal;
+}
+
 void Polygon3d::draw(){
 	if(this->numPoints()<2)return;
 
