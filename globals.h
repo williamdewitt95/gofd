@@ -2,7 +2,6 @@
 #define GLOP_GLOBALS
 
 #include <GL/glew.h> 
-
 #include <GL/glut.h>
 #include <vector>
 #include <unordered_map>
@@ -14,6 +13,7 @@
 #include <math.h>
 #include <iostream>
 #include <limits>
+#include <ctime>
 // #include "imageLibrary/image.h"
 #include "polygon3d.h"
 #include "SOIL.h"
@@ -23,6 +23,7 @@
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
+#define TIME_LIMIT 602 //extra 2 seconds since there's ~2sec gap from creation of global obj and opening of window
 
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;
@@ -57,6 +58,10 @@ public:
 	int WINDOW_MAX_X;
 	int WINDOW_MAX_Y;
 
+	int score;
+	time_t timeStart;
+	bool gameOver;
+	
 	double WORLD_COORDINATE_MIN_X;
 	double WORLD_COORDINATE_MAX_X;
 	double WORLD_COORDINATE_MIN_Y;
@@ -74,11 +79,11 @@ public:
 	} CAMERA_LOOK_VECTOR;
 	double CAMERA_ANGLE_VERTICAL;
 	double CAMERA_ANGLE_HORIZONTAL;
+	
+	void reset();
 
 	LIGHT_STRUCT LIGHTS[8];
 	std::unordered_map<std::string,TextureInfo> TEXTURES_LOADED; // allows for easily shared textures, if they use the same name, they get the same texture
-	int score;
-
 };
 
 extern GLOBAL_SETTINGS GLOBAL;

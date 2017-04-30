@@ -23,7 +23,7 @@ public:
 	std::vector<Polygon3d> baseBoundingBox, towerBoundingBox, cannonBoundingBox;
 
 	Tank(Point center);
-	
+
 	void draw();
 	void shoot();
 	void applyRecoil();

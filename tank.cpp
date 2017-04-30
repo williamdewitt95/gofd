@@ -557,8 +557,6 @@ std::vector<Polygon3d> Tank::boundingBox(void){
 	return temp;
 }
 
-
-
 void Tank::shoot() {
 	if(this->cooldown>0){//true  = we are still in cooldown
 		return ;

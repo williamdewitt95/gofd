@@ -5,6 +5,10 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WINDOW_MAX_X = 1000;
 	WINDOW_MAX_Y = 1000;
 
+	score = 0;
+	timeStart = time(0);
+	gameOver = false;
+
 	WORLD_COORDINATE_MIN_X = 0.0;
 	WORLD_COORDINATE_MAX_X = 1000.0;
 	WORLD_COORDINATE_MIN_Y = 0.0;
@@ -91,6 +95,85 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 }
 
 GLOBAL_SETTINGS GLOBAL;
+
+void GLOBAL_SETTINGS::reset()
+{
+	score = 0;
+	timeStart = time(0);
+	gameOver = false;
+
+	CAMERA_POS = {Building::distanceBetweenBuildings/2.0,
+	              Building::distanceBetweenBuildings/2.0,
+	              2
+			};
+	CAMERA_LOOK_VECTOR = {0,1,0};
+	CAMERA_ANGLE_VERTICAL = 0;
+	CAMERA_ANGLE_HORIZONTAL = 90;
+
+	LIGHTS[0].position[0]=0;
+	LIGHTS[0].position[1]=0;
+	LIGHTS[0].position[2]=0;
+	LIGHTS[0].position[3]=1;
+	LIGHTS[0].attenuation_linear=0.0001;
+	LIGHTS[0].attenuation_quadratic=0.001;
+	LIGHTS[0].color_ambient[0]=0.0;
+	LIGHTS[0].color_ambient[1]=0.0;
+	LIGHTS[0].color_ambient[2]=0.0;
+	LIGHTS[0].color_ambient[3]=1.0;
+	LIGHTS[0].color_diffuse[0]=1.0;
+	LIGHTS[0].color_diffuse[1]=1.0;
+	LIGHTS[0].color_diffuse[2]=1.0;
+	LIGHTS[0].color_diffuse[3]=1.0;
+	LIGHTS[0].color_specular[0]=0.01;
+	LIGHTS[0].color_specular[1]=0.01;
+	LIGHTS[0].color_specular[2]=0.01;
+	LIGHTS[0].color_specular[3]=1.0;
+
+	LIGHTS[1].position[0] = 0.0;
+	LIGHTS[1].position[1] = 0.0;
+	LIGHTS[1].position[2] = 1000.0;
+	LIGHTS[1].position[3] = 0.0;
+    LIGHTS[1].color_ambient[0] = 0.0;
+    LIGHTS[1].color_ambient[1] = 0.0;
+    LIGHTS[1].color_ambient[2] = 0.0;
+    LIGHTS[1].color_ambient[3] = 1.0;
+    LIGHTS[1].color_diffuse[0] = 0.9;
+    LIGHTS[1].color_diffuse[1] = 0.9;
+    LIGHTS[1].color_diffuse[2] = 0.9;
+    LIGHTS[1].color_diffuse[3] = 1.0;
+    LIGHTS[1].color_specular[0] = 0.1;
+    LIGHTS[1].color_specular[1] = 0.1;
+    LIGHTS[1].color_specular[2] = 0.1;
+    LIGHTS[1].color_specular[3] = 1.0;
+    LIGHTS[1].attenuation_linear=0.0001;
+	LIGHTS[1].attenuation_quadratic=0.001;
+	LIGHTS[1].spotlight_direction[0] = 0.0;
+	LIGHTS[1].spotlight_direction[1] = 0.0;
+	LIGHTS[1].spotlight_direction[2] = 1.0;
+
+
+	LIGHTS[2].position[0] = 0.0;
+	LIGHTS[2].position[1] = 0.0;
+	LIGHTS[2].position[2] = 100.0;
+	LIGHTS[2].position[3] = 1.0;
+    LIGHTS[2].color_ambient[0] = 0.0;
+    LIGHTS[2].color_ambient[1] = 0.0;
+    LIGHTS[2].color_ambient[2] = 0.0;
+    LIGHTS[2].color_ambient[3] = 1.0;
+    LIGHTS[2].color_diffuse[0] = 0.5;
+    LIGHTS[2].color_diffuse[1] = 0.5;
+    LIGHTS[2].color_diffuse[2] = 0.5;
+    LIGHTS[2].color_diffuse[3] = 1.0;
+    LIGHTS[2].color_specular[0] = 0.1;
+    LIGHTS[2].color_specular[1] = 0.1;
+    LIGHTS[2].color_specular[2] = 0.1;
+    LIGHTS[2].color_specular[3] = 1.0;
+    LIGHTS[2].attenuation_linear=0.01;
+	LIGHTS[2].attenuation_quadratic=0.01;
+	LIGHTS[2].spotlight_direction[0] = 0.01;
+	LIGHTS[2].spotlight_direction[1] = 0.01;
+	LIGHTS[2].spotlight_direction[2] =-1.0;
+}
 
 void loadTex(std::string name){
 	if(GLOBAL.TEXTURES_LOADED.count(name) != 0){
@@ -353,8 +436,6 @@ void updateLights(){
 	glLightfv(GL_LIGHT0,GL_SPECULAR,GLOBAL.LIGHTS[0].color_specular);
 	glLightf (GL_LIGHT0,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_linear);
 	glLightf (GL_LIGHT0,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[0].attenuation_quadratic);
-
-
 	
 
 	glLightfv(GL_LIGHT1,GL_POSITION,GLOBAL.LIGHTS[1].position      );
@@ -364,8 +445,6 @@ void updateLights(){
 	glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_linear);
 	glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION,GLOBAL.LIGHTS[1].attenuation_quadratic);
 
-
-	
 	
 	GLfloat light_2_spot_cutoff = 45.0;
 	GLfloat light_2_spot_exponent = 0;//64

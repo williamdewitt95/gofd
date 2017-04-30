@@ -22,6 +22,9 @@ bool aerial = false;
 int oldTime=0.0;
 float actualfps, fps=0.0;
 
+int currentTime;
+double timeRemaining = TIME_LIMIT;
+
 AI_Tank * ai_tank;
 std::vector<Projectile*> projectiles;
 
@@ -44,11 +47,18 @@ void mouseButtons(int but,int state,int x,int y){
 		if(state == GLUT_DOWN)printf("Unknown Mouse Button %d\n",but);
 	}
 }
+bool youLose()
+{
+	return ((GLOBAL.gameOver) || (timeRemaining <= 0));
+}
 void passiveMouseMovement(int x,int y){
 	//x and y are window cordinates
 	//it is up to us to get deltas
-	cameraMovement(x,y,tank->center,cameraMode);
-	tank->turretFollowMouse(x, y,cameraMode);
+	if(!youLose())
+	{
+		cameraMovement(x,y,tank->center,cameraMode);
+		tank->turretFollowMouse(x, y,cameraMode);
+	}
 }
 void mouseMovement(int x,int y){
 	//x and y are window cordinates
@@ -57,46 +67,163 @@ void mouseMovement(int x,int y){
 }
 
 void gameEngine(){
-	for(int x=0; x<buildings.size(); x++)
-		buildings[x]->update();
+	if(tank->health == 0)
+		GLOBAL.gameOver = true;
+	if(!GLOBAL.gameOver)
+	{
+		for(int x=0; x<buildings.size(); x++)
+			buildings[x]->update();
 
-	for(int x=0; x<targets.size();x++)
-		targets[x]->update();
+		for(int x=0; x<targets.size();x++)
+			targets[x]->update();
 	
-	GLOBAL.CAMERA_POS.z += camMove_vert;
-	GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
-	GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.z += camMove_vert;
+		GLOBAL.CAMERA_POS.x += camMove_forward * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.y += camMove_forward * -sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
-	GLOBAL.CAMERA_POS.x += camMove_strafe * sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
-	GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.x += camMove_strafe * sin(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
+		GLOBAL.CAMERA_POS.y += camMove_strafe * cos(GLOBAL.CAMERA_ANGLE_HORIZONTAL*PI/180.0);
 
-	//iterate tank properties
-	tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
-	ai_tank->updateTank();
-	ai_tank->nearbyTarget(tank);
+		//iterate tank properties
+		tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
+		ai_tank->updateTank();
+		ai_tank->nearbyTarget(tank);
 	
-	GLOBAL.LIGHTS[0].position[0]=tank->center.x;
-	GLOBAL.LIGHTS[0].position[1]=tank->center.y;
-	GLOBAL.LIGHTS[0].position[2]=tank->center.z+5;
 
-	GLOBAL.LIGHTS[1].position[0]=tank->center.x;
-	GLOBAL.LIGHTS[1].position[1]=tank->center.y;
+		GLOBAL.LIGHTS[0].position[0]=tank->center.x;
+		GLOBAL.LIGHTS[0].position[1]=tank->center.y;
+		GLOBAL.LIGHTS[0].position[2]=tank->center.z+5;
 
-	GLOBAL.LIGHTS[2].position[0]=tank->center.x;
-	GLOBAL.LIGHTS[2].position[1]=tank->center.y;
-	// GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
+		GLOBAL.LIGHTS[1].position[0]=tank->center.x;
+		GLOBAL.LIGHTS[1].position[1]=tank->center.y;
+
+		GLOBAL.LIGHTS[2].position[0]=tank->center.x;
+		GLOBAL.LIGHTS[2].position[1]=tank->center.y;
+		// GLOBAL.LIGHTS[2].position[2]=tank->center.z+10;
 
 
 
 
-	for(int i=projectiles.size()-1; i >=0 ; i--){
-		projectiles[i]->update();
-		if(projectiles[i]->state==Projectile::DEAD)
-			projectiles.erase(projectiles.begin()+i);
+		for(int i=projectiles.size()-1; i >=0 ; i--){
+			projectiles[i]->update();
+			if(projectiles[i]->state==Projectile::DEAD)
+				projectiles.erase(projectiles.begin()+i);
+		}
 	}
-
 }
 
+void drawGameOver(){
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the projection style
+	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glPushMatrix();
+
+		int i, len;
+		char label[] = "GAME OVER";
+		void *font = GLUT_STROKE_ROMAN;
+
+		glTranslatef(82, 90, 0);
+		glScalef(0.5, 0.5, 0.5);
+
+		glPushMatrix();
+			glColor3f(1.0,1.0,0.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.105, 0.105, 0.105);
+			len = (int) strlen(label);
+			glTranslatef(-1530.0, 1575, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
+		glPopMatrix();
+		char label2[] = "LOOK AT YOU";
+		glPushMatrix();
+			glColor3f(0.0,1.0,0.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.105, 0.105, 0.105);
+			len = (int) strlen(label2);
+			glTranslatef(-1100.0, 1150, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label2[i]);
+		glPopMatrix();
+		char label3[] = "YOU LOST!";
+		glPushMatrix();
+			glColor3f(0.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.105, 0.105, 0.105);
+			len = (int) strlen(label3);
+			glTranslatef(-755.0, 725, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label3[i]);
+		glPopMatrix();
+		char label4[] = "Your score was: ";
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.08, 0.08, 0.08);
+			len = (int) strlen(label4);
+			glTranslatef(-1700.0, 400, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label4[i]);
+			std::ostringstream printNum;
+			std::string printy;
+
+			printNum << GLOBAL.score;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
+
+			printNum.str("");
+		glPopMatrix();
+		char label5[] = "Press 'q' to exit or 'r' to restart";	
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.06, 0.06, 0.06);
+			len = (int) strlen(label5);
+			glTranslatef(-2140.0, 300, 0);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label5[i]);
+		glPopMatrix();
+
+	glPopMatrix();
+}
+void drawTime() {
+	glPushMatrix();
+
+		int i, len;
+		char label[] = "Time Remaining: ";
+		void *font = GLUT_STROKE_ROMAN;
+
+		glTranslatef(82, 90, 0);
+		glScalef(0.15, 0.15, 0.15);
+
+		glPushMatrix();
+			glColor3f(1.0,1.0,1.0);
+			glRotatef(180.0,1.0,0.0,0.0);
+			glScalef(0.125,0.125,0.125);
+			glTranslatef(-550.0, 300, 0);
+			len = (int) strlen(label);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font, label[i]);
+
+			std::ostringstream printNum;
+			std::string printy;
+			
+			timeRemaining = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
+
+			printNum << timeRemaining;
+			printy = printNum.str();
+			len = (int) strlen(&printy[0]);
+			for(i = 0;i<len;i++)
+				glutStrokeCharacter(font,printy[i]);
+
+			printNum.str("");
+		glPopMatrix();
+	glPopMatrix();
+}
 
 void drawHud() {//to draw the 2d hud on 3d scene
 	glMatrixMode(GL_PROJECTION);
@@ -110,6 +237,7 @@ void drawHud() {//to draw the 2d hud on 3d scene
 	drawHealthBar(*tank);
 	drawCooldownBar(*tank);
 	drawScore();
+	drawTime();
 
 	showFPS(fps, oldTime, actualfps);
 }
@@ -201,27 +329,35 @@ void drawMinimap(){
 	tank->draw();
 	ai_tank->tank->draw();
 }
-
 void display(){
 	glEnable(GL_LIGHTING);
 	updateLights();
 
+	//remove this clear for game over cast over moment of failure
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
-	drawWorld();
-	collisionTest();
 
+	if(!youLose())
+	{
+		drawWorld();
+		collisionTest();
 	
-	//===============================================================================
-	glDisable(GL_LIGHTING);
+		//===============================================================================
+		glDisable(GL_LIGHTING);
 
-	glClear(GL_DEPTH_BUFFER_BIT);
-	drawHud();
+		glClear(GL_DEPTH_BUFFER_BIT);
+		drawHud();
 
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
-	drawMinimap();
-
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
+		drawMinimap();
+	}
+	else
+	{
+	//	glPushMatrix();
+			drawGameOver();
+	//	glPopMatrix();
+	}
 
 	glFlush();
 	glutSwapBuffers();
@@ -285,9 +421,23 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'v' || key == 'V' ){
 		orthoView = !orthoView;
 	}else if(key == 'r' || key == 'R'){
-		aerial = !aerial;
+		if(GLOBAL.gameOver)//when game over, r to restart game
+		{
+			delete tank;
+			delete ai_tank;
+			
+			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+			ai_tank = new AI_Tank(new Tank(
+				Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+				Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
+				0)
+				));
+			GLOBAL.reset();
+		}
+		else
+			aerial = !aerial;
 	}else{
-		printf("Unknown Key Down %d\n",key);
+//		printf("Unknown Key Down %d\n",key); 
 	}
 
 	if(camMove_forward > camMove_speed)
@@ -344,7 +494,7 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	}else if(key == 'x' || key == 'X' || key == 'y' || key == 'Y'){
 		//do nothing, but stop printing unknown key
 	}else{
-		printf("Unknown Key Up %d\n",key);
+	//	printf("Unknown Key Up %d\n",key); This is kind of annoying
 	}
 
 	if(camMove_forward > camMove_speed)
@@ -528,17 +678,18 @@ int main(int argc,char** args){
 				(*tDawg).setRotation(90.0);
 				targets.push_back(tDawg);
 			} else if(randSide == 2) {//"south
-				targets.push_back(new Target(Point(
+				Target *tDawg = new Target(Point(	
 					Building::distanceBetweenBuildings*x,
 					Building::distanceBetweenBuildings*y + (Building::maxBuildingWidth)/2.0 + 0.55,
-					targetCenter)
-				));
+					targetCenter));
+				(*tDawg).setRotation(180.0);
+				targets.push_back(tDawg);	
 			} else if(randSide == 3) {//"east"
 				Target *tDawg = new Target(Point(
 					Building::distanceBetweenBuildings*x - (Building::maxBuildingWidth)/2.0 - 0.55,
 					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
 					targetCenter));
-				(*tDawg).setRotation(90.0);
+				(*tDawg).setRotation(-90.0);
 				targets.push_back(tDawg);
 			} else {
 				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
