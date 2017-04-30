@@ -6,6 +6,9 @@
 #include <stdio.h>
 
 using std::cout;
+GLMmodel* cannonModel = glmReadOBJ("objects/cannon.obj");
+GLMmodel* tankModel = glmReadOBJ("objects/tank.obj");
+GLMmodel* stars = glmReadOBJ("objects/s.obj");
 
 
 Tank::Tank(Point center){
@@ -364,44 +367,63 @@ Tank::Tank(Point center){
 	cannonBoundingBox=cannon;
 }
 
-
-
 void Tank::draw(){
 	glPushMatrix();
-		glTranslated(center.x, center.y, center.z);
-		glScaled(scale, scale, scale);
-		glRotated(baseAngle, 0, 0, 1);
-		for(int x=0; x<base.size(); x++)
-			this->base[x].draw();
+	glTranslated(center.x, center.y, center.z);
+	glTranslatef(0,0,-.75);//move the body down
+	glScaled(scale*.75, scale*.75, scale*.75);
+	glRotated(baseAngle, 0, 0, 1);
+	glRotatef(90,1,0,0);//rotate the body
+	//glColor3f(.35,.35,.35);
+	glDisable(GL_COLOR_MATERIAL);
+	glmDraw(tankModel, GLM_SMOOTH | GLM_MATERIAL);
+	glmDraw(stars, GLM_SMOOTH | GLM_MATERIAL);
+	glEnable(GL_COLOR_MATERIAL);	
+	/*for(int x=0; x<base.size(); x++)
+		this->base[x].draw();
+	*/
+
 	glPopMatrix();//When we rotate the base, let the turret stay on target
 
 	glPushMatrix();
-		glTranslated(center.x, center.y, center.z);
-		glRotated(towerAngle, 0, 0, 1);
-		for(int x=0; x<tower.size(); x++)
-			this->tower[x].draw();
-		glPushMatrix();
-			glTranslated(0, 0.5, 1.375);
-			if (cannonAngle > 75)
-				cannonAngle = 75;
-			else if (cannonAngle < -10)
-				cannonAngle = -10;
-			glRotated(cannonAngle, 1, 0, 0);
-			glTranslated(0, -0.5, -1.375);
-			//draw a laser guide
-			if (laser) {
-				glLineWidth(5);
-				glColor4f(1.0 ,0.0 ,0.0 ,1.0);
-				glBegin(GL_LINES);
-					glVertex3f(0, 0.5, 1.375);
-					glVertex3f(0, 2000, 1.375);
-				glEnd();
-				glColor4f(1.0 ,1.0 ,1.0 ,1.0);
-				glLineWidth(1);
-			}
-			for(int x=0; x<cannon.size(); x++)
-				this->cannon[x].draw();
-		glPopMatrix();
+	glTranslated(center.x, center.y, center.z);
+	glRotated(towerAngle, 0, 0, 1);
+	/*for(int x=0; x<tower.size(); x++)
+		this->tower[x].draw();
+	*/
+	glPushMatrix();
+	glTranslated(0, 0.5, 1.375);
+	if (cannonAngle > 75)
+		cannonAngle = 75;
+	else if (cannonAngle < -10)
+		cannonAngle = -10;
+	glRotated(cannonAngle, 1, 0, 0);
+	glTranslated(0, -0.5, -1.375);
+	//draw a laser guide
+	if (laser) {
+		glLineWidth(5);
+		glColor4f(1.0 ,0.0 ,0.0 ,1.0);
+		glBegin(GL_LINES);
+			glVertex3f(0, 0.5, 1.375);
+			glVertex3f(0, 2000, 1.375);
+		glEnd();
+		glColor4f(1.0 ,1.0 ,1.0 ,1.0);
+		glLineWidth(1);
+	}
+	glColor3f(1,1,1);
+	////////
+	glTranslatef(.8,2.05,1.35);//move the body down
+	glScaled(scale*.75, scale*.75, scale*.75);
+	glRotated(91.15, 0, 0, 1);
+	glDisable(GL_COLOR_MATERIAL);
+	glmDraw(cannonModel, GLM_MATERIAL);
+	glEnable(GL_COLOR_MATERIAL);
+	//////
+	/*for(int x=0; x<cannon.size(); x++)
+		this->cannon[x].draw();
+	*/
+	glPopMatrix();
+
 	glPopMatrix();
 }
 

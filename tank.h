@@ -6,7 +6,8 @@
 #include <vector>
 #include <sstream>
 #include "projectile.h"
-
+#include "glm.h"
+class Projectile;
 class Tank:public DrawableObject{
 
 public:

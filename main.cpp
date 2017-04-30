@@ -479,9 +479,7 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 		tankTurretRotate -= 2;
 	
 	}else if(key == 'n' || key == 'N'){
-		tankScale += 0.05;
 	}else if(key == 'm' || key == 'M'){
-		tankScale -= 0.05;
 	}else if(key == '-' || key == '_'){
 		tankCannonRotate += 2;
 	}else if(key == '=' || key == '+'){
