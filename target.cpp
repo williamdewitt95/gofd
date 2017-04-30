@@ -128,6 +128,7 @@ void Target::draw(){
     gluQuadricDrawStyle(cylinder, GLU_FILL);
 
     glBindTexture(GL_TEXTURE_2D,this->mascotChoice);
+    glColor3ub(255,255,255); // make it white so the texture is always perfect
 
     glPushMatrix();
         glTranslated(center.x,center.y,center.z);
