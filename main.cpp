@@ -35,6 +35,7 @@ bool aerial = false;
 
 
 AI_Tank * ai_tank;
+AI_Tank * ai_tank2;
 std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -85,6 +86,9 @@ void gameEngine(){
 	ai_tank->updateTank(tank);
 	ai_tank->nearbyTarget(tank);
 	
+	ai_tank2->updateTank(tank);
+	ai_tank2->nearbyTarget(tank);
+
 
 	for(int i=0; i < projectiles.size(); i++){
 		projectiles[i]->update();
@@ -183,6 +187,7 @@ void drawWorld(){
 
 	tank->draw();
 	ai_tank->tank->draw();
+	ai_tank2->tank->draw();
 	for(int i=0; i<projectiles.size();i++){
 		projectiles[i]->draw();
 	}
@@ -455,6 +460,11 @@ int main(int argc,char** args){
 	std::cout << "fire " << std::endl;
 	ai_tank = new AI_Tank(new Tank(Point(60, 60,0)), tank);//Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,0)));
 	std::cout << "fire " << std::endl;
+	
+	// second ai tank
+	ai_tank2 = new AI_Tank(new Tank(Point(120, 120, 0)), tank);
+	
+
 	glutMainLoop();
 
 	return 0;
