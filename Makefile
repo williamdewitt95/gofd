@@ -10,7 +10,8 @@ BUILD_DIR   = build
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
               building.o tank.o target.o projectile.o ai.o glm.o\
-              drawableObject.o hud.o collisions.o skybox.o groundbox.o
+              drawableObject.o hud.o collisions.o skybox.o\
+              groundbox.o screencapture.o
 
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
@@ -23,10 +24,14 @@ BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp buildings/apartm
 #extra decoration bits for buildings like windows
 BUILDING_EXTRAS = buildings/window1.cpp
 
-all: build gofd tags
+all: build wipe gofd tags
 
 build:
 	mkdir build
+	mkdir screenshots
+
+wipe:
+	rm -f screenshots/*.tga
 
 # The new executable target will be called gofd
 gofd: main.o $(BUILD_OBJS) 
@@ -61,7 +66,10 @@ $(BUILD_DIR)/glm.o: glm.c glm.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) glm.c -c -o $(BUILD_DIR)/glm.o 
 
 $(BUILD_DIR)/ai.o: ai.cpp ai.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o
+
+$(BUILD_DIR)/screencapture.o: screencapture.c screencapture.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) screencapture.c -c -o $(BUILD_DIR)/screencapture.o 
 
 $(BUILD_DIR)/drawableObject.o: drawableObject.cpp drawableObject.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) drawableObject.cpp -c -o $(BUILD_DIR)/drawableObject.o
@@ -80,13 +88,18 @@ $(BUILD_DIR)/collisions.o: collisions.cpp collisions.h
 
 # Drop into the subdirectory to create the image library
 
+movie:
+	ffmpeg -r 60 -s 1920x1080 -i ./screenshots/Plot-%07d.tga -vcodec libx264 -crf 25 -pix_fmt yuv420p gofd_movie.mp4
+
 clean:
 	rm -f *.o
 	rm -f build/*.o
-	rm -f gofd 
+	rm -f gofd
+	rm -f screenshots/*.tga 
 
 distclean: clean
 	rm -rf build
+	rm -rf screenshots
 	rm -f tags
 
 tags: *.cpp *.h

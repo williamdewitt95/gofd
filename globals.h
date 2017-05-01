@@ -67,6 +67,10 @@ public:
 	double WORLD_COORDINATE_MIN_Y;
 	double WORLD_COORDINATE_MAX_Y;
 
+	int step; //--chris, this is for incrementing the frame); 
+
+              // But you can's initialize it in the global header...
+
 	struct {
 		double x;
 		double y;
@@ -122,5 +126,6 @@ void updateLights();
 #include "hud.h"
 #include "skybox.h"
 #include "groundbox.h"
+#include "screencapture.h"
 
 #endif
