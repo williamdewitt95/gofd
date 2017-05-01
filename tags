@@ -97,6 +97,9 @@ __secretVertexDrawingFunction	polygon3d.cpp	/^void Polygon3d::__secretVertexDraw
 aerial	main.cpp	/^bool aerial = false;$/;"	v
 ai_tank	main.cpp	/^AI_Tank * ai_tank;$/;"	v
 ai_tank2	main.cpp	/^AI_Tank * ai_tank2;$/;"	v
+ai_tank3	main.cpp	/^AI_Tank * ai_tank3;$/;"	v
+ai_tank4	main.cpp	/^AI_Tank * ai_tank4;$/;"	v
+ai_tank5	main.cpp	/^AI_Tank * ai_tank5;$/;"	v
 aim	ai.cpp	/^void AI_Tank::aim(Point enemy){$/;"	f	class:AI_Tank
 angleH	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile
 angleV	projectile.h	/^	double angleV, angleH, velocity, mass, C;$/;"	m	class:Projectile

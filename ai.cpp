@@ -342,18 +342,18 @@ void AI_Tank::followRoute(){
 		std::cout << "(x+dx[j]): " << x << std::endl;
 		std::cout << "(y+dy[j]): " << y << std::endl;
 			// move tank to next point
-		/*if( this->tank->center.x < (x+dx[j]) && this->tank->center.x > (x-dx[j]) ){
+		if( this->tank->center.x < (x+dx[j]) && this->tank->center.x > (x-dx[j]) ){
 			this->tank->center.x = x+dx[j] * 0.5;		
 			std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
-		}*/
+		}
 		/*else if(this->tank->center.x > (x+dx[j]) && dx[j] < 0 ){
                         this->tank->center.x = x+dx[j];                 
                         std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
                 }*/
-		/*else if(this->tank->center.y < (y+dy[j]) && this->tank->center.y > (y-dy[j])){
+		else if(this->tank->center.y < (y+dy[j]) && this->tank->center.y > (y-dy[j])){
                         this->tank->center.y = y+dy[j] * 0.5;                 
                         std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
-                }*/
+                }
 		/*else if(this->tank->center.y > (y+dy[j]) && dy[j] < 0 ){
 			this->tank->center.y = y+dy[j]; //*0.95; //this->tank->tankSpeed;				
 			std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
@@ -361,7 +361,7 @@ void AI_Tank::followRoute(){
 		}*/
 
 
-		//else{
+		else{
 			this->tank->center.x = x;  //x+dx[j]; // * 0.5;           
                         std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
 	
@@ -370,7 +370,7 @@ void AI_Tank::followRoute(){
 
 
 			//mapGrid[x][y] = 3;
-		//}
+		}
 			//mapGrid[x][y] = 4;
 			//update route str
 			dirPrev = j;
