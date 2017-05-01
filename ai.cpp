@@ -16,7 +16,7 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 
 	start = this->tank->center;
 
-	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
+	//std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
 	
 	this->fillMap();
 
@@ -28,7 +28,7 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 
 std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){
 
-	std::cout << "findPath " << std::endl;
+	//std::cout << "findPath " << std::endl;
 	
 	static std::priority_queue<MapNode> pq[2];
 	static int pqi;
@@ -65,13 +65,13 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				j=directionalMap[x][y];
 				c='0'+(j+dir/2)%dir;
 				path=c+path;
-				std::cout << "pth " << path << std::endl;
+				//std::cout << "pth " << path << std::endl;
 				x+=dx[j];
 				y+=dy[j];
 			}
-			std::cout << " about to delete node " << std::endl;
+			//std::cout << " about to delete node " << std::endl;
 			delete n0;
-			std::cout << "node deleted " << std::endl;
+			//std::cout << "node deleted " << std::endl;
 			while(!pq[pqi].empty())
 				pq[pqi].pop();
 
@@ -116,9 +116,9 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				else delete m0;
 			}
 		}
-		std::cout << "about to delete node " << std::endl;
+		//std::cout << "about to delete node " << std::endl;
 		delete n0;
-		std::cout << "node deleted " << std::endl;
+		//std::cout << "node deleted " << std::endl;
 	}
 	return "";
 }
@@ -127,7 +127,7 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 void AI_Tank::fillMap(){
 
 
-	std::cout << "fillMap" << std::endl;
+	//std::cout << "fillMap" << std::endl;
 
 	// create empty map
     for(int y=0;y<m;y++)
@@ -161,10 +161,10 @@ void AI_Tank::fillMap(){
     // set start and target location
     int xA, yA, xB, yB;
     xA = start.x, yA = start.y, xB = destination.x, yB = destination.y;
-    std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
+    //std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
         mapGrid[xA][yA] = 2;
         mapGrid[xB][yB] = 4;
-
+/*
     for(int y=0;y<m;y++)
         {
             for(int x=0;x<n;x++)
@@ -185,14 +185,14 @@ void AI_Tank::fillMap(){
     std::cout<<"Map Size (X,Y): "<<n<<","<<m<<std::endl;
     std::cout<<"Start: "<<xA<<","<<yA<<std::endl;
     std::cout<<"Finish: "<<xB<<","<<yB<<std::endl;
-
+*/
 }
 
 
 //forwards
 void AI_Tank::forwards(){
 
-	std::cout << "forwards" << std::endl;
+	//std::cout << "forwards" << std::endl;
 
 	this->tank->tankSpeed = 0.15;
 }
@@ -202,7 +202,7 @@ void AI_Tank::forwards(double speed){
 //stop or do nothing
 void AI_Tank::stop(){
 
-	std::cout << "stop" << std::endl;
+	//std::cout << "stop" << std::endl;
 
 	this->tank->tankSpeed = 0;
 }
@@ -210,7 +210,7 @@ void AI_Tank::stop(){
 //turn right
 bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees is passed
 
-	std::cout << "forwards" << std::endl;
+	//std::cout << "forwards" << std::endl;
 
 	if(direction < 0){
 		direction += 360.0;
@@ -241,17 +241,17 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 
 void AI_Tank::setRoute(){
 
-	std::cout << "setRoute " << std::endl;
+	//std::cout << "setRoute " << std::endl;
 	
 	clock_t startTime = clock();
 	std::string routeNew = findPath( start.x, start.y, destination.x, destination.y);//0, 0); //start.x, start.y, destination.x, destination.y);
-	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
-	if(routeNew=="") std::cout<<"An empty route generated!"<<std::endl;
+	//std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
+	//if(routeNew=="") std::cout<<"An empty route generated!"<<std::endl;
     	clock_t endTime = clock();
     	double time_elapsed = double(endTime - startTime);
-    	std::cout<<"Time to calculate the route (ms): "<<time_elapsed<<std::endl;
-    	std::cout<<"Route:"<<std::endl;
-    	std::cout<<routeNew<<std::endl<<std::endl;
+    	//std::cout<<"Time to calculate the route (ms): "<<time_elapsed<<std::endl;
+    	//std::cout<<"Route:"<<std::endl;
+    	//std::cout<<routeNew<<std::endl<<std::endl;
 	
 	route = routeNew;
 }
@@ -261,7 +261,7 @@ void AI_Tank::followRoute(){
 	// updates tank location 
 
 
-	std::cout << "followRoute " << std::endl;
+	//std::cout << "followRoute " << std::endl;
 
 	if(route.length()>0){
 		int j;
@@ -274,7 +274,7 @@ void AI_Tank::followRoute(){
 		
 		//for(int i = 0; i < route.length(); i++){
 		c = route.at(0);
-		std::cout << "c: " << c << std::endl;
+		//std::cout << "c: " << c << std::endl;
 		j = atoi(&c);
 
 		if(dirPrev != j){
@@ -310,15 +310,15 @@ void AI_Tank::followRoute(){
 	
 		mapGrid[x][y] = 3;
 		
-		std::cout << "this->tank->center.x: " << this->tank->center.x << std::endl;
+		//std::cout << "this->tank->center.x: " << this->tank->center.x << std::endl;
 		//route.erase(0, 1);
 
-		std::cout << "(x+dx[j]): " << x << std::endl;
-		std::cout << "(y+dy[j]): " << y << std::endl;
+		//std::cout << "(x+dx[j]): " << x << std::endl;
+		//std::cout << "(y+dy[j]): " << y << std::endl;
 			// move tank to next point
 		if( this->tank->center.x < (x+dx[j]) && this->tank->center.x > (x-dx[j]) ){
 			this->tank->center.x = x+dx[j] * 0.5;		
-			std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+			//std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
 		}
 		/*else if(this->tank->center.x > (x+dx[j]) && dx[j] < 0 ){
                         this->tank->center.x = x+dx[j];                 
@@ -326,7 +326,7 @@ void AI_Tank::followRoute(){
                 }*/
 		else if(this->tank->center.y < (y+dy[j]) && this->tank->center.y > (y-dy[j])){
                         this->tank->center.y = y+dy[j] * 0.5;                 
-                        std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
+                        //std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
                 }
 		/*else if(this->tank->center.y > (y+dy[j]) && dy[j] < 0 ){
 			this->tank->center.y = y+dy[j]; //*0.95; //this->tank->tankSpeed;				
@@ -337,10 +337,10 @@ void AI_Tank::followRoute(){
 
 		else{
 			this->tank->center.x = x;  //x+dx[j]; // * 0.5;           
-                        std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+                        //std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
 	
 			this->tank->center.y = y; //y+dy[j]; // * 0.5;                 
-                        std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
+                        //std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
 
 
 			//mapGrid[x][y] = 3;
@@ -357,7 +357,7 @@ void AI_Tank::followRoute(){
 
 void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid coordinate
 
-	std::cout << "calculatePath " << std::endl;
+	//std::cout << "calculatePath " << std::endl;
 
 	//this->destination = Point(0, 0, 0);//60, 60, 0); //Point(x,y,0);
 	
@@ -372,8 +372,8 @@ void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid co
 
 void AI_Tank::update_AI(){
 
-	std::cout << "updateAI " << std::endl;	
-	std::cout << "route " << route << std::endl;	
+	//std::cout << "updateAI " << std::endl;	
+	//std::cout << "route " << route << std::endl;	
 
 	if(route.length() > maxTankDist){
 		followRoute();
@@ -381,7 +381,7 @@ void AI_Tank::update_AI(){
 	else{
 
 		//mapGrid[x][y] = 4;
-
+/*
 		for(int y=0;y<m;y++){
                                 for(int x=0;x<n;x++)
                                         if(mapGrid[x][y]==0)
@@ -396,7 +396,7 @@ void AI_Tank::update_AI(){
                                                 std::cout<<"F"; //finish
                                 std::cout<<std::endl;
                         }
-
+*/
 		aim(destination);		
 	}
 
@@ -404,7 +404,7 @@ void AI_Tank::update_AI(){
 
 void AI_Tank::updateTank(Tank *enemy){
 
-	std::cout << "updateTank " << std::endl;
+	//std::cout << "updateTank " << std::endl;
 	
 	if(destination != enemy->center){
 		destination = enemy->center;
