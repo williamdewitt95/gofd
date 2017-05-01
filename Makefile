@@ -10,7 +10,7 @@ BUILD_DIR   = build
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
               building.o tank.o target.o projectile.o ai.o glm.o\
-              drawableObject.o hud.o collisions.o
+              drawableObject.o hud.o collisions.o skybox.o groundbox.o
 
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
@@ -64,7 +64,13 @@ $(BUILD_DIR)/ai.o: ai.cpp ai.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o 
 
 $(BUILD_DIR)/drawableObject.o: drawableObject.cpp drawableObject.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) drawableObject.cpp -c -o $(BUILD_DIR)/drawableObject.o 
+	$(CC) $(CFLAGS) $(OPTFLAGS) drawableObject.cpp -c -o $(BUILD_DIR)/drawableObject.o
+
+$(BUILD_DIR)/skybox.o: skybox.cpp skybox.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) skybox.cpp -c -o $(BUILD_DIR)/skybox.o
+
+$(BUILD_DIR)/groundbox.o: groundbox.cpp groundbox.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) groundbox.cpp -c -o $(BUILD_DIR)/groundbox.o
 
 $(BUILD_DIR)/hud.o: hud.cpp hud.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) hud.cpp -c -o $(BUILD_DIR)/hud.o 

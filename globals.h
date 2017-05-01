@@ -120,5 +120,7 @@ void updateLights();
 #include "collisions.h"
 #include "target.h"
 #include "hud.h"
+#include "skybox.h"
+#include "groundbox.h"
 
 #endif

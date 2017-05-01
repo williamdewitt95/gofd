@@ -18,6 +18,8 @@ int cameraMode = 0;
 Tank * tank;
 bool orthoView = false;
 bool aerial = false;
+Skybox * skybox;
+Groundbox * groundbox;
 
 int oldTime=0.0;
 float actualfps, fps=0.0;
@@ -88,7 +90,7 @@ void gameEngine(){
 		tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
 		ai_tank->updateTank();
 		ai_tank->nearbyTarget(tank);
-	
+		skybox->update();
 
 		GLOBAL.LIGHTS[0].position[0]=tank->center.x;
 		GLOBAL.LIGHTS[0].position[1]=tank->center.y;
@@ -292,6 +294,8 @@ void drawWorld(){
 	for(int x=0; x<targets.size(); x++)
 	    targets[x]->draw();
 
+	skybox->draw();
+	groundbox->draw();
 	//tank->drawHealthBar(tank->health);
 }
 
@@ -702,7 +706,11 @@ int main(int argc,char** args){
 			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
 			0)
 		));
+
 	oldTime = glutGet(GLUT_ELAPSED_TIME);
+
+	skybox = new Skybox();
+	groundbox = new Groundbox(Building::maxBuildingWidth, Building::streetWidth, Building:: sidewalkWidth);
 
 	glutMainLoop();
 	return 0;
