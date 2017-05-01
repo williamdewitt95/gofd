@@ -2,13 +2,14 @@
 
 Skybox::Skybox()
 {
+	unsigned char color[3]={128,128,128};
 	{
         model.push_back(Polygon3d());
 		auto &points = model[model.size()-1].getPoints();
 		auto &texs = model[model.size()-1].getTexturePoints();
 		loadTex("textures/Skybox/skyboxcubemap.jpg");
 		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
-		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setColor(color[0],color[1],color[2]);
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point( 999, -1000, -1000));
@@ -28,7 +29,7 @@ Skybox::Skybox()
 		auto &texs = model[model.size()-1].getTexturePoints();
 		loadTex("textures/Skybox/skyboxcubemapreversed.jpg");
 		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
-		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setColor(color[0],color[1],color[2]);
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point( -999, -1000, -1000));
@@ -48,7 +49,7 @@ Skybox::Skybox()
 		auto &texs = model[model.size()-1].getTexturePoints();
 		//loadTex("textures/Skybox/skyboxcubemap.jpg");
 		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
-		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setColor(color[0],color[1],color[2]);
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point( -1000,  999, -1000));
@@ -68,7 +69,7 @@ Skybox::Skybox()
 		auto &texs = model[model.size()-1].getTexturePoints();
 		//loadTex("textures/Skybox/skyboxcubemap.jpg");
 		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
-		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setColor(color[0],color[1],color[2]);
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point( -1000, -999, -1000));
@@ -88,7 +89,7 @@ Skybox::Skybox()
 		auto &texs = model[model.size()-1].getTexturePoints();
 		//loadTex("textures/Skybox/skyboxcubemap.jpg");
 		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
-		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setColor(color[0],color[1],color[2]);
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point(-1000, -1000,  999));
@@ -108,7 +109,7 @@ Skybox::Skybox()
 		auto &texs = model[model.size()-1].getTexturePoints();
 		//loadTex("textures/Skybox/skyboxcubemap.jpg");
 		model[model.size()-1].setTexture(GLOBAL.TEXTURES_LOADED["textures/Skybox/skyboxcubemap.jpg"].textureRef);
-		model[model.size()-1].setColor(255,255,255);
+		model[model.size()-1].setColor(color[0],color[1],color[2]);
 		model[model.size()-1].setTesselation(true);
 
 		points.push_back(Point(-1000, -1000, -999));
@@ -126,13 +127,14 @@ Skybox::Skybox()
 
 void Skybox::draw()
 {
+	glPushAttrib(0xffffffff);
 	glDisable(GL_LIGHTING);
 	glPushMatrix();
 	glTranslated(GLOBAL.CAMERA_POS.x, GLOBAL.CAMERA_POS.y, GLOBAL.CAMERA_POS.z);
 	for(int i = 0; i < this->model.size(); i++)
 		this->model[i].draw();
 	glPopMatrix();
-	glEnable(GL_LIGHTING);
+	glPopAttrib();
 
 }
 
