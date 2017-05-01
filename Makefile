@@ -54,7 +54,7 @@ $(BUILD_DIR)/projectile.o: projectile.cpp projectile.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) projectile.cpp -c -o $(BUILD_DIR)/projectile.o 
 
 $(BUILD_DIR)/ai.o: ai.cpp ai.h
-	$(CC) $(CFLAGS) $(OPTFLAGS) ai.cpp -c -o $(BUILD_DIR)/ai.o 
+	$(CC) $(CFLAGS) -O1 ai.cpp -c -o $(BUILD_DIR)/ai.o 
 
 $(BUILD_DIR)/mapnode.o: mapnode.cpp mapnode.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) mapnode.cpp -c -o $(BUILD_DIR)/mapnode.o

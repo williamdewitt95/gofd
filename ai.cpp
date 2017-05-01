@@ -88,8 +88,9 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				x+=dx[j];
 				y+=dy[j];
 			}
-
+			std::cout << " about to delete node " << std::endl;
 			delete n0;
+			std::cout << "node deleted " << std::endl;
 			while(!pq[pqi].empty())
 				pq[pqi].pop();
 
@@ -134,7 +135,9 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				else delete m0;
 			}
 		}
+		std::cout << "about to delete node " << std::endl;
 		delete n0;
+		std::cout << "node deleted " << std::endl;
 	}
 	return "";
 }
