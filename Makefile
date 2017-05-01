@@ -71,6 +71,10 @@ $(BUILD_DIR)/drawableObject.o: drawableObject.cpp drawableObject.h
 
 # Drop into the subdirectory to create the image library
 
+movie:
+	cd ./screenshots
+	ffmpeg -r 60 -s 1920x1080 -i Plot-%07d.tga -vcodec libx264 -crf 25 -pix_fmt yuv420p gofd_movie.mp4
+
 clean:
 	rm -f *.o
 	rm -f build/*.o
