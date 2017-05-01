@@ -449,54 +449,37 @@ void joystickControls(unsigned int buttonMask, int x, int y, int z)
 
 	if((buttonMask >> 20) & 1)
 	{
-		tankTurretRotate = 2;
+		tankBaseRotate = -2;
 	}
 	else if((buttonMask >> 22) & 1)
 	{
-		tankTurretRotate = -2;
+		tankBaseRotate = 2;
 	}
 	else
 	{
-		tankTurretRotate = 0;
+		tankBaseRotate = 0;
 	}
 
 	if(abs(z) < 200)
 	{
 		tankAccel = 0;
 	}
-	else if(z > 200)
+	else if(z < 200)
 	{
 		tankAccel = 0.005;
 	}
-	else if(z < -200)
+	else if(z > -200)
 	{
 		tankAccel = -0.005;
 	}
 
-	if(abs(x) < 50)
+	if(abs(x) > 50 || abs(y) > 50)
 	{
-		tankBaseRotate = 0;
-	}
-	else if(x > 50)
-	{
-		tankBaseRotate = 2;
-	}
-	else if(x < -50)
-	{
-		tankBaseRotate = -2;
-	}
+		int xMove = abs(x) > 50 ? (x > 0 ? 2:-2) : 0;
+		int yMove = abs(y) > 50 ? (y > 0 ? -2:2) : 0;
 
-	if(abs(y) < 50)
-	{
-		tankCannonRotate = 0;
-	}
-	else if(y > 50)
-	{
-		tankCannonRotate = 2;
-	}
-	else if(y < -50)
-	{
-		tankCannonRotate = -2;
+		cameraMovement(GLOBAL.WINDOW_MAX_X/2 + xMove, GLOBAL.WINDOW_MAX_Y/2 + yMove,tank->center,cameraMode);
+		tank->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2 + xMove, GLOBAL.WINDOW_MAX_Y/2 + yMove,cameraMode);
 	}
 }
 
