@@ -5,8 +5,8 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 	dx = {1, 0, -1, 0};
         dy = {0, 1, 0, -1};
 
-	n = 360; //300;//180; //100;
-	m = 360; //300;//180; //100;
+	n = 360; 
+	m = 360; 
 
 	dir = 4;
 
@@ -14,35 +14,16 @@ AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 
 	destination = enemy->center;
 
-	start = this->tank->center;//Point(60, 60, 0);//tank->center;
+	start = this->tank->center;
 
 	std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
-/*
-	for(int i=0;i<15;i++){
-		for(int j=0;j<15;j++){
-			grid[i][j] = 1;
-		}
-	}
-*/	
+	
 	this->fillMap();
 
 	maxTankDist = 15;
 	
 	dirPrev = 3;
 	this->calculatePath();
-
-	//this->tank->destination->x =  
-	
-
-	// calculatePath(this->tank->center.x, this->tank->center.y);//stay still -- DEBUG
-	//calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,//randomly generate a point to go to
-				 // Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
-
-	// function get closest target
-	
-	// function fillMap
-	// function setRoute
-
 }
 
 std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){
@@ -208,12 +189,6 @@ void AI_Tank::fillMap(){
 }
 
 
-
-
-//something to hold the grid in - 2d array? - Do we even need a grid? Might be able to just calculate based positions of buildings (since we know them)
-
-
-
 //forwards
 void AI_Tank::forwards(){
 
@@ -294,8 +269,7 @@ void AI_Tank::followRoute(){
 		int x = this->tank->center.x;
 		int y = this->tank->center.y;
 
-		//std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
-
+		
 		mapGrid[x][y] = 2;
 		
 		//for(int i = 0; i < route.length(); i++){
@@ -375,27 +349,6 @@ void AI_Tank::followRoute(){
 			//update route str
 			dirPrev = j;
 			route.erase(0, 1);
-
-			
-
-
-
-			/*
-			for(int y=0;y<m;y++){
-            			for(int x=0;x<n;x++)
-                			if(mapGrid[x][y]==0)
-                    				std::cout<<".";
-                			else if(mapGrid[x][y]==1)
-                    				std::cout<<"O"; //obstacle
-                			else if(mapGrid[x][y]==2)
-                    				std::cout<<"S"; //start
-                			else if(mapGrid[x][y]==3)
-                    				std::cout<<"R"; //route
-                			else if(mapGrid[x][y]==4)
-                    				std::cout<<"F"; //finish
-            			std::cout<<std::endl;
-        		}
-			*/
 		//}
 	}
 
@@ -446,26 +399,6 @@ void AI_Tank::update_AI(){
 
 		aim(destination);		
 	}
-	
-
-	/*if((int)this->tank->center.x > (int)this->destination.x){//for now, we will simply go down x until we reach destination x, then we go down y
-		turn(90.0);
-	}
-	else if((int)this->tank->center.x < (int)this->destination.x){
-		turn(270.0);
-	}
-	else if((int)this->tank->center.y > (int)this->destination.y){
-		turn(180.0);
-	}
-	else if((int)this->tank->center.y < (int)this->destination.y){
-		turn(0.0);
-	}
-	else{//at location
-		calculatePath(Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0,
-				  Building::distanceBetweenBuildings*(rand()%NUM_BLOCKS_WIDE)+Building::streetWidth/2.0 + Building::maxBuildingWidth/2.0);
-		stop();
-	}
-*/
 
 }
 
@@ -476,20 +409,9 @@ void AI_Tank::updateTank(Tank *enemy){
 	if(destination != enemy->center){
 		destination = enemy->center;
 		this->calculatePath();		
-	}
-
-	//destination.y = enemy->center.y;
-  
+	} 
 	update_AI();
 
-/*	this->tank->center.x += this->tank->tankSpeed * cos((this->tank->baseAngle + 90) * (M_PI / 180));
-	this->tank->center.y += this->tank->tankSpeed * sin((this->tank->baseAngle + 90) * (M_PI / 180));
-	if ((this->tank->baseAngle > 360) || (this->tank->baseAngle < -360))
-		this->tank->baseAngle = 0;*/
-
-	// this->baseAngle += tankBaseRotate;
-	// this->towerAngle += tankTurretRotate;
-	// this->cannonAngle += tankCannonRotate;
 
 }
 
@@ -497,23 +419,18 @@ void AI_Tank::updateTank(Tank *enemy){
 void AI_Tank::findNearestBuilding(Point center){
 	double x = (Building::maxBuildingWidth/2.0 + center.x) / Building::maxBuildingWidth;//which row
 	double y = (Building::maxBuildingWidth/2.0 + center.y) / Building::maxBuildingWidth;//which column
-	//NUM_BLOCKS_WIDE*x + y//vectors stored linearly in memory, so go the number of columns + the number of rows
-	// if(this->)
+	
 }
 
 void AI_Tank::nearbyTarget(Tank * enemy){//check where the enemy tank is, if we think we can aim at him, do so
 	if(enemy->center.x - this->tank->center.x < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
 		enemy->center.x - this->tank->center.x > -1.0*Building::streetWidth/2.0 ){
-		//TO-DO
-		//Detect if there is a building in the way of looking at the player tank
-		//
+		
 		aim(enemy->center);
 	}
 	else if(enemy->center.y - this->tank->center.y < Building::streetWidth/2.0 &&//if its inside a street width we can shoot down the street
 		enemy->center.y - this->tank->center.y > -1.0*Building::streetWidth/2.0 ){
-		//TO-DO
-		//Detect if there is a building in the way of looking at the player tank
-		//
+		
 		aim(enemy->center);
 	}
 }
@@ -530,11 +447,9 @@ void AI_Tank::aim(Point enemy){
 		//do nothing
 	}
 	double delta = this->tank->towerAngle - angle;
-	// printf("\nx %f, angle %f, delta %f\n",x,angle,delta);
+	
 	if(delta < 1.0 && delta > -1.0){//if its within one degree, shoot! (Inaccurate at long ranges maybe, but that's ok)
 		this->tank->shoot();//spawn a projectile in the global projectiles vector
-		// printf("\n\nBang!\t %f",this->tank->towerAngle);
 	}
-	this->tank->towerAngle += -3.0*sin(delta *M_PI/180.0);
-	
+	this->tank->towerAngle += -3.0*sin(delta *M_PI/180.0);	
 }

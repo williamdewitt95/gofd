@@ -42,10 +42,6 @@
 		return d;
 	}
 
-	/*bool operator<( const MapNode &other) const{
-		this.getPriority() > other.getPriority();
-	}*/
-
 	bool operator<(const MapNode& a, const MapNode& b){
         return a.getPriority() > b.getPriority();
 	}

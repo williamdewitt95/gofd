@@ -22,8 +22,6 @@ class MapNode{
 		void incLevel(const int &dir);
 
 		const int& estimateDistance(const int &xDest, const int &yDest);
-
-		//bool operator<(const MapNode &other) const;
 				
 };
 

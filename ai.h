@@ -17,15 +17,15 @@ public:
 	Tank *tank;
 	int grid[15][15];
 
-	int mapGrid[360][360];//[300][300];//[180][180]; //[100][100];
-	int checkedMap[360][360];//[300][300];//[180][180];//[100][100];
-	int uncheckedMap[360][360];//[300][300];//[180][180]; //[100][100];
-	int directionalMap[360][360];//[300][300];//[180][180]; //[100][100];
+	int mapGrid[360][360];
+	int checkedMap[360][360];
+	int uncheckedMap[360][360];
+	int directionalMap[360][360];
 	
 	int n, m, dir, maxTankDist;
 
-	int dx[4]; //[8]; 
-	int dy[4]; //[8];
+	int dx[4];
+	int dy[4]; 
 
 
 	Point start;
@@ -36,7 +36,7 @@ public:
 	void stop();//stop or do nothing
 
 
-	void calculatePath();//int x, int y);//create a new path to new grid coordinate
+	void calculatePath();//create a new path to new grid coordinate
 
 	std::string findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd);
 
