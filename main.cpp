@@ -260,16 +260,11 @@ void drawWorld(){
 			GLOBAL.CAMERA_POS.z + GLOBAL.CAMERA_LOOK_VECTOR.z
 		};
 		
-		if(!aerial){
 		gluLookAt(
 				GLOBAL.CAMERA_POS.x,GLOBAL.CAMERA_POS.y,GLOBAL.CAMERA_POS.z,
 				temp[0],temp[1],temp[2],
 				0,0,1
 				);
-		}
-		else{
-			gluLookAt(450.0, 450.0, -600.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
-		}
 	}
 	}
 	
@@ -380,33 +375,25 @@ void keyboardButtons(unsigned char key, int x, int y){
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
-		camMove_forward += camMove_speed;
+		if(cameraMode==0)camMove_forward += camMove_speed;
+		else tankAccel += 0.005;
 	}else if(key == 's' || key == 'S'){
-		camMove_forward -= camMove_speed;
+		if(cameraMode==0)camMove_forward -= camMove_speed;
+		else tankAccel -= 0.005;
 	}else if(key == 'a' || key == 'A'){
-		camMove_strafe += camMove_speed;
+		if(cameraMode==0)camMove_strafe += camMove_speed;
+		else tankBaseRotate += 2;
 	}else if(key == 'd' || key == 'D'){
-		camMove_strafe -= camMove_speed;
-	}else if(key == 'i' || key == 'I'){
-		tankAccel += 0.005;
-		//printf("%f\n", tankAccel);
-	}else if(key == 'j' || key == 'J'){
-		tankBaseRotate += 2;
-	}else if(key == 'k' || key == 'K'){
-		tankAccel -= 0.005;
-		//printf("%f\n", tankAccel);
-	}else if(key == 'l' || key == 'L'){
-		tankBaseRotate -= 2;
-	}else if(key == 'u' || key == 'U'){
-		tankTurretRotate += 2;
-	}else if(key == 'o' || key == 'O'){
-		tankTurretRotate -= 2;
+		if(cameraMode==0)camMove_strafe -= camMove_speed;
+		else tankBaseRotate -= 2;
+
+
 	}else if(key == 'n' || key == 'N'){
 		tankScale -= 0.05;
 	}else if(key == 'm' || key == 'M'){
 		tankScale += 0.05;
 	}else if(key == 'z' || key == 'Z'){
-		if(cameraMode>1){//currently looking at three camera modes that we switch between
+		if(cameraMode>=2){//currently looking at three camera modes that we switch between
 			cameraMode = 0;
 		}
 		else{
@@ -446,8 +433,6 @@ void keyboardButtons(unsigned char key, int x, int y){
 				));
 			GLOBAL.reset();
 		}
-		else
-			aerial = !aerial;
 	}else{
 //		printf("Unknown Key Down %d\n",key); 
 	}
@@ -471,24 +456,17 @@ void keyboardButtonsUp(unsigned char key, int x, int y){
 	if(key == 'q' || key == 'Q'){
 		exit(0);
 	}else if(key == 'w' || key == 'W'){
-		camMove_forward -= camMove_speed;
+		if(cameraMode==0)camMove_forward -= camMove_speed;
+		else tankAccel -= 0.005;
 	}else if(key == 's' || key == 'S'){
-		camMove_forward += camMove_speed;
+		if(cameraMode==0) camMove_forward += camMove_speed;
+		else tankAccel += 0.005;
 	}else if(key == 'a' || key == 'A'){
-		camMove_strafe -= camMove_speed;
+		if(cameraMode==0) camMove_strafe -= camMove_speed;
+		else tankBaseRotate -= 2;
 	}else if(key == 'd' || key == 'D'){
-		camMove_strafe += camMove_speed;
-	//tank controls
-	}else if(key == 'i' || key == 'I'){
-		tankAccel -= 0.005;
-	}else if(key == 'j' || key == 'J'){
-		tankBaseRotate -= 2;
-	}else if(key == 'k' || key == 'K'){
-		tankAccel += 0.005;
-	}else if(key == 'l' || key == 'L'){
-		tankBaseRotate += 2;
-	}else if(key == 'u' || key == 'U'){
-		tankTurretRotate -= 2;
+		if(cameraMode==0) camMove_strafe += camMove_speed;
+		else tankBaseRotate += 2;
 	
 	}else if(key == 'n' || key == 'N'){
 	}else if(key == 'm' || key == 'M'){
