@@ -413,7 +413,7 @@ void Tank::draw(){
 	glRotated(cannonAngle, 1, 0, 0);
 	glTranslated(0, -0.5, -1.375);
 	//draw a laser guide
-	if (laser) {
+	if (!laser) {
 		glLineWidth(5);
 		glColor4f(1.0 ,0.0 ,0.0 ,1.0);
 		glBegin(GL_LINES);
