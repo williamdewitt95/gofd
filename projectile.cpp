@@ -129,13 +129,13 @@ void Projectile::draw(){
 		gluDeleteQuadric(shellPoint);
 		gluDeleteQuadric(shellBottom);
 
-		drawTrails(trails);
 	}
 	else if (this->state==EXPLODING) {
 		for(int i=0; i<explosions.size();i++){
 			drawExplosion(&explosions[i]);
 		}
 	}
+	drawTrails(trails);
 }
 
 void Projectile::update()
