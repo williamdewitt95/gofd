@@ -144,7 +144,7 @@ void AI_Tank::fillMap(){
 	// add path for ai
         for(int x = 0; x < m; x++){
                 for( int y = 0; y < n; y++){
-                        if(x%((int)(dist/2.0)) == 0 ) 
+                        if(x%((int)(dist/*/2.0*/)) == 30 ) 
                                 mapGrid[x][y] = 0;
                 }
         }
@@ -152,11 +152,18 @@ void AI_Tank::fillMap(){
 
         for(int x = 0; x < m; x++){
                 for( int y = 0; y < n; y++){
-                        if(y%((int)(dist/2.0)) == 0 )
+                        if(y%((int)(dist/*/2.0*/)) == 30 )
                                 mapGrid[x][y] = 0;
                 }
 
         }
+
+	for(int x = 0; x < m; x++)
+                mapGrid[x][0] = 0;
+
+        for(int y = 0; y < n; y++)
+                mapGrid[0][y] = 0;
+
 
     // set start and target location
     int xA, yA, xB, yB;
@@ -336,7 +343,7 @@ void AI_Tank::followRoute(){
 
 
 		else{
-			this->tank->center.x = x;  //x+dx[j]; // * 0.5;           
+			this->tank->center.x = x; // 30.0;  //x+dx[j]; // * 0.5;           
                         //std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
 	
 			this->tank->center.y = y; //y+dy[j]; // * 0.5;                 

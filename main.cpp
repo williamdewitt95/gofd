@@ -479,10 +479,10 @@ int main(int argc,char** args){
 	std::cout << "fire " << std::endl;
 	
 	// second ai tank
-	ai_tank2 = new AI_Tank(new Tank(Point(120, 120, 0)), tank);
-	ai_tank3 = new AI_Tank(new Tank(Point(180, 180, 0)), tank);
-	ai_tank4 = new AI_Tank(new Tank(Point(240, 240, 0)), tank);
-	ai_tank5 = new AI_Tank(new Tank(Point(300, 300, 0)), tank);
+	ai_tank2 = new AI_Tank(new Tank(Point(90, 90, 0)), tank);
+	ai_tank3 = new AI_Tank(new Tank(Point(150, 150, 0)), tank);
+	ai_tank4 = new AI_Tank(new Tank(Point(210,210, 0)), tank);
+	ai_tank5 = new AI_Tank(new Tank(Point(270, 270, 0)), tank);
 
 
 
