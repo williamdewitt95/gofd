@@ -10,6 +10,9 @@
 class Projectile;
 class Tank:public DrawableObject{
 
+private:
+	float colorR, colorG, colorB;
+
 public:
 	Point hitSphereCenter;
 	double hitSphereRadius;

@@ -15,6 +15,12 @@ Tank::Tank(Point center){
 	hitSphereCenter = Point(center.x, center.y, center.z + 1);
 	hitSphereRadius = 3.1;
 
+	//randomize color of each tank on creation
+	this->colorR = ((float) rand() / (RAND_MAX));
+	this->colorG = ((float) rand() / (RAND_MAX));
+	this->colorB = ((float) rand() / (RAND_MAX));
+
+
 	this->center = center;
 	scale = 1;
 	baseAngle = 0;
@@ -382,6 +388,7 @@ void Tank::draw(){
 	glRotatef(90,1,0,0);//rotate the body
 	//glColor3f(.35,.35,.35);
 	glDisable(GL_COLOR_MATERIAL);
+	glColor3f(this->colorR, this->colorG, this->colorB);
 	glmDraw(tankModel, GLM_SMOOTH | GLM_COLOR);
 	glmDraw(stars, GLM_SMOOTH | GLM_MATERIAL);
 	glEnable(GL_COLOR_MATERIAL);	
@@ -599,7 +606,7 @@ void Tank::shoot() {
 	// printf("%.3f\n",z);
 
 	// printf("%f,%f,%f\t",x,y,z);
-	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90));
+	projectiles.push_back(new Projectile(Point(x,y,z), Point(x,y,z), this->cannonAngle, this->towerAngle+90, colorR, colorG, colorB));
 	this->cooldown = 100;
 	// return projectile;
 

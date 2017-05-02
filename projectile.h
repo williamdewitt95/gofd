@@ -35,6 +35,7 @@ private:
 	void step();
 	std::vector<Explosion> explosions;
 	std::vector<Trail> trails;
+	float projR, projG, projB;
 
 	void baseInit(Point center, Point tankStart, double angleV, double angleH); // sets variable to the known most basic values
 public:
@@ -51,6 +52,7 @@ public:
 	//std::vector<Polygon3d> model;
 	Projectile(Point center);
 	Projectile(Point center, Point tankStart, double angleV, double angleH); //Vertical Angle = angleV, horizontal angle = angleH
+	Projectile(Point center, Point tankStart, double angleV, double angleH, float tankR, float tankG, float tankB);
 	void draw();
 	void update();
 	void drawExplosion(struct Explosion *ex);

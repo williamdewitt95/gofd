@@ -1640,7 +1640,7 @@ glmDraw(GLMmodel* model, GLuint mode)
         }
         
         if (mode & GLM_COLOR) {
-            glColor3f(((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)));
+            // glColor3f(((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)));
             //glColor3fv(material->diffuse);
         }
         

@@ -4,10 +4,24 @@ using std::cout;
 
 Projectile::Projectile(Point center){
 	this->baseInit(center,center,45,0);
+	this->projR = 1.0;
+	this->projG = 0.65;
+	this->projB = 0.13;
 }
 
 Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH){
 	this->baseInit(center,tankStart,angleV,angleH);
+	this->projR = 1.0;
+	this->projG = 0.65;
+	this->projB = 0.13;
+}
+
+//tank color passed to projectile trail color
+Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH, float tankR, float tankG, float tankB) {
+	this->baseInit(center,tankStart,angleV,angleH);
+	this->projR = tankR;
+	this->projG = tankG;
+	this->projB = tankB;
 }
 
 void Projectile::baseInit(Point center, Point tankStart, double angleV, double angleH){
@@ -366,7 +380,7 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 			// colorB = 0.83 + (decayRatio * (colorB - 0.83));
 
 			//use decayRatio as the alpha channel percentage value
-			glColor4f(colorR, colorG, colorB, decayRatio);
+			glColor4f(projR, projG, projB, decayRatio);
 			glutSolidSphere(0.5f, 8, 8);
 			glPopMatrix();
 			trailList.at(i).decay--;
