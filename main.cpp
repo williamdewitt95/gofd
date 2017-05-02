@@ -500,6 +500,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 				ai_tanks.pop_back();
 			}
 			
+
 			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
 			for(int x=0; x<NUM_AI_TANKS; x++){
 				int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
