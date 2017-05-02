@@ -493,7 +493,10 @@ void keyboardButtons(unsigned char key, int x, int y){
 		if(GLOBAL.gameOver)//when game over, r to restart game
 		{
 			delete tank;
-			for(int x=0; x<ai_tanks.size(); x++)delete ai_tanks[x];
+			for(int x=ai_tanks.size()-1; x>=0; x--){
+				delete ai_tanks[x];
+				ai_tanks.pop_back();
+			}
 			
 			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
 			for(int x=0; x<NUM_AI_TANKS; x++){
