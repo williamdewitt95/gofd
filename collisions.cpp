@@ -110,67 +110,100 @@ int intersect3D_SegmentPlane( LineSeg seg, Polygon3d poly, Point &I ){//only wor
 }
 
 void collisionTest(){
-	// printf("\ncollision test\n");
-
-	// printf("building center %f,%f,%f\n",buildings.at(0));
+	//This loop is to test every projectile and see if it has hit anything
+	//If it has, depending on what it hit, we can do certain things, usually ending with it exploding
 	for(int j=0;j<projectiles.size();j++){
 		Projectile * tempProjectile = projectiles.at(j);
+
+		//Only do a check if the projectile is moving and so able to hit things
 		if(tempProjectile->state == Projectile::MOVING && !tempProjectile->invincibility){
+			//====================================================================================================================================
+			//targets collision check
+			for(int k=0; k<targets.size();k++){
+				//only check the target if it is not already been hit
+				if(targets[k]->state == Target::DEAD)
+					continue;
+
+				double dist = Vector(targets[k]->center,tempProjectile->center).length();
+
+				if(dist > targets.at(k)->radius*2.0)
+					continue; // skip if they are so far away that there is no chance of them colliding
+
+				//Now we check if there is a line between the two locations of the projectile to see if it passed through anything
+				LineSeg testLine = LineSeg(tempProjectile->oldCenter,tempProjectile->center);
+
+				std::vector<Polygon3d> buildingSides = targets.at(k)->getBoundingBox();
+				Point intersect;
+				for(int i=0; i<buildingSides.size();i++){
+					int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
+					if(a==1){
+					    tempProjectile->setExploding(intersect);
+					    GLOBAL.score+=2;
+					    targets[k]->state = Target::DEAD;
+					    break;
+					}
+				}
+				if(tempProjectile->state != Projectile::MOVING) // if it hit something, stop checking if it hit another building
+					break;
+			}
+			if(tempProjectile->state != Projectile::MOVING) // if it hit something, move on to the next projectile
+				continue;
+
+			//====================================================================================================================================
+			//building walls collision check
 			for(int k=0; k<buildings.size();k++){
 
-				
-				double sq = sqrt((buildings.at(k)->center[0] - tempProjectile->center[0])*(buildings.at(k)->center[0] - tempProjectile->center[0])
-					+(buildings.at(k)->center[1] - tempProjectile->center[1])*(buildings.at(k)->center[1] - tempProjectile->center[1])
-					+(buildings.at(k)->center[2] - tempProjectile->center[2])*(buildings.at(k)->center[2] - tempProjectile->center[2]));
-				if(sq > buildings.at(k)->maxBuildingWidth*2)
-					continue;
-				// printf("~~~~~~~~~~~~~k: %d    %f,%f,%f\n",k,buildings.at(k)->center[0], buildings.at(k)->center[1], buildings.at(k)->center[2]);
+				double dist = Vector(buildings[k]->center,tempProjectile->center).length();
+
+				if(dist > buildings.at(k)->maxBuildingWidth*2)
+					continue; // skip if they are so far away that there is no chance of them colliding
+
+				//Now we check if there is a line between the two locations of the projectile to see if it passed through anything
 				LineSeg testLine = LineSeg(tempProjectile->oldCenter,tempProjectile->center);
 
 				std::vector<Polygon3d> buildingSides = buildings.at(k)->getBoundingBox();
 				Point intersect;
 				for(int i=0; i<buildingSides.size();i++){
-					buildingSides.at(i).setCenter(buildings.at(k)->center);
 					int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
-					// printf("%d\t",a);
 					if(a==1){
-						// printf("\nintersect at (%f,%f,%f)\n",intersect[0], intersect[1], intersect[2]);
 					    tempProjectile->setExploding(intersect);
-					    // printf("\nprojectile state %d, velocity %f)\n",tempProjectile->state, tempProjectile->velocity);
-					   	continue;
-						// exit(0);
-					}
-					else{
-						// printf("\t%d\n",a);
+					    break;
 					}
 				}
+				if(tempProjectile->state != Projectile::MOVING) // if it hit something, stop checking if it hit another building
+					break;
 			}
-			double sq = sqrt((tank->center[0] - tempProjectile->center[0])*(tank->center[0] - tempProjectile->center[0])
-				+(tank->center[1] - tempProjectile->center[1])*(tank->center[1] - tempProjectile->center[1])
-				+(tank->center[2] - tempProjectile->center[2])*(tank->center[2] - tempProjectile->center[2]));
-			if(sq < 50.0){		
+			if(tempProjectile->state != Projectile::MOVING) // if it hit something, move on to the next projectile
+				continue;
+
+			//====================================================================================================================================
+			//Player tank collision check
+			double dist = Vector(tank->center,tempProjectile->center).length();
+			if(dist < 30.0){
 				LineSeg testLine = LineSeg(tempProjectile->oldCenter, tempProjectile->center);
-				std::vector<Polygon3d> tankSides = tank->boundingBox();
+				std::vector<Polygon3d> tankSides = tank->getBoundingBox();
 				Point intersect;
 				for(int i=0;i<tankSides.size();i++){
 					tankSides.at(i).setCenter(tank->center);
 					int a = intersect3D_SegmentPlane(testLine, tankSides.at(i), intersect);
 					if(a==1){
 						tempProjectile->setExploding(intersect);
-						// printf("Hit!\n\n\n");
 						tank->health-=10;
 						break;
 					}
 
 				}
 			}
-			sq = sqrt((ai_tank->tank->center[0] - tempProjectile->center[0])*(ai_tank->tank->center[0] - tempProjectile->center[0])
-					+(ai_tank->tank->center[1] - tempProjectile->center[1])*(ai_tank->tank->center[1] - tempProjectile->center[1])
-					+(ai_tank->tank->center[2] - tempProjectile->center[2])*(ai_tank->tank->center[2] - tempProjectile->center[2]));
-			if(sq < 50.0){
+			if(tempProjectile->state != Projectile::MOVING) // if it hit something, move on to the next projectile
+				continue;
+
+			//====================================================================================================================================
+			//AI tank collision check
+			dist = Vector(ai_tank->tank->center,tempProjectile->center).length();
+			if(dist < 30.0){
 				// printf("sq: %f \n",sq);
 				LineSeg testLine = LineSeg(tempProjectile->oldCenter, tempProjectile->center);
-				std::vector<Polygon3d> tankSides = ai_tank->tank->boundingBox();
+				std::vector<Polygon3d> tankSides = ai_tank->tank->getBoundingBox();
 				Point intersect;
 				// printf("tankSides.size() %d     ",(int)tankSides.size());
 				for(int i=0;i<tankSides.size();i++){
@@ -179,12 +212,14 @@ void collisionTest(){
 					if(a==1){
 						tempProjectile->setExploding(intersect);
 						// printf("Hit!\n\n\n");
-						GLOBAL.score++;
+						GLOBAL.score+=10;
 						break;
 					}
 
 				}
 			}
+			if(tempProjectile->state != Projectile::MOVING) // if it hit something, move on to the next projectile
+				continue;
 		}
 
 	}

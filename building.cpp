@@ -16,14 +16,20 @@ Building::Building(Point center){
 		case 0:
 			// createGeneric1Building(model,boundingBox);
 			apartmentHighriseBuilding(DrawableObject::model,DrawableObject::boundingBox,subLists,sideNorth,sideEast,sideSouth,sideWest);
+			for(int x=0; x<boundingBox.size(); x++)
+				boundingBox[x].setCenter(center);
 			break;
 		case 1:
 			createGenericOctogonBuilding(DrawableObject::model,DrawableObject::boundingBox);
+			for(int x=0; x<boundingBox.size(); x++)
+				boundingBox[x].setCenter(center);
 			break;
 
 		// === insert new building before here ===
 		default:
 			createGeneric1Building(DrawableObject::model,DrawableObject::boundingBox);
+			for(int x=0; x<boundingBox.size(); x++)
+				boundingBox[x].setCenter(center);
 			printf("Building selection out of range\n");
 			break;
 	}

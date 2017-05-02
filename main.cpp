@@ -295,6 +295,63 @@ void drawWorld(){
 	//tank->drawHealthBar(tank->health);
 }
 
+void drawBoundingBoxes(){
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity(); // reset the values
+	double aspect = (GLOBAL.WINDOW_MAX_X/(double)GLOBAL.WINDOW_MAX_Y);
+	
+	if(!orthoView){
+	gluPerspective(90,aspect,0.1,1000);
+	{
+		double temp[3]={
+			GLOBAL.CAMERA_POS.x + GLOBAL.CAMERA_LOOK_VECTOR.x,
+			GLOBAL.CAMERA_POS.y + GLOBAL.CAMERA_LOOK_VECTOR.y,
+			GLOBAL.CAMERA_POS.z + GLOBAL.CAMERA_LOOK_VECTOR.z
+		};
+		
+		gluLookAt(
+				GLOBAL.CAMERA_POS.x,GLOBAL.CAMERA_POS.y,GLOBAL.CAMERA_POS.z,
+				temp[0],temp[1],temp[2],
+				0,0,1
+				);
+	}
+	}
+	
+	else{
+		glOrtho(-500.0, 500.0, -500.0, 500.0, 0.1, 1000);{
+			gluLookAt(450.0, 450.0, 800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
+		}
+	}
+
+	
+	glMatrixMode(GL_MODELVIEW);
+
+	// for(int x=0; x<buildings.size(); x++)
+	// 	buildings[x]->draw();
+
+	// tank->draw();
+	// ai_tank->tank->draw();
+
+	// for(int i=0; i<projectiles.size();i++){
+	// 	projectiles[i]->draw();
+	// }
+
+	for(int x=0; x<targets.size(); x++){
+	    auto box = targets[x]->getBoundingBox();
+	    for(int y=0; y<box.size(); y++){
+	    	box[y].drawLines();
+	    }
+	}
+
+	{
+	    auto box = tank->getBoundingBox();
+	    for(int y=0; y<box.size(); y++){
+	    	box[y].setColor(255,255,255);
+	    	box[y].drawLines();
+	    }
+	}
+}
+
 void drawMinimap(){
 	double height,width;
 	height = 100;
@@ -330,20 +387,23 @@ void drawMinimap(){
 	ai_tank->tank->draw();
 }
 void display(){
-	glEnable(GL_LIGHTING);
-	updateLights();
 
 	//remove this clear for game over cast over moment of failure
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 
-	if(!youLose())
-	{
+	if(!youLose()) {
+		glEnable(GL_LIGHTING);
+		updateLights();
+
 		drawWorld();
 		collisionTest();
 	
 		//===============================================================================
 		glDisable(GL_LIGHTING);
+
+		// glClear(GL_DEPTH_BUFFER_BIT);
+		// drawBoundingBoxes();
 
 		glClear(GL_DEPTH_BUFFER_BIT);
 		drawHud();
@@ -352,11 +412,9 @@ void display(){
 		glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
 		drawMinimap();
 	}
-	else
-	{
-	//	glPushMatrix();
-			drawGameOver();
-	//	glPopMatrix();
+	else {
+		glDisable(GL_LIGHTING);
+		drawGameOver();
 	}
 
 	glFlush();

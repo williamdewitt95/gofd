@@ -34,6 +34,13 @@ Tank::Tank(Point center){
 	towerToBaseAngle = 0;
 
 	//Base polygons
+	double tankLength = 3.0;
+	double tankWidth = 2.25;
+	double tankHeight = 0.75;
+
+	double turretLength = 1.0;
+	double turretWidth  = 1.0;
+	double turretHeight = 1.0;
 
 	{
 		base.push_back(Polygon3d());
@@ -44,11 +51,11 @@ Tank::Tank(Point center){
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -1, -1.5,  1));
-		points.push_back(Point(  -1, -1.5,   0));
-		points.push_back(Point(   1, -1.5,   0));
-		points.push_back(Point(   1, -1.5,  1));
-		points.push_back(Point(  -1, -1.5,  1));
+		points.push_back(Point(  -1, -tankLength,  tankHeight));
+		points.push_back(Point(  -1, -tankLength,       0    ));
+		points.push_back(Point(   1, -tankLength,       0    ));
+		points.push_back(Point(   1, -tankLength,  tankHeight));
+		points.push_back(Point(  -1, -tankLength,  tankHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -64,11 +71,11 @@ Tank::Tank(Point center){
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
 
-		points.push_back(Point(   1,  1.5,  1));
-		points.push_back(Point(   1,  1.5,   0));
-		points.push_back(Point(  -1,  1.5,   0));
-		points.push_back(Point(  -1,  1.5,  1));
-		points.push_back(Point(   1,  1.5,  1));
+		points.push_back(Point(   tankWidth,  tankLength,  tankHeight));
+		points.push_back(Point(   tankWidth,  tankLength,       0    ));
+		points.push_back(Point(  -tankWidth,  tankLength,       0    ));
+		points.push_back(Point(  -tankWidth,  tankLength,  tankHeight));
+		points.push_back(Point(   tankWidth,  tankLength,  tankHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -84,11 +91,11 @@ Tank::Tank(Point center){
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
 
-		points.push_back(Point(   1, -1.5,  1));
-		points.push_back(Point(   1, -1.5,   0));
-		points.push_back(Point(   1,  1.5,   0));
-		points.push_back(Point(   1,  1.5,  1));
-		points.push_back(Point(   1, -1.5,  1));
+		points.push_back(Point(   tankWidth, -tankLength,  tankHeight));
+		points.push_back(Point(   tankWidth, -tankLength,       0    ));
+		points.push_back(Point(   tankWidth,  tankLength,       0    ));
+		points.push_back(Point(   tankWidth,  tankLength,  tankHeight));
+		points.push_back(Point(   tankWidth, -tankLength,  tankHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -104,11 +111,11 @@ Tank::Tank(Point center){
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -1,  1.5,  1));
-		points.push_back(Point(  -1,  1.5,   0));
-		points.push_back(Point(  -1, -1.5,   0));
-		points.push_back(Point(  -1, -1.5,  1));
-		points.push_back(Point(  -1,  1.5,  1));
+		points.push_back(Point(  -tankWidth,  tankLength,  tankHeight));
+		points.push_back(Point(  -tankWidth,  tankLength,       0    ));
+		points.push_back(Point(  -tankWidth, -tankLength,       0    ));
+		points.push_back(Point(  -tankWidth, -tankLength,  tankHeight));
+		points.push_back(Point(  -tankWidth,  tankLength,  tankHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -124,11 +131,11 @@ Tank::Tank(Point center){
 		base[base.size()-1].setColor(211,211,211);
 		base[base.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -1,  -1.5,  1));
-		points.push_back(Point(   1, -1.5,  1));
-		points.push_back(Point(   1,  1.5,   1));
-		points.push_back(Point(  -1,  1.5,   1));
-		points.push_back(Point(  -1,  -1.5,  1));
+		points.push_back(Point(  -tankWidth, -tankLength,  tankHeight));
+		points.push_back(Point(   tankWidth, -tankLength,  tankHeight));
+		points.push_back(Point(   tankWidth,  tankLength,  tankHeight));
+		points.push_back(Point(  -tankWidth,  tankLength,  tankHeight));
+		points.push_back(Point(  -tankWidth, -tankLength,  tankHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -137,7 +144,6 @@ Tank::Tank(Point center){
 	}
 
 	//tower polygons
-
 	{
 		tower.push_back(Polygon3d());
 		auto &points = tower[tower.size()-1].getPoints();
@@ -147,11 +153,11 @@ Tank::Tank(Point center){
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -0.5, -0.5,  1.75));
-		points.push_back(Point(  -0.5, -0.5,   1));
-		points.push_back(Point(   0.5, -0.5,   1));
-		points.push_back(Point(   0.5, -0.5,  1.75));
-		points.push_back(Point(  -0.5, -0.5,  1.75));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight));
+		points.push_back(Point(   turretWidth, -turretLength,  tankHeight));
+		points.push_back(Point(   turretWidth, -turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight+turretHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -167,11 +173,11 @@ Tank::Tank(Point center){
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
 
-		points.push_back(Point(   0.5,  0.5,  1.75));
-		points.push_back(Point(   0.5,  0.5,   1));
-		points.push_back(Point(  -0.5,  0.5,   1));
-		points.push_back(Point(  -0.5,  0.5,  1.75));
-		points.push_back(Point(   0.5,  0.5,  1.75));
+		points.push_back(Point(   turretWidth,  turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(   turretWidth,  turretLength,  tankHeight));
+		points.push_back(Point(  -turretWidth,  turretLength,  tankHeight));
+		points.push_back(Point(  -turretWidth,  turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(   turretWidth,  turretLength,  tankHeight+turretHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -187,11 +193,11 @@ Tank::Tank(Point center){
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
 
-		points.push_back(Point(   0.5, -0.5,  1.75));
-		points.push_back(Point(   0.5, -0.5,   1));
-		points.push_back(Point(   0.5,  0.5,   1));
-		points.push_back(Point(   0.5,  0.5,  1.75));
-		points.push_back(Point(   0.5, -0.5,  1.75));
+		points.push_back(Point(   turretWidth, -turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(   turretWidth, -turretLength,  tankHeight));
+		points.push_back(Point(   turretWidth,  turretLength,  tankHeight));
+		points.push_back(Point(   turretWidth,  turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(   turretWidth, -turretLength,  tankHeight+turretHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -207,11 +213,11 @@ Tank::Tank(Point center){
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -0.5,  0.5,  1.75));
-		points.push_back(Point(  -0.5,  0.5,   1));
-		points.push_back(Point(  -0.5, -0.5,   1));
-		points.push_back(Point(  -0.5, -0.5,  1.75));
-		points.push_back(Point(  -0.5,  0.5,  1.75));
+		points.push_back(Point(  -turretWidth,  turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(  -turretWidth,  turretLength,  tankHeight));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(  -turretWidth,  turretLength,  tankHeight+turretHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -227,11 +233,11 @@ Tank::Tank(Point center){
 		tower[tower.size()-1].setColor(211,211,211);
 		tower[tower.size()-1].setTesselation(true);
 
-		points.push_back(Point(  -0.5,  -0.5,  1.75));
-		points.push_back(Point(   0.5, -0.5,  1.75));
-		points.push_back(Point(   0.5,  0.5,   1.75));
-		points.push_back(Point(  -0.5,  0.5,   1.75));
-		points.push_back(Point(  -0.5,  -0.5,  1.75));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(   turretWidth, -turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(   turretWidth,  turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(  -turretWidth,  turretLength,  tankHeight+turretHeight));
+		points.push_back(Point(  -turretWidth, -turretLength,  tankHeight+turretHeight));
 		texs.push_back(Point(0,0,0));
 		texs.push_back(Point(0,1,0));
 		texs.push_back(Point(1,1,0));
@@ -554,7 +560,7 @@ bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in
 }
 
 
-std::vector<Polygon3d> Tank::boundingBox(void){
+std::vector<Polygon3d> Tank::getBoundingBox(void){
 	//every time someone needs the polygons for our bounding box, we have to make it from scratch
 	//we start out with having the starting polygons for the tank in the default positions
 	//we need to set the rotation for all of them and then put them into a single list
@@ -562,19 +568,23 @@ std::vector<Polygon3d> Tank::boundingBox(void){
 	std::vector<Polygon3d> temp;
 	Vector baseRot(0,0,baseAngle);
 	Vector towerRot(0,0,towerAngle);
-	Vector cannonRot(0,0,cannonAngle);
+	Vector cannonRot(-cannonAngle,0,towerAngle);
 
 	for(int x=0; x < baseBoundingBox.size(); x++){
 		baseBoundingBox[x].setRotation(baseRot);
+		baseBoundingBox[x].setCenter(center);
 		temp.push_back(baseBoundingBox[x]);
 	}
 	for(int x=0; x < towerBoundingBox.size(); x++){
 		towerBoundingBox[x].setRotation(towerRot);
+		towerBoundingBox[x].setCenter(center);
 		temp.push_back(towerBoundingBox[x]);
 	}
 	for(int x=0; x < cannonBoundingBox.size(); x++){
 		cannonBoundingBox[x].setRotation(cannonRot);
-		temp.push_back(cannonBoundingBox[x]);
+		cannonBoundingBox[x].setCenter(center);
+		Polygon3d temp2 = cannonBoundingBox[x].getTransform();
+		temp.push_back(temp2);
 	}
 	return temp;
 }

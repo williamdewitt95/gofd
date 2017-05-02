@@ -1,12 +1,12 @@
 #include "target.h"
 #include "globals.h"
-#include <stdlib.h>
 
 Target::Target(Point center)
 {
     this->center = center;
     this->radius = 3;
     this->rotation = 0;
+    this->state = NORMAL;
     int choice = rand() % 9;
     if(choice == 0)
     {
@@ -57,65 +57,72 @@ Target::Target(Point center)
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
-        points.push_back(Point(-3, -3, 0));
-        points.push_back(Point(3, -3, 0));
-        points.push_back(Point(3, 3, 0));
-        points.push_back(Point(-3, 3, 0));
-        points.push_back(Point(-3, -3, 0));
+        points.push_back(Point(-radius,0,-radius));
+        points.push_back(Point( radius,0,-radius));
+        points.push_back(Point( radius,0, radius));
+        points.push_back(Point(-radius,0, radius));
+        points.push_back(Point(-radius,0,-radius));
     }
 
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
-        points.push_back(Point(  3, -3,  0));
-        points.push_back(Point(  3, -3, .1));
-        points.push_back(Point(  3,  3, .1));
-        points.push_back(Point(  3,  3,  0));
-        points.push_back(Point(  3, -3,  0));
+        points.push_back(Point(  radius,  0, -radius));
+        points.push_back(Point(  radius, .1, -radius));
+        points.push_back(Point(  radius, .1,  radius));
+        points.push_back(Point(  radius,  0,  radius));
+        points.push_back(Point(  radius,  0, -radius));
     }
 
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
-        points.push_back(Point( -3,  3,  0));
-        points.push_back(Point( -3,  3, .1));
-        points.push_back(Point(  3,  3, .1));
-        points.push_back(Point(  3,  3,  0));
-        points.push_back(Point( -3,  3,  0));
+        points.push_back(Point( -radius,  0,  radius));
+        points.push_back(Point( -radius, .1,  radius));
+        points.push_back(Point(  radius, .1,  radius));
+        points.push_back(Point(  radius,  0,  radius));
+        points.push_back(Point( -radius,  0,  radius));
     }
 
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
-        points.push_back(Point( -3, -3,  0));
-        points.push_back(Point( -3, -3, .1));
-        points.push_back(Point(  3, -3, .1));
-        points.push_back(Point(  3, -3,  0));
-        points.push_back(Point( -3, -3,  0));
+        points.push_back(Point( -radius,  0, -radius));
+        points.push_back(Point( -radius, .1, -radius));
+        points.push_back(Point(  radius, .1, -radius));
+        points.push_back(Point(  radius,  0, -radius));
+        points.push_back(Point( -radius,  0, -radius));
     }
 
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
-        points.push_back(Point( -3, -3,  0));
-        points.push_back(Point( -3, -3, .1));
-        points.push_back(Point( -3,  3, .1));
-        points.push_back(Point( -3,  3,  0));
-        points.push_back(Point( -3, -3,  0));
+        points.push_back(Point( -radius,  0, -radius));
+        points.push_back(Point( -radius, .1, -radius));
+        points.push_back(Point( -radius, .1,  radius));
+        points.push_back(Point( -radius,  0,  radius));
+        points.push_back(Point( -radius,  0, -radius));
     }
 
     {
         boundingBox.push_back(Polygon3d());
         auto &points = boundingBox[boundingBox.size()-1].getPoints();
-        points.push_back(Point( -3, -3, .1));
-        points.push_back(Point(  3, -3, .1));
-        points.push_back(Point(  3,  3, .1));
-        points.push_back(Point( -3,  3, .1));
-        points.push_back(Point( -3, -3, .1));
+        points.push_back(Point( -radius, .1, -radius));
+        points.push_back(Point(  radius, .1, -radius));
+        points.push_back(Point(  radius, .1,  radius));
+        points.push_back(Point( -radius, .1,  radius));
+        points.push_back(Point( -radius, .1, -radius));
+    }
+    for(int x=0; x<boundingBox.size(); x++){
+        boundingBox[x].setCenter(center);
     }
 }
 
 void Target::draw(){
+    //Do not draw us if we are already hit
+    if(this->state == DEAD)
+        return;
+
     glPushMatrix();
 
     // glTranslated(center.x,center.y,center.z);
@@ -133,7 +140,7 @@ void Target::draw(){
     glPushMatrix();
         glTranslated(center.x,center.y,center.z);
         glRotated(90, 1, 0, 0);
-        glRotated(180,0, 0, 1);
+        glRotated(180, 0, 0, 1);
         glRotated(this->rotation, 0, 1, 0);
 
         gluCylinder(cylinder, this->radius, this->radius, .1, 30, 1);
@@ -154,4 +161,8 @@ void Target::update(){
 
 void Target::setRotation(double rot){
 	this->rotation = rot;
+    for(int x=0; x<boundingBox.size(); x++){
+        Vector temp(0,0,rot);
+        boundingBox[x].setRotation(temp);
+    }
 }
