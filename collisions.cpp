@@ -184,7 +184,6 @@ void collisionTest(){
 				std::vector<Polygon3d> tankSides = tank->getBoundingBox();
 				Point intersect;
 				for(int i=0;i<tankSides.size();i++){
-					tankSides.at(i).setCenter(tank->center);
 					int a = intersect3D_SegmentPlane(testLine, tankSides.at(i), intersect);
 					if(a==1){
 						tempProjectile->setExploding(intersect);
@@ -199,24 +198,28 @@ void collisionTest(){
 
 			//====================================================================================================================================
 			//AI tank collision check
-			dist = Vector(ai_tank->tank->center,tempProjectile->center).length();
-			if(dist < 30.0){
-				// printf("sq: %f \n",sq);
-				LineSeg testLine = LineSeg(tempProjectile->oldCenter, tempProjectile->center);
-				std::vector<Polygon3d> tankSides = ai_tank->tank->getBoundingBox();
-				Point intersect;
-				// printf("tankSides.size() %d     ",(int)tankSides.size());
-				for(int i=0;i<tankSides.size();i++){
-					tankSides.at(i).setCenter(ai_tank->tank->center);
-					int a = intersect3D_SegmentPlane(testLine, tankSides.at(i), intersect);
-					if(a==1){
-						tempProjectile->setExploding(intersect);
-						// printf("Hit!\n\n\n");
-						GLOBAL.score+=10;
-						break;
-					}
+			for(int k=0; k<ai_tanks.size();k++){
 
+				double dist = Vector(ai_tanks[k]->tank->center,tempProjectile->center).length();
+
+				if(dist > 30.0)
+					continue; // skip if they are so far away that there is no chance of them colliding
+
+				//Now we check if there is a line between the two locations of the projectile to see if it passed through anything
+				LineSeg testLine = LineSeg(tempProjectile->oldCenter,tempProjectile->center);
+
+				std::vector<Polygon3d> buildingSides = ai_tanks.at(k)->tank->getBoundingBox();
+				Point intersect;
+				for(int i=0; i<buildingSides.size();i++){
+					int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
+					if(a==1){
+					    tempProjectile->setExploding(intersect);
+					    GLOBAL.score += 10;
+					    break;
+					}
 				}
+				if(tempProjectile->state != Projectile::MOVING) // if it hit something, stop checking if it hit another building
+					break;
 			}
 			if(tempProjectile->state != Projectile::MOVING) // if it hit something, move on to the next projectile
 				continue;
