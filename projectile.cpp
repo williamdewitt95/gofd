@@ -177,7 +177,7 @@ void Projectile::update()
 		if(this->invincibility>0)
 			invincibility--;
 
-		if (this->trailInterval == 10) {
+		if (this->trailInterval == 3) {
 			Trail t;
 			t.x = center.x;
 			t.y = center.y;
@@ -381,7 +381,7 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 
 			//use decayRatio as the alpha channel percentage value
 			glColor4f(projR, projG, projB, decayRatio);
-			glutSolidSphere(0.5f, 8, 8);
+			glutSolidSphere(0.3f, 8, 8);
 			glPopMatrix();
 			trailList.at(i).decay--;
 			glDisable (GL_BLEND);
