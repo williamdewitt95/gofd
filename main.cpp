@@ -117,7 +117,7 @@ void gameEngine(){
 		}
 	}
 }
-
+//much like functions in hud.cpp
 void drawGameOver(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); // reset the projection style
@@ -144,7 +144,7 @@ void drawGameOver(){
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label[i]);
 		glPopMatrix();
-		char label2[] = "Nice Try But";
+		char label2[] = "Nice Try But";//should say "LOOK AT YOU"
 		glPushMatrix();
 			glColor3f(0.0,1.0,0.0);
 			glRotatef(180.0,1.0,0.0,0.0);
@@ -154,7 +154,7 @@ void drawGameOver(){
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label2[i]);
 		glPopMatrix();
-		char label3[] = "YOU LOST!";
+		char label3[] = "YOU LOST!";//should say "WHAT A LOSER" -- the spacing reflects this
 		glPushMatrix();
 			glColor3f(0.0,1.0,1.0);
 			glRotatef(180.0,1.0,0.0,0.0);
@@ -219,7 +219,7 @@ void drawTime() {
 
 			std::ostringstream printNum;
 			std::string printy;
-			
+			//calculate time remaining using difftime to subtract two time_t's			
 			timeRemaining = TIME_LIMIT - difftime(time(0) ,GLOBAL.timeStart);
 
 			printNum << timeRemaining;
@@ -407,7 +407,7 @@ void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 
-	if(!youLose()) {
+	if(!youLose()) {//if game is still going, do game stuff
 		if(!orthoView)glEnable(GL_LIGHTING);
 		updateLights();
 
@@ -424,7 +424,7 @@ void display(){
 		glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
 		if(!orthoView)drawMinimap();
 	}
-	else {
+	else {//if you lose, draw game over screen so you know you're not as cool as you thought
 		glDisable(GL_LIGHTING);
 		drawGameOver();
 	}
@@ -492,13 +492,15 @@ void keyboardButtons(unsigned char key, int x, int y){
 	}else if(key == 'r' || key == 'R'){
 		if(GLOBAL.gameOver)//when game over, r to restart game
 		{
-			delete tank;
+			delete tank;//delete tank
+			//and all ai_tanks
 			for(int x=ai_tanks.size()-1; x>=0; x--){
 				delete ai_tanks[x];
 				ai_tanks.pop_back();
 			}
-			
+			//make a new tank at the set start position
 			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+			//flood the world with ai tanks at random spots
 			for(int x=0; x<NUM_AI_TANKS; x++){
 				int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
 				int dy = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
@@ -509,6 +511,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 					));
 				ai_tanks.push_back(ai_tank);
 			}
+			//restart the world
 			GLOBAL.reset();
 		}
 	}else{
@@ -712,12 +715,16 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*y,
 					0)
 				));
-
+			
+			//every time we add a building, add a target to one of its 4 "main" sides at random (i'm looking at you, octagons)
 			int randSide = (rand()/(double)RAND_MAX) * 4;
+			//a random number 0-1
 			double randomHeight = rand() / (double)RAND_MAX;
+			//height of current building aka maxiumum height we can draw target
 			double maxHeight = buildings[buildings.size()-1]->getBoundingBox()[0][0].z;
-			double targetCenter = randomHeight * (3.0*maxHeight/4.0) + (maxHeight/8.0); //randomly spawns in the middle 3/4 of the building
 
+			double targetCenter = randomHeight * (3.0*maxHeight/4.0) + (maxHeight/8.0); //randomly spawns in the middle 3/4 of the building
+			//placing target based on randSide value
 			if(randSide == 0) {//"north" wall
 				targets.push_back(new Target(Point(
 					Building::distanceBetweenBuildings*x,
@@ -729,7 +736,7 @@ int main(int argc,char** args){
 					Building::distanceBetweenBuildings*x + (Building::maxBuildingWidth)/2.0 + 0.55,
 					Building::distanceBetweenBuildings*y - (Building::maxBuildingWidth)/32.0,
 					targetCenter));
-				(*tDawg).setRotation(90.0);
+				(*tDawg).setRotation(90.0);//rotate target so it faces outward correctly
 				targets.push_back(tDawg);
 			} else if(randSide == 2) {//"south
 				Target *tDawg = new Target(Point(	
@@ -746,6 +753,7 @@ int main(int argc,char** args){
 				(*tDawg).setRotation(-90.0);
 				targets.push_back(tDawg);
 			} else {
+				//it better not get here
 				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
 				exit(0);
 			}

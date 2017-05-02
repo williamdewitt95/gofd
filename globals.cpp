@@ -5,9 +5,9 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 	WINDOW_MAX_X = 1000;
 	WINDOW_MAX_Y = 1000;
 
-	score = 0;
-	timeStart = time(0);
-	gameOver = false;
+	score = 0;			//keep it fair, no free points
+	timeStart = time(0);		//grab time in ms of when global obj gets to the line
+	gameOver = false;		//would hardly be a game if it started as game over
 
 	WORLD_COORDINATE_MIN_X = 0.0;
 	WORLD_COORDINATE_MAX_X = 1000.0;
@@ -96,7 +96,7 @@ GLOBAL_SETTINGS::GLOBAL_SETTINGS(){
 
 GLOBAL_SETTINGS GLOBAL;
 
-void GLOBAL_SETTINGS::reset()
+void GLOBAL_SETTINGS::reset() 	//allows for restarting game as it was when first opened by setting all vars to initial values
 {
 	score = 0;
 	timeStart = time(0);

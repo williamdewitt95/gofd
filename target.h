@@ -21,6 +21,7 @@ public:
 	void draw_map_marker();
 	void update();
 	
+	//to set degree a single target will be rotated; used when placing on buildings
 	void setRotation(double);
 };
 

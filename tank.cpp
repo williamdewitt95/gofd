@@ -12,6 +12,7 @@ GLMmodel* stars = glmReadOBJ("objects/s.obj");
 
 
 Tank::Tank(Point center){
+	//collision sphere for tank attributes
 	hitSphereCenter = Point(center.x, center.y, center.z + 1);
 	hitSphereRadius = 3.1;
 
@@ -27,8 +28,8 @@ Tank::Tank(Point center){
 	recoilSpeed = 0;
 	rollingFriction = 0.0015;
 	kineticFriction = 0.005;
-	cooldown = 0;
-	health = 100;
+	cooldown = 0;	//time until tank can fire next shot
+	health = 100;	//health percentage for tank
 	tankRecoil = false;
 	recoilAngle = 0;
 	towerToBaseAngle = 0;

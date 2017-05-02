@@ -23,7 +23,7 @@
 #define PI 3.14159265358979
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
-#define TIME_LIMIT 602 //extra 2 seconds since there's ~2sec gap from creation of global obj and opening of window
+#define TIME_LIMIT 602 //extra 2 seconds since there's usually ~2sec gap from creation of global obj and opening of window
 #define NUM_AI_TANKS 20
 
 struct LIGHT_STRUCT{
@@ -59,9 +59,9 @@ public:
 	int WINDOW_MAX_X;
 	int WINDOW_MAX_Y;
 
-	int score;
-	time_t timeStart;
-	bool gameOver;
+	int score;			//global accessible so it can adjusted from entire program
+	time_t timeStart;		//keep track of time since game started to keep track of time remaining to play
+	bool gameOver;			//affects outside functions based on value
 	
 	double WORLD_COORDINATE_MIN_X;
 	double WORLD_COORDINATE_MAX_X;
