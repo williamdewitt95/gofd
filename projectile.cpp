@@ -347,16 +347,19 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 			float colorG = 0.65;
 			float colorB = 0.13;
 
+			glEnable (GL_BLEND);
+			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			cout << "decay = " << t.decay << "\n";
 
-			colorR = 0.3 + (decayRatio * (colorR - 0.3));
-			colorG = 0.3 + (decayRatio * (colorG - 0.3));
-			colorB = 0.3 + (decayRatio * (colorB - 0.3));
+			colorR = 0.73 + (decayRatio * (colorR - 0.3));
+			colorG = 0.33 + (decayRatio * (colorG - 0.3));
+			colorB = 0.83 + (decayRatio * (colorB - 0.3));
 
-			glColor3f(colorR, colorG, colorB);
+			glColor4f(colorR, colorG, colorB, decayRatio);
 			glutSolidSphere(1.0f, 8, 8);
 			glPopMatrix();
 			trailList.at(i).decay--;
+			glDisable (GL_BLEND);
 		}
 	}
 	
