@@ -163,14 +163,13 @@ void Projectile::update()
 		if(this->invincibility>0)
 			invincibility--;
 
-		if (this->trailInterval == 20) {
+		if (this->trailInterval == 10) {
 			Trail t;
 			t.x = center.x;
 			t.y = center.y;
 			t.z = center.z;
-			t.decay = 140;
+			t.decay = 80;
 			t.staticDecay = t.decay;
-			cout << "make trail\n";
 			this->trails.push_back(t);
 			this->trailInterval = 0;
 		}
@@ -211,8 +210,19 @@ void Projectile::update()
 				explosions.erase(explosions.begin()+x);
 		}
 		if(explosions.size()==0)
-			this->state=DEAD;
-	}else if(this->state==DEAD){
+			this->state=DYING;
+	}
+	else if (this->state==DYING) {
+		bool trailIsFinished = true;
+		for(int i=0; i<trails.size();i++){
+			if (trails.at(i).decay != 0)
+				trailIsFinished = false;
+		}
+		if (trailIsFinished) {
+			this->state==DEAD;
+		}
+	}
+	else if(this->state==DEAD){
 		//well, we are dead, so what can i say...
 	}
 }
@@ -350,7 +360,6 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 			//enable blending to use transparency, disable it after
 			glEnable (GL_BLEND);
 			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			cout << "decay = " << t.decay << "\n";
 
 			// colorR = 0.73 + (decayRatio * (colorR - 0.73));
 			// colorG = 0.33 + (decayRatio * (colorG - 0.33));
@@ -358,7 +367,7 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 
 			//use decayRatio as the alpha channel percentage value
 			glColor4f(colorR, colorG, colorB, decayRatio);
-			glutSolidSphere(1.0f, 8, 8);
+			glutSolidSphere(0.5f, 8, 8);
 			glPopMatrix();
 			trailList.at(i).decay--;
 			glDisable (GL_BLEND);

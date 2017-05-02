@@ -382,7 +382,7 @@ void Tank::draw(){
 	glRotatef(90,1,0,0);//rotate the body
 	//glColor3f(.35,.35,.35);
 	glDisable(GL_COLOR_MATERIAL);
-	glmDraw(tankModel, GLM_SMOOTH | GLM_MATERIAL);
+	glmDraw(tankModel, GLM_SMOOTH | GLM_COLOR);
 	glmDraw(stars, GLM_SMOOTH | GLM_MATERIAL);
 	glEnable(GL_COLOR_MATERIAL);	
 	/*for(int x=0; x<base.size(); x++)

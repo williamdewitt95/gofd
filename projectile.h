@@ -38,7 +38,7 @@ private:
 
 	void baseInit(Point center, Point tankStart, double angleV, double angleH); // sets variable to the known most basic values
 public:
-	enum{MOVING,EXPLODING,DEAD};
+	enum{MOVING,EXPLODING,DYING,DEAD};
 	int state; // is one of the above
 	Point oldCenter;
 	int invincibility;

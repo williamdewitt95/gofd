@@ -1640,7 +1640,8 @@ glmDraw(GLMmodel* model, GLuint mode)
         }
         
         if (mode & GLM_COLOR) {
-            glColor3fv(material->diffuse);
+            glColor3f(((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)));
+            //glColor3fv(material->diffuse);
         }
         
         glBegin(GL_TRIANGLES);
