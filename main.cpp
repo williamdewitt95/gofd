@@ -289,6 +289,8 @@ void drawWorld(){
 	}else{
 		for(int x=0; x<buildings.size(); x++)
 			buildings[x]->draw_simple();
+		for(int x=0; x<targets.size(); x++)
+			targets[x]->draw_map_marker();
 	}
 
 	tank->draw();
@@ -392,6 +394,8 @@ void drawMinimap(){
 
 	for(int x=0; x<buildings.size(); x++)
 		buildings[x]->draw_simple();
+	for(int x=0; x<targets.size(); x++)
+		targets[x]->draw_map_marker();
 
 	tank->draw();
 	for(int x=0; x<ai_tanks.size();x++)
@@ -404,7 +408,7 @@ void display(){
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 
 	if(!youLose()) {
-		glEnable(GL_LIGHTING);
+		if(!orthoView)glEnable(GL_LIGHTING);
 		updateLights();
 
 		drawWorld();
