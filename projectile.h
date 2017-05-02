@@ -56,7 +56,7 @@ public:
 	void drawExplosion(struct Explosion *ex);
 	void setExploding();
 	void setExploding(Point p);
-	void drawTrails(std::vector<Trail>& trailList);
+	void drawTrails();
 };
 
 #endif

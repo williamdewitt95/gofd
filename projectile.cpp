@@ -2,6 +2,15 @@
 #include <iostream>
 using std::cout;
 
+#define NUM_SPLODES 6
+#define NUM_EXTRA_SPLODES 3
+#define SPLODE_RADIUS 0.25
+#define SPLODE_EXTRA_RADIUS 0.5
+
+#define DIST_BETWEEN_TRAIL 1
+#define TRAIL_RADIUS 0.25f
+#define TRAIL_DECAY_RATE 2
+
 Projectile::Projectile(Point center){
 	this->baseInit(center,center,45,0);
 }
@@ -129,12 +138,13 @@ void Projectile::draw(){
 		gluDeleteQuadric(shellPoint);
 		gluDeleteQuadric(shellBottom);
 
-		drawTrails(trails);
+		drawTrails();
 	}
 	else if (this->state==EXPLODING) {
 		for(int i=0; i<explosions.size();i++){
 			drawExplosion(&explosions[i]);
 		}
+		drawTrails();
 	}
 }
 
@@ -163,14 +173,14 @@ void Projectile::update()
 		if(this->invincibility>0)
 			invincibility--;
 
-		if (this->trailInterval == 20) {
+		if (this->trailInterval == DIST_BETWEEN_TRAIL) {
 			Trail t;
 			t.x = center.x;
 			t.y = center.y;
 			t.z = center.z;
 			t.decay = 70;
 			t.staticDecay = t.decay;
-			cout << "make trail\n";
+			// cout << "make trail\n";
 			this->trails.push_back(t);
 			this->trailInterval = 0;
 		}
@@ -187,7 +197,7 @@ void Projectile::update()
 
 			this->state=EXPLODING;
 			this->center.z = 0.0;
-			int splodes = 3 + (rand() % 3);
+			int splodes = NUM_SPLODES + (rand() % NUM_EXTRA_SPLODES);
 			for (int i=0;i < splodes;i++) {
 				Explosion n;
 				n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
@@ -196,9 +206,14 @@ void Projectile::update()
 				n.decay = 15 + (rand() % 5);
 				n.staticDecay = n.decay;
 				n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
-				n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
+				n.radius = SPLODE_RADIUS + (((double) rand() / (RAND_MAX)) * SPLODE_EXTRA_RADIUS);
 				explosions.push_back(n);
 			}
+		}
+		for(int x=trails.size()-1; x>=0; x--){
+			//remove the sphere if the radius is too small
+			if(trails[x].decay<=0)
+				trails.erase(trails.begin()+x);
 		}
 	}
 	else if (this->state==EXPLODING){
@@ -210,7 +225,12 @@ void Projectile::update()
 			if(explosions[x].decay<=0)
 				explosions.erase(explosions.begin()+x);
 		}
-		if(explosions.size()==0)
+		for(int x=trails.size()-1; x>=0; x--){
+			//remove the sphere if the radius is too small
+			if(trails[x].decay<=0)
+				trails.erase(trails.begin()+x);
+		}
+		if(explosions.size()==0 && trails.size()==0)
 			this->state=DEAD;
 	}else if(this->state==DEAD){
 		//well, we are dead, so what can i say...
@@ -315,7 +335,7 @@ void Projectile::setExploding(Point p){
 	if(this->state==MOVING){
 		this->state=EXPLODING;
 		this->center = p;
-		int splodes = 3 + (rand() % 3);
+		int splodes = NUM_SPLODES + (rand() % NUM_EXTRA_SPLODES);
 		for (int i=0;i < splodes;i++) {
 			Explosion n;
 			n.x = center.x + ((((double) rand() / (RAND_MAX)) - 0.5) * 5);
@@ -324,7 +344,7 @@ void Projectile::setExploding(Point p){
 			n.decay = 15 + (rand() % 5);
 			n.staticDecay = n.decay;
 			n.expansionRate = (0.25 + ((double) rand() / (RAND_MAX))) / 5;
-			n.radius = 0.05 + (((double) rand() / (RAND_MAX)) * 1.0);
+			n.radius = SPLODE_RADIUS + (((double) rand() / (RAND_MAX)) * SPLODE_EXTRA_RADIUS);
 			explosions.push_back(n);
 		}
 	}
@@ -334,11 +354,11 @@ void Projectile::setExploding(){
 	setExploding(this->center);
 }
 
-void Projectile::drawTrails(std::vector<Trail>& trailList) {
+void Projectile::drawTrails() {
 	Trail t;
-	for(int i=0; i<trailList.size();i++){
-		t = trailList.at(i);
-		if (t.decay != 0) {
+	for(int i=0; i<trails.size();i++){
+		t = trails.at(i);
+		if (t.decay > 0) {
 			glPushMatrix();
 			glLoadIdentity();
 			glTranslated(t.x, t.y, t.z);
@@ -347,16 +367,16 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 			float colorG = 0.65;
 			float colorB = 0.13;
 
-			cout << "decay = " << t.decay << "\n";
+			// cout << "decay = " << t.decay << "\n";
 
 			colorR = 0.3 + (decayRatio * (colorR - 0.3));
 			colorG = 0.3 + (decayRatio * (colorG - 0.3));
 			colorB = 0.3 + (decayRatio * (colorB - 0.3));
 
 			glColor3f(colorR, colorG, colorB);
-			glutSolidSphere(1.0f, 8, 8);
+			glutSolidSphere(TRAIL_RADIUS, 6, 6);
 			glPopMatrix();
-			trailList.at(i).decay--;
+			trails.at(i).decay-=TRAIL_DECAY_RATE;
 		}
 	}
 	
