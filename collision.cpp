@@ -1,5 +1,5 @@
 #include "collision.h"
-// chris:: Struct introduces the paramaters of a plane
+//Struct introduces the paramaters of a plane
 struct plane {
 	double a;
 	double b;
@@ -78,13 +78,11 @@ bool pointToPolygon(Point p, std::vector<Point> shape){//assumes point is on pla
 	else return 0;
 }
 
-// chris:: Takes in 4 points.  3 points of which are on the plane
+// Takes in 4 points.  3 points of which are on the plane
 // 4th point not ont he plane.  The three points will be converted
 // to parameters of a plane and then the equation for the plane
 // will be taken and the distance between point 4 and a orthogonal point
 // is calculated
-// For chris:: Currently doesn't calculate the distance corect
-// division sign? 
 double distPlaneToPoint (Point a, Point b, Point c, Point d)
 {
 	plane tmp;
@@ -100,34 +98,28 @@ double distPlaneToPoint (Point a, Point b, Point c, Point d)
 
 bool collisionDetect(Point center, double sphdist, std::vector<Building*>& buildings, std::vector<Projectile*>& projectiles){
 
-	Point a = Point(12,16,45);
-	Point b = Point(12,12,45);
-        Point c = Point(16,12,45);
-        Point d = Point(32,64,0);
-	//printf("test distplanetopoint: %f\n", distPlaneToPoint(a,b,c,d));
-
+	//iterate through all the buildings to check if the tank is close enough to collide
 	for(int i = 0; i < buildings.size(); i++){
 
                 //tbDist has the distance between the center point and the buildings center
                 double tbDist = distance(center,buildings[i]->center);
 		std::vector<Polygon3d> sides = buildings[i]->boundingBox();
-		//printf("%f\n",tbDist);
+		//sides is a set of polygons that represent the collision box of the building
                 if(tbDist < sphdist + buildings[i]->maxBuildingWidth/2+5){
-                        
+                        //this sees if the bounding sphere of the tank is intersecting the colliding sphere
+			// of the building. If true we further check extra collision parameters
+			
 			for(int j = 0; j < sides.size(); j++){
-				//Polygon3d wall = sides[j];
+				//we check this extra collision information with the other sides of the
+				// building
 				std::vector<Point> worldCoords = sides[j].getPoints();
-
-				//printf("wall center = %f   %f\n", wall.getCenter().x, wall.getCenter().y);
-
-				for(int k =0; k < 3 ; k++){
-					printf("x:%f y:%f z:%f \n",worldCoords[k].x,worldCoords[k].y,worldCoords[k].z);
-				}
+				//This vector of Vector objects stores the world transformed points
 
 				double dptp = distPlaneToPoint(worldCoords[0],worldCoords[1] ,worldCoords[2] , center);
-                        	printf("ptpdist : %f Tank point: x:%f y:%f z:%f\n",dptp, center.x,center.y,center.z);
+                        	//This is the distance from the tanks center to the plan defined in worldCoords
 				if(dptp < sphdist){        
-					printf("ptpdist : %f , sphdist %f\n",dptp, sphdist);
+					//If the distance is smaller than the radius of the sphere we know that the plane 
+					// is close enough for the tank to intersect the plane
 					return true;
                         	}
 			}
@@ -136,47 +128,5 @@ bool collisionDetect(Point center, double sphdist, std::vector<Building*>& build
 
         return false;
 
-	/*		
-	for (int i = 0; i < projectiles.size(); i++){
-		
-		// case 4
-		projTankCenterDistance = distance(tank->center(), projectiles[i]->center());	
-		projectileRadius = distance(projectiles[i]-> getFurthestPoint(), targets[i]->center());		
-
-		if(! (tankRadius+projectileRadius < projTankCenterDistance) ){
-			// set tank collision flag to true
-			tank->collision = true;
-			projectile->collision = true;
-		}
-
-		// case 2
-		for (int j = 0; j < targets.size(); j++){
-
-			tarProjCenterDistance = distance(projectiles[i]->center(), targets[j]->center);
-			tarRadius = distance(projectiles[i]->getFurthestPoint(), targets[j]->getFurthestPoint());
-			
-			if(!(projectileRadius+tarRadius < tarProjCenterDistance)){
-				projectiles[i]->collision = true;
-				targets[j]->collision = true;
-			}
-
-
-		}
-				
-
-
-		else
-			tank->collision = false;
-
-	}
-		
-	*/
-	//printf("collision detect start");
-
 }
 
-bool bulletCollision(){
-
-
-
-}
