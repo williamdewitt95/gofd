@@ -3,6 +3,7 @@
 Skybox::Skybox()
 {
 	unsigned char color[3]={128,128,128};
+	//Texture mapping was a pain. In the end, the point locations didn't matter as much, as they get updated frequently.
 	{
         model.push_back(Polygon3d());
 		auto &points = model[model.size()-1].getPoints();
@@ -127,9 +128,13 @@ Skybox::Skybox()
 
 void Skybox::draw()
 {
+	//White light.
 	glPushAttrib(0xffffffff);
+	//This was to make the sky bright, because the light fixtures were rather far from the sky.
+	//Keeping lights on would make the skybox dull.
 	glDisable(GL_LIGHTING);
 	glPushMatrix();
+	//We're centered around the camera.
 	glTranslated(GLOBAL.CAMERA_POS.x, GLOBAL.CAMERA_POS.y, GLOBAL.CAMERA_POS.z);
 	for(int i = 0; i < this->model.size(); i++)
 		this->model[i].draw();
@@ -142,6 +147,8 @@ void Skybox::update()
 {
 	double angle = GLOBAL.CAMERA_ANGLE_VERTICAL;
 	double distance, size;
+	//Based on look value, the distance to the skybox changed, so that you were always looking at something approximately 600 away.
+	//This kept the skybox from coming in and out of render distance.
 	if(abs(angle) > 45)
 	{
 		distance = sin(angle/180.0 *PI)*600;
