@@ -22,6 +22,7 @@ public:
 
 	Building(Point center);
 	void draw();
+	void draw_simple();
 	void draw_CPU();
 };
 

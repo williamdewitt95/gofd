@@ -24,6 +24,7 @@
 #define NUM_BLOCKS_WIDE 15
 #define GRAVITY 9.81
 #define TIME_LIMIT 602 //extra 2 seconds since there's ~2sec gap from creation of global obj and opening of window
+#define NUM_AI_TANKS 20
 
 struct LIGHT_STRUCT{
 	GLfloat attenuation_linear;
@@ -104,7 +105,7 @@ class Tank;
 extern Tank * tank;
 
 class AI_Tank;
-extern AI_Tank * ai_tank;
+extern std::vector<AI_Tank *> ai_tanks;
 
 class Target;
 extern std::vector<Target*> targets;

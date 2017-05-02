@@ -70,6 +70,15 @@ void Building::draw(){
 	glPopMatrix();
 	// this->draw_CPU();
 }
+void Building::draw_simple(){
+	glPushMatrix();
+	glTranslated(center.x,center.y,center.z);
+
+	glCallList(listName);
+
+	glPopMatrix();
+	// this->draw_CPU();
+}
 
 void Building::draw_CPU(){
 	for(int x=0; x<model.size(); x++)

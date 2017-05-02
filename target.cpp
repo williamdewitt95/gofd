@@ -151,7 +151,33 @@ void Target::draw(){
         gluDisk(bottomDisk, 0, this->radius, 30, 1);
     glPopMatrix();
 
+    gluDeleteQuadric(cylinder);
+    gluDeleteQuadric(topDisk);
+    gluDeleteQuadric(bottomDisk);
+
     glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D,0);
+}
+
+void Target::draw_map_marker(){
+    //Do not draw us if we are already hit
+    if(this->state == DEAD)
+        return;
+
+    glBindTexture(GL_TEXTURE_2D,this->mascotChoice);
+    glColor3ub(255,255,255); // make it white so the texture is always perfect
+
+    GLUquadricObj *topDisk = gluNewQuadric();
+
+    glPushMatrix();
+        glTranslated(center.x,center.y,200);
+        glRotated(180, 0, 0, 1);
+
+        gluQuadricTexture(topDisk, GL_TRUE);
+        gluDisk(topDisk, 0, this->radius*4, 30, 1);
+    glPopMatrix();
+
+    gluDeleteQuadric(topDisk);
     glBindTexture(GL_TEXTURE_2D,0);
 }
 

@@ -18,6 +18,7 @@ public:
 
 	Target(Point center);
 	void draw();
+	void draw_map_marker();
 	void update();
 	
 	void setRotation(double);

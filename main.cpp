@@ -28,7 +28,7 @@ float actualfps, fps=0.0;
 int currentTime;
 double timeRemaining = TIME_LIMIT;
 
-AI_Tank * ai_tank;
+std::vector<AI_Tank *> ai_tanks;
 std::vector<Projectile*> projectiles;
 
 void mouseButtons(int but,int state,int x,int y){
@@ -89,8 +89,11 @@ void gameEngine(){
 
 		//iterate tank properties
 		tank->update(tankBaseRotate, tankTurretRotate, tankCannonRotate, cameraMode, tankAccel); // the things below need to be moved into this function
-		ai_tank->updateTank();
-		ai_tank->nearbyTarget(tank);
+		for(int x=0; x<ai_tanks.size();x++){
+			ai_tanks[x]->updateTank();
+			ai_tanks[x]->nearbyTarget(tank);
+		}
+
 		skybox->update();
 
 		GLOBAL.LIGHTS[0].position[0]=tank->center.x;
@@ -120,6 +123,7 @@ void drawGameOver(){
 	glLoadIdentity(); // reset the projection style
 	gluOrtho2D(0.0,100.0,100.0,0.0); // simple ortho
 
+	glLineWidth(5);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glPushMatrix();
@@ -140,7 +144,7 @@ void drawGameOver(){
 			for(i = 0;i<len;i++)
 				glutStrokeCharacter(font, label[i]);
 		glPopMatrix();
-		char label2[] = "LOOK AT YOU";
+		char label2[] = "Nice Try But";
 		glPushMatrix();
 			glColor3f(0.0,1.0,0.0);
 			glRotatef(180.0,1.0,0.0,0.0);
@@ -192,6 +196,7 @@ void drawGameOver(){
 		glPopMatrix();
 
 	glPopMatrix();
+	glLineWidth(1);
 }
 void drawTime() {
 	glPushMatrix();
@@ -269,26 +274,33 @@ void drawWorld(){
 	}
 	
 	else{
-		glOrtho(-500.0, 500.0, -500.0, 500.0, 0.1, 1000);{
-			gluLookAt(450.0, 450.0, 800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
-		}
+		glOrtho( 500.0, -500.0, 500.0, -500.0, 0.1, 1000);
+		gluLookAt(450.0, 450.0, 800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
 	}
 
 	
 	glMatrixMode(GL_MODELVIEW);
 
-	for(int x=0; x<buildings.size(); x++)
-		buildings[x]->draw();
+	if(!orthoView){
+		for(int x=0; x<buildings.size(); x++)
+			buildings[x]->draw();
+		for(int x=0; x<targets.size(); x++)
+		    targets[x]->draw();
+	}else{
+		for(int x=0; x<buildings.size(); x++)
+			buildings[x]->draw_simple();
+		for(int x=0; x<targets.size(); x++)
+			targets[x]->draw_map_marker();
+	}
 
 	tank->draw();
-	ai_tank->tank->draw();
+	for(int x=0; x<ai_tanks.size();x++)
+		ai_tanks[x]->tank->draw();
 
 	for(int i=0; i<projectiles.size();i++){
 		projectiles[i]->draw();
 	}
 
-	for(int x=0; x<targets.size(); x++)
-	    targets[x]->draw();
 
 	skybox->draw();
 	groundbox->draw();
@@ -381,10 +393,13 @@ void drawMinimap(){
 	}
 
 	for(int x=0; x<buildings.size(); x++)
-		buildings[x]->draw();
+		buildings[x]->draw_simple();
+	for(int x=0; x<targets.size(); x++)
+		targets[x]->draw_map_marker();
 
 	tank->draw();
-	ai_tank->tank->draw();
+	for(int x=0; x<ai_tanks.size();x++)
+		ai_tanks[x]->tank->draw();
 }
 void display(){
 
@@ -393,7 +408,7 @@ void display(){
 	glViewport(0,0,GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
 
 	if(!youLose()) {
-		glEnable(GL_LIGHTING);
+		if(!orthoView)glEnable(GL_LIGHTING);
 		updateLights();
 
 		drawWorld();
@@ -402,15 +417,12 @@ void display(){
 		//===============================================================================
 		glDisable(GL_LIGHTING);
 
-		// glClear(GL_DEPTH_BUFFER_BIT);
-		// drawBoundingBoxes();
-
 		glClear(GL_DEPTH_BUFFER_BIT);
 		drawHud();
 
 		glClear(GL_DEPTH_BUFFER_BIT);
 		glViewport(0,0,GLOBAL.WINDOW_MAX_X/4,GLOBAL.WINDOW_MAX_Y/4);
-		drawMinimap();
+		if(!orthoView)drawMinimap();
 	}
 	else {
 		glDisable(GL_LIGHTING);
@@ -481,14 +493,22 @@ void keyboardButtons(unsigned char key, int x, int y){
 		if(GLOBAL.gameOver)//when game over, r to restart game
 		{
 			delete tank;
-			delete ai_tank;
+			for(int x=ai_tanks.size()-1; x>=0; x--){
+				delete ai_tanks[x];
+				ai_tanks.pop_back();
+			}
 			
 			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
-			ai_tank = new AI_Tank(new Tank(
-				Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
-				Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
-				0)
-				));
+			for(int x=0; x<NUM_AI_TANKS; x++){
+				int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
+				int dy = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
+				AI_Tank * ai_tank = new AI_Tank(new Tank(
+					Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dx,
+						Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dy,
+						0)
+					));
+				ai_tanks.push_back(ai_tank);
+			}
 			GLOBAL.reset();
 		}
 	}else{
@@ -733,11 +753,17 @@ int main(int argc,char** args){
 	}
 
 	tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
-	ai_tank = new AI_Tank(new Tank(
-		Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
-			Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0,
-			0)
-		));
+	for(int x=0; x<NUM_AI_TANKS; x++){
+		int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
+		int dy = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
+		AI_Tank * ai_tank = new AI_Tank(new Tank(
+			Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dx,
+				Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dy,
+				0)
+			));
+		ai_tanks.push_back(ai_tank);
+	}
+
 
 	oldTime = glutGet(GLUT_ELAPSED_TIME);
 
