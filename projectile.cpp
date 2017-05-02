@@ -28,6 +28,8 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.01;
 
+	this->trailInterval = 0;
+
 	this->state=MOVING;
 
 	{
@@ -126,6 +128,8 @@ void Projectile::draw(){
 		gluDeleteQuadric(shellCasing);
 		gluDeleteQuadric(shellPoint);
 		gluDeleteQuadric(shellBottom);
+
+		drawTrails(trails);
 	}
 	else if (this->state==EXPLODING) {
 		for(int i=0; i<explosions.size();i++){
@@ -158,6 +162,19 @@ void Projectile::update()
 
 		if(this->invincibility>0)
 			invincibility--;
+
+		if (this->trailInterval == 20) {
+			Trail t;
+			t.x = center.x;
+			t.y = center.y;
+			t.z = center.z;
+			t.decay = 70;
+			t.staticDecay = t.decay;
+			cout << "make trail\n";
+			this->trails.push_back(t);
+			this->trailInterval = 0;
+		}
+		this->trailInterval++;
 
 		//check to see if it has hit the ground. If so, then we have hit and need to explode
 		//if z<=0, start exploding and generate random values for each splode
@@ -315,4 +332,32 @@ void Projectile::setExploding(Point p){
 
 void Projectile::setExploding(){
 	setExploding(this->center);
+}
+
+void Projectile::drawTrails(std::vector<Trail>& trailList) {
+	Trail t;
+	for(int i=0; i<trailList.size();i++){
+		t = trailList.at(i);
+		if (t.decay != 0) {
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslated(t.x, t.y, t.z);
+			double decayRatio = (double) t.decay / t.staticDecay;
+			float colorR = 1.0;
+			float colorG = 0.65;
+			float colorB = 0.13;
+
+			cout << "decay = " << t.decay << "\n";
+
+			colorR = 0.3 + (decayRatio * (colorR - 0.3));
+			colorG = 0.3 + (decayRatio * (colorG - 0.3));
+			colorB = 0.3 + (decayRatio * (colorB - 0.3));
+
+			glColor3f(colorR, colorG, colorB);
+			glutSolidSphere(1.0f, 8, 8);
+			glPopMatrix();
+			trailList.at(i).decay--;
+		}
+	}
+	
 }

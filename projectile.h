@@ -18,13 +18,23 @@ struct Explosion{
 	double radius;
 };
 
+struct Trail{
+	double x;
+	double y;
+	double z;
+	int decay;
+	int staticDecay;
+};
+
 class Projectile:public DrawableObject{
 private:
+	int trailInterval;
 	double drag(double speed);
 	double f(double p, double q, double drag);
 	double g(double p, double q, double drag);
 	void step();
 	std::vector<Explosion> explosions;
+	std::vector<Trail> trails;
 
 	void baseInit(Point center, Point tankStart, double angleV, double angleH); // sets variable to the known most basic values
 public:
@@ -46,6 +56,7 @@ public:
 	void drawExplosion(struct Explosion *ex);
 	void setExploding();
 	void setExploding(Point p);
+	void drawTrails(std::vector<Trail>& trailList);
 };
 
 #endif
