@@ -4,10 +4,24 @@ using std::cout;
 
 Projectile::Projectile(Point center){
 	this->baseInit(center,center,45,0);
+	this->projR = 1.0;
+	this->projG = 0.65;
+	this->projB = 0.13;
 }
 
 Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH){
 	this->baseInit(center,tankStart,angleV,angleH);
+	this->projR = 1.0;
+	this->projG = 0.65;
+	this->projB = 0.13;
+}
+
+//tank color passed to projectile trail color
+Projectile::Projectile(Point center, Point tankStart, double angleV, double angleH, float tankR, float tankG, float tankB) {
+	this->baseInit(center,tankStart,angleV,angleH);
+	this->projR = tankR;
+	this->projG = tankG;
+	this->projB = tankB;
 }
 
 void Projectile::baseInit(Point center, Point tankStart, double angleV, double angleH){
@@ -27,6 +41,8 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
 	this->q = this->velocity*sin(angleV*M_PI/180.0);
 	this->h = 0.01;
+
+	this->trailInterval = 0;
 
 	this->state=MOVING;
 
@@ -126,12 +142,14 @@ void Projectile::draw(){
 		gluDeleteQuadric(shellCasing);
 		gluDeleteQuadric(shellPoint);
 		gluDeleteQuadric(shellBottom);
+
 	}
 	else if (this->state==EXPLODING) {
 		for(int i=0; i<explosions.size();i++){
 			drawExplosion(&explosions[i]);
 		}
 	}
+	drawTrails(trails);
 }
 
 void Projectile::update()
@@ -158,6 +176,18 @@ void Projectile::update()
 
 		if(this->invincibility>0)
 			invincibility--;
+
+		if (this->trailInterval == 3) {
+			Trail t;
+			t.x = center.x;
+			t.y = center.y;
+			t.z = center.z;
+			t.decay = 80;
+			t.staticDecay = t.decay;
+			this->trails.push_back(t);
+			this->trailInterval = 0;
+		}
+		this->trailInterval++;
 
 		//check to see if it has hit the ground. If so, then we have hit and need to explode
 		//if z<=0, start exploding and generate random values for each splode
@@ -194,8 +224,19 @@ void Projectile::update()
 				explosions.erase(explosions.begin()+x);
 		}
 		if(explosions.size()==0)
-			this->state=DEAD;
-	}else if(this->state==DEAD){
+			this->state=DYING;
+	}
+	else if (this->state==DYING) {
+		bool trailIsFinished = true;
+		for(int i=0; i<trails.size();i++){
+			if (trails.at(i).decay != 0)
+				trailIsFinished = false;
+		}
+		if (trailIsFinished) {
+			this->state==DEAD;
+		}
+	}
+	else if(this->state==DEAD){
 		//well, we are dead, so what can i say...
 	}
 }
@@ -315,4 +356,36 @@ void Projectile::setExploding(Point p){
 
 void Projectile::setExploding(){
 	setExploding(this->center);
+}
+
+void Projectile::drawTrails(std::vector<Trail>& trailList) {
+	Trail t;
+	for(int i=0; i<trailList.size();i++){
+		t = trailList.at(i);
+		if (t.decay != 0) {
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslated(t.x, t.y, t.z);
+			double decayRatio = (double) t.decay / t.staticDecay;
+			float colorR = 1.0;
+			float colorG = 0.65;
+			float colorB = 0.13;
+
+			//enable blending to use transparency, disable it after
+			glEnable (GL_BLEND);
+			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			// colorR = 0.73 + (decayRatio * (colorR - 0.73));
+			// colorG = 0.33 + (decayRatio * (colorG - 0.33));
+			// colorB = 0.83 + (decayRatio * (colorB - 0.83));
+
+			//use decayRatio as the alpha channel percentage value
+			glColor4f(projR, projG, projB, decayRatio);
+			glutSolidSphere(0.3f, 8, 8);
+			glPopMatrix();
+			trailList.at(i).decay--;
+			glDisable (GL_BLEND);
+		}
+	}
+	
 }
