@@ -1,6 +1,5 @@
 #include "target.h"
 #include "globals.h"
-#include <stdlib.h>
 
 Target::Target(Point center)
 {
@@ -113,6 +112,9 @@ Target::Target(Point center)
         points.push_back(Point( -3,  3, .1));
         points.push_back(Point( -3, -3, .1));
     }
+    for(int x=0; x<boundingBox.size(); x++){
+        boundingBox[x].setCenter(center);
+    }
 }
 
 void Target::draw(){
@@ -154,4 +156,8 @@ void Target::update(){
 
 void Target::setRotation(double rot){
 	this->rotation = rot;
+    for(int x=0; x<boundingBox.size(); x++){
+        Vector temp(0,0,rot);
+        boundingBox[x].setRotation(temp);
+    }
 }

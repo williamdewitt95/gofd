@@ -106,6 +106,9 @@ extern Tank * tank;
 class AI_Tank;
 extern AI_Tank * ai_tank;
 
+class Target;
+extern std::vector<Target*> targets;
+
 
 void windowResize(int width, int height);
 void scaleMouse(int &x, int &y);
