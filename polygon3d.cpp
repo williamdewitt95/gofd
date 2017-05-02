@@ -177,7 +177,7 @@ std::vector<Point>& Polygon3d::getTexturePoints(){
 
 Polygon3d Polygon3d::getWorldPoints(){
  
-	//***********************************************
+	//Herron: returns polygon in world coordinates
 	
 	Polygon3d poly(this->getPoints());
 	poly.drawTesselate = this->drawTesselate;
