@@ -1,35 +1,43 @@
 #include "ai.h"
 
+// Herron: ai tank constructor
 AI_Tank::AI_Tank(Tank *tank, Tank *enemy){
 	
+	// Herron: x and y direction arrays
 	dx = {1, 0, -1, 0};
         dy = {0, 1, 0, -1};
 
+	//Herron: sets dimension of world
 	n = 360; 
 	m = 360; 
 
+	// Herron: tank may move in one of 4 directions
 	dir = 4;
 
 	this->tank = tank;
 
+	// Herron: target destination is center of enemy
 	destination = enemy->center;
 
+	// Herron: start is ai_tank center
 	start = this->tank->center;
 
-	//std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
-	
+	// Herron: call to function to build map based on start and finish location	
 	this->fillMap();
 
 	maxTankDist = 15;
 	
+	// Herron: set current direction for turn function
 	dirPrev = 3;
+	
+	//Herron: set route string using map array	
 	this->calculatePath();
 }
 
+//Herron: uses start and finish points and map to generate and return route string 
 std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &xEnd, const int &yEnd){
 
-	//std::cout << "findPath " << std::endl;
-	
+	//Herron: a* algorithm	
 	static std::priority_queue<MapNode> pq[2];
 	static int pqi;
 	static MapNode* n0;
@@ -65,13 +73,11 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				j=directionalMap[x][y];
 				c='0'+(j+dir/2)%dir;
 				path=c+path;
-				//std::cout << "pth " << path << std::endl;
 				x+=dx[j];
 				y+=dy[j];
 			}
-			//std::cout << " about to delete node " << std::endl;
 			delete n0;
-			//std::cout << "node deleted " << std::endl;
+			
 			while(!pq[pqi].empty())
 				pq[pqi].pop();
 
@@ -116,9 +122,7 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 				else delete m0;
 			}
 		}
-		//std::cout << "about to delete node " << std::endl;
 		delete n0;
-		//std::cout << "node deleted " << std::endl;
 	}
 	return "";
 }
@@ -126,10 +130,7 @@ std::string AI_Tank::findPath(const int & xStart, const int &yStart, const int &
 
 void AI_Tank::fillMap(){
 
-
-	//std::cout << "fillMap" << std::endl;
-
-	// create empty map
+	//Herron: intializes and creates empty map
     for(int y=0;y<m;y++)
     {
         for(int x=0;x<n;x++) mapGrid[x][y]=1;
@@ -141,15 +142,15 @@ void AI_Tank::fillMap(){
         int maxBuildingWidth = 40;
         int streetWidth = 20;
         
-	// add path for ai
+	//Herron: adds track for ai to map
+	
+	//Herron: interior map
         for(int x = 0; x < m; x++){
                 for( int y = 0; y < n; y++){
                         if(x%((int)(dist/*/2.0*/)) == 30 ) 
                                 mapGrid[x][y] = 0;
                 }
         }
-
-
         for(int x = 0; x < m; x++){
                 for( int y = 0; y < n; y++){
                         if(y%((int)(dist/*/2.0*/)) == 30 )
@@ -157,7 +158,8 @@ void AI_Tank::fillMap(){
                 }
 
         }
-
+	
+	//Herron: opens map border
 	for(int x = 0; x < m; x++)
                 mapGrid[x][0] = 0;
 
@@ -165,10 +167,10 @@ void AI_Tank::fillMap(){
                 mapGrid[0][y] = 0;
 
 
-    // set start and target location
+    // Herron: set start and target location
     int xA, yA, xB, yB;
     xA = start.x, yA = start.y, xB = destination.x, yB = destination.y;
-    //std::cout << "start.x " << start.x << " start.y " << start.y << std::endl;
+    
         mapGrid[xA][yA] = 2;
         mapGrid[xB][yB] = 4;
 /*
@@ -199,18 +201,15 @@ void AI_Tank::fillMap(){
 //forwards
 void AI_Tank::forwards(){
 
-	//std::cout << "forwards" << std::endl;
-
+	// Herron: set tank speed
 	this->tank->tankSpeed = 0.15;
 }
 void AI_Tank::forwards(double speed){
 	this->tank->tankSpeed = speed;
 }
+
 //stop or do nothing
 void AI_Tank::stop(){
-
-	//std::cout << "stop" << std::endl;
-
 	this->tank->tankSpeed = 0;
 }
 //turn left
@@ -245,7 +244,7 @@ bool AI_Tank::turn(double direction){//assume no angle larger than 360 degrees i
 	return false;
 }
 
-
+// Herron: sets route by calling find path
 void AI_Tank::setRoute(){
 
 	//std::cout << "setRoute " << std::endl;
@@ -263,10 +262,10 @@ void AI_Tank::setRoute(){
 	route = routeNew;
 }
 
+
 void AI_Tank::followRoute(){
 
-	// updates tank location 
-
+	// Herron: updates tank location using first integer found in route str
 
 	//std::cout << "followRoute " << std::endl;
 
@@ -279,11 +278,12 @@ void AI_Tank::followRoute(){
 		
 		mapGrid[x][y] = 2;
 		
-		//for(int i = 0; i < route.length(); i++){
+		// Herron: get first integer in route str
 		c = route.at(0);
-		//std::cout << "c: " << c << std::endl;
+		
 		j = atoi(&c);
 
+		// Herron: turn tank when neccessary
 		if(dirPrev != j){
 			int diff = dirPrev - j;
 				std::cout << "diff " << diff << std::endl;
@@ -302,27 +302,13 @@ void AI_Tank::followRoute(){
 			}
 		}
 
-
-		//std::cout << "x=x+dx[j] : " << x=x+dx[j] << " = " << x << " + " << dx[j] << std::endl;
-		//std::cout << "y=x+dx[j] : " << y=y+dy[j] << " = " << y << " + " << dy[j] << std::endl;
-
-                //std::cout << y=y+dy[j];
-
-
+		// Herron: add values from delta arrays to current coordinate
 		x=x+dx[j];
 		y=y+dy[j];
-
-		//std::cout << x << std::endl;
-                //std::cout << y << std::endl;
 	
 		mapGrid[x][y] = 3;
 		
-		//std::cout << "this->tank->center.x: " << this->tank->center.x << std::endl;
-		//route.erase(0, 1);
-
-		//std::cout << "(x+dx[j]): " << x << std::endl;
-		//std::cout << "(y+dy[j]): " << y << std::endl;
-			// move tank to next point
+			// Herron: move tank to next point
 		if( this->tank->center.x < (x+dx[j]) && this->tank->center.x > (x-dx[j]) ){
 			this->tank->center.x = x+dx[j] * 0.5;		
 			//std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
@@ -342,18 +328,15 @@ void AI_Tank::followRoute(){
 		}*/
 
 
+		//Herron: set center to new coordinates
+
 		else{
-			this->tank->center.x = x; // 30.0;  //x+dx[j]; // * 0.5;           
-                        //std::cout << "this->tank->center.x" << this->tank->center.x << std::endl;
+			this->tank->center.x = x; 
 	
-			this->tank->center.y = y; //y+dy[j]; // * 0.5;                 
-                        //std::cout << "this->tank->center.y" << this->tank->center.y << std::endl;
-
-
-			//mapGrid[x][y] = 3;
+			this->tank->center.y = y;             
 		}
-			//mapGrid[x][y] = 4;
-			//update route str
+		
+			//Herron: reset direction for turnsand remove first char from route string
 			dirPrev = j;
 			route.erase(0, 1);
 		//}
@@ -362,14 +345,12 @@ void AI_Tank::followRoute(){
 }
 
 
+
+// Herron: calls setRoute and sets tank speed
 void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid coordinate
 
-	//std::cout << "calculatePath " << std::endl;
-
-	//this->destination = Point(0, 0, 0);//60, 60, 0); //Point(x,y,0);
-	
 	this->setRoute();
-	// printf("\ndestination: %f, %f, %f",this->destination.x,this->destination.y,this->destination.z);
+	
 	forwards();
 }
 
@@ -379,9 +360,7 @@ void AI_Tank::calculatePath(){//int x, int y){//create a new path to new grid co
 
 void AI_Tank::update_AI(){
 
-	//std::cout << "updateAI " << std::endl;	
-	//std::cout << "route " << route << std::endl;	
-
+	// Herron: calls followRoute  while route string length is greater than the limit
 	if(route.length() > maxTankDist){
 		followRoute();
 	}
@@ -411,12 +390,12 @@ void AI_Tank::update_AI(){
 
 void AI_Tank::updateTank(Tank *enemy){
 
-	//std::cout << "updateTank " << std::endl;
-	
+	// Herron: resets path when player location changes	
 	if(destination != enemy->center){
 		destination = enemy->center;
 		this->calculatePath();		
 	} 
+	// Herron: call to update AI
 	update_AI();
 
 

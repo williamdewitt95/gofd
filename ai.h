@@ -17,6 +17,7 @@ public:
 	Tank *tank;
 	int grid[15][15];
 
+	// Herron: grids for AI
 	int mapGrid[360][360];
 	int checkedMap[360][360];
 	int uncheckedMap[360][360];
@@ -24,6 +25,7 @@ public:
 	
 	int n, m, dir, maxTankDist;
 
+	// Herron: direction arrays
 	int dx[4];
 	int dy[4]; 
 
@@ -47,6 +49,8 @@ public:
 	void nearbyTarget(Tank * enemy);//check where the enemy is in comparison to where we are
 	void aim(Point enemy);//aim the turret at the enemy
 
+
+	// Herron: pathfinding functions
 	void fillMap();
 	void followRoute();	
 
@@ -54,7 +58,7 @@ public:
 	std::string route;
 
 
-	// for a-star
+	// Herron: astar variables
 	bool initialized;
 	double startX;
 	double startY;

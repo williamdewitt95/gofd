@@ -3,6 +3,8 @@
 
 #include <math.h> 
 
+// Herron: class of nodes used in a* path finding
+
 class MapNode{
 
 	int xpos, ypos, level, priority;
