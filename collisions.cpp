@@ -126,7 +126,7 @@ void collisionTest(){
 
 				double dist = Vector(targets[k]->center,tempProjectile->center).length();
 
-				if(dist > targets.at(k)->radius)
+				if(dist > targets.at(k)->radius*2.0)
 					continue; // skip if they are so far away that there is no chance of them colliding
 
 				//Now we check if there is a line between the two locations of the projectile to see if it passed through anything
@@ -181,7 +181,7 @@ void collisionTest(){
 			double dist = Vector(tank->center,tempProjectile->center).length();
 			if(dist < 30.0){
 				LineSeg testLine = LineSeg(tempProjectile->oldCenter, tempProjectile->center);
-				std::vector<Polygon3d> tankSides = tank->boundingBox();
+				std::vector<Polygon3d> tankSides = tank->getBoundingBox();
 				Point intersect;
 				for(int i=0;i<tankSides.size();i++){
 					tankSides.at(i).setCenter(tank->center);
@@ -200,10 +200,10 @@ void collisionTest(){
 			//====================================================================================================================================
 			//AI tank collision check
 			dist = Vector(ai_tank->tank->center,tempProjectile->center).length();
-			if(dist < 50.0){
+			if(dist < 30.0){
 				// printf("sq: %f \n",sq);
 				LineSeg testLine = LineSeg(tempProjectile->oldCenter, tempProjectile->center);
-				std::vector<Polygon3d> tankSides = ai_tank->tank->boundingBox();
+				std::vector<Polygon3d> tankSides = ai_tank->tank->getBoundingBox();
 				Point intersect;
 				// printf("tankSides.size() %d     ",(int)tankSides.size());
 				for(int i=0;i<tankSides.size();i++){

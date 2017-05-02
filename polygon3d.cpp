@@ -315,6 +315,16 @@ void Polygon3d::draw(){
 
 	glPopMatrix();
 }
+void Polygon3d::drawLines(){
+	//remember what it was before
+	auto temp = this->drawTesselate;
+
+	this->drawTesselate=false;
+	this->draw();
+
+	//put it back to the way it was before
+	this->drawTesselate = temp;
+}
 void Polygon3d::draw_static(){
 	if(this->numPoints()<2)return;
 
