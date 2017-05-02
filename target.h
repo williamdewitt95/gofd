@@ -8,11 +8,13 @@
 #include "drawableObject.h"
 
 class Target:public DrawableObject{
-private:
+protected:
 	double rotation;
 	GLuint mascotChoice;
 public:
+	enum{NORMAL,DEAD};
 	double radius;
+	int state;
 
 	Target(Point center);
 	void draw();

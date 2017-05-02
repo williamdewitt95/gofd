@@ -6,6 +6,7 @@ Target::Target(Point center)
     this->center = center;
     this->radius = 3;
     this->rotation = 0;
+    this->state = NORMAL;
     int choice = rand() % 9;
     if(choice == 0)
     {
@@ -118,6 +119,10 @@ Target::Target(Point center)
 }
 
 void Target::draw(){
+    //Do not draw us if we are already hit
+    if(this->state == DEAD)
+        return;
+
     glPushMatrix();
 
     // glTranslated(center.x,center.y,center.z);

@@ -120,6 +120,9 @@ void collisionTest(){
 			//====================================================================================================================================
 			//targets collision check
 			for(int k=0; k<targets.size();k++){
+				//only check the target if it is not already been hit
+				if(targets[k]->state == Target::DEAD)
+					continue;
 
 				double dist = Vector(targets[k]->center,tempProjectile->center).length();
 
@@ -135,7 +138,8 @@ void collisionTest(){
 					int a = intersect3D_SegmentPlane(testLine, buildingSides.at(i), intersect);
 					if(a==1){
 					    tempProjectile->setExploding(intersect);
-					    GLOBAL.score+=5;
+					    GLOBAL.score+=2;
+					    targets[k]->state = Target::DEAD;
 					    break;
 					}
 				}
