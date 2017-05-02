@@ -168,7 +168,7 @@ void Projectile::update()
 			t.x = center.x;
 			t.y = center.y;
 			t.z = center.z;
-			t.decay = 70;
+			t.decay = 140;
 			t.staticDecay = t.decay;
 			cout << "make trail\n";
 			this->trails.push_back(t);
@@ -347,14 +347,16 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 			float colorG = 0.65;
 			float colorB = 0.13;
 
+			//enable blending to use transparency, disable it after
 			glEnable (GL_BLEND);
 			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			cout << "decay = " << t.decay << "\n";
 
-			colorR = 0.73 + (decayRatio * (colorR - 0.3));
-			colorG = 0.33 + (decayRatio * (colorG - 0.3));
-			colorB = 0.83 + (decayRatio * (colorB - 0.3));
+			// colorR = 0.73 + (decayRatio * (colorR - 0.73));
+			// colorG = 0.33 + (decayRatio * (colorG - 0.33));
+			// colorB = 0.83 + (decayRatio * (colorB - 0.83));
 
+			//use decayRatio as the alpha channel percentage value
 			glColor4f(colorR, colorG, colorB, decayRatio);
 			glutSolidSphere(1.0f, 8, 8);
 			glPopMatrix();
