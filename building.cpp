@@ -72,20 +72,16 @@ std::vector<Polygon3d> Building::boundingBox(){
 	std::vector<Polygon3d> boundingBox = this->getBoundingBox();
 
 	if(!(this->alreadyCalculated)){
+		//devin: already calculated tells the building if we have already calculated the box to avoid 
+		// making more than once and slowing the program
 		for(int x=0; x < boundingBox.size(); x++){
-			//printf("Starting to translate bounding box\n");
+			//devin: we create a new list of sides where their points are
+			// in the world coordinates for collision
 			boundingBox[x].setCenter(this->center);
 
-			//printf("Building center x = %f, y = %f",this->center.x,this->center.y);
-			//printf("About to copy of num points %d\n",this->box[x].numPoints());
+			//devin: this gives us the world coordinates polygon
 			Polygon3d p = Polygon3d(boundingBox[x].getWorldPoints());
-
-			//std::vector<Point> test = p.getPoints();
-
-			//printf("first point x: %f, y: %f\n", test[0].x, test[0].y);
-	
-			//printf("poly center x =%f , y =%f \n",p.getCenter().x,p.getCenter().y);
-			//printf("Made the copy of num points %d\n",p.numPoints());
+			//devin: here we add the new side
 			boundingBox[x] = p;
 			//printf("put into the array\n");
 			
