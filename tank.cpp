@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 using std::cout;
+//Load the tank, cannon, and star models from external file
 GLMmodel* cannonModel = glmReadOBJ("objects/cannon.obj");
 GLMmodel* tankModel = glmReadOBJ("objects/tank.obj");
 GLMmodel* stars = glmReadOBJ("objects/s.obj");
@@ -373,7 +374,7 @@ Tank::Tank(Point center){
 		texs.push_back(Point(1,0,0));
 		texs.push_back(Point(0,0,0));
 	}
-	
+
 	baseBoundingBox=base; // use these to provide our bounding box
 	towerBoundingBox=tower;
 	cannonBoundingBox=cannon;
@@ -386,12 +387,11 @@ void Tank::draw(){
 	glScaled(scale*.75, scale*.75, scale*.75);
 	glRotated(baseAngle, 0, 0, 1);
 	glRotatef(90,1,0,0);//rotate the body
-	//glColor3f(.35,.35,.35);
 	glDisable(GL_COLOR_MATERIAL);
 	glColor3f(this->colorR, this->colorG, this->colorB);
-	glmDraw(tankModel, GLM_SMOOTH | GLM_COLOR);
-	glmDraw(stars, GLM_SMOOTH | GLM_MATERIAL);
-	glEnable(GL_COLOR_MATERIAL);	
+	glmDraw(tankModel, GLM_SMOOTH | GLM_COLOR);//generate the tank with the current gl color state
+	glmDraw(stars, GLM_SMOOTH | GLM_MATERIAL);// generate the stars with its own material file
+	glEnable(GL_COLOR_MATERIAL);// reenable the gl color to not affect other drawings
 	/*for(int x=0; x<base.size(); x++)
 		this->base[x].draw();
 	*/
@@ -425,11 +425,11 @@ void Tank::draw(){
 	}
 	glColor3f(1,1,1);
 	////////
-	glTranslatef(.8,2.05,1.35);//move the body down
+	glTranslatef(.8,2.05,1.35);//align the cannon
 	glScaled(scale*.75, scale*.75, scale*.75);
 	glRotated(91.15, 0, 0, 1);
 	glDisable(GL_COLOR_MATERIAL);
-	glmDraw(cannonModel, GLM_MATERIAL);
+	glmDraw(cannonModel, GLM_MATERIAL);// draw that cannon
 	glEnable(GL_COLOR_MATERIAL);
 	//////
 	/*for(int x=0; x<cannon.size(); x++)
@@ -441,7 +441,7 @@ void Tank::draw(){
 }
 
 void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel){
-	
+
 	//max speed limit
 	if (((this->tankSpeedY < 0.15) && (tankAccel > 0)) || ((this->tankSpeedY > -0.15) && (tankAccel < 0)))  {
 		this->tankSpeedY += tankAccel;
@@ -500,7 +500,7 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 	newX += this->tankSpeedX * cos((this->baseAngle) * (M_PI / 180));
 	newY += this->tankSpeedX * sin((this->baseAngle) * (M_PI / 180));
 
-	if(onLock(newX,newY)){
+	if(onLock(newX,newY)){//if the tank is allowed to be here, move it
 		this->center.x = newX;
 		this->center.y = newY;
 	}
@@ -549,9 +549,9 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 		this->cannonAngle = angleV;
 	}
 	else{
-		
+
 		this->towerAngle = -1.0*angleH+90.0;
-		this->cannonAngle = angleV; 	
+		this->cannonAngle = angleV;
 	}
 
 	if(dx==0 && dy==0)
@@ -559,10 +559,10 @@ void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon fol
 }
 
 bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
-	double min = -(Building::maxBuildingWidth/2 + Building::sidewalkWidth);
+	double min = -(Building::maxBuildingWidth/2 + Building::sidewalkWidth);//calculate the size of the grid
 	double max =  (NUM_BLOCKS_WIDE - 1)*(Building::distanceBetweenBuildings) - min;
 
-	if (min <= x && x <= max && min <= y && y <= max) return 1;
+	if (min <= x && x <= max && min <= y && y <= max) return 1;// check if its in the grid
 	else return 0;
 }
 
@@ -600,8 +600,8 @@ void Tank::shoot() {
 	if(this->cooldown>0){//true  = we are still in cooldown
 		return ;
 	}
-	double x = this->center.x + -1*(2.25-sin(cannonAngle*M_PI/180.0)) * sin(this->towerAngle*M_PI/180.0); 
-	double y = this->center.y + (2.25-sin(cannonAngle*M_PI/180.0)) * cos(this->towerAngle*M_PI/180.0); 
+	double x = this->center.x + -1*(2.25-sin(cannonAngle*M_PI/180.0)) * sin(this->towerAngle*M_PI/180.0);
+	double y = this->center.y + (2.25-sin(cannonAngle*M_PI/180.0)) * cos(this->towerAngle*M_PI/180.0);
 	double z = this->center.z + 1.375 + 1.75*sin(this->cannonAngle*M_PI/180.0);
 	// printf("%.3f\n",z);
 
