@@ -101,6 +101,7 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 
 void Projectile::draw(){
 	if(this->state==MOVING){
+		//Used quadrics to draw projectile.
 		GLUquadricObj *shellCasing, *shellPoint, *shellBottom;
 
 		glPushMatrix();
@@ -242,6 +243,7 @@ void Projectile::update()
 }
 
 // Compute the drag based on the 155 mm HE Shell
+// This was provided by Dr. Pounds.
 double Projectile::drag( double speed ){
     double mach, mach2, mach3, Kd;
     mach = speed / 340.29;   // Speed of sound in m/s
@@ -298,6 +300,7 @@ void Projectile::step() {
     double dp, dq;
 
     // Begin Runge-Kutta Method Here for Systems
+    //This code was provided by Dr. Pounds, modified to fit out systems.
     f1 = f(this->p,this->q,this->C);
     g1 = g(this->p,this->q,this->C);
     f2 = f(this->p+this->h*f1/2,this->q+this->h*g1/2,this->C);

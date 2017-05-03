@@ -8,6 +8,7 @@ Target::Target(Point center)
     this->rotation = 0;
     this->state = NORMAL;
     int choice = rand() % 9;
+    //Everyone from the Southern Conference except mercer. Of course we'll blow them up and stuff.
     if(choice == 0)
     {
     	loadTex("textures/mascots/woffordterriers.png");
@@ -129,6 +130,7 @@ void Target::draw(){
     // glRotated(90, 1, 0, 0);
     // glRotated(this->rotation, 0, 1, 0);
 
+    // I used disks disk to generate the target.
     GLUquadricObj *cylinder = gluNewQuadric();
     GLUquadricObj *topDisk = gluNewQuadric();
     GLUquadricObj *bottomDisk = gluNewQuadric();
@@ -143,7 +145,11 @@ void Target::draw(){
         glRotated(180, 0, 0, 1);
         glRotated(this->rotation, 0, 1, 0);
 
+        //Drawing and texturing a disk works a little differently, but is still very simple
+        //A quadric object is created as a pointer, then fed into the proper
+        //quadrick draw function. Objects seen above, function seen below.
         gluCylinder(cylinder, this->radius, this->radius, .1, 30, 1);
+        //Takes the active texture and applies it linearly to the object.
         gluQuadricTexture(topDisk, GL_TRUE);
         gluDisk(topDisk, 0, this->radius, 30, 1);
         glRotated(180, 0, 1, 0);
@@ -181,7 +187,8 @@ void Target::draw_map_marker(){
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
-
+//Originally for the spinning targets, these would set the rotation of the targets. However, spinning was removed
+//So this function is an artifact.
 void Target::update(){
 }
 

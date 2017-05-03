@@ -605,7 +605,7 @@ void keyboardButtonsUp_special(int key,int x,int y){
 }
 void joystickControls(unsigned int buttonMask, int x, int y, int z)
 {
-	
+	//This was for figuring out all the buttonmasks and stuff from the joystick control.	
 	/*unsigned int a = buttonMask;
 	for(int i = 0; i < 32; i++)
 	{
@@ -614,10 +614,11 @@ void joystickControls(unsigned int buttonMask, int x, int y, int z)
 	}
 	printf(" %d %d %d \n", x, y, z);*/
 	
-
+	//Mapped to fire button, and mapped to trigger for pointer finger. Bitshifting and bitwise and.
 	if( buttonMask & 1 || (buttonMask >> 1) & 1)
 		tank->shoot();
 
+	//Left hand pointer finger controls base movement.
 	if((buttonMask >> 20) & 1)
 	{
 		tankBaseRotate = -2;
@@ -631,6 +632,7 @@ void joystickControls(unsigned int buttonMask, int x, int y, int z)
 		tankBaseRotate = 0;
 	}
 
+	//It was really easy go up to 200, so I set a large deadzone for staying at zero. Technically, at exactly 200, nothing happens.
 	if(abs(z) < 200)
 	{
 		tankAccel = 0;
@@ -644,11 +646,16 @@ void joystickControls(unsigned int buttonMask, int x, int y, int z)
 		tankAccel = -0.005;
 	}
 
+	//We want to check if either are above, otherwise it locks controls to just on coordinate and not the other.
 	if(abs(x) > 50 || abs(y) > 50)
 	{
+		//Fun ternary stayements to check and set the delta x or y values.
 		int xMove = abs(x) > 50 ? (x > 0 ? 2:-2) : 0;
 		int yMove = abs(y) > 50 ? (y > 0 ? -2:2) : 0;
 
+		//We're pretending to be the mouse here. Where as we would read from the mouse and move the camera
+		//we instead pretend the mouse has moved by added our x and y movements to the center, where the mouse
+		//ordinarily would be. This makes it seem as though the mouse moved, when its just the joystick.
 		cameraMovement(GLOBAL.WINDOW_MAX_X/2 + xMove, GLOBAL.WINDOW_MAX_Y/2 + yMove,tank->center,cameraMode);
 		tank->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2 + xMove, GLOBAL.WINDOW_MAX_Y/2 + yMove,cameraMode);
 	}
