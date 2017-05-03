@@ -1,5 +1,8 @@
 # Blender MTL File: 'woodbody.blend'
-# Material Count: 1
+# Material Count: 2
+
+#color/material definitions for the tank and stars
+#ambient diffusive and specular defined by ka ,kd, and ks
 newmtl Material.001
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
