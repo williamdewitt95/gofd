@@ -274,6 +274,7 @@ void drawWorld(){
 	}
 	
 	else{
+		// Herron: sets orthographic view
 		glOrtho( 500.0, -500.0, 500.0, -500.0, 0.1, 1000);
 		gluLookAt(450.0, 450.0, 800.0, 450.0 , 450.0, 0.0, 0.0, -1.0, -1.0);
 	}
@@ -488,6 +489,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 		//glutPostRedisplay();
 		//printf("%d\n", tank->health);
 	}else if(key == 'v' || key == 'V' ){
+		// Herron: sets to top down orthographic view
 		orthoView = !orthoView;
 	}else if(key == 'r' || key == 'R'){
 		if(GLOBAL.gameOver)//when game over, r to restart game
@@ -498,6 +500,7 @@ void keyboardButtons(unsigned char key, int x, int y){
 				ai_tanks.pop_back();
 			}
 			
+
 			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
 			for(int x=0; x<NUM_AI_TANKS; x++){
 				int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;

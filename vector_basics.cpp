@@ -83,6 +83,7 @@ double& Point::operator[](const int index){
 	return this->data[index];
 }
 
+// Herron: translates given point by additon
 Point Point::translatePoint(double x, double y, double z){
 
 	Point pnt; 
@@ -97,6 +98,7 @@ Point Point::translatePoint(double x, double y, double z){
 
 }
 
+// Herron: returns scaled point
 Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){
 	
 	this->x *= scaleX;
@@ -106,6 +108,7 @@ Point Point::scalePoint(double scaleX, double scaleY, double scaleZ){
 	return *this;
 }
 
+// Herron: returns point rotated with matrix
 Point Point::rotatePoint(double theta, bool x, bool y, bool z){
 
 	float phi = theta * M_PI / 180.0;
