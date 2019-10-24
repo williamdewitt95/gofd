@@ -1,6 +1,6 @@
 
 CC       = g++
-CFLAGS   = -std=gnu++0x -DGL_GLEXT_PROTOTYPES
+CFLAGS   = -std=gnu++0x -DGL_GLEXT_PROTOTYPES -fPIC
 OPTFLAGS = -O2
 
 # Setup names for custom directories -- make sure there are no spaces after the directory names
@@ -74,4 +74,4 @@ distclean: clean
 	rm -f tags
 
 tags: *.cpp *.h
-	ctags *.cpp *.h
+	#ctags *.cpp *.h

@@ -52,6 +52,7 @@ void loadShader(){
 	printf("loadShader()\n");
 	GLint result;
 	const GLchar* vertexSource3 = R"glsl(
+	#version 130
 	const int NUM_LIGHTS = 3;
 
 	// uniform int NUM_LIGHTS
@@ -74,11 +75,11 @@ void loadShader(){
 		// set the normal for the fragment shader and
 		// the vector from the vertex to the camera
 		fragmentNormal = gl_Normal ;
-		cameraVector = cameraPosition - mat4(gl_ModelViewMatrix)*gl_Vertex;
+		cameraVector = cameraPosition - vec3(gl_ModelViewMatrix*gl_Vertex);
 
 		// set the vectors from the vertex to each light
 		for(int i = 0; i < NUM_LIGHTS; i++)
-			lightVector[i] = lightPosition[i] - mat4(gl_ModelViewMatrix)*gl_Vertex;
+			lightVector[i] = lightPosition[i] - vec3(gl_ModelViewMatrix*gl_Vertex);
 
 
 		texture_coordinate = gl_MultiTexCoord0.xy;
@@ -89,6 +90,7 @@ void loadShader(){
 	
 
     const GLchar* fragmentSource5 = R"glsl(
+	#version 130
 	const int NUM_LIGHTS = 3;
 
 	const vec3 AMBIENT = vec3(0.1, 0.1, 0.1);
@@ -98,10 +100,10 @@ void loadShader(){
 	uniform vec3 lightColor[NUM_LIGHTS];
 	uniform sampler2D my_color_texture;
 
-	in vec3 fragmentNormal;
-	in vec3 cameraVector;
-	in vec3 lightVector[NUM_LIGHTS];
-	in vec2 texture_coordinate;
+	varying vec3 fragmentNormal;
+	varying vec3 cameraVector;
+	varying vec3 lightVector[NUM_LIGHTS];
+	varying vec2 texture_coordinate;
 
 	void
 	main()
@@ -134,7 +136,7 @@ void loadShader(){
 
 		vec4 sample = texture2D(my_color_texture, texture_coordinate);
 		if(sample.x < 0.001 )
-			sample.xyza = vec4(0.5,0.5,0.5,1);
+			sample = vec4(0.5,0.5,0.5,1.0);
 
 		gl_FragColor = vec4(clamp(sample.rgb * (diffuse + AMBIENT) + specular, 0.0, 1.0), sample.a);
 		// gl_FragColor = texture2D(my_color_texture, texture_coordinate);
