@@ -14,7 +14,7 @@ std::vector<Polygon3d> DrawableObject::getBoundingBox(){
 }
 
 bool DrawableObject::collidesWith(const DrawableObject&){
-	
+	return false;
 }
 
 bool DrawableObject::collidesWith(const Vector){
@@ -22,5 +22,5 @@ bool DrawableObject::collidesWith(const Vector){
 }
 
 bool DrawableObject::collisionPoint(const Vector){
-
+	return false;
 }

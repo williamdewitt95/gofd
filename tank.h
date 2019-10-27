@@ -12,6 +12,9 @@ class Tank:public DrawableObject{
 
 private:
 	float colorR, colorG, colorB;
+	static GLMmodel* cannonModel;
+	static GLMmodel* tankModel;
+	static GLMmodel* stars;
 
 public:
 	Point hitSphereCenter;

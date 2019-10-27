@@ -10,7 +10,9 @@
       coordinate generation (spheremap and planar projections) + more.
   
 */
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <math.h>
 #include <stdio.h>
@@ -159,7 +161,7 @@ duplicate:
 
 /* glmFindGroup: Find a group in the model */
 GLMgroup*
-glmFindGroup(GLMmodel* model, char* name)
+glmFindGroup(GLMmodel* model,const char* name)
 {
     GLMgroup* group;
     
@@ -177,7 +179,7 @@ glmFindGroup(GLMmodel* model, char* name)
 
 /* glmAddGroup: Add a group to the model */
 GLMgroup*
-glmAddGroup(GLMmodel* model, char* name)
+glmAddGroup(GLMmodel* model,const char* name)
 {
     GLMgroup* group;
     
@@ -277,16 +279,16 @@ glmReadMTL(GLMmodel* model, char* name)
         switch(buf[0]) {
         case '#':               /* comment */
             /* eat up rest of line */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             break;
         case 'n':               /* newmtl */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             nummaterials++;
             sscanf(buf, "%s %s", buf, buf);
             break;
         default:
             /* eat up rest of line */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             break;
         }
     }
@@ -321,10 +323,10 @@ glmReadMTL(GLMmodel* model, char* name)
         switch(buf[0]) {
         case '#':               /* comment */
             /* eat up rest of line */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             break;
         case 'n':               /* newmtl */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             sscanf(buf, "%s %s", buf, buf);
             nummaterials++;
             model->materials[nummaterials].name = strdup(buf);
@@ -357,13 +359,13 @@ glmReadMTL(GLMmodel* model, char* name)
                 break;
             default:
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 break;
             }
             break;
             default:
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 break;
         }
     }
@@ -439,7 +441,7 @@ glmFirstPass(GLMmodel* model, FILE* file)
     GLuint  numtriangles;       /* number of triangles in model */
     GLMgroup* group;            /* current group */
     unsigned    v, n, t;
-    char        buf[128];
+    char        buf[256];
     
     /* make a default group */
     group = glmAddGroup(model, "default");
@@ -449,23 +451,23 @@ glmFirstPass(GLMmodel* model, FILE* file)
         switch(buf[0]) {
         case '#':               /* comment */
             /* eat up rest of line */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             break;
         case 'v':               /* v, vn, vt */
             switch(buf[1]) {
             case '\0':          /* vertex */
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 numvertices++;
                 break;
             case 'n':           /* normal */
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 numnormals++;
                 break;
             case 't':           /* texcoord */
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 numtexcoords++;
                 break;
             default:
@@ -475,18 +477,18 @@ glmFirstPass(GLMmodel* model, FILE* file)
             }
             break;
             case 'm':
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 sscanf(buf, "%s %s", buf, buf);
                 model->mtllibname = strdup(buf);
                 glmReadMTL(model, buf);
                 break;
             case 'u':
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 break;
             case 'g':               /* group */
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
 #if SINGLE_STRING_GROUP_NAMES
                 sscanf(buf, "%s", buf);
 #else
@@ -544,7 +546,7 @@ glmFirstPass(GLMmodel* model, FILE* file)
                 
             default:
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 break;
         }
   }
@@ -600,7 +602,7 @@ glmSecondPass(GLMmodel* model, FILE* file)
         switch(buf[0]) {
         case '#':               /* comment */
             /* eat up rest of line */
-            fgets(buf, sizeof(buf), file);
+            assert(fgets(buf, sizeof(buf), file));
             break;
         case 'v':               /* v, vn, vt */
             switch(buf[1]) {
@@ -627,13 +629,13 @@ glmSecondPass(GLMmodel* model, FILE* file)
             }
             break;
             case 'u':
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 sscanf(buf, "%s %s", buf, buf);
                 group->material = material = glmFindMaterial(model, buf);
                 break;
             case 'g':               /* group */
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
 #if SINGLE_STRING_GROUP_NAMES
                 sscanf(buf, "%s", buf);
 #else
@@ -741,7 +743,7 @@ glmSecondPass(GLMmodel* model, FILE* file)
                 
             default:
                 /* eat up rest of line */
-                fgets(buf, sizeof(buf), file);
+                assert(fgets(buf, sizeof(buf), file));
                 break;
     }
   }
@@ -1299,7 +1301,7 @@ glmDelete(GLMmodel* model)
  * filename - name of the file containing the Wavefront .OBJ format data.  
  */
 GLMmodel* 
-glmReadOBJ(char* filename)
+glmReadOBJ(const char* filename)
 {
     GLMmodel* model;
     FILE*   file;
@@ -1482,7 +1484,7 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode)
     /* spit out the texture coordinates */
     if (mode & GLM_TEXTURE) {
         fprintf(file, "\n");
-        fprintf(file, "# %d texcoords\n", model->texcoords);
+        fprintf(file, "# %d texcoords\n", model->numtexcoords);
         for (i = 1; i <= model->numtexcoords; i++) {
             fprintf(file, "vt %f %f\n", 
                 model->texcoords[2 * i + 0],
@@ -1797,7 +1799,7 @@ glmReadPPM(char* filename, int* width, int* height)
     
     /* grab first two chars of the file and make sure that it has the
        correct magic cookie for a raw PPM file. */
-    fgets(head, 70, fp);
+    assert(fgets(head, 70, fp));
     if (strncmp(head, "P6", 2)) {
         fprintf(stderr, "%s: Not a raw PPM file\n", filename);
         return NULL;
@@ -1806,7 +1808,7 @@ glmReadPPM(char* filename, int* width, int* height)
     /* grab the three elements in the header (width, height, maxval). */
     i = 0;
     while(i < 3) {
-        fgets(head, 70, fp);
+        assert(fgets(head, 70, fp));
         if (head[0] == '#')     /* skip comments. */
             continue;
         if (i == 0)
@@ -1905,5 +1907,10 @@ for (i = 1; i <= model->numvertices; i++) {
             T(j).vindices[1] == i)
             break;
     }
+}
+#endif
+
+
+#ifdef __cplusplus
 }
 #endif

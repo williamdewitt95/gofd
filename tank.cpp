@@ -7,9 +7,9 @@
 
 using std::cout;
 //Load the tank, cannon, and star models from external file
-GLMmodel* cannonModel = glmReadOBJ("objects/cannon.obj");
-GLMmodel* tankModel = glmReadOBJ("objects/tank.obj");
-GLMmodel* stars = glmReadOBJ("objects/s.obj");
+GLMmodel* Tank::cannonModel = NULL;
+GLMmodel* Tank::tankModel = NULL;
+GLMmodel* Tank::stars = NULL;
 
 
 Tank::Tank(Point center){
@@ -48,6 +48,13 @@ Tank::Tank(Point center){
 	double turretLength = 1.0;
 	double turretWidth  = 1.0;
 	double turretHeight = 1.0;
+
+	if (cannonModel == NULL) {
+		const char * temp[] = {"objects/cannon.obj","objects/tank.obj","objects/s.obj"};
+		cannonModel = glmReadOBJ(temp[0]);
+		tankModel = glmReadOBJ(temp[1]);
+		stars = glmReadOBJ(temp[2]);
+	}
 
 	{
 		base.push_back(Polygon3d());

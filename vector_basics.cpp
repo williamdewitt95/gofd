@@ -197,7 +197,7 @@ double Vector::dot(Vector& other){
 		this->z * other.z;
 }
 double Vector::dotProduct(Vector& other){
-	this->dot(other);
+	return this->dot(other);
 }
 Vector Vector::cross(const Vector& other){
 	Vector pp;
@@ -207,7 +207,7 @@ Vector Vector::cross(const Vector& other){
 	return pp;
 }
 Vector Vector::crossProduct(Vector& other){
-	this->cross(other);
+	return this->cross(other);
 }
 
 //==============================================================================

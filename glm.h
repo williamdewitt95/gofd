@@ -1,8 +1,8 @@
-/*    
+/*
       glm.h
       Nate Robins, 1997, 2000
       nate@pobox.com, http://www.pobox.com/~nate
- 
+
       Wavefront OBJ model file format reader/writer/manipulator.
 
       Includes routines for generating smooth normals with
@@ -11,6 +11,9 @@
 
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <GL/glut.h>
 
@@ -190,7 +193,7 @@ glmDelete(GLMmodel* model);
  * filename - name of the file containing the Wavefront .OBJ format data.  
  */
 GLMmodel* 
-glmReadOBJ(char* filename);
+glmReadOBJ(const char* filename);
 
 /* glmWriteOBJ: Writes a model description in Wavefront .OBJ format to
  * a file.
@@ -274,5 +277,10 @@ glmWeld(GLMmodel* model, GLfloat epsilon);
  * height     - will contain the height of the image on return.
  *
  */
-GLubyte* 
+GLubyte*
 glmReadPPM(char* filename, int* width, int* height);
+
+
+#ifdef __cplusplus
+}
+#endif
