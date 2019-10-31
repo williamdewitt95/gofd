@@ -35,7 +35,7 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 	this->C = 0.05;
 	this->invincibility = 5;
 
-	this->t = 0;//glutGet(GLUT_ELAPSED_TIME)/1000.0;
+	this->simTime = std::chrono::steady_clock::now();
 	this->local = Point(0.0, 0.0, 0.0);
 
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
@@ -161,10 +161,9 @@ void Projectile::update()
 		this->oldCenter.y = this->center.y;
 		this->oldCenter.z = this->center.z;
 		//sync with actual time
-		double currTime = 0;//glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
-		this->h = (currTime - this->t) / 10.0;
-   		while( (float)this->t < (float)currTime){ step(); }
-   		// this->t = currTime;
+		auto currTime = std::chrono::steady_clock::now();
+		this->h = 0.01;
+   		while( this->simTime < currTime){ step(); }
 
 		// step();
 		Point temp = Point(this->local.x, 0, this->local.z);
@@ -315,7 +314,7 @@ void Projectile::step() {
     this->local.z = this->local.z + this->q*this->h + 0.5*dq*this->h*this->h; 
     this->p = this->p + dp*this->h;
     this->q = this->q + dq*this->h;
-    this->t = this->t + this->h;
+    this->simTime += std::chrono::milliseconds((long)(this->h*1000.0));
 }
 
 void Projectile::drawExplosion(struct Explosion *ex) {

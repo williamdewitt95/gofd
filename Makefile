@@ -15,7 +15,6 @@ OBJS        = vector_basics.o polygon3d.o globals.o \
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # System librarires to be linked
-#LDFLAGS  = -lGL -lGLU -lglut libSOIL.a
 LDFLAGS  = -lGL -lGLU -lglfw libSOIL.a
 
 #the available buildings that we depend on when building

@@ -7,6 +7,7 @@
 
 #include <math.h>
 #include <vector>
+#include <chrono>
 
 struct Explosion{
 	double x;
@@ -46,7 +47,8 @@ public:
 
 	Point tankStart, local;
 	double angleV, angleH, velocity, mass, C;
-	double h, t, x, y, p, q;
+	double h, x, y, p, q;
+	std::chrono::steady_clock::time_point simTime; // current time in the simulted projectile path
 
 	//std::vector<Polygon3d> boundingBox;
 	//std::vector<Polygon3d> model;
