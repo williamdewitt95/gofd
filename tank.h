@@ -36,7 +36,7 @@ public:
 	void applyRecoil();
 	void update(double tankBaseRotate, double tankTurretRotate, double tankCannonRotate, int cameraMode, double tankAccel); // make the pendulum keep up with the frame rate
 	bool onLock(int x, int y);
-	void turretFollowMouse(int x, int y, int cameraMode);//turret + cannon follow mouse cursor
+	void turretFollowMouse(int cameraMode);//turret + cannon follow mouse cursor
 	std::vector<Polygon3d> getBoundingBox(void);//return vector of vectors of individual bounding boxes
 };
 

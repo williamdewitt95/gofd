@@ -1,8 +1,9 @@
 #ifndef GLOP_GLOBALS
 #define GLOP_GLOBALS
 
-#include <GL/glew.h> 
-#include <GL/glut.h>
+#include <GLFW/glfw3.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -56,21 +57,14 @@ void loadTex(std::string name);
 class GLOBAL_SETTINGS{
 public:
 	GLOBAL_SETTINGS();
+	GLFWwindow* windowHandle;
 	int WINDOW_MAX_X;
 	int WINDOW_MAX_Y;
 
 	int score;
 	time_t timeStart;
 	bool gameOver;
-	
-	double WORLD_COORDINATE_MIN_X;
-	double WORLD_COORDINATE_MAX_X;
-	double WORLD_COORDINATE_MIN_Y;
-	double WORLD_COORDINATE_MAX_Y;
-
-	int step; //--chris, this is for incrementing the frame); 
-
-              // But you can's initialize it in the global header...
+	bool gameExitRequest;
 
 	struct {
 		double x;
@@ -84,6 +78,10 @@ public:
 	} CAMERA_LOOK_VECTOR;
 	double CAMERA_ANGLE_VERTICAL;
 	double CAMERA_ANGLE_HORIZONTAL;
+	struct {
+		double x;
+		double y;
+	} prevMouseVirtCoords;
 	
 	void reset();
 
@@ -111,12 +109,11 @@ class Target;
 extern std::vector<Target*> targets;
 
 
-void windowResize(int width, int height);
-void scaleMouse(int &x, int &y);
-void cameraMovement(int x, int y, Point center, int cameraMode);
-void FPS_CameraMovement(int x, int y, Point center);
-void thirdPerson_CameraMovement(int x, int y, Point center);
-void free_CameraMovement(int x, int y);
+void windowResize(GLFWwindow* window,int width, int height);
+void cameraMovement(double dx, double dy, int cameraMode);
+void FPS_CameraMovement(double dx, double dy, Point center);
+void thirdPerson_CameraMovement(double dx, double dy, Point center);
+void free_CameraMovement(double dx, double dy);
 void drawTank (void);
 void drawAxies();
 void updateLights();

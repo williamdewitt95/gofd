@@ -15,7 +15,8 @@ OBJS        = vector_basics.o polygon3d.o globals.o \
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # System librarires to be linked
-LDFLAGS  = -lGL -lGLU -lglut -lGLEW libSOIL.a
+#LDFLAGS  = -lGL -lGLU -lglut libSOIL.a
+LDFLAGS  = -lGL -lGLU -lglfw libSOIL.a
 
 #the available buildings that we depend on when building
 BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp buildings/apartmentHighrise.cpp
@@ -36,12 +37,12 @@ gofd: $(BUILD_OBJS)
 	$(CC) $(CFLAGS) -o gofd $(BUILD_OBJS) $(LDFLAGS)
 
 # These are the object file targets
-$(BUILD_DIR)/%.o: %.cpp %.h
+$(BUILD_DIR)/%.o: %.cpp %.h globals.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $@
-$(BUILD_DIR)/%.o: %.cpp
+$(BUILD_DIR)/%.o: %.cpp globals.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $@
 
-$(BUILD_DIR)/building.o: building.cpp building.h $(BUILDINGS) $(BUILDING_EXTRAS)
+$(BUILD_DIR)/building.o: building.cpp building.h globals.h $(BUILDINGS) $(BUILDING_EXTRAS)
 	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
 
 # Drop into the subdirectory to create the image library

@@ -35,7 +35,7 @@ void Projectile::baseInit(Point center, Point tankStart, double angleV, double a
 	this->C = 0.05;
 	this->invincibility = 5;
 
-	this->t = glutGet(GLUT_ELAPSED_TIME)/1000.0;
+	this->t = 0;//glutGet(GLUT_ELAPSED_TIME)/1000.0;
 	this->local = Point(0.0, 0.0, 0.0);
 
 	this->p = this->velocity*cos(angleV*M_PI/180.0);
@@ -161,7 +161,7 @@ void Projectile::update()
 		this->oldCenter.y = this->center.y;
 		this->oldCenter.z = this->center.z;
 		//sync with actual time
-		double currTime = glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
+		double currTime = 0;//glutGet(GLUT_ELAPSED_TIME)/1000.0 ;
 		this->h = (currTime - this->t) / 10.0;
    		while( (float)this->t < (float)currTime){ step(); }
    		// this->t = currTime;
@@ -334,7 +334,7 @@ void Projectile::drawExplosion(struct Explosion *ex) {
 		colorB = 0.3 + (decayRatio * (colorB - 0.3));
 
 		glColor3f(colorR, colorG, colorB);
-		glutSolidSphere(ex->radius, 8, 8);
+		//glutSolidSphere(ex->radius, 8, 8);
 		glPopMatrix();
 	}
 }
@@ -384,7 +384,7 @@ void Projectile::drawTrails(std::vector<Trail>& trailList) {
 
 			//use decayRatio as the alpha channel percentage value
 			glColor4f(projR, projG, projB, decayRatio);
-			glutSolidSphere(0.3f, 8, 8);
+			//glutSolidSphere(0.3f, 8, 8);
 			glPopMatrix();
 			trailList.at(i).decay--;
 			glDisable (GL_BLEND);

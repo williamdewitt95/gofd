@@ -31,42 +31,25 @@ double timeRemaining = TIME_LIMIT;
 std::vector<AI_Tank *> ai_tanks;
 std::vector<Projectile*> projectiles;
 
-void mouseButtons(int but,int state,int x,int y){
-	//scaleMouse(x,y);
-
-	//this is still needed since we are expecting to measure from the bottom left with how i set things up but the mouse is reported from the top left
-	y=GLOBAL.WINDOW_MAX_Y-y;
-
-	if(but==0 && state==GLUT_DOWN){
-		//left mouse button
-		tank->shoot();
-	}else if(but==2 && state==GLUT_DOWN){
-		//right mouse button
-	}else if(but==3 && state==GLUT_DOWN){
-		//scroll up
-	}else if(but==4 && state==GLUT_DOWN){
-		//scroll down
-	}else{
-		if(state == GLUT_DOWN)printf("Unknown Mouse Button %d\n",but);
-	}
-}
 bool youLose()
 {
 	return ((GLOBAL.gameOver) || (timeRemaining <= 0));
 }
-void passiveMouseMovement(int x,int y){
-	//x and y are window cordinates
-	//it is up to us to get deltas
-	if(!youLose())
-	{
-		cameraMovement(x,y,tank->center,cameraMode);
-		tank->turretFollowMouse(x, y,cameraMode);
+
+void mouseButtons(GLFWwindow* window, int button, int action, int mods){
+	if(button==GLFW_MOUSE_BUTTON_LEFT && action==GLFW_PRESS){
+		tank->shoot();
 	}
 }
-void mouseMovement(int x,int y){
-	//x and y are window cordinates
-	//it is up to us to get deltas
-	// FPS_CameraMovement(x,y);
+void mouseMovement(GLFWwindow* window, double x, double y){
+	double dx =   x - GLOBAL.prevMouseVirtCoords.x ;
+	double dy = ( y - GLOBAL.prevMouseVirtCoords.y ) * -1;
+	GLOBAL.prevMouseVirtCoords.x = x;
+	GLOBAL.prevMouseVirtCoords.y = y;
+	if(!youLose())
+	{
+		cameraMovement(dx,dy,cameraMode);
+	}
 }
 
 void gameEngine(){
@@ -130,7 +113,7 @@ void drawGameOver(){
 
 		int i, len;
 		char label[] = "GAME OVER";
-		void *font = GLUT_STROKE_ROMAN;
+		//void *font = GLUT_STROKE_ROMAN;
 
 		glTranslatef(82, 90, 0);
 		glScalef(0.5, 0.5, 0.5);
@@ -142,7 +125,7 @@ void drawGameOver(){
 			len = (int) strlen(label);
 			glTranslatef(-1530.0, 1575, 0);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label[i]);
+				;//glutStrokeCharacter(font, label[i]);
 		glPopMatrix();
 		char label2[] = "Nice Try But";
 		glPushMatrix();
@@ -152,7 +135,7 @@ void drawGameOver(){
 			len = (int) strlen(label2);
 			glTranslatef(-1100.0, 1150, 0);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label2[i]);
+				;//glutStrokeCharacter(font, label2[i]);
 		glPopMatrix();
 		char label3[] = "YOU LOST!";
 		glPushMatrix();
@@ -162,7 +145,7 @@ void drawGameOver(){
 			len = (int) strlen(label3);
 			glTranslatef(-755.0, 725, 0);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label3[i]);
+				;//glutStrokeCharacter(font, label3[i]);
 		glPopMatrix();
 		char label4[] = "Your score was: ";
 		glPushMatrix();
@@ -172,7 +155,7 @@ void drawGameOver(){
 			len = (int) strlen(label4);
 			glTranslatef(-1700.0, 400, 0);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label4[i]);
+				;//glutStrokeCharacter(font, label4[i]);
 			std::ostringstream printNum;
 			std::string printy;
 
@@ -180,7 +163,7 @@ void drawGameOver(){
 			printy = printNum.str();
 			len = (int) strlen(&printy[0]);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font,printy[i]);
+				;//glutStrokeCharacter(font,printy[i]);
 
 			printNum.str("");
 		glPopMatrix();
@@ -192,7 +175,7 @@ void drawGameOver(){
 			len = (int) strlen(label5);
 			glTranslatef(-2140.0, 300, 0);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label5[i]);
+				;//glutStrokeCharacter(font, label5[i]);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -203,7 +186,7 @@ void drawTime() {
 
 		int i, len;
 		char label[] = "Time Remaining: ";
-		void *font = GLUT_STROKE_ROMAN;
+		//void *font = GLUT_STROKE_ROMAN;
 
 		glTranslatef(82, 90, 0);
 		glScalef(0.15, 0.15, 0.15);
@@ -215,7 +198,7 @@ void drawTime() {
 			glTranslatef(-550.0, 300, 0);
 			len = (int) strlen(label);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label[i]);
+				;//glutStrokeCharacter(font, label[i]);
 
 			std::ostringstream printNum;
 			std::string printy;
@@ -226,7 +209,7 @@ void drawTime() {
 			printy = printNum.str();
 			len = (int) strlen(&printy[0]);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font,printy[i]);
+				;//glutStrokeCharacter(font,printy[i]);
 
 			printNum.str("");
 		glPopMatrix();
@@ -431,91 +414,89 @@ void display(){
 	}
 
 	glFlush();
-	glutSwapBuffers();
-
-	if(captureTime == 1)
-	{
-		screencapture(GLOBAL.step); 
-		GLOBAL.step++;
-	} 
-
-	glutPostRedisplay(); //always say we want a redraws
 }
 
-void keyboardButtons(unsigned char key, int x, int y){
-	if(key == 'q' || key == 'Q'){
-		exit(0);
-	}else if(key == 'w' || key == 'W'){
-		if(cameraMode==0)camMove_forward += camMove_speed;
-		else tankAccel += 0.005;
-	}else if(key == 's' || key == 'S'){
-		if(cameraMode==0)camMove_forward -= camMove_speed;
-		else tankAccel -= 0.005;
-	}else if(key == 'a' || key == 'A'){
-		if(cameraMode==0)camMove_strafe += camMove_speed;
-		else tankBaseRotate += 2;
-	}else if(key == 'd' || key == 'D'){
-		if(cameraMode==0)camMove_strafe -= camMove_speed;
-		else tankBaseRotate -= 2;
 
 
-	}else if(key == 'n' || key == 'N'){
-		tankScale -= 0.05;
-	}else if(key == 'm' || key == 'M'){
-		tankScale += 0.05;
-	}else if(key == 'z' || key == 'Z'){
-		if(cameraMode>=2){//currently looking at three camera modes that we switch between
-			cameraMode = 0;
-		}
-		else{
-			cameraMode++;
-		}
-	}else if(key == '-' || key == '_'){
-		tankCannonRotate -= 2;
-	}else if(key == '=' || key == '+'){
-		tankCannonRotate += 2;
-	}else if(key == '8'){
-		tank->laser = !tank->laser;
-	//end of tank controls
-	}else if(key == 'c' || key == 'C'){
-		camMove_vert += camMove_speed;
-	}else if(key == ' '){
-		camMove_vert -= camMove_speed;
-	}else if(key == 'x' || key == 'X'){
-		tank->shoot();
-	}else if(key == 'y' || key == 'Y'){
-		if(tank->health >= 10)
-			tank->health = tank->health-10;
-		//glutPostRedisplay();
-		//printf("%d\n", tank->health);
-	}else if(key == 'v' || key == 'V' ){
-		// Herron: sets to top down orthographic view
-		orthoView = !orthoView;
-	}else if(key == 'r' || key == 'R'){
-		if(GLOBAL.gameOver)//when game over, r to restart game
-		{
-			delete tank;
-			for(int x=ai_tanks.size()-1; x>=0; x--){
-				delete ai_tanks[x];
-				ai_tanks.pop_back();
+void keyboardButtons(GLFWwindow* window, int key, int scancode, int action, int mods){
+	if (action == GLFW_REPEAT)
+		return;
+	int buttonReverse = (action==GLFW_RELEASE ? -1 : 1) ;
+	//printf("%c(%d) %d %d 0x%x\n",key,key,scancode,action,mods);
+	switch(key){
+		case GLFW_KEY_Q:
+			GLOBAL.gameExitRequest = true;
+			break;
+
+		case GLFW_KEY_W:
+			if(cameraMode==0)camMove_forward += camMove_speed * buttonReverse;
+			else tankAccel += 0.005 * buttonReverse;
+			break;
+		case GLFW_KEY_S:
+			if(cameraMode==0)camMove_forward -= camMove_speed * buttonReverse;
+			else tankAccel -= 0.005 * buttonReverse;
+			break;
+		case GLFW_KEY_A:
+			if(cameraMode==0)camMove_strafe += camMove_speed * buttonReverse;
+			else tankBaseRotate += 2 * buttonReverse;
+			break;
+		case GLFW_KEY_D:
+			if(cameraMode==0)camMove_strafe -= camMove_speed * buttonReverse;
+			else tankBaseRotate -= 2 * buttonReverse;
+			break;
+		case GLFW_KEY_C:
+			camMove_vert += camMove_speed * buttonReverse;
+			break;
+		case GLFW_KEY_SPACE:
+			camMove_vert -= camMove_speed * buttonReverse;
+			break;
+
+		case GLFW_KEY_X:
+			if(action == GLFW_RELEASE) break;
+			tank->shoot();
+			break;
+
+		case GLFW_KEY_8:
+			if(action == GLFW_RELEASE) break;
+			tank->laser = !tank->laser;
+			break;
+
+		case GLFW_KEY_Z:
+			if(action == GLFW_RELEASE) break;
+			if(cameraMode>=2) //currently looking at three camera modes that we switch between
+				cameraMode = 0;
+			else
+				cameraMode++;
+			break;
+		case GLFW_KEY_V:
+			if(action == GLFW_RELEASE) break;
+			orthoView = !orthoView;
+			break;
+		case GLFW_KEY_R:
+			if(action == GLFW_RELEASE) break;
+			if(GLOBAL.gameOver)//when game over, r to restart game
+			{
+				delete tank;
+				for(int x=ai_tanks.size()-1; x>=0; x--){
+					delete ai_tanks[x];
+					ai_tanks.pop_back();
+				}
+				
+
+				tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
+				for(int x=0; x<NUM_AI_TANKS; x++){
+					int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
+					int dy = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
+					AI_Tank * ai_tank = new AI_Tank(new Tank(
+						Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dx,
+							Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dy,
+							0)
+						));
+					ai_tanks.push_back(ai_tank);
+				}
+				GLOBAL.reset();
 			}
-			
-
-			tank = new Tank(Point(0, Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0, 0));
-			for(int x=0; x<NUM_AI_TANKS; x++){
-				int dx = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
-				int dy = rand()%NUM_BLOCKS_WIDE * Building::distanceBetweenBuildings;
-				AI_Tank * ai_tank = new AI_Tank(new Tank(
-					Point(Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dx,
-						Building::maxBuildingWidth/2.0 + Building::streetWidth/2.0 + dy,
-						0)
-					));
-				ai_tanks.push_back(ai_tank);
-			}
-			GLOBAL.reset();
-		}
-	}else{
-//		printf("Unknown Key Down %d\n",key); 
+			break;
 	}
 
 	if(camMove_forward > camMove_speed)
@@ -532,172 +513,39 @@ void keyboardButtons(unsigned char key, int x, int y){
 		camMove_vert = camMove_speed;
 	if(camMove_vert < -1 * camMove_speed)
 		camMove_vert = -1 * camMove_speed;
-}
-void keyboardButtonsUp(unsigned char key, int x, int y){
-	if(key == 'q' || key == 'Q'){
-		exit(0);
-	}else if(key == 'w' || key == 'W'){
-		if(cameraMode==0)camMove_forward -= camMove_speed;
-		else tankAccel -= 0.005;
-	}else if(key == 's' || key == 'S'){
-		if(cameraMode==0) camMove_forward += camMove_speed;
-		else tankAccel += 0.005;
-	}else if(key == 'a' || key == 'A'){
-		if(cameraMode==0) camMove_strafe -= camMove_speed;
-		else tankBaseRotate -= 2;
-	}else if(key == 'd' || key == 'D'){
-		if(cameraMode==0) camMove_strafe += camMove_speed;
-		else tankBaseRotate += 2;
-	
-	}else if(key == 'n' || key == 'N'){
-	}else if(key == 'm' || key == 'M'){
-	}else if(key == '-' || key == '_'){
-		tankCannonRotate += 2;
-	}else if(key == '=' || key == '+'){
-		tankCannonRotate -= 2;
-	//end of tank controls
-	}else if(key == 'c' || key == 'C'){
-		camMove_vert -= camMove_speed;
-	}else if(key == ' '){
-		camMove_vert += camMove_speed;
-	}else if(key == 'x' || key == 'X' || key == 'y' || key == 'Y'){
-		//do nothing, but stop printing unknown key
-	}else{
-	//	printf("Unknown Key Up %d\n",key); This is kind of annoying
-	}
-
-	if(camMove_forward > camMove_speed)
-		camMove_forward = camMove_speed;
-	if(camMove_forward < -1 * camMove_speed)
-		camMove_forward = -1 * camMove_speed;
-
-	if(camMove_strafe > camMove_speed)
-		camMove_strafe = camMove_speed;
-	if(camMove_strafe < -1 * camMove_speed)
-		camMove_strafe = -1 * camMove_speed;
-
-	if(camMove_vert > camMove_speed)
-		camMove_vert = camMove_speed;
-	if(camMove_vert < -1 * camMove_speed)
-		camMove_vert = -1 * camMove_speed;
-}
-void keyboardButtons_special(int key,int x,int y){
-	if(key == GLUT_KEY_UP){
-	}else if(key == GLUT_KEY_DOWN){
-	}else if(key == GLUT_KEY_LEFT){
-	}else if(key == GLUT_KEY_RIGHT){
-	}else if(key == GLUT_KEY_PAGE_UP){
-	}else if(key == GLUT_KEY_PAGE_DOWN){
-	}else{
-		printf("Unknown Special Key Down %d\n",key);
-	}
-}
-void keyboardButtonsUp_special(int key,int x,int y){
-	if(key == GLUT_KEY_UP){
-	}else if(key == GLUT_KEY_DOWN){
-	}else if(key == GLUT_KEY_LEFT){
-	}else if(key == GLUT_KEY_RIGHT){
-	}else if(key == GLUT_KEY_PAGE_UP){
-	}else if(key == GLUT_KEY_PAGE_DOWN){
-	}else{
-		printf("Unknown Special Key Up %d\n",key);
-	}
-}
-void joystickControls(unsigned int buttonMask, int x, int y, int z)
-{
-	//This was for figuring out all the buttonmasks and stuff from the joystick control.	
-	/*unsigned int a = buttonMask;
-	for(int i = 0; i < 32; i++)
-	{
-		printf("%d", a & 1);
-		a >>=1;
-	}
-	printf(" %d %d %d \n", x, y, z);*/
-	
-	//Mapped to fire button, and mapped to trigger for pointer finger. Bitshifting and bitwise and.
-	if( buttonMask & 1 || (buttonMask >> 1) & 1)
-		tank->shoot();
-
-	//Left hand pointer finger controls base movement.
-	if((buttonMask >> 20) & 1)
-	{
-		tankBaseRotate = -2;
-	}
-	else if((buttonMask >> 22) & 1)
-	{
-		tankBaseRotate = 2;
-	}
-	else
-	{
-		tankBaseRotate = 0;
-	}
-
-	//It was really easy go up to 200, so I set a large deadzone for staying at zero. Technically, at exactly 200, nothing happens.
-	if(abs(z) < 200)
-	{
-		tankAccel = 0;
-	}
-	else if(z < 200)
-	{
-		tankAccel = 0.005;
-	}
-	else if(z > -200)
-	{
-		tankAccel = -0.005;
-	}
-
-	//We want to check if either are above, otherwise it locks controls to just on coordinate and not the other.
-	if(abs(x) > 50 || abs(y) > 50)
-	{
-		//Fun ternary stayements to check and set the delta x or y values.
-		int xMove = abs(x) > 50 ? (x > 0 ? 2:-2) : 0;
-		int yMove = abs(y) > 50 ? (y > 0 ? -2:2) : 0;
-
-		//We're pretending to be the mouse here. Where as we would read from the mouse and move the camera
-		//we instead pretend the mouse has moved by added our x and y movements to the center, where the mouse
-		//ordinarily would be. This makes it seem as though the mouse moved, when its just the joystick.
-		cameraMovement(GLOBAL.WINDOW_MAX_X/2 + xMove, GLOBAL.WINDOW_MAX_Y/2 + yMove,tank->center,cameraMode);
-		tank->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2 + xMove, GLOBAL.WINDOW_MAX_Y/2 + yMove,cameraMode);
-	}
 }
 
 int main(int argc,char** args){
 	if(argc > 1)
 		captureTime=1;	
 
-	glutInit(&argc, args);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA);
+	if(!glfwInit()){
+		printf("Unable to start glfw\n");
+		exit(-1);
+	}
+	GLOBAL.windowHandle = glfwCreateWindow(GLOBAL.WINDOW_MAX_X, GLOBAL.WINDOW_MAX_Y, "Pendulum", NULL, NULL);
+	if ( !GLOBAL.windowHandle ){
+		glfwTerminate();
+		printf("Unable to make a window\n");
+		exit(-1);
+	}
+	/* Make the GL context for the window the current context that we will draw with */
+	glfwMakeContextCurrent(GLOBAL.windowHandle);
 
-	glutInitWindowPosition(0,0);
-	glutInitWindowSize(GLOBAL.WINDOW_MAX_X,GLOBAL.WINDOW_MAX_Y);
-	glutCreateWindow("Pendulum");
+	glfwSetFramebufferSizeCallback(GLOBAL.windowHandle, windowResize);
+	glfwSetKeyCallback(GLOBAL.windowHandle, keyboardButtons);
+	glfwSetInputMode(GLOBAL.windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(GLOBAL.windowHandle, mouseMovement);
+	glfwSetMouseButtonCallback(GLOBAL.windowHandle, mouseButtons);
+	if (glfwRawMouseMotionSupported())
+		glfwSetInputMode(GLOBAL.windowHandle, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
 	glClearColor(0,0,0,0);
-
-	GLOBAL.step=0;
-
-	glutReshapeFunc(windowResize);
-	glutDisplayFunc(display);
-	glutIdleFunc(gameEngine);
-	glutPassiveMotionFunc(passiveMouseMovement);
-	glutMotionFunc(mouseMovement);
-	glutMouseFunc(mouseButtons);
-	glutKeyboardFunc(keyboardButtons);
-	glutKeyboardUpFunc(keyboardButtonsUp);
-	glutSpecialFunc(keyboardButtons_special);
-	glutSpecialUpFunc(keyboardButtonsUp_special);
-	glutJoystickFunc(joystickControls, 1);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
-	// glEnable(GL_LIGHT2);
-	// glEnable(GL_LIGHT3);
-	// glEnable(GL_LIGHT4);
-	// glEnable(GL_LIGHT5);
-	// glEnable(GL_LIGHT6);
-	// glEnable(GL_LIGHT7);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE); // make the lighting track the color of objects
@@ -708,12 +556,6 @@ int main(int argc,char** args){
 
 	//let people use random numbers without worrying about how to seed things
 	srand(time(NULL));
-
-	// enable blending to have translucent materials
-	// you must draw objects back to front to get proper blending
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// glEnable (GL_BLEND); glBlendFunc (GL_ONE, GL_ONE);
 
 	for(int x=0;x<NUM_BLOCKS_WIDE;x++){
 		for(int y=0;y<NUM_BLOCKS_WIDE;y++){
@@ -757,7 +599,7 @@ int main(int argc,char** args){
 				targets.push_back(tDawg);
 			} else {
 				std::cout << "SOMETHING HAS GONE HORRIBLY WRONG" << std::endl;
-				exit(0);
+				goto main_exit_cleanup;
 			}
 		}
 	}
@@ -774,12 +616,19 @@ int main(int argc,char** args){
 		ai_tanks.push_back(ai_tank);
 	}
 
-
-	oldTime = glutGet(GLUT_ELAPSED_TIME);
+	//oldTime = glutGet(GLUT_ELAPSED_TIME);
 
 	skybox = new Skybox();
 	groundbox = new Groundbox(Building::maxBuildingWidth, Building::streetWidth, Building:: sidewalkWidth);
 
-	glutMainLoop();
+	while (!glfwWindowShouldClose(GLOBAL.windowHandle) && !GLOBAL.gameExitRequest){
+		gameEngine();
+		display();
+		glfwSwapBuffers(GLOBAL.windowHandle);
+		glfwPollEvents();
+	}
+
+main_exit_cleanup:
+	glfwTerminate();
 	return 0;
 }

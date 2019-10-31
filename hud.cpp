@@ -8,7 +8,7 @@ void drawScore(){
 
 		int i, len;
 		char label[] = "Score: ";
-		void *font = GLUT_STROKE_ROMAN;
+		//void *font = GLUT_STROKE_ROMAN;
 
 		glTranslatef(82, 90, 0);
 		glScalef(0.15, 0.15, 0.15);
@@ -20,7 +20,7 @@ void drawScore(){
 			glTranslatef(-550.0, 100, 0);
 			len = (int) strlen(label);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, label[i]);
+				;//glutStrokeCharacter(font, label[i]);
 
 			std::ostringstream printNum;
 			std::string printy;
@@ -29,7 +29,7 @@ void drawScore(){
 			printy = printNum.str();
 			len = (int) strlen(&printy[0]);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font,printy[i]);
+				;//glutStrokeCharacter(font,printy[i]);
 
 			printNum.str("");
 		glPopMatrix();
@@ -42,7 +42,7 @@ void drawCooldownBar(Tank tank){
 
 	int i, len;
 	char label[] = "Cooldown";
-	void *font = GLUT_STROKE_ROMAN;
+	//void *font = GLUT_STROKE_ROMAN;
 
 	glTranslatef(82, 90, 0);
 	glScalef(0.15, 0.15, 0.15);
@@ -54,7 +54,7 @@ void drawCooldownBar(Tank tank){
 	glTranslatef(-550.0, -100, 0);
 	len = (int) strlen(label);
 	for(i = 0;i<len;i++)
-		glutStrokeCharacter(font, label[i]);
+		;//glutStrokeCharacter(font, label[i]);
 
 	glPopMatrix();
 	
@@ -85,7 +85,7 @@ void drawHealthBar(Tank tank){
 
 		int i, len;
 		char healthLabel[] = "Health";
-		void *font = GLUT_STROKE_ROMAN;
+		//void *font = GLUT_STROKE_ROMAN;
 
 		glTranslatef(82, 95, 0);
 		glScalef(0.15, 0.15, 0.15);
@@ -97,7 +97,7 @@ void drawHealthBar(Tank tank){
 			glTranslatef(-400, -130, 0);
 			len = (int) strlen(healthLabel);
 			for(i = 0;i<len;i++)
-				glutStrokeCharacter(font, healthLabel[i]);
+				;//glutStrokeCharacter(font, healthLabel[i]);
 
 		glPopMatrix();
 		
@@ -126,7 +126,7 @@ void drawHealthBar(Tank tank){
 
 
 void showFPS(float &fps, int &oldTime, float &actualfps) {
-    int currentTime = glutGet(GLUT_ELAPSED_TIME);
+    int currentTime = 0;//glutGet(GLUT_ELAPSED_TIME);
     char str_fps[15];
     if ( (currentTime - oldTime) > 1000 ){
         actualfps = fps;
@@ -140,7 +140,7 @@ void showFPS(float &fps, int &oldTime, float &actualfps) {
     glPushMatrix();
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    void *font = GLUT_STROKE_ROMAN;
+    //void *font = GLUT_STROKE_ROMAN;
     glColor3f(1.0,1.0,1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity(); // reset the projection style
@@ -156,7 +156,7 @@ void showFPS(float &fps, int &oldTime, float &actualfps) {
     glScalef(0.055,0.055,0.055);
     int len = (int) strlen(str_fps);
     for (int i = 0; i < len; i++) {
-        glutStrokeCharacter(font, str_fps[i]);
+        ;//glutStrokeCharacter(font, str_fps[i]);
     }
     glPopMatrix();
 }

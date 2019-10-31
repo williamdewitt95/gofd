@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <vector>
-#include <GL/glut.h>
+#include <GLFW/glfw3.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include "vector_basics.h"
 
 //===================================================================

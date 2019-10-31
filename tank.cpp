@@ -515,54 +515,30 @@ void Tank::update(double tankBaseRotate, double tankTurretRotate, double tankCan
 	if ((this->baseAngle > 360) || (this->baseAngle < -360))
 		this->baseAngle = 0;
 	this->baseAngle += tankBaseRotate;
-	// this->towerAngle += tankTurretRotate;
-	// this->cannonAngle += tankCannonRotate;
-	cameraMovement(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2),this->center, cameraMode);//keep camera synced to mouse movements
-	this->turretFollowMouse(GLOBAL.WINDOW_MAX_X/2,GLOBAL.WINDOW_MAX_Y-(GLOBAL.WINDOW_MAX_Y/2), cameraMode);//keep turret synced to mouse movements
+	this->turretFollowMouse(cameraMode);//keep turret synced to mouse movements
+	cameraMovement(0.0,0.0,cameraMode);
 
 	if(this->cooldown > 0)
 		this->cooldown--;
 }
 
-void Tank::turretFollowMouse(int x, int y, int cameraMode){//Turret + cannon follow the mouse cursor
-
-	double movementDivisor = 6.0;
-	//x and y are window cordinates
-	//it is up to us to get deltas
-	y=GLOBAL.WINDOW_MAX_Y-y;
-	int midX = GLOBAL.WINDOW_MAX_X/2;
-	int midY = GLOBAL.WINDOW_MAX_Y/2;
-
-	int dx = x-midX;
-	int dy = y-midY;
-
+void Tank::turretFollowMouse(int cameraMode){//Turret + cannon follow the mouse cursor
 	double angleH = GLOBAL.CAMERA_ANGLE_HORIZONTAL;
 	double angleV = GLOBAL.CAMERA_ANGLE_VERTICAL;
-	angleH += dx/movementDivisor;
 	if(angleH>360)angleH-=360;
 	if(angleH<0)angleH+=360;
-	angleV += dy/movementDivisor;
 	if(angleV>70)angleV=70;
 	if(angleV<-10)angleV=-10;
 
 	// we will have a length of 5 for the line in the XY plane
 	// bool firstPerson = false;//for rapid testing of different cameras
-	if(cameraMode==0){
-		this->towerAngle = this->towerAngle;
-		this->cannonAngle = this->cannonAngle;
-	}
-	else if(cameraMode == 1){
+	if(cameraMode == 1){
 		this->towerAngle = -1.0*angleH-90.0;//turret follows
 		this->cannonAngle = angleV;
-	}
-	else{
-
-		this->towerAngle = -1.0*angleH+90.0;
+	}else if(cameraMode == 2){
+		this->towerAngle = -1.0*angleH+90.0;//turret follows
 		this->cannonAngle = angleV;
 	}
-
-	if(dx==0 && dy==0)
-		return; //we are not really doing anything, so we will simply ignore this thing
 }
 
 bool Tank::onLock(int x, int y){//Returns a bool stating if the coordinate is in the grid or not
