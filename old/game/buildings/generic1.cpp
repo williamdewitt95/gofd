@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include "../polygon3d.h"
-#include "../globals.h"
+#include "polygon3d.h"
+#include "globals.h"
 
 using std::vector;
 

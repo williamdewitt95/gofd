@@ -300,7 +300,7 @@ void Polygon3d::draw(){
 	gluTessBeginPolygon(tessObj,this); // start tesselating and have it able to hand us a pointer to this object
 		gluTessBeginContour(tessObj);
 			for(long x=0;x<this->vertexList.size()-1;x++){
-				gluTessVertex(tessObj,(double*)&this->vertexList[x],(long*)x); // give the tesselator a point and us an index to the pixel
+				gluTessVertex(tessObj,(double*)&this->vertexList[x],(long*)x); // give the tesselator a point and give us an index to the pixel
 				// gluTessVertex(tessObj,(double*)&this->vertexList[x],(double*)&this->vertexList[x]);
 			}
 		gluTessEndContour(tessObj);
@@ -358,7 +358,7 @@ void Polygon3d::draw_static(){
 	gluTessBeginPolygon(tessObj,this); // start tesselating and have it able to hand us a pointer to this object
 		gluTessBeginContour(tessObj);
 			for(long x=0;x<this->vertexList.size()-1;x++){
-				gluTessVertex(tessObj,(double*)&this->vertexList[x],(long*)x); // give the tesselator a point and us an index to the pixel
+				gluTessVertex(tessObj,(double*)&this->vertexList[x],(long*)x); // give the tesselator a point and give us an index to the pixel
 				// gluTessVertex(tessObj,(double*)&this->vertexList[x],(double*)&this->vertexList[x]);
 			}
 		gluTessEndContour(tessObj);

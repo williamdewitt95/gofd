@@ -1,7 +1,9 @@
 
 CC       = g++
-CFLAGS   = -std=gnu++0x 
-OPTFLAGS = -O2
+CFLAGS   = -std=gnu++0x
+OPTFLAGS = -Og
+INCLUDES = -Iglad/include -Igame_old -Iprimatives
+
 
 # Setup names for custom directories -- make sure there are no spaces after the directory names
 BUILD_DIR   = build
@@ -9,18 +11,22 @@ BUILD_DIR   = build
 # Setup objects  (add new object files here an create a target line for them below 
 OBJS        = vector_basics.o polygon3d.o globals.o \
               building.o tank.o target.o projectile.o ai.o glm.o \
-              drawableObject.o hud.o collisions.o skybox.o \
-              groundbox.o screencapture.o main.o
+              drawableObject.o hud.o skybox.o collisions.o \
+              groundbox.o main.o glbuffers.o \
+              glad.o
 
 BUILD_OBJS  = $(addprefix $(BUILD_DIR)/, $(OBJS))
 
 # System librarires to be linked
-LDFLAGS  = -lGL -lGLU -lglfw libSOIL.a
+LDFLAGS  = -lGL -lGLU -lglfw -ldl game_old/libSOIL.a
 
 #the available buildings that we depend on when building
-BUILDINGS = buildings/generic1.cpp buildings/genericOctogon.cpp buildings/apartmentHighrise.cpp
-#extra decoration bits for buildings like windows
-BUILDING_EXTRAS = buildings/window1.cpp
+BUILDINGS        = generic1.cpp genericOctogon.cpp apartmentHighrise.cpp
+BUILDING_EXTRAS  = window1.cpp
+BUILDINGS       := $(addprefix game_old/buildings/, $(BUILDINGS))
+BUILDING_EXTRAS := $(addprefix game_old/buildings/, $(BUILDING_EXTRAS))
+
+CFLAGS := $(CFLAGS) $(INCLUDES)
 
 all: build wipe gofd
 
@@ -36,18 +42,19 @@ gofd: $(BUILD_OBJS)
 	$(CC) $(CFLAGS) -o gofd $(BUILD_OBJS) $(LDFLAGS)
 
 # These are the object file targets
-$(BUILD_DIR)/%.o: %.cpp %.h globals.h
+$(BUILD_DIR)/%.o: game_old/%.cpp game_old/%.h
 	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $@
-$(BUILD_DIR)/%.o: %.cpp globals.h
+$(BUILD_DIR)/%.o: primatives/%.cpp primatives/%.h
+	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $@
+$(BUILD_DIR)/%.o: game_old/%.cpp
+	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $@
+$(BUILD_DIR)/%.o: glad/src/%.c
 	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $@
 
-$(BUILD_DIR)/building.o: building.cpp building.h globals.h $(BUILDINGS) $(BUILDING_EXTRAS)
-	$(CC) $(CFLAGS) $(OPTFLAGS) building.cpp -c -o $(BUILD_DIR)/building.o 
+$(BUILD_DIR)/building.o: game_old/building.cpp game_old/building.h $(BUILDINGS) $(BUILDING_EXTRAS)
+	$(CC) $(CFLAGS) $(OPTFLAGS) $< -c -o $(BUILD_DIR)/building.o
 
-# Drop into the subdirectory to create the image library
 
-movie:
-	ffmpeg -r 60 -s 1920x1080 -i ./screenshots/Plot-%07d.tga -vcodec libx264 -crf 25 -pix_fmt yuv420p gofd_movie.mp4
 
 clean:
 	rm -f *.o

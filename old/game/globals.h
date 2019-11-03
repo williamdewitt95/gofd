@@ -1,9 +1,9 @@
 #ifndef GLOP_GLOBALS
 #define GLOP_GLOBALS
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
-#include <GL/gl.h>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -15,10 +15,10 @@
 #include <iostream>
 #include <limits>
 #include <ctime>
-// #include "imageLibrary/image.h"
 #include "polygon3d.h"
 #include "SOIL.h"
 #include "drawableObject.h"
+#include "vector_basics.h"
 
 
 #define PI 3.14159265358979
@@ -122,11 +122,10 @@ void updateLights();
 #include "building.h"
 #include "tank.h"
 #include "ai.h"
-#include "collisions.h"
 #include "target.h"
 #include "hud.h"
 #include "skybox.h"
 #include "groundbox.h"
-#include "screencapture.h"
+#include "collisions.h"
 
 #endif

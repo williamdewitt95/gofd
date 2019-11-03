@@ -523,6 +523,11 @@ int main(int argc,char** args){
 		printf("Unable to start glfw\n");
 		exit(-1);
 	}
+	printf("WARNING: Using old openGL, Please bump to 3.3 when not using any imediate mode draw calls\n");
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	// glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	GLOBAL.windowHandle = glfwCreateWindow(GLOBAL.WINDOW_MAX_X, GLOBAL.WINDOW_MAX_Y, "Pendulum", NULL, NULL);
 	if ( !GLOBAL.windowHandle ){
 		glfwTerminate();
@@ -531,6 +536,13 @@ int main(int argc,char** args){
 	}
 	/* Make the GL context for the window the current context that we will draw with */
 	glfwMakeContextCurrent(GLOBAL.windowHandle);
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+		glfwTerminate();
+		printf("Unable to load GL functions\n");
+		exit(-2);
+	}
+
+	glfwSwapInterval(1);
 
 	glfwSetFramebufferSizeCallback(GLOBAL.windowHandle, windowResize);
 	glfwSetKeyCallback(GLOBAL.windowHandle, keyboardButtons);
@@ -615,8 +627,6 @@ int main(int argc,char** args){
 			));
 		ai_tanks.push_back(ai_tank);
 	}
-
-	//oldTime = glutGet(GLUT_ELAPSED_TIME);
 
 	skybox = new Skybox();
 	groundbox = new Groundbox(Building::maxBuildingWidth, Building::streetWidth, Building:: sidewalkWidth);
