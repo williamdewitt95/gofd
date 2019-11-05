@@ -1,4 +1,4 @@
-#include "glbuffers.h"
+#include "engine/glbuffers.h"
 
 GLVertexBuffer::GLVertexBuffer(GLenum bufferType,GLenum usageStyle) : type(bufferType), usage(usageStyle){
 	glGenBuffers(1,&bufferId);

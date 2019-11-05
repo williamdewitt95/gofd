@@ -1,10 +1,12 @@
-#include "window.h"
+#include "engine/window.h"
+
+std::map<GLFWwindow*,Window*> Window::windowObjects;
 
 Window::Window() : handle{NULL},fbSize{0,0},wSize{0,0},resizeFBFunc{NULL},resizeFunc{NULL} {}
 
 Window::~Window(){
 	if(handle){ // we have created a window
-		windowObjects.erase(handle);
+		Window::windowObjects.erase(handle);
 		glfwDestroyWindow(handle);
 	}
 }
@@ -13,9 +15,9 @@ Window::~Window(){
 void Window::create(int width, int height, const char *title, GLFWmonitor *monitor, GLFWwindow *share){
 	this->handle = glfwCreateWindow(width,height,title,monitor,share);
 	if (handle){
-		windowObjects[handle] = this;
-		glfwSetWindowSizeCallback(handle,wSizeCallback);
-		glfwSetFramebufferSizeCallback(handle,fbSizeCallback);
+		Window::windowObjects[handle] = this;
+		glfwSetWindowSizeCallback(handle,Window::wSizeCallback);
+		glfwSetFramebufferSizeCallback(handle,Window::fbSizeCallback);
 	}
 }
 void Window::bind(){

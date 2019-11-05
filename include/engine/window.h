@@ -5,17 +5,6 @@
 // This is a simple thin wrapper around a window from GLFW.
 // Mostly this is to auto-magically handle the lifetime of
 // the window and just have a few handy functions.
-//
-// It WOULD be nice to handle callbacks from windows, but
-// we cannot hand in lambdas, and I would really like to
-// have our own function intercept the windowResize event.
-// 1) static class function that gets window handle in event
-// 2) static map that keeps reference of pointers to
-//    every window object, the key being the window handle
-// 3) when the resize event comes in, we can then lookup the
-//    pointer to correct window object, and then set the
-//    size structs for the size and framebuffer
-// 4) change the getSize() functions to used the cached values
 
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
